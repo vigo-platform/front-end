@@ -1,13 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --font-manrope: "Manrope Variable", sans-serif;
+  --font-vazirmatn: "Vazirmatn Variable", sans-serif;
+
+  --color-ink: #111111;
+  --color-white: #ffffff;
+  --color-canvas: #f7f7f5;
+  --color-soft-gray: #eeeeeb;
+  --color-border: #d2d2cc;
+  --color-muted: #85857e;
+  --color-accent: #c7f36b;
+  --color-accent-deep: #a6d943;
+}
+
 :root {
-  font-family: Arial, sans-serif;
+  font-family: var(--font-manrope);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
 
-* {
-  box-sizing: border-box;
+  color: var(--color-ink);
+  background: var(--color-canvas);
 }
 
 html,
@@ -36,4 +51,9 @@ button {
 img {
   max-width: 100%;
   display: block;
+}
+
+[lang="fa"],
+[dir="rtl"] {
+  font-family: var(--font-vazirmatn);
 }
