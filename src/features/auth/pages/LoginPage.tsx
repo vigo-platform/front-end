@@ -9,7 +9,7 @@ import type { OtpChannel } from '../types/auth-config.types'
 import { useAuth } from '../context/AuthContext'
 import PasswordLoginForm from '../components/PasswordLoginForm'
 
-type LoginStep = 'IDENTIFIER' | 'VERIFY'
+type LoginStep = 'IDENTIFIER' | 'VERIFY' | 'NEW_PASSWORD'
 
 function LoginPage() {
   const navigate = useNavigate()
@@ -25,6 +25,8 @@ function LoginPage() {
   const [identifier, setIdentifier] = useState('')
   const [otp, setOtp] = useState('')
   const [mfaToken, setMfaToken] = useState('')
+  const [passwordChangeToken, setPasswordChangeToken] = useState('')
+  const [newPassword, setNewPassword] = useState('')
   const [step, setStep] = useState<LoginStep>('IDENTIFIER')
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -96,7 +98,45 @@ function LoginPage() {
         return
       }
 
+      if (response.data.step === 'PASSWORD_CHANGE_REQUIRED' && response.data.passwordChange) {
+        setPasswordChangeToken(response.data.passwordChange.passwordChangeToken)
+        setStep('NEW_PASSWORD')
+        return
+      }
+
       setErrorMessage('Verification is not complete. Please try again.')
+    } catch (error) {
+      handleError(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  async function handleExpiredPasswordSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setErrorMessage('')
+    if (newPassword.trim().length === 0) {
+      setErrorMessage('Password cannot contain only whitespace.')
+      return
+    }
+
+    try {
+      setIsLoading(true)
+      const response = await authService.completeExpiredPassword({
+        passwordChangeToken,
+        newPassword,
+      })
+
+      if (response.data.step === 'SUCCESS' && response.data.tokens) {
+        await signIn(response.data.tokens)
+        navigate('/dashboard')
+        return
+      }
+
+      navigate('/login', {
+        replace: true,
+        state: { message: 'Your password was updated. Please sign in.' },
+      })
     } catch (error) {
       handleError(error)
     } finally {
@@ -290,6 +330,42 @@ function LoginPage() {
             </form>
           </>
         )}
+      {step === 'NEW_PASSWORD' && (
+        <>
+          <div className="mb-6">
+            <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
+              Update your password
+            </h1>
+            <p className="text-[13px] leading-relaxed text-[#55554f]">
+              Your current password has expired. Choose a new password to continue.
+            </p>
+          </div>
+          <form onSubmit={handleExpiredPasswordSubmit} className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="login-new-password" className={labelClassName}>New password</label>
+              <input
+                id="login-new-password"
+                type="password"
+                autoComplete="new-password"
+                value={newPassword}
+                onChange={(event) => setNewPassword(event.target.value)}
+                minLength={8}
+                maxLength={72}
+                required
+                className={inputClassName}
+              />
+            </div>
+            {errorMessage && (
+              <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">
+                {errorMessage}
+              </p>
+            )}
+            <button type="submit" disabled={isLoading} className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">
+              {isLoading ? 'Updating...' : 'Update password'}
+            </button>
+          </form>
+        </>
+      )}
       </div>
       )}
     </AuthLayout>
