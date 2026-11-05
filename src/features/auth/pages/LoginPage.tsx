@@ -199,6 +199,8 @@ function LoginPage() {
               </form>
             )}
 
+            <div className="mt-4 text-center"><Link to="/forgot-password" className="text-[11px] font-medium text-ink hover:underline">Forgot password?</Link></div>
+
             <p className="mt-7 text-center text-[11px] text-[#33332f]">
               New to Vigo?{' '}
               <Link
