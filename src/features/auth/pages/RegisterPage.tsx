@@ -65,22 +65,14 @@ function RegisterPage() {
 
     if (!activeChannel) return
 
-    // The current signup API contract only supports email registration.
-    if (activeChannel === 'PHONE') {
-      setErrorMessage(
-        'Phone registration is not available yet. Please use email.',
-      )
-      return
-    }
-
     try {
       setIsLoading(true)
 
       const response = await authService.initiateSignup({
-        email: identifier.trim(),
+        identifier: identifier.trim(),
       })
 
-      setMfaToken(response.data.mfa_token)
+      setMfaToken(response.data.mfaToken)
       setStep('VERIFY')
     } catch (error) {
       handleError(error)
@@ -97,11 +89,11 @@ function RegisterPage() {
       setIsLoading(true)
 
       const response = await authService.verifySignup({
-        mfa_token: mfaToken,
+        mfaToken,
         otp,
       })
 
-      setTempToken(response.data.temp_token)
+      setTempToken(response.data.registrationToken)
       setStep('COMPLETE')
     } catch (error) {
       handleError(error)
@@ -117,10 +109,10 @@ function RegisterPage() {
       setIsLoading(true)
 
       const response = await authService.initiateSignup({
-        email: identifier.trim(),
+        identifier: identifier.trim(),
       })
 
-      setMfaToken(response.data.mfa_token)
+      setMfaToken(response.data.mfaToken)
       setOtp('')
     } catch (error) {
       handleError(error)
@@ -137,9 +129,9 @@ function RegisterPage() {
       setIsLoading(true)
 
       await authService.completeSignup({
-        temp_token: tempToken,
-        first_name: firstName.trim(),
-        last_name: lastName.trim(),
+        registrationToken: tempToken,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
         password,
       })
 
@@ -271,11 +263,11 @@ function RegisterPage() {
           <>
             <div className="mb-6">
               <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-ink">
-                Verify your email
+                Verify your contact
               </h1>
 
               <p className="text-[12px] leading-relaxed text-[#55554f]">
-                Enter the verification code sent to your email address.
+                Enter the verification code sent to your {isEmail ? 'email address' : 'phone number'}.
               </p>
             </div>
 
@@ -326,7 +318,7 @@ function RegisterPage() {
                 disabled={isLoading}
                 className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {isLoading ? 'Verifying...' : 'Verify email'}
+                {isLoading ? 'Verifying...' : 'Verify'}
               </button>
 
               <button
