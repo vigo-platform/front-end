@@ -1,15 +1,23 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../features/auth/context/AuthContext'
 
-const navigationItems = [
+const athleteNavigationItems = [
   { label: 'Dashboard', href: '/dashboard' },
   { label: 'My Workouts', href: '/workouts' },
   { label: 'Discover Coaches', href: '/coaches' },
 ]
 
+const coachNavigationItems = [
+  { label: 'Overview', href: '/coach' },
+  { label: 'Exercise Library', href: '/coach/exercises' },
+  { label: 'Workout Builder', href: '/coach/workouts/new' },
+]
+
 function Sidebar() {
   const { signOut, user } = useAuth()
   const navigate = useNavigate()
+  const navigationItems =
+    user?.role === 'COACH' ? coachNavigationItems : athleteNavigationItems
 
   async function handleLogout() {
     await signOut()
@@ -19,7 +27,7 @@ function Sidebar() {
   return (
     <aside className="flex h-screen w-64 shrink-0 flex-col border-r border-border bg-white px-5 py-6">
       <div className="mb-12">
-        <span className="text-2xl font-bold tracking-tight">Vigo</span>
+        <Link to="/" className="text-2xl font-bold tracking-tight">Vigo</Link>
       </div>
       <nav className="flex flex-col gap-2">
         {navigationItems.map((item) => (
