@@ -2,8 +2,11 @@ import { useMemo, useState, type FormEvent } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import AppShell from '../../../components/layout/AppShell'
 import {
+  clearExecutionDraft,
   getAssignedWorkout,
   getWorkoutExecutionResult,
+  loadExecutionDraft,
+  saveExecutionDraft,
   submitWorkoutResult,
 } from '../services/athlete-workout.service'
 import type { ExerciseSetResult } from '../types/athlete-workout.types'
@@ -23,7 +26,8 @@ function WorkoutExecutionPage() {
   )
   const [inputs, setInputs] = useState<Record<string, SetInput>>(() => {
     if (!workout) return {}
-    return Object.fromEntries(
+    const savedDraft = loadExecutionDraft(workoutId)
+    const emptyInputs = Object.fromEntries(
       workout.exercises.flatMap((exercise) =>
         Array.from({ length: exercise.sets }, (_, index) => [
           `${exercise.exercise_id}-${index + 1}`,
@@ -31,6 +35,7 @@ function WorkoutExecutionPage() {
         ]),
       ),
     )
+    return { ...emptyInputs, ...savedDraft }
   })
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -73,10 +78,14 @@ function WorkoutExecutionPage() {
   }
 
   function updateInput(key: string, field: keyof SetInput, value: string) {
-    setInputs((current) => ({
-      ...current,
-      [key]: { ...current[key], [field]: value },
-    }))
+    setInputs((current) => {
+      const updated = {
+        ...current,
+        [key]: { ...current[key], [field]: value },
+      }
+      saveExecutionDraft(workoutId, updated)
+      return updated
+    })
     setError('')
   }
 
@@ -129,6 +138,7 @@ function WorkoutExecutionPage() {
         completed_at: new Date().toISOString(),
         sets: results,
       })
+      clearExecutionDraft(workout.id)
       navigate('/workouts', { replace: true })
     } catch (submitError) {
       setError(
