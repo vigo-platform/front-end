@@ -14,7 +14,7 @@ function RegisterPage() {
   const navigate = useNavigate()
   const { signIn } = useAuth()
 
-  const { config, isLoading: isConfigLoading, error: configError } =
+  const { config, settings, isLoading: isConfigLoading, error: configError } =
     useAuthConfig()
 
   const availableChannels = config.signup.enabledChannels
@@ -185,6 +185,10 @@ function RegisterPage() {
             {isConfigLoading ? (
               <p className="text-[12px] text-[#77776f]">
                 Loading registration options...
+              </p>
+            ) : settings?.registerEnabled === false ? (
+              <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
+                Registration is currently disabled. Please try again later.
               </p>
             ) : availableChannels.length === 0 ? (
               <p
