@@ -6,6 +6,38 @@ import type {
 } from '../types/athlete-workout.types'
 
 const RESULTS_STORAGE_KEY = 'vigo.athlete.workoutResults'
+const EXECUTION_DRAFT_PREFIX = 'vigo.athlete.executionDraft.'
+export type WorkoutExecutionDraft = Record<
+  string,
+  { actual_reps: string; weight_kg: string }
+>
+
+export function loadExecutionDraft(workoutId: string): WorkoutExecutionDraft {
+  try {
+    const stored = localStorage.getItem(`${EXECUTION_DRAFT_PREFIX}${workoutId}`)
+    if (!stored) return {}
+    const parsed = JSON.parse(stored) as unknown
+    return parsed && typeof parsed === 'object'
+      ? (parsed as WorkoutExecutionDraft)
+      : {}
+  } catch {
+    return {}
+  }
+}
+
+export function saveExecutionDraft(
+  workoutId: string,
+  draft: WorkoutExecutionDraft,
+) {
+  localStorage.setItem(
+    `${EXECUTION_DRAFT_PREFIX}${workoutId}`,
+    JSON.stringify(draft),
+  )
+}
+
+export function clearExecutionDraft(workoutId: string) {
+  localStorage.removeItem(`${EXECUTION_DRAFT_PREFIX}${workoutId}`)
+}
 
 function readResults(): WorkoutExecutionResult[] {
   try {
