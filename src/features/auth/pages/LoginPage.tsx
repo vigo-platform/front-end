@@ -65,7 +65,7 @@ function LoginPage() {
               phone: identifier.trim(),
             })
 
-      setMfaToken(response.data.mfa_token ?? '')
+      setMfaToken(response.data.challenge?.mfaToken ?? '')
       setStep('VERIFY')
     } catch (error) {
       handleError(error)
@@ -82,7 +82,7 @@ function LoginPage() {
       setIsLoading(true)
 
       const response = await authService.verifyOtp({
-        mfa_token: mfaToken,
+        mfaToken,
         otp,
       })
 
