@@ -396,9 +396,8 @@ function RegisterPage() {
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                     minLength={8}
-                    maxLength={32}
+                    maxLength={72}
                     pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,32}"
-                    title="Password must contain 8-32 characters, including uppercase, lowercase, and a number."
                     required
                     className={`${inputClassName} pr-11`}
                   />
