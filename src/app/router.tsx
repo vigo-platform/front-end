@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
+import type { ReactNode } from 'react'
 import DashboardPage from '../features/dashboard/pages/DashboardPage'
 import LoginPage from '../features/auth/pages/LoginPage'
 import RegisterPage from '../features/auth/pages/RegisterPage'
@@ -6,7 +7,7 @@ import ForgotPasswordPage from '../features/auth/pages/ForgotPasswordPage'
 import RequireAuth from '../features/auth/components/RequireAuth'
 import { useAuth } from '../features/auth/context/AuthContext'
 
-function PublicOnly({ children }: { children: React.ReactNode }) {
+function PublicOnly({ children }: { children: ReactNode }) {
   const { isAuthenticated, isInitializing } = useAuth()
   if (isInitializing) return <div className="flex min-h-screen items-center justify-center text-sm text-muted">Loading...</div>
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : children
