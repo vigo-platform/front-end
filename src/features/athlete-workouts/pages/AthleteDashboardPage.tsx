@@ -129,22 +129,18 @@ function AthleteDashboardPage() {
                     <span>Coach: {workout.coach_name}</span>
                   </div>
                   <div className="mt-6 border-t border-border pt-4">
-                    <Link
-                      to={workout.status === 'COMPLETED' ? '#' : `/workouts/${workout.id}`}
-                      onClick={(event) => {
-                        if (workout.status === 'COMPLETED') event.preventDefault()
-                      }}
-                      aria-disabled={workout.status === 'COMPLETED'}
-                      className={
-                        workout.status === 'COMPLETED'
-                          ? 'text-sm font-semibold text-muted'
-                          : 'text-sm font-semibold text-ink hover:text-[#6d8c36]'
-                      }
-                    >
-                      {workout.status === 'COMPLETED'
-                        ? 'Workout submitted'
-                        : 'View workout and start →'}
-                    </Link>
+                    {workout.status === 'COMPLETED' ? (
+                      <span className="text-sm font-semibold text-muted">
+                        Workout submitted
+                      </span>
+                    ) : (
+                      <Link
+                        to={`/workouts/${workout.id}`}
+                        className="text-sm font-semibold text-ink hover:text-[#6d8c36]"
+                      >
+                        View workout and start →
+                      </Link>
+                    )}
                   </div>
                 </article>
               ))}
