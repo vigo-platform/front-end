@@ -7,10 +7,17 @@ import type {
   RefreshTokenResponse, ResetPasswordInitiateRequest,
   ResetPasswordInitiateResponse, ResetPasswordVerifyRequest,
   ResetPasswordVerifyResponse, ResetPasswordCompleteRequest,
-  PasswordResetCompleteResponse,
+  PasswordResetCompleteResponse, PasswordChangeInitiateRequest,
+  PasswordChangeInitiateResponse, PasswordChangeVerifyResponse,
+  PasswordChangeCompleteRequest, PasswordUpdatedResponse,
+  ExpiredPasswordCompleteResponse, AuthSettings,
 } from '../types/auth.types'
 
 const AUTH_BASE = '/api/v1/auth'
+
+function bearer(accessToken: string) {
+  return { Authorization: `Bearer ${accessToken}` }
+}
 
 export const authService = {
   loginWithPassword(data: LoginPasswordRequest) {
@@ -38,7 +45,30 @@ export const authService = {
     return apiRequest<RefreshTokenResponse>(`${AUTH_BASE}/refresh`, { method: 'POST', body: data })
   },
   logout(accessToken: string) {
-    return apiRequest<null>(`${AUTH_BASE}/logout`, { method: 'POST', headers: { Authorization: `Bearer ${accessToken}` } })
+    return apiRequest<null>(`${AUTH_BASE}/logout`, { method: 'POST', headers: bearer(accessToken) })
+  },
+  logoutAll(accessToken: string) {
+    return apiRequest<null>(`${AUTH_BASE}/logout-all`, { method: 'POST', headers: bearer(accessToken) })
+  },
+  initiatePasswordChange(data: PasswordChangeInitiateRequest, accessToken: string) {
+    return apiRequest<PasswordChangeInitiateResponse>(`${AUTH_BASE}/password/change/initiate`, {
+      method: 'POST', headers: bearer(accessToken), body: data,
+    })
+  },
+  verifyPasswordChange(data: VerifyOtpRequest, accessToken: string) {
+    return apiRequest<PasswordChangeVerifyResponse>(`${AUTH_BASE}/password/change/verify`, {
+      method: 'POST', headers: bearer(accessToken), body: data,
+    })
+  },
+  completePasswordChange(data: PasswordChangeCompleteRequest, accessToken: string) {
+    return apiRequest<PasswordUpdatedResponse>(`${AUTH_BASE}/password/change/complete`, {
+      method: 'POST', headers: bearer(accessToken), body: data,
+    })
+  },
+  completeExpiredPassword(data: PasswordChangeCompleteRequest) {
+    return apiRequest<ExpiredPasswordCompleteResponse>(`${AUTH_BASE}/password/expired/complete`, {
+      method: 'POST', body: data,
+    })
   },
   initiatePasswordReset(data: ResetPasswordInitiateRequest) {
     return apiRequest<ResetPasswordInitiateResponse>(`${AUTH_BASE}/password/reset/initiate`, { method: 'POST', body: data })
@@ -48,5 +78,8 @@ export const authService = {
   },
   completePasswordReset(data: ResetPasswordCompleteRequest) {
     return apiRequest<PasswordResetCompleteResponse>(`${AUTH_BASE}/password/reset/complete`, { method: 'POST', body: data })
+  },
+  getSettings() {
+    return apiRequest<AuthSettings>(`${AUTH_BASE}/settings`)
   },
 }
