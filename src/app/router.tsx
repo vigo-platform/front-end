@@ -1,6 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import type { ReactNode } from 'react'
-import DashboardPage from '../features/dashboard/pages/DashboardPage'
 import CoachDashboardPage from '../features/workouts/pages/CoachDashboardPage'
 import ExerciseLibraryPage from '../features/workouts/pages/ExerciseLibraryPage'
 import WorkoutBuilderPage from '../features/workouts/pages/WorkoutBuilderPage'
