@@ -43,8 +43,8 @@ export interface RegisteredAccount {
   tokens?: TokenPair
 }
 export interface RefreshTokenRequest { refreshToken: string }
-export interface RefreshTokenResponse { tokens: TokenPair }
-export interface LogoutRequest { refreshToken: string }
+export type RefreshTokenResponse = TokenPair
+export type LogoutRequest = Record<string, never>
 export interface ResetPasswordInitiateRequest { identifier: string }
 export interface ResetPasswordInitiateResponse { step: 'OTP_REQUIRED'; challenge: ContactOtpChallenge }
 export interface ResetPasswordVerifyRequest { mfaToken: string; otp: string }
