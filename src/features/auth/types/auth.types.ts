@@ -108,7 +108,7 @@ export type ExpiredPasswordCompleteResponse =
 export interface AuthSettings {
   loginEnabled: boolean
   registerEnabled: boolean
-  defaultOtpChannel: ContactOtpChannel
+  defaultOtpChannel: OtpChannel
   emailNotificationEnabled: boolean
   smsNotificationEnabled: boolean
   inAppNotificationEnabled: boolean
