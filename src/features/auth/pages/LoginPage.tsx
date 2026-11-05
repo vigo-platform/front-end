@@ -7,6 +7,7 @@ import { ApiError } from '../../../lib/api/client'
 import { useAuthConfig } from '../hooks/useAuthConfig'
 import type { OtpChannel } from '../types/auth-config.types'
 import { useAuth } from '../context/AuthContext'
+import PasswordLoginForm from '../components/PasswordLoginForm'
 
 type LoginStep = 'IDENTIFIER' | 'VERIFY'
 
@@ -27,6 +28,7 @@ function LoginPage() {
   const [step, setStep] = useState<LoginStep>('IDENTIFIER')
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [loginMode, setLoginMode] = useState<'OTP' | 'PASSWORD'>('OTP')
 
   const activeChannel = availableChannels.includes(selectedChannel)
     ? selectedChannel
@@ -117,6 +119,9 @@ function LoginPage() {
 
   return (
     <AuthLayout>
+      {loginMode === 'PASSWORD' ? (
+        <PasswordLoginForm onUseOtp={() => setLoginMode('OTP')} />
+      ) : (
       <div className="w-full">
         {step === 'IDENTIFIER' && (
           <>
@@ -202,7 +207,12 @@ function LoginPage() {
               </form>
             )}
 
-            <div className="mt-4 text-center"><Link to="/forgot-password" className="text-[11px] font-medium text-ink hover:underline">Forgot password?</Link></div>
+            <div className="mt-4 text-center">
+              <button type="button" onClick={() => setLoginMode('PASSWORD')} className="text-[11px] font-medium text-ink hover:underline">
+                Log in with password instead
+              </button>
+            </div>
+            <div className="mt-2 text-center"><Link to="/forgot-password" className="text-[11px] font-medium text-ink hover:underline">Forgot password?</Link></div>
 
             <p className="mt-7 text-center text-[11px] text-[#33332f]">
               New to Vigo?{' '}
@@ -281,6 +291,7 @@ function LoginPage() {
           </>
         )}
       </div>
+      )}
     </AuthLayout>
   )
 }
