@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import CoachDashboardPage from '../features/workouts/pages/CoachDashboardPage'
 import ExerciseLibraryPage from '../features/workouts/pages/ExerciseLibraryPage'
 import WorkoutBuilderPage from '../features/workouts/pages/WorkoutBuilderPage'
+import CoachWorkoutsPage from '../features/workouts/pages/CoachWorkoutsPage'
 import AthleteDashboardPage from '../features/athlete-workouts/pages/AthleteDashboardPage'
 import WorkoutExecutionPage from '../features/athlete-workouts/pages/WorkoutExecutionPage'
 import PublicLandingPage from '../features/landing/pages/PublicLandingPage'
@@ -49,6 +50,7 @@ function AppRouter() {
       <Route path="/workouts/:workoutId" element={<RequireAuth allowedRoles={['ATHLETE']}><WorkoutExecutionPage /></RequireAuth>} />
       <Route path="/coach" element={<RequireAuth allowedRoles={['COACH']}><CoachDashboardPage /></RequireAuth>} />
       <Route path="/coach/exercises" element={<RequireAuth allowedRoles={['COACH']}><ExerciseLibraryPage /></RequireAuth>} />
+      <Route path="/coach/workouts" element={<RequireAuth allowedRoles={['COACH']}><CoachWorkoutsPage /></RequireAuth>} />
       <Route path="/coach/workouts/new" element={<RequireAuth allowedRoles={['COACH']}><WorkoutBuilderPage /></RequireAuth>} />
       <Route path="/account-suspended" element={<AccountSuspendedPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
