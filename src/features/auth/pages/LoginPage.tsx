@@ -15,7 +15,7 @@ function LoginPage() {
   const navigate = useNavigate()
   const { signIn } = useAuth()
 
-  const { config, isLoading: isConfigLoading, error: configError } =
+  const { config, settings, isLoading: isConfigLoading, error: configError } =
     useAuthConfig()
 
   const availableChannels = config.login.enabledChannels
@@ -178,6 +178,10 @@ function LoginPage() {
             {isConfigLoading ? (
               <p className="text-[12px] text-[#77776f]">
                 Loading login options...
+              </p>
+            ) : settings?.loginEnabled === false ? (
+              <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
+                Login is currently disabled. Please try again later.
               </p>
             ) : availableChannels.length === 0 ? (
               <p
