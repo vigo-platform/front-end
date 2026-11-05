@@ -36,7 +36,7 @@ function ForgotPasswordPage() {
     try {
       setIsLoading(true)
       const response = await authService.initiatePasswordReset({ identifier: identifier.trim() })
-      setMfaToken(response.data.mfaToken)
+      setMfaToken(response.data.challenge.mfaToken)
       setStep('VERIFY')
     } catch (error) {
       handleError(error)
@@ -51,8 +51,11 @@ function ForgotPasswordPage() {
     try {
       setIsLoading(true)
       const response = await authService.verifyPasswordReset({ mfaToken, otp })
-      if (response.data.step !== 'PASSWORD_RESET_REQUIRED') {
-        setErrorMessage('The verification code was not accepted. Please try again.')
+      if (response.data.step === 'OTP_REQUIRED') {
+        setMfaToken(response.data.challenge.mfaToken)
+        setChannel(response.data.challenge.channel === 'SMS' ? 'PHONE' : 'EMAIL')
+        setOtp('')
+        setErrorMessage('A second verification code is required. Check your other verification channel.')
         return
       }
       setPasswordResetToken(response.data.passwordReset.passwordResetToken)
