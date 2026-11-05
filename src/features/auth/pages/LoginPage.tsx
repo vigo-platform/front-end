@@ -65,7 +65,7 @@ function LoginPage() {
               phone: identifier.trim(),
             })
 
-      setMfaToken(response.data.mfa_token ?? '')
+      setMfaToken(response.data.challenge?.mfaToken ?? '')
       setStep('VERIFY')
     } catch (error) {
       handleError(error)
@@ -82,7 +82,7 @@ function LoginPage() {
       setIsLoading(true)
 
       const response = await authService.verifyOtp({
-        mfa_token: mfaToken,
+        mfaToken,
         otp,
       })
 
@@ -198,6 +198,8 @@ function LoginPage() {
                 </button>
               </form>
             )}
+
+            <div className="mt-4 text-center"><Link to="/forgot-password" className="text-[11px] font-medium text-ink hover:underline">Forgot password?</Link></div>
 
             <p className="mt-7 text-center text-[11px] text-[#33332f]">
               New to Vigo?{' '}
