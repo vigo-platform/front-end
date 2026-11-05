@@ -46,7 +46,7 @@ export interface RefreshTokenRequest { refreshToken: string }
 export interface RefreshTokenResponse { tokens: TokenPair }
 export interface LogoutRequest { refreshToken: string }
 export interface ResetPasswordInitiateRequest { identifier: string }
-export interface ResetPasswordInitiateResponse extends ContactOtpChallenge {}
+export interface ResetPasswordInitiateResponse { step: 'OTP_REQUIRED'; challenge: ContactOtpChallenge }
 export interface ResetPasswordVerifyRequest { mfaToken: string; otp: string }
 export type ResetPasswordVerifyResponse =
   | { step: 'OTP_REQUIRED'; challenge: ContactOtpChallenge }
