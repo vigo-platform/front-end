@@ -10,6 +10,7 @@ const athleteNavigationItems = [
 const coachNavigationItems = [
   { label: 'Overview', href: '/coach' },
   { label: 'Exercise Library', href: '/coach/exercises' },
+  { label: 'My Workouts', href: '/coach/workouts' },
   { label: 'Workout Builder', href: '/coach/workouts/new' },
 ]
 
