@@ -66,7 +66,7 @@ export async function getAssignedWorkouts(): Promise<AssignedWorkoutSummary[]> {
     const result = results.find((item) => item.workout_id === workout.id)
     return {
       ...workout,
-      status: result ? 'COMPLETED' : 'ASSIGNED',
+      status: result ? ('COMPLETED' as WorkoutStatus) : ('ASSIGNED' as WorkoutStatus),
       completed_at: result?.completed_at ?? null,
     }
   })
