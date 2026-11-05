@@ -4,6 +4,8 @@ import DashboardPage from '../features/dashboard/pages/DashboardPage'
 import CoachDashboardPage from '../features/workouts/pages/CoachDashboardPage'
 import ExerciseLibraryPage from '../features/workouts/pages/ExerciseLibraryPage'
 import WorkoutBuilderPage from '../features/workouts/pages/WorkoutBuilderPage'
+import AthleteDashboardPage from '../features/athlete-workouts/pages/AthleteDashboardPage'
+import WorkoutExecutionPage from '../features/athlete-workouts/pages/WorkoutExecutionPage'
 import PublicLandingPage from '../features/landing/pages/PublicLandingPage'
 import LoginPage from '../features/auth/pages/LoginPage'
 import RegisterPage from '../features/auth/pages/RegisterPage'
@@ -32,7 +34,7 @@ function DashboardRedirect() {
   const { user } = useAuth()
   return user?.role === 'COACH'
     ? <Navigate to="/coach" replace />
-    : <DashboardPage />
+    : <Navigate to="/athlete" replace />
 }
 
 function AppRouter() {
@@ -43,6 +45,9 @@ function AppRouter() {
       <Route path="/register" element={<PublicOnly><RegisterPage /></PublicOnly>} />
       <Route path="/forgot-password" element={<PublicOnly><ForgotPasswordPage /></PublicOnly>} />
       <Route path="/dashboard" element={<RequireAuth><DashboardRedirect /></RequireAuth>} />
+      <Route path="/athlete" element={<RequireAuth allowedRoles={['ATHLETE']}><AthleteDashboardPage /></RequireAuth>} />
+      <Route path="/workouts" element={<RequireAuth allowedRoles={['ATHLETE']}><AthleteDashboardPage /></RequireAuth>} />
+      <Route path="/workouts/:workoutId" element={<RequireAuth allowedRoles={['ATHLETE']}><WorkoutExecutionPage /></RequireAuth>} />
       <Route path="/coach" element={<RequireAuth allowedRoles={['COACH']}><CoachDashboardPage /></RequireAuth>} />
       <Route path="/coach/exercises" element={<RequireAuth allowedRoles={['COACH']}><ExerciseLibraryPage /></RequireAuth>} />
       <Route path="/coach/workouts/new" element={<RequireAuth allowedRoles={['COACH']}><WorkoutBuilderPage /></RequireAuth>} />
