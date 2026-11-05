@@ -1,45 +1,59 @@
-// Common API response envelope
 export interface ApiResponse<T> {
   success: boolean
-  code: string
+  code?: string
   message: string
-  message_fa: string
+  messageFa?: string
   timestamp: string
   data: T
 }
-export type LoginStep = 'SUCCESS' | '2FA-EMAIL' | '2FA-PHONE'
+
+export type OtpChannel = 'EMAIL' | 'SMS'
+export type LoginStep = 'SUCCESS' | 'OTP_REQUIRED' | 'PASSWORD_CHANGE_REQUIRED'
+
+export interface TokenPair {
+  tokenType: 'Bearer'
+  accessToken: string
+  accessExpiresIn: number
+  refreshToken: string
+  refreshExpiresIn: number
+}
 export interface LoginPasswordRequest { identifier: string; password: string }
 export interface LoginOtpEmailRequest { email: string }
 export interface LoginOtpPhoneRequest { phone: string }
-export interface VerifyOtpRequest { mfa_token: string; otp: string }
+export interface VerifyOtpRequest { mfaToken: string; otp: string }
 export interface LoginResponseData {
   step: LoginStep
-  access_token: string | null
-  refresh_token: string | null
-  mfa_token: string | null
+  tokens?: TokenPair
+  challenge?: { mfaToken: string; channel: OtpChannel; expiresIn: number; resendAfter: number }
+  passwordChange?: { passwordChangeToken: string; expiresIn: number }
 }
-export interface SignupInitiateRequest { email: string }
-export interface SignupInitiateResponse { mfa_token: string }
-export interface SignupVerifyRequest { mfa_token: string; otp: string }
-export interface SignupVerifyResponse { temp_token: string }
+export interface SignupInitiateRequest { identifier: string }
+export interface ContactOtpChallenge { mfaToken: string; channel: OtpChannel; expiresIn: number; resendAfter: number }
+export interface SignupVerifyRequest { mfaToken: string; otp: string }
+export interface SignupVerifyResponse { registrationToken: string; expiresIn: number }
 export interface SignupCompleteRequest {
-  temp_token: string
-  first_name: string
-  last_name: string
+  registrationToken: string
+  firstName?: string
+  lastName?: string
   password: string
 }
-export interface RefreshTokenRequest { refresh_token: string }
-export interface RefreshTokenResponse { access_token: string; refresh_token: string }
-export interface LogoutRequest { refresh_token: string }
-export interface ResetPasswordInitiateRequest { email: string }
-export interface ResetPasswordInitiateResponse { mfaToken: string }
-export interface ResetPasswordVerifyRequest { mfaToken: string; otp: string }
-export interface ResetPasswordVerifyResponse {
-  step: 'PASSWORD_RESET_REQUIRED'
-  passwordReset: { passwordResetToken: string; expiresIn: number }
+export interface RegisteredAccount {
+  userId: number
+  status: string
+  tokens?: TokenPair
 }
+export interface RefreshTokenRequest { refreshToken: string }
+export interface RefreshTokenResponse { tokens: TokenPair }
+export interface LogoutRequest { refreshToken: string }
+export interface ResetPasswordInitiateRequest { identifier: string }
+export interface ResetPasswordInitiateResponse extends ContactOtpChallenge {}
+export interface ResetPasswordVerifyRequest { mfaToken: string; otp: string }
+export type ResetPasswordVerifyResponse =
+  | { step: 'OTP_REQUIRED'; challenge: ContactOtpChallenge }
+  | { step: 'PASSWORD_RESET_REQUIRED'; passwordReset: { passwordResetToken: string; expiresIn: number } }
 export interface ResetPasswordCompleteRequest {
   passwordResetToken: string
   newPassword: string
 }
-export interface RateLimitData { retry_after_seconds: number; locked_until: string }
+export interface PasswordResetCompleteResponse { step: 'PASSWORD_UPDATED_LOGIN_REQUIRED' }
+export interface RateLimitData { retryAfterSeconds?: number; retry_after_seconds?: number; lockedUntil?: string }
