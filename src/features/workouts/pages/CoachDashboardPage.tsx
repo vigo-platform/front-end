@@ -16,6 +16,13 @@ const workspaceLinks = [
     action: 'Build a workout',
     number: '02',
   },
+  {
+    title: 'My workouts',
+    description: 'Review the workout draft saved in this browser.',
+    href: '/coach/workouts',
+    action: 'View workouts',
+    number: '03',
+  },
 ]
 
 function CoachDashboardPage() {

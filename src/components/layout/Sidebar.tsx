@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../features/auth/context/AuthContext'
 
 const athleteNavigationItems = [
-  { label: 'Dashboard', href: '/dashboard' },
+  { label: 'Dashboard', href: '/athlete' },
   { label: 'My Workouts', href: '/workouts' },
   { label: 'Discover Coaches', href: '/coaches' },
 ]
@@ -10,6 +10,7 @@ const athleteNavigationItems = [
 const coachNavigationItems = [
   { label: 'Overview', href: '/coach' },
   { label: 'Exercise Library', href: '/coach/exercises' },
+  { label: 'My Workouts', href: '/coach/workouts' },
   { label: 'Workout Builder', href: '/coach/workouts/new' },
 ]
 
@@ -25,7 +26,7 @@ function Sidebar() {
   }
 
   return (
-    <aside className="flex h-screen w-64 shrink-0 flex-col border-r border-border bg-white px-5 py-6">
+    <aside className="hidden h-screen w-64 shrink-0 flex-col md:flex border-r border-border bg-white px-5 py-6">
       <div className="mb-12">
         <Link to="/" className="text-2xl font-bold tracking-tight">Vigo</Link>
       </div>
