@@ -91,7 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setAccessToken(null)
       setUser(null)
     }
-  }, [accessToken]
+  }, [accessToken])
 
   useEffect(() => {
     let active = true
