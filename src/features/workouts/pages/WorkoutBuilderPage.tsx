@@ -50,6 +50,22 @@ function WorkoutBuilderPage() {
       setSaveMessage('Add at least one exercise before saving.')
       return
     }
+    const hasInvalidParameters = draft.exercises.some(
+      ({ sets, reps, rest_seconds }) =>
+        !Number.isInteger(sets) ||
+        sets < 1 ||
+        sets > 20 ||
+        !Number.isInteger(reps) ||
+        reps < 1 ||
+        reps > 100 ||
+        !Number.isInteger(rest_seconds) ||
+        rest_seconds < 0 ||
+        rest_seconds > 600,
+    )
+    if (hasInvalidParameters) {
+      setSaveMessage('Check exercise parameters: sets (1–20), reps (1–100), rest (0–600 seconds).')
+      return
+    }
 
     const savedDraft = saveWorkoutDraft(draft)
     setDraft(savedDraft)
