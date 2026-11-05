@@ -6,11 +6,13 @@ import { authService } from '../services/auth.service'
 import { ApiError } from '../../../lib/api/client'
 import { useAuthConfig } from '../hooks/useAuthConfig'
 import type { OtpChannel } from '../types/auth-config.types'
+import { useAuth } from '../context/AuthContext'
 
 type RegisterStep = 'IDENTIFIER' | 'VERIFY' | 'COMPLETE' | 'SUCCESS'
 
 function RegisterPage() {
   const navigate = useNavigate()
+  const { signIn } = useAuth()
 
   const { config, isLoading: isConfigLoading, error: configError } =
     useAuthConfig()
@@ -128,12 +130,18 @@ function RegisterPage() {
     try {
       setIsLoading(true)
 
-      await authService.completeSignup({
+      const response = await authService.completeSignup({
         registrationToken: tempToken,
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         password,
       })
+
+      if (response.data.tokens) {
+        await signIn(response.data.tokens)
+        navigate('/dashboard')
+        return
+      }
 
       setStep('SUCCESS')
     } catch (error) {
