@@ -78,14 +78,12 @@ function WorkoutExecutionPage() {
   }
 
   function updateInput(key: string, field: keyof SetInput, value: string) {
-    setInputs((current) => {
-      const updated = {
-        ...current,
-        [key]: { ...current[key], [field]: value },
-      }
-      saveExecutionDraft(workoutId, updated)
-      return updated
-    })
+    const updated = {
+      ...inputs,
+      [key]: { ...inputs[key], [field]: value },
+    }
+    setInputs(updated)
+    saveExecutionDraft(workoutId, updated)
     setError('')
   }
 
@@ -171,7 +169,7 @@ function WorkoutExecutionPage() {
           </div>
         </section>
 
-        <section className="grid grid-cols-3 gap-3">
+        <section className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <div className="rounded-xl border border-border bg-white p-4">
             <p className="text-xs text-muted">Exercises</p>
             <p className="mt-1 text-xl font-semibold">{workout.exercises.length}</p>
@@ -224,7 +222,7 @@ function WorkoutExecutionPage() {
                   return (
                     <div
                       key={key}
-                      className="grid grid-cols-[48px_minmax(0,1fr)_minmax(0,1fr)] items-end gap-3"
+                      className="grid grid-cols-[40px_minmax(0,1fr)_minmax(0,1fr)] items-end gap-2 sm:grid-cols-[48px_minmax(0,1fr)_minmax(0,1fr)] sm:gap-3"
                     >
                       <span className="pb-3 text-xs font-semibold text-muted">
                         Set {setNumber}
