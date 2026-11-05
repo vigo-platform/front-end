@@ -4,7 +4,7 @@ import type {
   LoginResponseData, VerifyOtpRequest, SignupInitiateRequest,
   ContactOtpChallenge, SignupVerifyRequest, SignupVerifyResponse,
   SignupCompleteRequest, RegisteredAccount, RefreshTokenRequest,
-  RefreshTokenResponse, LogoutRequest, ResetPasswordInitiateRequest,
+  RefreshTokenResponse, ResetPasswordInitiateRequest,
   ResetPasswordInitiateResponse, ResetPasswordVerifyRequest,
   ResetPasswordVerifyResponse, ResetPasswordCompleteRequest,
   PasswordResetCompleteResponse,
@@ -37,8 +37,8 @@ export const authService = {
   refreshToken(data: RefreshTokenRequest) {
     return apiRequest<RefreshTokenResponse>(`${AUTH_BASE}/refresh`, { method: 'POST', body: data })
   },
-  logout(data: LogoutRequest) {
-    return apiRequest<null>(`${AUTH_BASE}/logout`, { method: 'POST', body: data })
+  logout(accessToken: string) {
+    return apiRequest<null>(`${AUTH_BASE}/logout`, { method: 'POST', headers: { Authorization: `Bearer ${accessToken}` } })
   },
   initiatePasswordReset(data: ResetPasswordInitiateRequest) {
     return apiRequest<ResetPasswordInitiateResponse>(`${AUTH_BASE}/password/reset/initiate`, { method: 'POST', body: data })
