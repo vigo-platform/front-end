@@ -73,6 +73,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setAccessToken(tokens.accessToken)
     const loaded = await loadProfile(tokens.accessToken)
     if (!loaded) {
+      clearTokens()
+      setAccessToken(null)
+      setUser(null)
       throw new Error('Your account profile is not ready yet. Please try again shortly.')
     }
   }, [loadProfile])
@@ -81,12 +84,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const token = accessToken ?? localStorage.getItem(ACCESS_KEY)
     try {
       if (token) await authService.logout(token)
+    } catch {
+      // Local session is cleared even if the server cannot be reached.
     } finally {
       clearTokens()
       setAccessToken(null)
       setUser(null)
     }
-  }, [accessToken])
+  }, [accessToken]
 
   useEffect(() => {
     let active = true
