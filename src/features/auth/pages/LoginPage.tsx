@@ -7,14 +7,15 @@ import { ApiError } from '../../../lib/api/client'
 import { useAuthConfig } from '../hooks/useAuthConfig'
 import type { OtpChannel } from '../types/auth-config.types'
 import { useAuth } from '../context/AuthContext'
+import PasswordLoginForm from '../components/PasswordLoginForm'
 
-type LoginStep = 'IDENTIFIER' | 'VERIFY'
+type LoginStep = 'IDENTIFIER' | 'VERIFY' | 'NEW_PASSWORD'
 
 function LoginPage() {
   const navigate = useNavigate()
   const { signIn } = useAuth()
 
-  const { config, isLoading: isConfigLoading, error: configError } =
+  const { config, settings, isLoading: isConfigLoading, error: configError } =
     useAuthConfig()
 
   const availableChannels = config.login.enabledChannels
@@ -24,9 +25,12 @@ function LoginPage() {
   const [identifier, setIdentifier] = useState('')
   const [otp, setOtp] = useState('')
   const [mfaToken, setMfaToken] = useState('')
+  const [passwordChangeToken, setPasswordChangeToken] = useState('')
+  const [newPassword, setNewPassword] = useState('')
   const [step, setStep] = useState<LoginStep>('IDENTIFIER')
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [loginMode, setLoginMode] = useState<'OTP' | 'PASSWORD'>('OTP')
 
   const activeChannel = availableChannels.includes(selectedChannel)
     ? selectedChannel
@@ -94,7 +98,45 @@ function LoginPage() {
         return
       }
 
+      if (response.data.step === 'PASSWORD_CHANGE_REQUIRED' && response.data.passwordChange) {
+        setPasswordChangeToken(response.data.passwordChange.passwordChangeToken)
+        setStep('NEW_PASSWORD')
+        return
+      }
+
       setErrorMessage('Verification is not complete. Please try again.')
+    } catch (error) {
+      handleError(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  async function handleExpiredPasswordSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setErrorMessage('')
+    if (newPassword.trim().length === 0) {
+      setErrorMessage('Password cannot contain only whitespace.')
+      return
+    }
+
+    try {
+      setIsLoading(true)
+      const response = await authService.completeExpiredPassword({
+        passwordChangeToken,
+        newPassword,
+      })
+
+      if (response.data.step === 'SUCCESS' && response.data.tokens) {
+        await signIn(response.data.tokens)
+        navigate('/dashboard')
+        return
+      }
+
+      navigate('/login', {
+        replace: true,
+        state: { message: 'Your password was updated. Please sign in.' },
+      })
     } catch (error) {
       handleError(error)
     } finally {
@@ -117,6 +159,9 @@ function LoginPage() {
 
   return (
     <AuthLayout>
+      {loginMode === 'PASSWORD' ? (
+        <PasswordLoginForm onUseOtp={() => setLoginMode('OTP')} />
+      ) : (
       <div className="w-full">
         {step === 'IDENTIFIER' && (
           <>
@@ -133,6 +178,10 @@ function LoginPage() {
             {isConfigLoading ? (
               <p className="text-[12px] text-[#77776f]">
                 Loading login options...
+              </p>
+            ) : settings?.loginEnabled === false ? (
+              <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
+                Login is currently disabled. Please try again later.
               </p>
             ) : availableChannels.length === 0 ? (
               <p
@@ -202,7 +251,12 @@ function LoginPage() {
               </form>
             )}
 
-            <div className="mt-4 text-center"><Link to="/forgot-password" className="text-[11px] font-medium text-ink hover:underline">Forgot password?</Link></div>
+            <div className="mt-4 text-center">
+              <button type="button" onClick={() => setLoginMode('PASSWORD')} className="text-[11px] font-medium text-ink hover:underline">
+                Log in with password instead
+              </button>
+            </div>
+            <div className="mt-2 text-center"><Link to="/forgot-password" className="text-[11px] font-medium text-ink hover:underline">Forgot password?</Link></div>
 
             <p className="mt-7 text-center text-[11px] text-[#33332f]">
               New to Vigo?{' '}
@@ -280,7 +334,44 @@ function LoginPage() {
             </form>
           </>
         )}
+      {step === 'NEW_PASSWORD' && (
+        <>
+          <div className="mb-6">
+            <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
+              Update your password
+            </h1>
+            <p className="text-[13px] leading-relaxed text-[#55554f]">
+              Your current password has expired. Choose a new password to continue.
+            </p>
+          </div>
+          <form onSubmit={handleExpiredPasswordSubmit} className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="login-new-password" className={labelClassName}>New password</label>
+              <input
+                id="login-new-password"
+                type="password"
+                autoComplete="new-password"
+                value={newPassword}
+                onChange={(event) => setNewPassword(event.target.value)}
+                minLength={8}
+                maxLength={72}
+                required
+                className={inputClassName}
+              />
+            </div>
+            {errorMessage && (
+              <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">
+                {errorMessage}
+              </p>
+            )}
+            <button type="submit" disabled={isLoading} className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">
+              {isLoading ? 'Updating...' : 'Update password'}
+            </button>
+          </form>
+        </>
+      )}
       </div>
+      )}
     </AuthLayout>
   )
 }

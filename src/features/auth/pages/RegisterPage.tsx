@@ -6,13 +6,15 @@ import { authService } from '../services/auth.service'
 import { ApiError } from '../../../lib/api/client'
 import { useAuthConfig } from '../hooks/useAuthConfig'
 import type { OtpChannel } from '../types/auth-config.types'
+import { useAuth } from '../context/AuthContext'
 
 type RegisterStep = 'IDENTIFIER' | 'VERIFY' | 'COMPLETE' | 'SUCCESS'
 
 function RegisterPage() {
   const navigate = useNavigate()
+  const { signIn } = useAuth()
 
-  const { config, isLoading: isConfigLoading, error: configError } =
+  const { config, settings, isLoading: isConfigLoading, error: configError } =
     useAuthConfig()
 
   const availableChannels = config.signup.enabledChannels
@@ -128,12 +130,18 @@ function RegisterPage() {
     try {
       setIsLoading(true)
 
-      await authService.completeSignup({
+      const response = await authService.completeSignup({
         registrationToken: tempToken,
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         password,
       })
+
+      if (response.data.tokens) {
+        await signIn(response.data.tokens)
+        navigate('/dashboard')
+        return
+      }
 
       setStep('SUCCESS')
     } catch (error) {
@@ -177,6 +185,10 @@ function RegisterPage() {
             {isConfigLoading ? (
               <p className="text-[12px] text-[#77776f]">
                 Loading registration options...
+              </p>
+            ) : settings?.registerEnabled === false ? (
+              <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
+                Registration is currently disabled. Please try again later.
               </p>
             ) : availableChannels.length === 0 ? (
               <p
