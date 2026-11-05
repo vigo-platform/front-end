@@ -6,11 +6,13 @@ import { authService } from '../services/auth.service'
 import { ApiError } from '../../../lib/api/client'
 import { useAuthConfig } from '../hooks/useAuthConfig'
 import type { OtpChannel } from '../types/auth-config.types'
+import { useAuth } from '../context/AuthContext'
 
 type LoginStep = 'IDENTIFIER' | 'VERIFY'
 
 function LoginPage() {
   const navigate = useNavigate()
+  const { signIn } = useAuth()
 
   const { config, isLoading: isConfigLoading, error: configError } =
     useAuthConfig()
@@ -86,7 +88,8 @@ function LoginPage() {
         otp,
       })
 
-      if (response.data.step === 'SUCCESS') {
+      if (response.data.step === 'SUCCESS' && response.data.tokens) {
+        await signIn(response.data.tokens)
         navigate('/dashboard')
         return
       }
