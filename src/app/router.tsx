@@ -1,6 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import DashboardPage from '../features/dashboard/pages/DashboardPage'
+import CoachDashboardPage from '../features/workouts/pages/CoachDashboardPage'
+import ExerciseLibraryPage from '../features/workouts/pages/ExerciseLibraryPage'
+import WorkoutBuilderPage from '../features/workouts/pages/WorkoutBuilderPage'
 import PublicLandingPage from '../features/landing/pages/PublicLandingPage'
 import LoginPage from '../features/auth/pages/LoginPage'
 import RegisterPage from '../features/auth/pages/RegisterPage'
@@ -25,6 +28,13 @@ function AccountSuspendedPage() {
   )
 }
 
+function DashboardRedirect() {
+  const { user } = useAuth()
+  return user?.role === 'COACH'
+    ? <Navigate to="/coach" replace />
+    : <DashboardPage />
+}
+
 function AppRouter() {
   return (
     <Routes>
@@ -32,7 +42,10 @@ function AppRouter() {
       <Route path="/login" element={<PublicOnly><LoginPage /></PublicOnly>} />
       <Route path="/register" element={<PublicOnly><RegisterPage /></PublicOnly>} />
       <Route path="/forgot-password" element={<PublicOnly><ForgotPasswordPage /></PublicOnly>} />
-      <Route path="/dashboard" element={<RequireAuth><DashboardPage /></RequireAuth>} />
+      <Route path="/dashboard" element={<RequireAuth><DashboardRedirect /></RequireAuth>} />
+      <Route path="/coach" element={<RequireAuth allowedRoles={['COACH']}><CoachDashboardPage /></RequireAuth>} />
+      <Route path="/coach/exercises" element={<RequireAuth allowedRoles={['COACH']}><ExerciseLibraryPage /></RequireAuth>} />
+      <Route path="/coach/workouts/new" element={<RequireAuth allowedRoles={['COACH']}><WorkoutBuilderPage /></RequireAuth>} />
       <Route path="/account-suspended" element={<AccountSuspendedPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
