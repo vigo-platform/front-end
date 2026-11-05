@@ -1,19 +1,21 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthLayout from '../components/AuthLayout'
+import OtpChannelSelector from '../components/OtpChannelSelector'
 import { authService } from '../services/auth.service'
 import { ApiError } from '../../../lib/api/client'
+import type { OtpChannel } from '../types/auth-config.types'
 
-type ResetStep = 'EMAIL' | 'VERIFY' | 'NEW_PASSWORD' | 'SUCCESS'
-
-const inputClassName =
-  'h-11 w-full rounded-md border border-border bg-white px-3 text-[13px] text-ink outline-none transition placeholder:text-[#999991] focus:border-ink'
+type ResetStep = 'IDENTIFIER' | 'VERIFY' | 'NEW_PASSWORD' | 'SUCCESS'
+const channels: OtpChannel[] = ['EMAIL', 'PHONE']
+const inputClassName = 'h-11 w-full rounded-md border border-border bg-white px-3 text-[13px] text-ink outline-none transition placeholder:text-[#999991] focus:border-ink'
 const labelClassName = 'text-[11px] font-medium text-ink'
 
 function ForgotPasswordPage() {
   const navigate = useNavigate()
-  const [step, setStep] = useState<ResetStep>('EMAIL')
-  const [email, setEmail] = useState('')
+  const [step, setStep] = useState<ResetStep>('IDENTIFIER')
+  const [channel, setChannel] = useState<OtpChannel>('EMAIL')
+  const [identifier, setIdentifier] = useState('')
   const [otp, setOtp] = useState('')
   const [mfaToken, setMfaToken] = useState('')
   const [passwordResetToken, setPasswordResetToken] = useState('')
@@ -22,23 +24,18 @@ function ForgotPasswordPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const isEmail = channel === 'EMAIL'
 
   function handleError(error: unknown) {
-    setErrorMessage(
-      error instanceof ApiError
-        ? error.message
-        : 'Unable to connect to the server. Please try again.',
-    )
+    setErrorMessage(error instanceof ApiError ? error.message : 'Unable to connect to the server. Please try again.')
   }
 
-  async function handleRequestCode(event: FormEvent<HTMLFormElement>) {
+  async function requestCode(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setErrorMessage('')
     try {
       setIsLoading(true)
-      const response = await authService.initiatePasswordReset({
-        email: email.trim(),
-      })
+      const response = await authService.initiatePasswordReset({ identifier: identifier.trim() })
       setMfaToken(response.data.mfaToken)
       setStep('VERIFY')
     } catch (error) {
@@ -48,17 +45,14 @@ function ForgotPasswordPage() {
     }
   }
 
-  async function handleVerifyCode(event: FormEvent<HTMLFormElement>) {
+  async function verifyCode(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setErrorMessage('')
     try {
       setIsLoading(true)
-      const response = await authService.verifyPasswordReset({
-        mfaToken,
-        otp,
-      })
+      const response = await authService.verifyPasswordReset({ mfaToken, otp })
       if (response.data.step !== 'PASSWORD_RESET_REQUIRED') {
-        setErrorMessage('Password reset could not be verified. Please try again.')
+        setErrorMessage('The verification code was not accepted. Please try again.')
         return
       }
       setPasswordResetToken(response.data.passwordReset.passwordResetToken)
@@ -70,7 +64,7 @@ function ForgotPasswordPage() {
     }
   }
 
-  async function handleSetPassword(event: FormEvent<HTMLFormElement>) {
+  async function resetPassword(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setErrorMessage('')
     if (password !== confirmPassword) {
@@ -79,10 +73,7 @@ function ForgotPasswordPage() {
     }
     try {
       setIsLoading(true)
-      await authService.completePasswordReset({
-        passwordResetToken,
-        newPassword: password,
-      })
+      await authService.completePasswordReset({ passwordResetToken, newPassword: password })
       setStep('SUCCESS')
     } catch (error) {
       handleError(error)
@@ -95,9 +86,8 @@ function ForgotPasswordPage() {
     setErrorMessage('')
     if (step === 'VERIFY') {
       setOtp('')
-      setStep('EMAIL')
+      setStep('IDENTIFIER')
     } else if (step === 'NEW_PASSWORD') {
-      setOtp('')
       setStep('VERIFY')
     }
   }
@@ -105,66 +95,48 @@ function ForgotPasswordPage() {
   return (
     <AuthLayout>
       <div className="w-full">
-        {step === 'EMAIL' && (
+        {step === 'IDENTIFIER' && (
           <>
             <div className="mb-7">
-              <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
-                Forgot your password?
-              </h1>
-              <p className="text-[13px] leading-[1.6] text-[#55554f]">
-                Enter the email address associated with your account. We'll send you a verification code.
-              </p>
+              <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">Reset your password</h1>
+              <p className="text-[13px] leading-[1.6] text-[#55554f]">Enter the email address or phone number linked to your account.</p>
             </div>
-            <form onSubmit={handleRequestCode} className="flex flex-col gap-5">
+            <form onSubmit={requestCode} className="flex flex-col gap-5">
+              <OtpChannelSelector channels={channels} value={channel} onChange={setChannel} />
               <div className="flex flex-col gap-2">
-                <label htmlFor="reset-email" className={labelClassName}>Email address</label>
-                <input
-                  id="reset-email"
-                  type="email"
-                  autoComplete="email"
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  required
-                  className={inputClassName}
-                />
+                <label htmlFor="reset-identifier" className={labelClassName}>{isEmail ? 'Email address' : 'Phone number'}</label>
+                <input id="reset-identifier" type={isEmail ? 'email' : 'tel'} inputMode={isEmail ? 'email' : 'tel'} autoComplete={isEmail ? 'email' : 'tel'} placeholder={isEmail ? 'you@example.com' : '09123456789'} value={identifier} onChange={(event) => setIdentifier(event.target.value)} required className={inputClassName} />
               </div>
               {errorMessage && <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">{errorMessage}</p>}
-              <button type="submit" disabled={isLoading} className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60">
-                {isLoading ? 'Sending code...' : 'Send verification code'}
-              </button>
+              <button type="submit" disabled={isLoading} className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">{isLoading ? 'Sending code...' : 'Send verification code'}</button>
             </form>
-            <p className="mt-7 text-center text-[11px] text-[#33332f]">
-              Remember your password? <Link to="/login" className="ml-1 font-medium text-ink hover:underline">Log in</Link>
-            </p>
+            <p className="mt-7 text-center text-[11px] text-[#33332f]">Remember your password? <Link to="/login" className="ml-1 font-medium text-ink hover:underline">Log in</Link></p>
           </>
         )}
-
         {step === 'VERIFY' && (
           <>
             <div className="mb-6">
-              <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">Verify your email</h1>
-              <p className="text-[13px] leading-relaxed text-[#55554f]">Enter the verification code sent to <strong className="font-medium text-ink">{email}</strong>.</p>
+              <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">Verify your {isEmail ? 'email' : 'phone'}</h1>
+              <p className="text-[13px] leading-relaxed text-[#55554f]">Enter the verification code sent to {identifier}.</p>
             </div>
-            <form onSubmit={handleVerifyCode} className="flex flex-col gap-5">
+            <form onSubmit={verifyCode} className="flex flex-col gap-5">
               <div className="flex flex-col gap-2">
                 <label htmlFor="reset-otp" className={labelClassName}>Verification code</label>
-                <input id="reset-otp" type="text" inputMode="numeric" autoComplete="one-time-code" placeholder="Enter code" value={otp} onChange={(event) => setOtp(event.target.value)} minLength={5} maxLength={6} required className={inputClassName} />
+                <input id="reset-otp" type="text" inputMode="numeric" autoComplete="one-time-code" placeholder="Enter code" value={otp} onChange={(event) => setOtp(event.target.value)} minLength={6} maxLength={6} pattern="[0-9]{6}" required className={inputClassName} />
               </div>
               {errorMessage && <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">{errorMessage}</p>}
-              <button type="submit" disabled={isLoading} className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">{isLoading ? 'Verifying...' : 'Verify email'}</button>
+              <button type="submit" disabled={isLoading} className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">{isLoading ? 'Verifying...' : 'Verify code'}</button>
               <button type="button" onClick={goBack} className="h-8 text-[11px] text-ink hover:underline">Back</button>
             </form>
           </>
         )}
-
         {step === 'NEW_PASSWORD' && (
           <>
             <div className="mb-6">
               <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">Create a new password</h1>
               <p className="text-[13px] leading-relaxed text-[#55554f]">Choose a new password for your Vigo account.</p>
             </div>
-            <form onSubmit={handleSetPassword} className="flex flex-col gap-4">
+            <form onSubmit={resetPassword} className="flex flex-col gap-4">
               <div className="flex flex-col gap-2">
                 <label htmlFor="new-password" className={labelClassName}>New password</label>
                 <div className="relative">
@@ -182,7 +154,6 @@ function ForgotPasswordPage() {
             </form>
           </>
         )}
-
         {step === 'SUCCESS' && (
           <div>
             <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-ink">Password updated</h1>
@@ -194,5 +165,4 @@ function ForgotPasswordPage() {
     </AuthLayout>
   )
 }
-
 export default ForgotPasswordPage
