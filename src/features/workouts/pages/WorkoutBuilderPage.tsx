@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import AppShell from '../../../shared/components/layout/AppShell'
+import { useAuth } from '../../auth/context/auth-context'
 import { exerciseLibrary } from '../data/exercises'
 import { loadWorkoutDraft, saveWorkoutDraft } from '../services/workout-draft.service'
 import type { WorkoutDraft } from '../types/workout.types'
 
 function WorkoutBuilderPage() {
+  const { isPreview } = useAuth()
+  const coachPath = isPreview ? '/_preview/coach' : '/coach'
   const [draft, setDraft] = useState<WorkoutDraft>(() => loadWorkoutDraft())
   const [saveMessage, setSaveMessage] = useState('')
 
@@ -76,7 +79,7 @@ function WorkoutBuilderPage() {
     <AppShell title="Workout builder">
       <div className="mx-auto w-full max-w-6xl space-y-7">
         <section>
-          <Link to="/coach" className="text-sm font-medium text-muted hover:text-ink">
+          <Link to={coachPath} className="text-sm font-medium text-muted hover:text-ink">
             ← Coach workspace
           </Link>
           <div className="mt-4 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
@@ -89,7 +92,7 @@ function WorkoutBuilderPage() {
               </p>
             </div>
             <Link
-              to="/coach/exercises"
+              to={coachPath + '/exercises'}
               className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-white px-5 text-sm font-semibold transition hover:bg-[#f0f5e8]"
             >
               Browse exercise library
