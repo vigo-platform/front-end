@@ -46,7 +46,7 @@ function Sidebar() {
           <NavLink
             key={item.href}
             to={item.href}
-            end={item.href === '/athlete' || item.href === '/coach' || item.href === '/_preview/athlete' || item.href === '/_preview/coach'}
+            end={item.href === '/athlete' || item.href === '/coach' || item.href === '/_preview/athlete' || item.href === '/_preview/coach' || item.href.endsWith('/workouts')}
             className={({ isActive }) =>
               [
                 'group flex min-h-11 items-center gap-3 rounded-xl px-3 text-[12px] font-semibold transition-colors',
