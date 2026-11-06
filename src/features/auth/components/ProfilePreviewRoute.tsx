@@ -21,6 +21,7 @@ function ProfilePreviewRoute({ role }: ProfilePreviewRouteProps) {
     signOut: async () => undefined,
     refreshSession: async () => true,
     updateUser: setUser,
+    isPreview: true,
   }
 
   return (
