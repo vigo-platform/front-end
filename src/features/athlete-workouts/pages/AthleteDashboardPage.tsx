@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import AppShell from '../../../components/layout/AppShell'
+import AppShell from '../../../shared/components/layout/AppShell'
 import {
   getAssignedWorkouts,
   type AssignedWorkoutSummary,
