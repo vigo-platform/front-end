@@ -70,7 +70,7 @@ function CoachWorkoutsPage() {
               Create a workout and save it as a draft to see it here.
             </p>
             <Link
-              to="/coach/workouts/new"
+              to={coachPath + '/workouts/new'}
               className="mt-5 inline-flex rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white"
             >
               Start building
