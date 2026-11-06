@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom'
 import AppShell from '../../../shared/components/layout/AppShell'
+import { useAuth } from '../../auth/context/auth-context'
 import { loadWorkoutDraft } from '../services/workout-draft.service'
 
 function CoachWorkoutsPage() {
+  const { isPreview } = useAuth()
+  const coachPath = isPreview ? '/_preview/coach' : '/coach'
   const draft = loadWorkoutDraft()
   const hasSavedDraft = Boolean(draft.updated_at)
 
@@ -11,7 +14,7 @@ function CoachWorkoutsPage() {
       <div className="mx-auto w-full max-w-6xl space-y-7">
         <section className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <Link to="/coach" className="text-sm font-medium text-muted hover:text-ink">
+            <Link to={coachPath} className="text-sm font-medium text-muted hover:text-ink">
               ← Coach workspace
             </Link>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight">
@@ -22,7 +25,7 @@ function CoachWorkoutsPage() {
             </p>
           </div>
           <Link
-            to="/coach/workouts/new"
+            to={coachPath + '/workouts/new'}
             className="inline-flex h-11 items-center justify-center rounded-full bg-ink px-5 text-sm font-semibold text-white transition hover:bg-[#30352a]"
           >
             Create workout
