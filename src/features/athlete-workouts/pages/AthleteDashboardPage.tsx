@@ -193,10 +193,10 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
           <article className="flex flex-col justify-between rounded-[20px] border border-[#e1e1da] bg-[#eff2e9] p-6 sm:p-7">
             <div>
               <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#71864c]">Training activity</p>
-              <h2 className="mt-3 text-[21px] font-bold tracking-[-0.7px] text-[#20231b]">Workout tracking comes next.</h2>
-              <p className="mt-2 text-[11px] leading-5 text-[#73786a]">Workout assignment, execution, and progress are intentionally not shown until their API contracts are defined.</p>
+              <h2 className="mt-3 text-[21px] font-bold tracking-[-0.7px] text-[#20231b]">Your assigned sessions are ready.</h2>
+              <p className="mt-2 text-[11px] leading-5 text-[#73786a]">Open your assigned workouts, record completed reps and weights, and review your saved sessions.</p>
             </div>
-            <span className="mt-6 inline-flex w-fit rounded-full border border-[#d7dfcb] bg-white/70 px-3 py-1.5 text-[8px] font-bold uppercase tracking-[1px] text-[#71864c]">Awaiting workout APIs</span>
+            <Link to={preview ? '/_preview/athlete/workouts' : '/workouts'} className="mt-6 inline-flex w-fit rounded-full border border-[#d7dfcb] bg-white/70 px-3 py-2 text-[10px] font-bold text-[#526a2e] transition hover:bg-white">View my workouts →</Link>
           </article>
         </section>
       </div>
