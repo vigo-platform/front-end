@@ -23,7 +23,7 @@ const coachNavigationItems: NavigationItem[] = [
 const previewAthleteNavigationItems: NavigationItem[] = [
   { label: 'Dashboard', href: '/_preview/athlete' },
   { label: 'My Workouts', href: '/_preview/athlete/workouts' },
-  { label: 'Discover Coaches', href: '/_preview/athlete/coaches' },
+  { label: 'Find a Coach', href: '/_preview/athlete/coaches' },
   { label: 'My Profile', href: '/_preview/athlete/profile' },
 ]
 
