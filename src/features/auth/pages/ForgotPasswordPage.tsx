@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import AuthLayout from '../components/AuthLayout'
 import OtpChannelSelector from '../components/OtpChannelSelector'
 import { authService } from '../services/auth.service'
-import { ApiError } from '../../../lib/api/client'
+import { ApiError } from '../../../shared/api/client'
 import type { OtpChannel } from '../types/auth-config.types'
 
 type ResetStep = 'IDENTIFIER' | 'VERIFY' | 'NEW_PASSWORD' | 'SUCCESS'
