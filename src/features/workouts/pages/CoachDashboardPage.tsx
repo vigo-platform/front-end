@@ -5,7 +5,7 @@ import { previewCoachPlans, previewCoachRelations } from '../../auth/data/dashbo
 import { loadWorkoutDraft } from '../services/workout-draft.service'
 
 interface CoachDashboardPageProps {
-  preview?: boolean
+  isPreview?: boolean
 }
 
 function formatDate(value?: string | null) {
@@ -16,7 +16,7 @@ function formatDate(value?: string | null) {
 }
 
 function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
-  const { user, preview: previewContext } = useAuth()
+  const { user, isPreview: previewContext } = useAuth()
   const preview = isPreview || previewContext
   const coachPath = preview ? '/_preview/coach' : '/coach'
   const firstName = user?.display_name?.trim().split(/\s+/)[0] || 'Coach'
