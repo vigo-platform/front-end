@@ -23,7 +23,7 @@ function formatPrice(value: number) {
 
 function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) {
   const { user, preview: previewContext } = useAuth()
-  const preview = preview || previewContext
+  const preview = isPreview || previewContext
   const coachesPath = preview ? '/_preview/athlete/coaches' : '/coaches'
   const displayName = user?.display_name?.trim() || 'Athlete'
   const firstName = displayName.split(/\s+/)[0]
@@ -132,7 +132,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
               <>
                 <h3 className="mt-7 text-[19px] font-bold leading-tight">Your coaching connection starts here.</h3>
                 <p className="mt-2 text-[11px] leading-5 text-[#77786f]">Discover coaches and explore their public profiles and plans.</p>
-                <Link to="/coaches" className="mt-auto inline-flex w-fit items-center gap-2 pt-6 text-[11px] font-bold text-[#4e642e] hover:gap-3">
+                <Link to={coachesPath} className="mt-auto inline-flex w-fit items-center gap-2 pt-6 text-[11px] font-bold text-[#4e642e] hover:gap-3">
                   Find a coach <span aria-hidden="true">→</span>
                 </Link>
               </>
