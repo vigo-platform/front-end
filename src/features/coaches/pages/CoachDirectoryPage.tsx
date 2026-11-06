@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import CoachPublicLayout from '../components/CoachPublicLayout'
+import { useAuth } from '../../auth/context/auth-context'
 import { getAvatarUrl } from '../utils/avatar'
 import { coachService } from '../services/coach.service'
 import type { CoachPage, CoachSearchParams, CoachSort } from '../types/coach.types'
@@ -13,6 +14,8 @@ function formatToman(value: number) {
 
 
 function CoachDirectoryPage() {
+  const { isPreview } = useAuth()
+  const coachesPath = isPreview ? '/_preview/athlete/coaches' : '/coaches'
   const [page, setPage] = useState<CoachPage | null>(null)
   const [search, setSearch] = useState('')
   const [specialty, setSpecialty] = useState('')
@@ -239,7 +242,7 @@ function CoachDirectoryPage() {
                     </div>
 
                     <Link
-                      to={'/coaches/' + coach.coach_id}
+                      to={coachesPath + '/' + coach.coach_id}
                       className="mt-4 inline-flex h-10 items-center justify-center rounded-full bg-ink px-4 text-xs font-semibold text-white transition hover:bg-[#30352a]"
                     >
                       View profile
