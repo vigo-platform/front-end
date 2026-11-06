@@ -1,4 +1,4 @@
-import AppShell from '../../../components/layout/AppShell'
+import AppShell from '../../../shared/components/layout/AppShell'
 import { athleteDashboardMock } from '../data/dashboard.mock'
 
 function DashboardPage() {
