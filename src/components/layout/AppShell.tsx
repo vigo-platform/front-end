@@ -3,29 +3,16 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../features/auth/context/auth-context'
 import Sidebar from './Sidebar'
 import TopBar from './TopBar'
+import { getNavigationItems } from '../../app/config/navigation'
 
 interface AppShellProps {
   children: ReactNode
   title: string
 }
 
-const athleteNavigationItems = [
-  { label: 'Dashboard', href: '/athlete' },
-  { label: 'My Workouts', href: '/workouts' },
-  { label: 'Discover Coaches', href: '/coaches' },
-]
-
-const coachNavigationItems = [
-  { label: 'Overview', href: '/coach' },
-  { label: 'Exercise Library', href: '/coach/exercises' },
-  { label: 'My Workouts', href: '/coach/workouts' },
-  { label: 'Workout Builder', href: '/coach/workouts/new' },
-]
-
 function AppShell({ children, title }: AppShellProps) {
   const { user } = useAuth()
-  const navigationItems =
-    user?.role === 'COACH' ? coachNavigationItems : athleteNavigationItems
+  const navigationItems = getNavigationItems(user?.role)
 
   return (
     <div className="flex min-h-screen flex-col bg-canvas text-ink md:flex-row">

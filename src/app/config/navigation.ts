@@ -1,0 +1,23 @@
+import type { UserRole } from '../../features/user/types/user.types'
+
+export interface NavigationItem {
+  label: string
+  href: string
+}
+
+const athleteNavigationItems: NavigationItem[] = [
+  { label: 'Dashboard', href: '/athlete' },
+  { label: 'My Workouts', href: '/workouts' },
+  { label: 'Discover Coaches', href: '/coaches' },
+]
+
+const coachNavigationItems: NavigationItem[] = [
+  { label: 'Overview', href: '/coach' },
+  { label: 'Exercise Library', href: '/coach/exercises' },
+  { label: 'My Workouts', href: '/coach/workouts' },
+  { label: 'Workout Builder', href: '/coach/workouts/new' },
+]
+
+export function getNavigationItems(role: UserRole | null | undefined) {
+  return role === 'COACH' ? coachNavigationItems : athleteNavigationItems
+}
