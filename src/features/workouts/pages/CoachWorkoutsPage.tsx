@@ -57,7 +57,7 @@ function CoachWorkoutsPage() {
               </span>
             </div>
             <Link
-              to="/coach/workouts/new"
+              to={coachPath + '/workouts/new'}
               className="mt-6 inline-flex text-sm font-semibold text-ink hover:text-[#6d8c36]"
             >
               Continue editing →
