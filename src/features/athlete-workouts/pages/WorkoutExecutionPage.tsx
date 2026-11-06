@@ -156,7 +156,7 @@ function WorkoutExecutionPage() {
     <AppShell title="Workout execution">
       <div className="mx-auto w-full max-w-4xl space-y-6">
         <section>
-          <Link to="/workouts" className="text-sm font-medium text-muted hover:text-ink">
+          <Link to={workoutsPath} className="text-sm font-medium text-muted hover:text-ink">
             ← My workouts
           </Link>
           <div className="mt-4">
