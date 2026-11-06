@@ -19,5 +19,7 @@ const coachNavigationItems: NavigationItem[] = [
 ]
 
 export function getNavigationItems(role: UserRole | null | undefined) {
-  return role === 'COACH' ? coachNavigationItems : athleteNavigationItems
+  if (role === 'COACH') return coachNavigationItems
+  if (role === 'ATHLETE') return athleteNavigationItems
+  return []
 }
