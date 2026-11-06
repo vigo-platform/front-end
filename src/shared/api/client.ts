@@ -1,4 +1,4 @@
-import type { ApiResponse } from '../../features/auth/types/auth.types'
+import type { ApiErrorPayload, ApiResponse } from './types'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
@@ -52,10 +52,10 @@ export async function apiRequest<T>(
   const payload = await response.json().catch(() => null)
 
   if (!response.ok) {
-    const error = payload as Partial<ApiResponse<unknown>> | null
+    const error = payload as ApiErrorPayload | null
 
     throw new ApiError(
-      error?.message ?? 'Something went wrong.',
+      error?.message ?? error?.message_fa ?? error?.messageFa ?? 'Something went wrong.',
       error?.code ?? 'UNKNOWN_ERROR',
       response.status,
       error?.data ?? null,

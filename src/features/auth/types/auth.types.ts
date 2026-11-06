@@ -1,12 +1,3 @@
-export interface ApiResponse<T> {
-  success: boolean
-  code?: string
-  message: string
-  messageFa?: string
-  timestamp: string
-  data: T
-}
-
 export type OtpChannel = 'EMAIL' | 'SMS' | 'IN_APP'
 export type ContactOtpChannel = 'EMAIL' | 'SMS'
 export type LoginStep = 'SUCCESS' | 'OTP_REQUIRED' | 'PASSWORD_CHANGE_REQUIRED'

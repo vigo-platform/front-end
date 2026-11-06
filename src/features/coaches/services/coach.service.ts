@@ -1,4 +1,4 @@
-import { apiRequest } from '../../../lib/api/client'
+import { apiRequest } from '../../../shared/api/client'
 import type {
   CoachPage,
   CoachPlan,

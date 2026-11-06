@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { ApiError } from '../../../lib/api/client'
+import { ApiError } from '../../../shared/api/client'
 import { authService } from '../services/auth.service'
 import type { TokenPair } from '../types/auth.types'
 import { userService } from '../../user/services/user.service'

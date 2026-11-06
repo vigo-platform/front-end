@@ -1,4 +1,4 @@
-import { apiRequest } from '../../../lib/api/client'
+import { apiRequest } from '../../../shared/api/client'
 import type { UserProfile } from '../types/user.types'
 
 export const userService = {
