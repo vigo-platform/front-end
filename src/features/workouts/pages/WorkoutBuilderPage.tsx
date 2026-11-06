@@ -138,7 +138,7 @@ function WorkoutBuilderPage() {
                   </p>
                 </div>
                 <Link
-                  to="/coach/exercises"
+                  to={coachPath + '/exercises'}
                   className="text-sm font-semibold text-[#6d8c36] hover:underline"
                 >
                   + Add exercises
