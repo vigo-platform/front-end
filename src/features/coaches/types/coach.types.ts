@@ -1,5 +1,4 @@
-export interface CoachProfile {
-  coach_id: string
+export interface CoachProfileRequest {
   display_name: string
   headline?: string
   bio: string
@@ -12,7 +11,13 @@ export interface CoachProfile {
   }>
   instagram_handle?: string | null
   result_image_urls?: string[]
+}
+
+export interface CoachProfile extends CoachProfileRequest {
+  coach_id: string
   avatar_url?: string | null
+  status?: 'PENDING' | 'APPROVED' | 'REJECTED' | 'SUSPENDED'
+  rejection_reason?: string | null
   min_plan_price?: number | null
   active_athletes_count?: number
   created_at?: string
