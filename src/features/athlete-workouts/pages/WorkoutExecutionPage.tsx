@@ -1,6 +1,7 @@
 import { useMemo, useState, type FormEvent } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import AppShell from '../../../shared/components/layout/AppShell'
+import { useAuth } from '../../auth/context/auth-context'
 import {
   clearExecutionDraft,
   getAssignedWorkout,
@@ -17,6 +18,8 @@ import type { ExerciseSetResult } from '../types/athlete-workout.types'
 function WorkoutExecutionPage() {
   const { workoutId = '' } = useParams()
   const navigate = useNavigate()
+  const { isPreview } = useAuth()
+  const workoutsPath = isPreview ? '/_preview/athlete/workouts' : '/workouts'
   const workout = useMemo(() => getAssignedWorkout(workoutId), [workoutId])
   const existingResult = useMemo(
     () => getWorkoutExecutionResult(workoutId),
@@ -46,7 +49,7 @@ function WorkoutExecutionPage() {
           <p className="mt-2 text-sm text-muted">
             This workout is not available in the current demo data.
           </p>
-          <Link to="/workouts" className="mt-5 inline-flex text-sm font-semibold">
+          <Link to={workoutsPath} className="mt-5 inline-flex text-sm font-semibold">
             ← Back to workouts
           </Link>
         </div>
@@ -137,7 +140,7 @@ function WorkoutExecutionPage() {
         sets: results,
       })
       clearExecutionDraft(currentWorkout.id)
-      navigate('/workouts', { replace: true })
+      navigate(workoutsPath, { replace: true })
     } catch (submitError) {
       setError(
         submitError instanceof Error
