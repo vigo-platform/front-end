@@ -37,7 +37,6 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
   useEffect(() => {
     if (!isCoach || previewMode || !accessToken) return
     let active = true
-    setIsLoadingCoach(true)
     coachService.getMyProfile(accessToken)
       .then((profile) => {
         if (!active) return
