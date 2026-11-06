@@ -12,7 +12,7 @@ function formatMemberSince(value?: string) {
 function AthleteDashboardPage() {
   const { user } = useAuth()
   const displayName = user?.display_name?.trim() || 'Athlete'
-  const firstName = displayName.split(/\\s+/)[0]
+  const firstName = displayName.split(/\s+/)[0]
 
   return (
     <AppShell title="Overview">
