@@ -132,6 +132,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     signOut,
     refreshSession,
     updateUser,
+    isPreview: false,
   }), [accessToken, user, isInitializing, signIn, signOut, refreshSession, updateUser])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
