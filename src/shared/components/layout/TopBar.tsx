@@ -29,7 +29,7 @@ function TopBar({ title }: TopBarProps) {
       <div className="flex items-center gap-3">
         <div className="hidden text-right sm:block">
           <p className="max-w-40 truncate text-[10px] font-semibold text-[#292a25]">{displayName}</p>
-          <p className="mt-0.5 text-[9px] text-[#92928a]">{user?.role === 'COACH' ? 'Coach account' : 'Athlete account'}</p>
+          <p className="mt-0.5 text-[9px] text-[#92928a]">{user?.role === 'COACH' ? 'Coach account' : user?.role === 'ATHLETE' ? 'Athlete account' : 'Vigo account'}</p>
         </div>
         {user?.avatar_url ? (
           <img src={user.avatar_url} alt="" className="h-8 w-8 rounded-full border border-[#e6e6df] object-cover" />
