@@ -22,6 +22,7 @@ function DashboardPreviewRoute({ role }: DashboardPreviewRouteProps) {
     signOut: async () => undefined,
     refreshSession: async () => true,
     updateUser: setUser,
+    isPreview: true,
   }
   const dashboard: ReactNode =
     role === 'COACH'
