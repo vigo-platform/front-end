@@ -14,6 +14,7 @@ import RegisterPage from '../features/auth/pages/RegisterPage'
 import ForgotPasswordPage from '../features/auth/pages/ForgotPasswordPage'
 import RequireAuth from '../features/auth/components/RequireAuth'
 import { useAuth } from '../features/auth/context/auth-context'
+import DashboardPreviewRoute from '../features/auth/components/DashboardPreviewRoute'
 
 function PublicOnly({ children }: { children: ReactNode }) {
   const { isAuthenticated, isInitializing } = useAuth()
@@ -43,12 +44,14 @@ function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<PublicLandingPage />} />
+      {import.meta.env.DEV && <Route path="/_preview/athlete" element={<DashboardPreviewRoute role="ATHLETE" />} />}
+      {import.meta.env.DEV && <Route path="/_preview/coach" element={<DashboardPreviewRoute role="COACH" />} />}
       <Route path="/login" element={<PublicOnly><LoginPage /></PublicOnly>} />
       <Route path="/register" element={<PublicOnly><RegisterPage /></PublicOnly>} />
       <Route path="/forgot-password" element={<PublicOnly><ForgotPasswordPage /></PublicOnly>} />
       <Route path="/dashboard" element={<RequireAuth><DashboardRedirect /></RequireAuth>} />
       <Route path="/athlete" element={<RequireAuth allowedRoles={['ATHLETE']}><AthleteDashboardPage /></RequireAuth>} />
-      <Route path="/workouts" element={<RequireAuth allowedRoles={['ATHLETE']}><AthleteDashboardPage /></RequireAuth>} />
+      <Route path="/workouts" element={<Navigate to="/athlete#workouts" replace />} />
       <Route path="/workouts/:workoutId" element={<RequireAuth allowedRoles={['ATHLETE']}><WorkoutExecutionPage /></RequireAuth>} />
       <Route path="/coaches" element={<CoachDirectoryPage />} />
       <Route path="/coaches/:coachId" element={<CoachProfilePage />} />
