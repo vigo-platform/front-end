@@ -3,6 +3,7 @@ import type {
   CoachPage,
   CoachPlan,
   CoachProfile,
+  CoachProfileRequest,
   CoachSearchParams,
 } from '../types/coach.types'
 
@@ -32,6 +33,23 @@ export const coachService = {
     const response = await apiRequest<CoachPlan[]>(
       '/api/v1/coaches/' + encodeURIComponent(coachId) + '/plans',
     )
+    return response.data
+  },
+
+  async getMyProfile(accessToken: string): Promise<CoachProfile> {
+    const response = await apiRequest<CoachProfile>('/api/v1/coaches/me', {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+    return response.data
+  },
+
+  async updateMyProfile(accessToken: string, data: CoachProfileRequest): Promise<CoachProfile> {
+    const response = await apiRequest<CoachProfile>('/api/v1/coaches/me', {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${accessToken}` },
+      body: data,
+    })
     return response.data
   },
 }
