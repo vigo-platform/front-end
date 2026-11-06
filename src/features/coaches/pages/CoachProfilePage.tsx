@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import CoachPublicLayout from '../components/CoachPublicLayout'
+import { useAuth } from '../../auth/context/auth-context'
 import { getAvatarUrl } from '../utils/avatar'
 import { coachService } from '../services/coach.service'
 import type { CoachPlan, CoachProfile } from '../types/coach.types'
@@ -12,6 +13,8 @@ function formatToman(value: number) {
 
 function CoachProfilePage() {
   const { coachId = '' } = useParams()
+  const { isPreview } = useAuth()
+  const coachesPath = isPreview ? '/_preview/athlete/coaches' : '/coaches'
   const [coach, setCoach] = useState<CoachProfile | null>(null)
   const [plans, setPlans] = useState<CoachPlan[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -48,7 +51,7 @@ function CoachProfilePage() {
   return (
     <CoachPublicLayout title="Coach profile">
       <div className="mx-auto w-full max-w-5xl space-y-6">
-        <Link to="/coaches" className="inline-flex text-sm font-medium text-muted hover:text-ink">
+        <Link to={coachesPath} className="inline-flex text-sm font-medium text-muted hover:text-ink">
           ← Back to coaches
         </Link>
 
