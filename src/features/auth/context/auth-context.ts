@@ -11,6 +11,7 @@ export interface AuthContextValue {
   signOut: () => Promise<void>
   refreshSession: () => Promise<boolean>
   updateUser: (user: UserProfile) => void
+  isPreview?: boolean
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null)
