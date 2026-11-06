@@ -63,7 +63,7 @@ function CoachProfilePage() {
           <section role="alert" className="rounded-2xl border border-border bg-white px-6 py-14 text-center">
             <h1 className="text-xl font-semibold">Coach profile unavailable</h1>
             <p className="mt-2 text-sm text-muted">{error || 'This coach profile could not be found.'}</p>
-            <Link to="/coaches" className="mt-5 inline-flex rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white">
+            <Link to={coachesPath} className="mt-5 inline-flex rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white">
               Browse coaches
             </Link>
           </section>
