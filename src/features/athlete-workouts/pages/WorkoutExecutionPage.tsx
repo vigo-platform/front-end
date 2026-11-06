@@ -211,7 +211,7 @@ function WorkoutExecutionPage() {
 
           <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
             <Link
-              to="/workouts"
+              to={workoutsPath}
               className="inline-flex h-12 items-center justify-center rounded-full border border-border bg-white px-6 text-sm font-semibold"
             >
               Cancel
