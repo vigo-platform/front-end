@@ -70,7 +70,7 @@ function WorkoutExecutionPage() {
             {new Date(existingResult.completed_at).toLocaleString()}.
           </p>
           <Link
-            to="/workouts"
+            to={workoutsPath}
             className="mt-6 inline-flex rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white"
           >
             Back to my workouts
