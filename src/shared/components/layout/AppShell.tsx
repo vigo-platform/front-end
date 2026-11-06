@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../../features/auth/context/auth-context'
 import Sidebar from './Sidebar'
 import TopBar from './TopBar'
@@ -15,28 +15,31 @@ function AppShell({ children, title }: AppShellProps) {
   const navigationItems = getNavigationItems(user?.role)
 
   return (
-    <div className="flex min-h-screen flex-col bg-canvas text-ink md:flex-row">
+    <div className="flex min-h-screen flex-col bg-[#f6f6f3] text-[#171815] md:flex-row">
       <Sidebar />
 
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
         <TopBar title={title} />
 
         <nav
           aria-label="Main navigation"
-          className="flex gap-2 overflow-x-auto border-b border-border bg-white px-4 py-3 md:hidden"
+          className="flex gap-2 overflow-x-auto border-b border-[#e8e8e1] bg-[#fbfbf9] px-4 py-3 md:hidden"
         >
           {navigationItems.map((item) => (
-            <Link
+            <NavLink
               key={item.href}
               to={item.href}
-              className="shrink-0 rounded-full bg-canvas px-4 py-2 text-xs font-semibold text-muted"
+              end={item.href === '/athlete' || item.href === '/coach'}
+              className={({ isActive }) =>
+                `shrink-0 rounded-full px-4 py-2 text-[11px] font-semibold transition-colors ${isActive ? 'bg-[#c7f36b] text-[#171914]' : 'bg-[#efefe9] text-[#74756d]'}`
+              }
             >
               {item.label}
-            </Link>
+            </NavLink>
           ))}
         </nav>
 
-        <main className="min-w-0 flex-1 p-4 sm:p-6 lg:p-8">
+        <main className="min-w-0 flex-1 px-5 py-7 sm:px-8 sm:py-9 lg:px-10 lg:py-10">
           {children}
         </main>
       </div>
