@@ -12,20 +12,25 @@ function getInitials(name: string) {
 }
 
 function Sidebar() {
-  const { signOut, user } = useAuth()
+  const { signOut, user, isPreview } = useAuth()
   const navigate = useNavigate()
-  const navigationItems = getNavigationItems(user?.role)
+  const navigationItems = getNavigationItems(user?.role, isPreview)
+  const workspacePath = isPreview ? `/_preview/${user?.role === 'COACH' ? 'coach' : 'athlete'}` : '/dashboard'
   const displayName = user?.display_name || user?.email || 'Vigo member'
   const initials = getInitials(user?.display_name || user?.email || 'V')
 
   async function handleLogout() {
+    if (isPreview) {
+      navigate(workspacePath, { replace: true })
+      return
+    }
     await signOut()
     navigate('/login', { replace: true })
   }
 
   return (
     <aside className="hidden min-h-screen w-[252px] shrink-0 flex-col bg-[#111210] px-5 py-7 text-white md:sticky md:top-0 md:flex md:h-screen">
-      <Link to="/" className="inline-flex w-fit items-center gap-2 px-1 text-[25px] font-bold tracking-[-1.2px]">
+      <Link to={isPreview ? workspacePath : '/'} className="inline-flex w-fit items-center gap-2 px-1 text-[25px] font-bold tracking-[-1.2px]">
         Vigo
         <span className="mt-1 h-2 w-2 rounded-full bg-[#c7f36b]" />
       </Link>
@@ -41,7 +46,7 @@ function Sidebar() {
           <NavLink
             key={item.href}
             to={item.href}
-            end={item.href === '/athlete' || item.href === '/coach'}
+            end={item.href === '/athlete' || item.href === '/coach' || item.href === '/_preview/athlete' || item.href === '/_preview/coach'}
             className={({ isActive }) =>
               [
                 'group flex min-h-11 items-center gap-3 rounded-xl px-3 text-[12px] font-semibold transition-colors',
@@ -85,7 +90,7 @@ function Sidebar() {
           onClick={handleLogout}
           className="mt-5 flex w-full items-center justify-between rounded-lg px-2 py-2 text-left text-[11px] font-medium text-white/45 transition hover:bg-white/[0.06] hover:text-white"
         >
-          Sign out
+          {isPreview ? 'Back to overview' : 'Sign out'}
           <span aria-hidden="true">↗</span>
         </button>
       </div>
