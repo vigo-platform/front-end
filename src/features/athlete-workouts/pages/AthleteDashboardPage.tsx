@@ -7,7 +7,7 @@ import {
 } from '../../auth/data/dashboard-preview'
 
 interface AthleteDashboardPageProps {
-  isPreview?: boolean
+  preview?: boolean
 }
 
 function formatDate(value?: string | null) {
@@ -22,11 +22,13 @@ function formatPrice(value: number) {
 }
 
 function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) {
-  const { user } = useAuth()
+  const { user, preview: previewContext } = useAuth()
+  const preview = preview || previewContext
+  const coachesPath = preview ? '/_preview/athlete/coaches' : '/coaches'
   const displayName = user?.display_name?.trim() || 'Athlete'
   const firstName = displayName.split(/\s+/)[0]
-  const relation = isPreview ? previewAthleteCoachRelation : null
-  const plans = isPreview ? previewCoachPlans : []
+  const relation = preview ? previewAthleteCoachRelation : null
+  const plans = preview ? previewCoachPlans : []
   const activeRelation = relation?.status === 'ACTIVE'
 
   return (
@@ -59,7 +61,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
               <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Coaching relationship</p>
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f0f3e9] text-[12px] text-[#60783a]">↗</span>
             </div>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isPreview && activeRelation ? '01' : '—'}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{preview && activeRelation ? '01' : '—'}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">Active coach connections</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
@@ -67,7 +69,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
               <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Available plans</p>
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f0f3e9] text-[12px] text-[#60783a]">▤</span>
             </div>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isPreview ? String(plans.length).padStart(2, '0') : '—'}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{preview ? String(plans.length).padStart(2, '0') : '—'}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">Plans from your coach</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
@@ -95,7 +97,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
                 Explore coach profiles, compare specialties and discover the plans they offer.
               </p>
             </div>
-            <Link to="/coaches" className="relative mt-8 inline-flex h-11 w-fit items-center gap-3 rounded-full bg-[#c7f36b] px-5 text-[11px] font-bold text-[#171914] transition hover:bg-[#d4fa83]">
+            <Link to={coachesPath} className="relative mt-8 inline-flex h-11 w-fit items-center gap-3 rounded-full bg-[#c7f36b] px-5 text-[11px] font-bold text-[#171914] transition hover:bg-[#d4fa83]">
               Explore coaches <span aria-hidden="true">→</span>
             </Link>
             <span aria-hidden="true" className="pointer-events-none absolute bottom-0 right-8 text-[150px] font-black leading-none tracking-[-16px] text-white/[0.045]">V</span>
@@ -122,7 +124,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
                   <p className="mt-2 text-[13px] font-semibold text-[#30312b]">{relation.plan_title}</p>
                   <p className="mt-1 text-[10px] text-[#888980]">Since {formatDate(relation.starts_at)}</p>
                 </div>
-                <Link to={'/coaches/' + relation.coach_id} className="mt-auto inline-flex w-fit items-center gap-2 pt-5 text-[11px] font-bold text-[#4e642e] hover:gap-3">
+                <Link to={coachesPath + '/' + relation.coach_id} className="mt-auto inline-flex w-fit items-center gap-2 pt-5 text-[11px] font-bold text-[#4e642e] hover:gap-3">
                   View coach profile <span aria-hidden="true">→</span>
                 </Link>
               </>
@@ -147,7 +149,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
             </div>
             <Link to="/coaches" className="text-[10px] font-bold text-[#526a2e] hover:underline">View coach directory →</Link>
           </div>
-          {isPreview ? (
+          {preview ? (
             <div className="mt-4 grid gap-3 md:grid-cols-2">
               {plans.map((plan) => (
                 <article key={plan.plan_id} className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
