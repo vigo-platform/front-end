@@ -17,7 +17,7 @@ function formatDate(value?: string | null) {
 
 function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
   const { user, preview: previewContext } = useAuth()
-  const preview = preview || previewContext
+  const preview = isPreview || previewContext
   const coachPath = preview ? '/_preview/coach' : '/coach'
   const firstName = user?.display_name?.trim().split(/\s+/)[0] || 'Coach'
   const draft = loadWorkoutDraft()
@@ -157,7 +157,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
               <p className="mt-2 text-[10px] leading-5 text-[#77786f]">Browse the current exercise interface and sample movement catalog.</p>
               <span className="mt-5 inline-flex gap-2 text-[10px] font-bold text-[#526a2e] group-hover:gap-3">Open library →</span>
             </Link>
-            <Link to="/coach/workouts/new" className="group rounded-[18px] border border-[#e1e1da] bg-white p-5 transition hover:-translate-y-1 hover:border-[#cbd9b3] hover:shadow-[0_14px_32px_rgba(35,42,23,0.06)]">
+            <Link to={coachPath + '/workouts/new'} className="group rounded-[18px] border border-[#e1e1da] bg-white p-5 transition hover:-translate-y-1 hover:border-[#cbd9b3] hover:shadow-[0_14px_32px_rgba(35,42,23,0.06)]">
               <span className="text-[9px] font-bold tracking-[1.5px] text-[#96978d]">02 / BUILDER</span>
               <h3 className="mt-5 text-[15px] font-bold text-[#20211d]">Workout builder</h3>
               <p className="mt-2 text-[10px] leading-5 text-[#77786f]">Arrange exercises, sets, reps, and rest periods in a local draft.</p>
