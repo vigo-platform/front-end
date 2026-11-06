@@ -1,20 +1,11 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { ApiError } from '../../../lib/api/client'
 import { authService } from '../services/auth.service'
 import type { TokenPair } from '../types/auth.types'
 import { userService } from '../../user/services/user.service'
 import type { UserProfile } from '../../user/types/user.types'
+import { AuthContext } from './auth-context'
 
-interface AuthContextValue {
-  accessToken: string | null
-  user: UserProfile | null
-  isAuthenticated: boolean
-  isInitializing: boolean
-  signIn: (tokens: TokenPair) => Promise<void>
-  signOut: () => Promise<void>
-  refreshSession: () => Promise<boolean>
-}
-const AuthContext = createContext<AuthContextValue | null>(null)
 const ACCESS_KEY = 'vigo.accessToken'
 const REFRESH_KEY = 'vigo.refreshToken'
 
@@ -139,10 +130,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }), [accessToken, user, isInitializing, signIn, signOut, refreshSession])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext)
-  if (!context) throw new Error('useAuth must be used inside AuthProvider')
-  return context
 }

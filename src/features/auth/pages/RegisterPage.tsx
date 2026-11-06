@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthLayout from '../components/AuthLayout'
 import OtpChannelSelector from '../components/OtpChannelSelector'
@@ -6,7 +6,7 @@ import { authService } from '../services/auth.service'
 import { ApiError } from '../../../lib/api/client'
 import { useAuthConfig } from '../hooks/useAuthConfig'
 import type { OtpChannel } from '../types/auth-config.types'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../context/auth-context'
 
 type RegisterStep = 'IDENTIFIER' | 'VERIFY' | 'COMPLETE' | 'SUCCESS'
 
@@ -41,15 +41,6 @@ function RegisterPage() {
     : availableChannels[0]
 
   const isEmail = activeChannel === 'EMAIL'
-
-  useEffect(() => {
-    if (
-      availableChannels.length > 0 &&
-      !availableChannels.includes(selectedChannel)
-    ) {
-      setSelectedChannel(availableChannels[0])
-    }
-  }, [availableChannels, selectedChannel])
 
   function handleError(error: unknown) {
     if (error instanceof ApiError) {

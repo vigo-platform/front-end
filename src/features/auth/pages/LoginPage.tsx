@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthLayout from '../components/AuthLayout'
 import OtpChannelSelector from '../components/OtpChannelSelector'
@@ -6,8 +6,8 @@ import { authService } from '../services/auth.service'
 import { ApiError } from '../../../lib/api/client'
 import { useAuthConfig } from '../hooks/useAuthConfig'
 import type { OtpChannel } from '../types/auth-config.types'
-import { useAuth } from '../context/AuthContext'
 import PasswordLoginForm from '../components/PasswordLoginForm'
+import { useAuth } from '../context/auth-context'
 
 type LoginStep = 'IDENTIFIER' | 'VERIFY' | 'NEW_PASSWORD'
 
@@ -35,15 +35,6 @@ function LoginPage() {
   const activeChannel = availableChannels.includes(selectedChannel)
     ? selectedChannel
     : availableChannels[0]
-
-  useEffect(() => {
-    if (
-      availableChannels.length > 0 &&
-      !availableChannels.includes(selectedChannel)
-    ) {
-      setSelectedChannel(availableChannels[0])
-    }
-  }, [availableChannels, selectedChannel])
 
   function handleError(error: unknown) {
     if (error instanceof ApiError) {

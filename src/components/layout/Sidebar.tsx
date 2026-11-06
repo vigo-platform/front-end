@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../../features/auth/context/AuthContext'
+import { useAuth } from '../../features/auth/context/auth-context'
 
 const athleteNavigationItems = [
   { label: 'Dashboard', href: '/athlete' },

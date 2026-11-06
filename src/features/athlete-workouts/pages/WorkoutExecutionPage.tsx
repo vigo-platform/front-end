@@ -56,6 +56,8 @@ function WorkoutExecutionPage() {
     )
   }
 
+  const currentWorkout = workout
+
   if (existingResult) {
     return (
       <AppShell title="Workout completed">
@@ -93,7 +95,7 @@ function WorkoutExecutionPage() {
 
     const results: ExerciseSetResult[] = []
 
-    for (const exercise of workout.exercises) {
+    for (const exercise of currentWorkout.exercises) {
       for (let setNumber = 1; setNumber <= exercise.sets; setNumber += 1) {
         const key = `${exercise.exercise_id}-${setNumber}`
         const input = inputs[key]
@@ -132,11 +134,11 @@ function WorkoutExecutionPage() {
     setIsSubmitting(true)
     try {
       submitWorkoutResult({
-        workout_id: workout.id,
+        workout_id: currentWorkout.id,
         completed_at: new Date().toISOString(),
         sets: results,
       })
-      clearExecutionDraft(workout.id)
+      clearExecutionDraft(currentWorkout.id)
       navigate('/workouts', { replace: true })
     } catch (submitError) {
       setError(

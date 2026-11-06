@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ApiError } from '../../../lib/api/client'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../context/auth-context'
 import { authService } from '../services/auth.service'
 
 type Step = 'CREDENTIALS' | 'VERIFY' | 'NEW_PASSWORD'
