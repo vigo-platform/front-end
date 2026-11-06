@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import AppShell from '../../../shared/components/layout/AppShell'
 import { useAuth } from '../../auth/context/auth-context'
 import { coachService } from '../../coaches/services/coach.service'
+import { previewCoachProfile as defaultPreviewCoachProfile } from '../../auth/data/dashboard-preview'
 import type { CoachProfile, CoachProfileRequest } from '../../coaches/types/coach.types'
 import { userService } from '../services/user.service'
 import type { Gender, UpdateProfileRequest } from '../types/user.types'
@@ -15,24 +16,26 @@ const fieldClass = 'mt-2 w-full rounded-xl border border-[#e2e3dc] bg-[#fbfbf9] 
 const labelClass = 'text-[10px] font-semibold uppercase tracking-[1px] text-[#77796f]'
 
 function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProps) {
-  const { accessToken, user, updateUser } = useAuth()
+  const { accessToken, user, updateUser, isPreview: previewContext } = useAuth()
+  const previewMode = isPreview || Boolean(previewContext)
+  const initialCoachProfile = previewCoachProfile ?? (previewMode ? defaultPreviewCoachProfile : null)
   const isCoach = user?.role === 'COACH'
   const [displayName, setDisplayName] = useState(user?.display_name ?? '')
   const [birthDate, setBirthDate] = useState(user?.birth_date ?? '')
   const [gender, setGender] = useState<Gender | ''>(user?.gender ?? '')
-  const [coachProfile, setCoachProfile] = useState<CoachProfile | null>(previewCoachProfile ?? null)
-  const [headline, setHeadline] = useState(previewCoachProfile?.headline ?? '')
-  const [bio, setBio] = useState(previewCoachProfile?.bio ?? '')
-  const [specialties, setSpecialties] = useState(previewCoachProfile?.specialties.join(', ') ?? '')
-  const [experienceYears, setExperienceYears] = useState(String(previewCoachProfile?.experience_years ?? 0))
-  const [instagram, setInstagram] = useState(previewCoachProfile?.instagram_handle ?? '')
+  const [coachProfile, setCoachProfile] = useState<CoachProfile | null>(initialCoachProfile)
+  const [headline, setHeadline] = useState(initialCoachProfile?.headline ?? '')
+  const [bio, setBio] = useState(initialCoachProfile?.bio ?? '')
+  const [specialties, setSpecialties] = useState(initialCoachProfile?.specialties.join(', ') ?? '')
+  const [experienceYears, setExperienceYears] = useState(String(initialCoachProfile?.experience_years ?? 0))
+  const [instagram, setInstagram] = useState(initialCoachProfile?.instagram_handle ?? '')
   const [isLoadingCoach, setIsLoadingCoach] = useState(isCoach && !isPreview)
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 
   useEffect(() => {
-    if (!isCoach || isPreview || !accessToken) return
+    if (!isCoach || previewMode || !accessToken) return
     let active = true
     setIsLoadingCoach(true)
     coachService.getMyProfile(accessToken)
@@ -53,7 +56,7 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
         if (active) setIsLoadingCoach(false)
       })
     return () => { active = false }
-  }, [accessToken, isCoach, isPreview])
+  }, [accessToken, isCoach, previewMode])
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -94,7 +97,7 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
         ...(gender ? { gender } : {}),
       }
 
-      if (isPreview) {
+      if (previewMode) {
         if (!user) throw new Error('Preview user is unavailable.')
         updateUser({
           ...user,
