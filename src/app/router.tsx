@@ -5,6 +5,7 @@ import ExerciseLibraryPage from '../features/workouts/pages/ExerciseLibraryPage'
 import WorkoutBuilderPage from '../features/workouts/pages/WorkoutBuilderPage'
 import CoachWorkoutsPage from '../features/workouts/pages/CoachWorkoutsPage'
 import AthleteDashboardPage from '../features/athlete-workouts/pages/AthleteDashboardPage'
+import AthleteWorkoutsPage from '../features/athlete-workouts/pages/AthleteWorkoutsPage'
 import WorkoutExecutionPage from '../features/athlete-workouts/pages/WorkoutExecutionPage'
 import CoachDirectoryPage from '../features/coaches/pages/CoachDirectoryPage'
 import CoachProfilePage from '../features/coaches/pages/CoachProfilePage'
@@ -16,6 +17,7 @@ import RequireAuth from '../features/auth/components/RequireAuth'
 import { useAuth } from '../features/auth/context/auth-context'
 import DashboardPreviewRoute from '../features/auth/components/DashboardPreviewRoute'
 import ProfilePreviewRoute from '../features/auth/components/ProfilePreviewRoute'
+import PreviewWorkspaceRoute from '../features/auth/components/PreviewWorkspaceRoute'
 import ProfilePage from '../features/user/pages/ProfilePage'
 
 function PublicOnly({ children }: { children: ReactNode }) {
@@ -46,10 +48,27 @@ function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<PublicLandingPage />} />
-      {import.meta.env.DEV && <Route path="/_preview/athlete" element={<DashboardPreviewRoute role="ATHLETE" />} />}
-      {import.meta.env.DEV && <Route path="/_preview/coach" element={<DashboardPreviewRoute role="COACH" />} />}
-      {import.meta.env.DEV && <Route path="/_preview/profile/athlete" element={<ProfilePreviewRoute role="ATHLETE" />} />}
-      {import.meta.env.DEV && <Route path="/_preview/profile/coach" element={<ProfilePreviewRoute role="COACH" />} />}
+      {import.meta.env.DEV && (
+        <>
+          <Route path="/_preview/athlete" element={<PreviewWorkspaceRoute role="ATHLETE" />}>
+            <Route index element={<AthleteDashboardPage isPreview />} />
+            <Route path="profile" element={<ProfilePage isPreview />} />
+            <Route path="workouts" element={<AthleteWorkoutsPage />} />
+            <Route path="workouts/:workoutId" element={<WorkoutExecutionPage />} />
+            <Route path="coaches" element={<CoachDirectoryPage />} />
+            <Route path="coaches/:coachId" element={<CoachProfilePage />} />
+          </Route>
+          <Route path="/_preview/coach" element={<PreviewWorkspaceRoute role="COACH" />}>
+            <Route index element={<CoachDashboardPage isPreview />} />
+            <Route path="profile" element={<ProfilePage isPreview />} />
+            <Route path="exercises" element={<ExerciseLibraryPage />} />
+            <Route path="workouts" element={<CoachWorkoutsPage />} />
+            <Route path="workouts/new" element={<WorkoutBuilderPage />} />
+          </Route>
+          <Route path="/_preview/profile/athlete" element={<ProfilePreviewRoute role="ATHLETE" />} />
+          <Route path="/_preview/profile/coach" element={<ProfilePreviewRoute role="COACH" />} />
+        </>
+      )}
       <Route path="/login" element={<PublicOnly><LoginPage /></PublicOnly>} />
       <Route path="/register" element={<PublicOnly><RegisterPage /></PublicOnly>} />
       <Route path="/forgot-password" element={<PublicOnly><ForgotPasswordPage /></PublicOnly>} />
