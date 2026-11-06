@@ -16,7 +16,7 @@ export interface CoachProfileRequest {
 export interface CoachProfile extends CoachProfileRequest {
   coach_id: string
   avatar_url?: string | null
-  status?: 'PENDING' | 'APPROVED' | 'REJECTED' | 'SUSPENDED'
+  status?: 'PENDING' | 'APPROVED' | 'REJECTED'
   rejection_reason?: string | null
   min_plan_price?: number | null
   active_athletes_count?: number
