@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AppShell from '../../../shared/components/layout/AppShell'
+import { useAuth } from '../../auth/context/auth-context'
 import { exerciseLibrary } from '../data/exercises'
 import { loadWorkoutDraft, saveWorkoutDraft } from '../services/workout-draft.service'
 import type { ExerciseCategory } from '../types/workout.types'
@@ -16,6 +17,8 @@ const categoryLabels: Record<CategoryFilter, string> = {
 }
 
 function ExerciseLibraryPage() {
+  const { isPreview } = useAuth()
+  const coachPath = isPreview ? '/_preview/coach' : '/coach'
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState<CategoryFilter>('ALL')
   const [selectedIds, setSelectedIds] = useState<string[]>(() =>
@@ -63,7 +66,7 @@ function ExerciseLibraryPage() {
       <div className="mx-auto w-full max-w-6xl space-y-7">
         <section className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <Link to="/coach" className="text-sm font-medium text-muted hover:text-ink">
+            <Link to={coachPath} className="text-sm font-medium text-muted hover:text-ink">
               ← Coach workspace
             </Link>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight">
@@ -74,7 +77,7 @@ function ExerciseLibraryPage() {
             </p>
           </div>
           <Link
-            to="/coach/workouts/new"
+            to={coachPath + '/workouts/new'}
             className="inline-flex h-11 items-center justify-center rounded-full bg-ink px-5 text-sm font-semibold text-white transition hover:bg-[#30352a]"
           >
             Open workout builder ({selectedIds.length})
