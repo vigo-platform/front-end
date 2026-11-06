@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import AppShell from '../../../components/layout/AppShell'
+import AppShell from '../../../shared/components/layout/AppShell'
 import { exerciseLibrary } from '../data/exercises'
 import { loadWorkoutDraft, saveWorkoutDraft } from '../services/workout-draft.service'
 import type { WorkoutDraft } from '../types/workout.types'
