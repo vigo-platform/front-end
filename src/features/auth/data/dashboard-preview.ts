@@ -1,4 +1,5 @@
 import type { UserProfile } from '../../user/types/user.types'
+import type { CoachProfile } from '../../coaches/types/coach.types'
 
 export const previewAthlete: UserProfile = {
   user_id: '00000000-0000-4000-8000-000000000101',
@@ -87,3 +88,22 @@ export const previewCoachPlans = [
     status: 'ACTIVE' as const,
   },
 ]
+
+export const previewCoachProfile: CoachProfile = {
+  coach_id: previewCoach.user_id,
+  display_name: previewCoach.display_name ?? 'Jordan Davis',
+  headline: 'Strength & Conditioning Coach',
+  bio: 'I help athletes build sustainable strength, improve movement quality, and develop consistent training habits through structured coaching.',
+  specialties: ['Strength Training', 'Conditioning', 'Mobility'],
+  experience_years: 8,
+  certifications: [{ title: 'Certified Strength and Conditioning Specialist', issuer: 'NSCA', year: 2021 }],
+  instagram_handle: 'jordan.moves',
+  result_image_urls: [],
+  avatar_url: null,
+  status: 'APPROVED',
+  rejection_reason: null,
+  min_plan_price: 1200000,
+  active_athletes_count: 3,
+  created_at: '2024-03-12T09:30:00Z',
+  updated_at: '2026-10-28T12:00:00Z',
+}
