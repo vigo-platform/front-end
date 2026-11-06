@@ -9,6 +9,7 @@ const athleteNavigationItems: NavigationItem[] = [
   { label: 'Dashboard', href: '/athlete' },
   { label: 'My Workouts', href: '/athlete#workouts' },
   { label: 'Discover Coaches', href: '/coaches' },
+  { label: 'My Profile', href: '/profile' },
 ]
 
 const coachNavigationItems: NavigationItem[] = [
@@ -16,6 +17,7 @@ const coachNavigationItems: NavigationItem[] = [
   { label: 'Exercise Library', href: '/coach/exercises' },
   { label: 'My Workouts', href: '/coach/workouts' },
   { label: 'Workout Builder', href: '/coach/workouts/new' },
+  { label: 'My Profile', href: '/profile' },
 ]
 
 export function getNavigationItems(role: UserRole | null | undefined) {
