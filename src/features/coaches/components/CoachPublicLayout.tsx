@@ -22,12 +22,16 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
             <Link to={coachesPath} className="text-xs font-semibold text-muted transition hover:text-ink">
               Find a coach
             </Link>
-            <Link to="/login" className="text-xs font-semibold text-muted transition hover:text-ink">
-              Log in
-            </Link>
-            <Link to="/register" className="rounded-full bg-ink px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-[#30352a]">
-              Get started
-            </Link>
+            {!isPreview && (
+              <>
+                <Link to="/login" className="text-xs font-semibold text-muted transition hover:text-ink">
+                  Log in
+                </Link>
+                <Link to="/register" className="rounded-full bg-ink px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-[#30352a]">
+                  Get started
+                </Link>
+              </>
+            )}
           </nav>
         </div>
       </header>
