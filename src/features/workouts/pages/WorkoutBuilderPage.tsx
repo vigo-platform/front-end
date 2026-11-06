@@ -152,7 +152,7 @@ function WorkoutBuilderPage() {
                     Choose exercises from the library to start building.
                   </p>
                   <Link
-                    to="/coach/exercises"
+                    to={coachPath + '/exercises'}
                     className="mt-4 inline-flex rounded-full bg-ink px-4 py-2.5 text-xs font-semibold text-white"
                   >
                     Browse exercises
