@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { AuthContext } from '../context/auth-context'
 import type { AuthContextValue } from '../context/auth-context'
 import type { UserRole } from '../../user/types/user.types'
@@ -11,7 +11,8 @@ interface DashboardPreviewRouteProps {
 }
 
 function DashboardPreviewRoute({ role }: DashboardPreviewRouteProps) {
-  const user = role === 'COACH' ? previewCoach : previewAthlete
+  const initialUser = role === 'COACH' ? previewCoach : previewAthlete
+  const [user, setUser] = useState(initialUser)
   const previewAuth: AuthContextValue = {
     accessToken: 'preview-token',
     user,
@@ -20,6 +21,7 @@ function DashboardPreviewRoute({ role }: DashboardPreviewRouteProps) {
     signIn: async () => undefined,
     signOut: async () => undefined,
     refreshSession: async () => true,
+    updateUser: setUser,
   }
   const dashboard: ReactNode =
     role === 'COACH'
