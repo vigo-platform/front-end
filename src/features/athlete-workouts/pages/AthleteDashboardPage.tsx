@@ -147,7 +147,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
               <h2 className="mt-2 text-[22px] font-bold tracking-[-0.8px] text-[#20211d]">Coaching plans</h2>
               <p className="mt-1 text-[12px] text-[#77786f]">Public plans published by coaches.</p>
             </div>
-            <Link to="/coaches" className="text-[10px] font-bold text-[#526a2e] hover:underline">View coach directory →</Link>
+            <Link to={coachesPath} className="text-[10px] font-bold text-[#526a2e] hover:underline">View coach directory →</Link>
           </div>
           {preview ? (
             <div className="mt-4 grid gap-3 md:grid-cols-2">
