@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import AppShell from '../../../components/layout/AppShell'
+import CoachPublicLayout from '../components/CoachPublicLayout'
 import { coachService } from '../services/coach.service'
 import type { CoachPlan, CoachProfile } from '../types/coach.types'
 
@@ -52,7 +52,7 @@ function CoachProfilePage() {
   const avatarUrl = getAvatarUrl(coach?.avatar_url)
 
   return (
-    <AppShell title="Coach profile">
+    <CoachPublicLayout title="Coach profile">
       <div className="mx-auto w-full max-w-5xl space-y-6">
         <Link to="/coaches" className="inline-flex text-sm font-medium text-muted hover:text-ink">
           ← Back to coaches
@@ -173,7 +173,7 @@ function CoachProfilePage() {
           </>
         )}
       </div>
-    </AppShell>
+    </CoachPublicLayout>
   )
 }
 

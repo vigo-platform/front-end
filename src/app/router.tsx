@@ -50,8 +50,8 @@ function AppRouter() {
       <Route path="/athlete" element={<RequireAuth allowedRoles={['ATHLETE']}><AthleteDashboardPage /></RequireAuth>} />
       <Route path="/workouts" element={<RequireAuth allowedRoles={['ATHLETE']}><AthleteDashboardPage /></RequireAuth>} />
       <Route path="/workouts/:workoutId" element={<RequireAuth allowedRoles={['ATHLETE']}><WorkoutExecutionPage /></RequireAuth>} />
-      <Route path="/coaches" element={<RequireAuth allowedRoles={['ATHLETE']}><CoachDirectoryPage /></RequireAuth>} />
-      <Route path="/coaches/:coachId" element={<RequireAuth allowedRoles={['ATHLETE']}><CoachProfilePage /></RequireAuth>} />
+      <Route path="/coaches" element={<CoachDirectoryPage />} />
+      <Route path="/coaches/:coachId" element={<CoachProfilePage />} />
       <Route path="/coach" element={<RequireAuth allowedRoles={['COACH']}><CoachDashboardPage /></RequireAuth>} />
       <Route path="/coach/exercises" element={<RequireAuth allowedRoles={['COACH']}><ExerciseLibraryPage /></RequireAuth>} />
       <Route path="/coach/workouts" element={<RequireAuth allowedRoles={['COACH']}><CoachWorkoutsPage /></RequireAuth>} />

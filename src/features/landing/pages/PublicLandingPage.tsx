@@ -246,6 +246,9 @@ function PublicLandingPage() {
           </nav>
 
           <div className="hidden items-center gap-5 md:flex">
+            <Link to="/coaches" className="text-[12px] font-semibold text-ink transition hover:text-[#6d8c36]">
+              Find a coach
+            </Link>
             <Link to="/login" className="text-[12px] font-semibold text-ink transition hover:text-[#6d8c36]">
               Log in
             </Link>
@@ -284,7 +287,8 @@ function PublicLandingPage() {
                   {item.label}
                 </a>
               ))}
-              <div className="flex gap-4 border-t border-border pt-4">
+              <div className="flex flex-wrap gap-4 border-t border-border pt-4">
+                <Link to="/coaches" onClick={closeMenu} className="text-sm font-semibold text-[#6b8c31]">Find a coach</Link>
                 <Link to="/login" onClick={closeMenu} className="text-sm font-semibold">Log in</Link>
                 <Link to="/register" onClick={closeMenu} className="text-sm font-semibold text-[#6b8c31]">Get started</Link>
               </div>

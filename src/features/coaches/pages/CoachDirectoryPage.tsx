@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import AppShell from '../../../components/layout/AppShell'
+import CoachPublicLayout from '../components/CoachPublicLayout'
 import { coachService } from '../services/coach.service'
 import type { CoachPage, CoachSearchParams, CoachSort } from '../types/coach.types'
 
@@ -96,7 +96,7 @@ function CoachDirectoryPage() {
   }
 
   return (
-    <AppShell title="Discover coaches">
+    <CoachPublicLayout title="Discover coaches">
       <div className="mx-auto w-full max-w-6xl space-y-7">
         <section>
           <p className="text-xs font-semibold uppercase tracking-[1.7px] text-[#718d43]">Find your coach</p>
@@ -281,7 +281,7 @@ function CoachDirectoryPage() {
           </>
         ) : null}
       </div>
-    </AppShell>
+    </CoachPublicLayout>
   )
 }
 
