@@ -84,6 +84,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [accessToken])
 
+  const updateUser = useCallback((nextUser: UserProfile) => {
+    setUser(nextUser)
+  }, [])
+
   useEffect(() => {
     let active = true
     async function restore() {
@@ -127,7 +131,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     signIn,
     signOut,
     refreshSession,
-  }), [accessToken, user, isInitializing, signIn, signOut, refreshSession])
+    updateUser,
+  }), [accessToken, user, isInitializing, signIn, signOut, refreshSession, updateUser])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
