@@ -1,12 +1,18 @@
 import { Link } from 'react-router-dom'
 import AppShell from '../../../shared/components/layout/AppShell'
 import { useAuth } from '../../auth/context/auth-context'
+import { previewCoachPlans, previewCoachRelations } from '../../auth/data/dashboard-preview'
+import { loadWorkoutDraft } from '../services/workout-draft.service'
 
-function formatMemberSince(value?: string) {
+interface CoachDashboardPageProps {
+  isPreview?: boolean
+}
+
+function formatDate(value?: string | null) {
   if (!value) return '—'
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return '—'
-  return new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(date)
+  return new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric' }).format(date)
 }
 
 const workspaceLinks = [
@@ -14,147 +20,174 @@ const workspaceLinks = [
     number: '01',
     eyebrow: 'Exercise workspace',
     title: 'Exercise library',
-    description: 'Browse the current exercise interface and explore its sample movement catalog.',
+    description: 'Explore the sample movement catalog and choose exercises for a workout.',
     href: '/coach/exercises',
-    action: 'Open library',
+    action: 'Browse exercises',
+    mark: 'EX',
   },
   {
     number: '02',
     eyebrow: 'Workout workspace',
     title: 'Workout builder',
-    description: 'Explore the workout draft builder and organize exercises, sets, reps, and rest periods.',
+    description: 'Arrange exercises and configure sets, reps, and rest periods in a draft.',
     href: '/coach/workouts/new',
-    action: 'Open builder',
+    action: 'Build a workout',
+    mark: 'WB',
   },
   {
     number: '03',
-    eyebrow: 'Saved locally',
+    eyebrow: 'Saved in this browser',
     title: 'My workouts',
-    description: 'Return to the workout draft saved in this browser.',
+    description: 'Continue editing the workout draft stored locally on this device.',
     href: '/coach/workouts',
-    action: 'View drafts',
+    action: 'Open drafts',
+    mark: 'DR',
   },
 ]
 
-function CoachDashboardPage() {
+function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
   const { user } = useAuth()
-  const displayName = user?.display_name?.trim() || 'Coach'
-  const firstName = displayName.split(/\s+/)[0]
+  const firstName = user?.display_name?.trim().split(/\s+/)[0] || 'Coach'
+  const draft = loadWorkoutDraft()
+  const activeAthletes = isPreview
+    ? previewCoachRelations.filter((relation) => relation.status === 'ACTIVE')
+    : []
+  const activePlans = isPreview
+    ? previewCoachPlans.filter((plan) => plan.status === 'ACTIVE')
+    : []
 
   return (
     <AppShell title="Overview">
-      <div className="mx-auto w-full max-w-[1240px] space-y-8">
-        <section className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+      <div className="mx-auto w-full max-w-[1180px] space-y-7">
+        <section className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
           <div>
-            <p className="text-[9px] font-bold uppercase tracking-[2px] text-[#82975e]">Coach space</p>
-            <h1 className="mt-3 text-[32px] font-bold leading-tight tracking-[-1.5px] text-[#171815] sm:text-[38px]">
-              Good to see you, {firstName}.
+            <p className="text-[9px] font-bold uppercase tracking-[2px] text-[#82975e]">Coach workspace</p>
+            <h1 className="mt-3 text-[32px] font-bold leading-[1.08] tracking-[-1.5px] text-[#171815] sm:text-[40px]">
+              Welcome back, {firstName}.
             </h1>
-            <p className="mt-2 max-w-xl text-[13px] leading-6 text-[#77786f]">
-              Your coaching workspace, with your account details and the tools currently available in this MVP.
+            <p className="mt-2 text-[13px] leading-6 text-[#77786f]">
+              Manage your coaching resources and keep your training content organized.
             </p>
           </div>
-          <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#dedfd6] bg-white px-4 py-2.5">
-            <span className={`h-2 w-2 rounded-full ${user?.status === 'ACTIVE' ? 'bg-[#a7d94e]' : 'bg-[#d99b67]'}`} />
-            <span className="text-[9px] font-bold uppercase tracking-[1px] text-[#55564e]">
-              Account {user?.status?.toLowerCase() || 'status unavailable'}
-            </span>
-          </div>
+          <span className={`inline-flex w-fit items-center gap-2 rounded-full border px-3.5 py-2 text-[9px] font-bold uppercase tracking-[1px] ${user?.status === 'ACTIVE' ? 'border-[#dce8c8] bg-[#f2f8e8] text-[#526a2e]' : 'border-[#e8dfd6] bg-white text-[#8c694b]'}`}>
+            <span className={`h-1.5 w-1.5 rounded-full ${user?.status === 'ACTIVE' ? 'bg-[#9bcf43]' : 'bg-[#c58a5d]'}`} />
+            {user?.status || 'Status unavailable'}
+          </span>
         </section>
 
-        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          <article className="rounded-[20px] border border-[#e1e1da] bg-white p-5 sm:p-6">
-            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Workspace role</p>
-            <p className="mt-5 text-[24px] font-bold tracking-[-0.8px]">Coach</p>
-            <p className="mt-1 text-[11px] text-[#898a81]">Your current Vigo role</p>
+        <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5">
+            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Active athletes</p>
+            <p className="mt-4 text-[28px] font-bold tracking-[-1px] text-[#20211d]">{isPreview ? activeAthletes.length.toString().padStart(2, '0') : '—'}</p>
+            <p className="mt-1 text-[10px] text-[#898a81]">Coach–athlete relations</p>
           </article>
-          <article className="rounded-[20px] border border-[#e1e1da] bg-white p-5 sm:p-6">
+          <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5">
+            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Active plans</p>
+            <p className="mt-4 text-[28px] font-bold tracking-[-1px] text-[#20211d]">{isPreview ? activePlans.length.toString().padStart(2, '0') : '—'}</p>
+            <p className="mt-1 text-[10px] text-[#898a81]">Published coaching plans</p>
+          </article>
+          <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5">
+            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Draft exercises</p>
+            <p className="mt-4 text-[28px] font-bold tracking-[-1px] text-[#20211d]">{draft.exercises.length.toString().padStart(2, '0')}</p>
+            <p className="mt-1 text-[10px] text-[#898a81]">Saved in this browser</p>
+          </article>
+          <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Member since</p>
-            <p className="mt-5 text-[24px] font-bold tracking-[-0.8px]">{formatMemberSince(user?.created_at)}</p>
-            <p className="mt-1 text-[11px] text-[#898a81]">Based on your account creation date</p>
-          </article>
-          <article className="rounded-[20px] border border-[#e1e1da] bg-white p-5 sm:col-span-2 sm:p-6 xl:col-span-1">
-            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Account profile</p>
-            <p className="mt-5 truncate text-[18px] font-bold tracking-[-0.5px]">{user?.display_name || 'Profile name unavailable'}</p>
-            <p className="mt-1 truncate text-[11px] text-[#898a81]">{user?.email || 'Email unavailable'}</p>
+            <p className="mt-4 text-[19px] font-bold tracking-[-0.6px] text-[#20211d]">{formatDate(user?.created_at)}</p>
+            <p className="mt-1 text-[10px] text-[#898a81]">Account creation date</p>
           </article>
         </section>
 
-        <section className="relative overflow-hidden rounded-[22px] bg-[#171916] p-7 text-white sm:p-9">
-          <div className="pointer-events-none absolute -right-16 -top-24 h-72 w-72 rounded-full border-[42px] border-white/[0.035]" />
+        <section className="relative overflow-hidden rounded-[24px] bg-[#171916] p-7 text-white sm:p-9">
+          <div aria-hidden="true" className="pointer-events-none absolute -right-20 -top-28 h-[360px] w-[360px] rounded-full border-[54px] border-white/[0.035]" />
           <div className="relative max-w-2xl">
             <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[1.2px] text-[#d8e9bc]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#c7f36b]" />
-              Your workspace
+              Coaching workspace
             </span>
-            <h2 className="mt-6 text-[27px] font-bold leading-[1.15] tracking-[-1px] sm:text-[32px]">
-              Build your coaching workflow.
+            <h2 className="mt-6 max-w-xl text-[28px] font-bold leading-[1.12] tracking-[-1.1px] sm:text-[34px]">
+              Turn your expertise into a clear training plan.
             </h2>
-            <p className="mt-3 max-w-xl text-[12px] leading-6 text-white/55">
-              The current MVP includes the exercise and workout draft interfaces. Publishing plans, assigning athletes, and managing coaching relationships need their dedicated backend endpoints.
+            <p className="mt-3 max-w-xl text-[12px] leading-6 text-white/60">
+              Build a structured workout draft, organize your exercise library, and prepare your coaching content.
             </p>
+            <Link to="/coach/workouts/new" className="mt-7 inline-flex h-11 items-center gap-3 rounded-full bg-[#c7f36b] px-5 text-[11px] font-bold text-[#171914] transition hover:bg-[#d4fa83]">
+              Open workout builder <span aria-hidden="true">→</span>
+            </Link>
           </div>
-          <span aria-hidden="true" className="pointer-events-none absolute bottom-1 right-8 text-[110px] font-black leading-none tracking-[-12px] text-white/[0.045]">V</span>
+          <span aria-hidden="true" className="pointer-events-none absolute bottom-0 right-8 text-[150px] font-black leading-none tracking-[-16px] text-white/[0.045]">V</span>
         </section>
 
         <section>
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">Available tools</p>
-              <h2 className="mt-2 text-[22px] font-bold tracking-[-0.8px]">Your coaching workspace</h2>
-              <p className="mt-1 text-[12px] text-[#77786f]">These interfaces are currently local previews, not server-synced coaching tools.</p>
+              <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">Your tools</p>
+              <h2 className="mt-2 text-[22px] font-bold tracking-[-0.8px] text-[#20211d]">Coaching workspace</h2>
             </div>
+            <span className="text-[10px] text-[#92938a]">Drafts are stored locally until Workout APIs are available.</span>
           </div>
-
-          <div className="mt-5 grid gap-4 lg:grid-cols-3">
+          <div className="mt-4 grid gap-4 lg:grid-cols-3">
             {workspaceLinks.map((item) => (
-              <article key={item.href} className="group flex min-h-[230px] flex-col rounded-[20px] border border-[#e1e1da] bg-white p-6 transition hover:-translate-y-1 hover:shadow-[0_16px_38px_rgba(35,42,23,0.07)]">
+              <Link key={item.href} to={item.href} className="group flex min-h-[205px] flex-col rounded-[20px] border border-[#e1e1da] bg-white p-6 transition hover:-translate-y-1 hover:border-[#cbd9b3] hover:shadow-[0_16px_38px_rgba(35,42,23,0.07)]">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-bold tracking-[1.5px] text-[#96978d]">{item.number}</span>
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f0f3e9] text-[13px] text-[#60783a] transition group-hover:bg-[#c7f36b]">↗</span>
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f0f3e9] text-[9px] font-bold text-[#60783a] transition group-hover:bg-[#c7f36b]">{item.mark}</span>
                 </div>
-                <p className="mt-7 text-[9px] font-bold uppercase tracking-[1.2px] text-[#82975e]">{item.eyebrow}</p>
-                <h3 className="mt-2 text-[18px] font-bold tracking-[-0.5px]">{item.title}</h3>
+                <p className="mt-6 text-[9px] font-bold uppercase tracking-[1.2px] text-[#82975e]">{item.eyebrow}</p>
+                <h3 className="mt-2 text-[18px] font-bold tracking-[-0.5px] text-[#20211d]">{item.title}</h3>
                 <p className="mt-2 text-[11px] leading-5 text-[#77786f]">{item.description}</p>
-                <Link to={item.href} className="mt-auto inline-flex w-fit items-center gap-2 pt-6 text-[11px] font-bold text-[#4e642e] transition group-hover:gap-3">
+                <span className="mt-auto inline-flex w-fit items-center gap-2 pt-5 text-[11px] font-bold text-[#4e642e] transition group-hover:gap-3">
                   {item.action} <span aria-hidden="true">→</span>
-                </Link>
-              </article>
+                </span>
+              </Link>
             ))}
           </div>
         </section>
 
         <section className="grid gap-4 lg:grid-cols-[1fr_1fr]">
           <article className="rounded-[20px] border border-[#e1e1da] bg-white p-6 sm:p-7">
-            <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">Account details</p>
-            <h2 className="mt-3 text-[19px] font-bold tracking-[-0.5px]">Your information</h2>
-            <dl className="mt-5 space-y-4">
-              <div className="flex items-start justify-between gap-4 border-b border-[#eeeeea] pb-3">
-                <dt className="text-[11px] text-[#888980]">Email</dt>
-                <dd className="max-w-[65%] break-all text-right text-[11px] font-semibold text-[#34352f]">{user?.email || '—'}</dd>
+            <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">Account profile</p>
+            <h2 className="mt-2 text-[18px] font-bold tracking-[-0.5px]">Your details</h2>
+            <dl className="mt-5 grid gap-4 sm:grid-cols-2">
+              <div className="min-w-0">
+                <dt className="text-[10px] text-[#92938a]">Full name</dt>
+                <dd className="mt-1 truncate text-[12px] font-semibold text-[#34352f]">{user?.display_name || '—'}</dd>
               </div>
-              <div className="flex items-start justify-between gap-4 border-b border-[#eeeeea] pb-3">
-                <dt className="text-[11px] text-[#888980]">Phone</dt>
-                <dd className="text-right text-[11px] font-semibold text-[#34352f]">{user?.phone || 'Not provided'}</dd>
+              <div className="min-w-0">
+                <dt className="text-[10px] text-[#92938a]">Email address</dt>
+                <dd className="mt-1 break-all text-[12px] font-semibold text-[#34352f]">{user?.email || '—'}</dd>
               </div>
-              <div className="flex items-start justify-between gap-4">
-                <dt className="text-[11px] text-[#888980]">Account status</dt>
-                <dd className="text-right text-[11px] font-semibold text-[#34352f]">{user?.status || '—'}</dd>
+              <div className="min-w-0">
+                <dt className="text-[10px] text-[#92938a]">Phone</dt>
+                <dd className="mt-1 text-[12px] font-semibold text-[#34352f]">{user?.phone || 'Not provided'}</dd>
+              </div>
+              <div className="min-w-0">
+                <dt className="text-[10px] text-[#92938a]">Account status</dt>
+                <dd className="mt-1 text-[12px] font-semibold text-[#34352f]">{user?.status || '—'}</dd>
               </div>
             </dl>
           </article>
 
-          <article className="flex flex-col justify-between rounded-[20px] border border-[#e1e1da] bg-[#eff2e9] p-6 sm:p-7">
-            <div>
-              <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#71864c]">MVP scope</p>
-              <h2 className="mt-3 text-[20px] font-bold tracking-[-0.6px]">What is connected today?</h2>
-              <p className="mt-3 text-[12px] leading-6 text-[#73786a]">
-                Your account profile is loaded from the User Service. Exercise catalog and workout drafts remain browser-local until their backend contracts are available.
+          <article className="rounded-[20px] border border-[#e1e1da] bg-[#eff2e9] p-6 sm:p-7">
+            <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#71864c]">Coaching relationships</p>
+            <h2 className="mt-2 text-[18px] font-bold tracking-[-0.5px] text-[#20231b]">Your athletes</h2>
+            {isPreview ? (
+              <div className="mt-4 space-y-3">
+                {activeAthletes.slice(0, 2).map((relation) => (
+                  <div key={relation.relation_id} className="flex items-center justify-between gap-3 border-b border-[#dce2d2] pb-3 last:border-0 last:pb-0">
+                    <div className="min-w-0">
+                      <p className="truncate text-[12px] font-semibold text-[#34382d]">{relation.athlete_name}</p>
+                      <p className="mt-1 truncate text-[10px] text-[#777f6b]">{relation.plan_title}</p>
+                    </div>
+                    <span className="rounded-full bg-white/80 px-2.5 py-1 text-[8px] font-bold uppercase tracking-[0.8px] text-[#60783a]">Active</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="mt-3 text-[11px] leading-5 text-[#73786a]">
+                Athlete relationships will appear here when the User Service relation endpoint is connected.
               </p>
-            </div>
-            <Link to="/coach/workouts" className="mt-6 inline-flex w-fit items-center gap-2 text-[11px] font-bold text-[#4e642e] hover:gap-3">
-              Review saved drafts <span aria-hidden="true">→</span>
-            </Link>
+            )}
           </article>
         </section>
       </div>
