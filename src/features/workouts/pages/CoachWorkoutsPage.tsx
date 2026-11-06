@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import AppShell from '../../../components/layout/AppShell'
+import AppShell from '../../../shared/components/layout/AppShell'
 import { loadWorkoutDraft } from '../services/workout-draft.service'
 
 function CoachWorkoutsPage() {
