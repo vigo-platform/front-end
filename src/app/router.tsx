@@ -6,6 +6,8 @@ import WorkoutBuilderPage from '../features/workouts/pages/WorkoutBuilderPage'
 import CoachWorkoutsPage from '../features/workouts/pages/CoachWorkoutsPage'
 import AthleteDashboardPage from '../features/athlete-workouts/pages/AthleteDashboardPage'
 import WorkoutExecutionPage from '../features/athlete-workouts/pages/WorkoutExecutionPage'
+import CoachDirectoryPage from '../features/coaches/pages/CoachDirectoryPage'
+import CoachProfilePage from '../features/coaches/pages/CoachProfilePage'
 import PublicLandingPage from '../features/landing/pages/PublicLandingPage'
 import LoginPage from '../features/auth/pages/LoginPage'
 import RegisterPage from '../features/auth/pages/RegisterPage'
@@ -48,6 +50,8 @@ function AppRouter() {
       <Route path="/athlete" element={<RequireAuth allowedRoles={['ATHLETE']}><AthleteDashboardPage /></RequireAuth>} />
       <Route path="/workouts" element={<RequireAuth allowedRoles={['ATHLETE']}><AthleteDashboardPage /></RequireAuth>} />
       <Route path="/workouts/:workoutId" element={<RequireAuth allowedRoles={['ATHLETE']}><WorkoutExecutionPage /></RequireAuth>} />
+      <Route path="/coaches" element={<RequireAuth allowedRoles={['ATHLETE']}><CoachDirectoryPage /></RequireAuth>} />
+      <Route path="/coaches/:coachId" element={<RequireAuth allowedRoles={['ATHLETE']}><CoachProfilePage /></RequireAuth>} />
       <Route path="/coach" element={<RequireAuth allowedRoles={['COACH']}><CoachDashboardPage /></RequireAuth>} />
       <Route path="/coach/exercises" element={<RequireAuth allowedRoles={['COACH']}><ExerciseLibraryPage /></RequireAuth>} />
       <Route path="/coach/workouts" element={<RequireAuth allowedRoles={['COACH']}><CoachWorkoutsPage /></RequireAuth>} />
