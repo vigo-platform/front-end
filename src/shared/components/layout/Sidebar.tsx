@@ -32,7 +32,7 @@ function Sidebar() {
 
       <div className="mt-8 border-b border-white/10 pb-6">
         <p className="px-1 text-[9px] font-semibold uppercase tracking-[1.8px] text-white/40">
-          {user?.role === 'COACH' ? 'Coach workspace' : 'Athlete workspace'}
+          {user?.role === 'COACH' ? 'Coach workspace' : user?.role === 'ATHLETE' ? 'Athlete workspace' : 'Member workspace'}
         </p>
       </div>
 
