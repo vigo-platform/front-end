@@ -7,7 +7,7 @@ import {
 } from '../../auth/data/dashboard-preview'
 
 interface AthleteDashboardPageProps {
-  preview?: boolean
+  isPreview?: boolean
 }
 
 function formatDate(value?: string | null) {
@@ -22,7 +22,7 @@ function formatPrice(value: number) {
 }
 
 function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) {
-  const { user, preview: previewContext } = useAuth()
+  const { user, isPreview: previewContext } = useAuth()
   const preview = isPreview || previewContext
   const coachesPath = preview ? '/_preview/athlete/coaches' : '/coaches'
   const displayName = user?.display_name?.trim() || 'Athlete'
