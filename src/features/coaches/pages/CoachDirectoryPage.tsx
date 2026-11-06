@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import CoachPublicLayout from '../components/CoachPublicLayout'
+import { getAvatarUrl } from '../utils/avatar'
 import { coachService } from '../services/coach.service'
 import type { CoachPage, CoachSearchParams, CoachSort } from '../types/coach.types'
 
@@ -10,13 +11,6 @@ function formatToman(value: number) {
   return new Intl.NumberFormat('en-US').format(value) + ' Toman'
 }
 
-function getAvatarUrl(value?: string | null) {
-  if (!value) return null
-  if (/^https?:\/\//i.test(value)) return value
-
-  const baseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? ''
-  return baseUrl.replace(/\/$/, '') + value
-}
 
 function CoachDirectoryPage() {
   const [page, setPage] = useState<CoachPage | null>(null)
