@@ -5,7 +5,7 @@ import { previewCoachPlans, previewCoachRelations } from '../../auth/data/dashbo
 import { loadWorkoutDraft } from '../services/workout-draft.service'
 
 interface CoachDashboardPageProps {
-  isPreview?: boolean
+  preview?: boolean
 }
 
 function formatDate(value?: string | null) {
@@ -16,11 +16,13 @@ function formatDate(value?: string | null) {
 }
 
 function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
-  const { user } = useAuth()
+  const { user, preview: previewContext } = useAuth()
+  const preview = preview || previewContext
+  const coachPath = preview ? '/_preview/coach' : '/coach'
   const firstName = user?.display_name?.trim().split(/\s+/)[0] || 'Coach'
   const draft = loadWorkoutDraft()
-  const activeAthletes = isPreview ? previewCoachRelations.filter((item) => item.status === 'ACTIVE') : []
-  const activePlans = isPreview ? previewCoachPlans.filter((item) => item.status === 'ACTIVE') : []
+  const activeAthletes = preview ? previewCoachRelations.filter((item) => item.status === 'ACTIVE') : []
+  const activePlans = preview ? previewCoachPlans.filter((item) => item.status === 'ACTIVE') : []
 
   return (
     <AppShell title="Overview">
@@ -46,12 +48,12 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
         <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Active athletes</p>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isPreview ? String(activeAthletes.length).padStart(2, '0') : '—'}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{preview ? String(activeAthletes.length).padStart(2, '0') : '—'}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">Coach relationships</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Active plans</p>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isPreview ? String(activePlans.length).padStart(2, '0') : '—'}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{preview ? String(activePlans.length).padStart(2, '0') : '—'}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">Published coaching plans</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5">
@@ -75,7 +77,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
             <h2 className="mt-6 max-w-lg text-[29px] font-bold leading-[1.12] tracking-[-1.1px] sm:text-[36px]">Build a better plan for every athlete.</h2>
             <p className="mt-3 max-w-md text-[12px] leading-6 text-white/60">Organize your exercise resources and prepare structured workout drafts for your coaching workflow.</p>
           </div>
-          <Link to="/coach/workouts/new" className="relative mt-8 inline-flex h-11 w-fit items-center gap-3 rounded-full bg-[#c7f36b] px-5 text-[11px] font-bold text-[#171914] transition hover:bg-[#d4fa83]">
+          <Link to={coachPath + '/workouts/new'} className="relative mt-8 inline-flex h-11 w-fit items-center gap-3 rounded-full bg-[#c7f36b] px-5 text-[11px] font-bold text-[#171914] transition hover:bg-[#d4fa83]">
             Create workout draft <span aria-hidden="true">→</span>
           </Link>
           <span aria-hidden="true" className="pointer-events-none absolute bottom-0 right-8 text-[150px] font-black leading-none tracking-[-16px] text-white/[0.045]">V</span>
@@ -88,9 +90,9 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
                 <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">Relationships</p>
                 <h2 className="mt-2 text-[21px] font-bold tracking-[-0.7px]">Your athletes</h2>
               </div>
-              <span className="text-[9px] font-semibold text-[#92938a]">{isPreview ? activeAthletes.length + ' active' : 'Not connected'}</span>
+              <span className="text-[9px] font-semibold text-[#92938a]">{preview ? activeAthletes.length + ' active' : 'Not connected'}</span>
             </div>
-            {isPreview ? (
+            {preview ? (
               <div className="mt-5 divide-y divide-[#edede8]">
                 {activeAthletes.map((relation) => (
                   <div key={relation.relation_id} className="flex items-center gap-3 py-4 first:pt-0 last:pb-0">
@@ -119,9 +121,9 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
                 <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">Published content</p>
                 <h2 className="mt-2 text-[21px] font-bold tracking-[-0.7px]">Your plans</h2>
               </div>
-              <span className="text-[9px] font-semibold text-[#92938a]">{isPreview ? activePlans.length + ' active' : 'Not connected'}</span>
+              <span className="text-[9px] font-semibold text-[#92938a]">{preview ? activePlans.length + ' active' : 'Not connected'}</span>
             </div>
-            {isPreview ? (
+            {preview ? (
               <div className="mt-5 space-y-3">
                 {activePlans.map((plan) => (
                   <div key={plan.plan_id} className="rounded-xl bg-[#f7f8f3] p-4">
@@ -149,7 +151,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
             <h2 className="mt-2 text-[22px] font-bold tracking-[-0.8px] text-[#20211d]">Create and organize</h2>
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-3">
-            <Link to="/coach/exercises" className="group rounded-[18px] border border-[#e1e1da] bg-white p-5 transition hover:-translate-y-1 hover:border-[#cbd9b3] hover:shadow-[0_14px_32px_rgba(35,42,23,0.06)]">
+            <Link to={coachPath + '/exercises'} className="group rounded-[18px] border border-[#e1e1da] bg-white p-5 transition hover:-translate-y-1 hover:border-[#cbd9b3] hover:shadow-[0_14px_32px_rgba(35,42,23,0.06)]">
               <span className="text-[9px] font-bold tracking-[1.5px] text-[#96978d]">01 / LIBRARY</span>
               <h3 className="mt-5 text-[15px] font-bold text-[#20211d]">Exercise library</h3>
               <p className="mt-2 text-[10px] leading-5 text-[#77786f]">Browse the current exercise interface and sample movement catalog.</p>
@@ -161,7 +163,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
               <p className="mt-2 text-[10px] leading-5 text-[#77786f]">Arrange exercises, sets, reps, and rest periods in a local draft.</p>
               <span className="mt-5 inline-flex gap-2 text-[10px] font-bold text-[#526a2e] group-hover:gap-3">Build a workout →</span>
             </Link>
-            <Link to="/coach/workouts" className="group rounded-[18px] border border-[#e1e1da] bg-white p-5 transition hover:-translate-y-1 hover:border-[#cbd9b3] hover:shadow-[0_14px_32px_rgba(35,42,23,0.06)]">
+            <Link to={coachPath + '/workouts'} className="group rounded-[18px] border border-[#e1e1da] bg-white p-5 transition hover:-translate-y-1 hover:border-[#cbd9b3] hover:shadow-[0_14px_32px_rgba(35,42,23,0.06)]">
               <span className="text-[9px] font-bold tracking-[1.5px] text-[#96978d]">03 / DRAFTS</span>
               <h3 className="mt-5 text-[15px] font-bold text-[#20211d]">My workouts</h3>
               <p className="mt-2 text-[10px] leading-5 text-[#77786f]">Continue editing workout drafts saved in this browser.</p>
