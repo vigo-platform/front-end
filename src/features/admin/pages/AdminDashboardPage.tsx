@@ -38,6 +38,7 @@ function AdminDashboardPage() {
   const [selectedCoach, setSelectedCoach] = useState<AdminCoachApplication | null>(null)
   const [loading, setLoading] = useState(false)
   const [busy, setBusy] = useState(false)
+  const [pendingCount, setPendingCount] = useState(0)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
 
@@ -47,6 +48,19 @@ function AdminDashboardPage() {
       && (!role || item.role === role) && (!status || item.status === status)
   }), [previewUsers, q, role, status])
   const filteredPreviewCoaches = previewCoaches.filter((item) => !coachStatus || item.status === coachStatus)
+
+  useEffect(() => {
+    if (preview) {
+      setPendingCount(previewCoachApplications.filter((item) => item.status === 'PENDING').length)
+      return
+    }
+    if (!accessToken) return
+    let active = true
+    adminService.listCoachApplications(accessToken, { page: 0, size: 1, status: 'PENDING' })
+      .then((data) => { if (active) setPendingCount(data.total_elements) })
+      .catch((e: unknown) => { if (active) setError(e instanceof Error ? e.message : 'Could not load pending application count.') })
+    return () => { active = false }
+  }, [accessToken, preview])
 
   useEffect(() => {
     if (preview || !accessToken || tab !== 'users') return
@@ -120,7 +134,6 @@ function AdminDashboardPage() {
   }
 
   const totalUsers = preview ? previewUsers.length : users.total_elements
-  const pending = preview ? previewCoaches.filter((item) => item.status === 'PENDING').length : coaches.content.filter((item) => item.status === 'PENDING').length
   const userRows = preview ? makePreviewPage(filteredPreviewUsers, userPage).content : users.content
   const coachRows = preview ? filteredPreviewCoaches : coaches.content
   const closeDetails = () => { setSelectedUser(null); setSelectedCoach(null) }
@@ -135,7 +148,7 @@ function AdminDashboardPage() {
 
         <section className="grid gap-3 sm:grid-cols-3">
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5"><p className={eyebrow}>Platform users</p><p className="mt-4 text-[30px] font-bold text-[#20211d]">{totalUsers}</p><p className="mt-1 text-[10px] text-[#898a81]">Accounts in the platform</p></article>
-          <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5"><p className={eyebrow}>Pending applications</p><p className="mt-4 text-[30px] font-bold text-[#20211d]">{pending}</p><p className="mt-1 text-[10px] text-[#898a81]">Waiting for your review</p></article>
+          <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5"><p className={eyebrow}>Pending applications</p><p className="mt-4 text-[30px] font-bold text-[#20211d]">{pendingCount}</p><p className="mt-1 text-[10px] text-[#898a81]">Waiting for your review</p></article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5"><p className={eyebrow}>Your account</p><p className="mt-4 text-[22px] font-bold text-[#20211d]">{user?.status ?? 'ACTIVE'}</p><p className="mt-1 text-[10px] text-[#898a81]">Administrator access</p></article>
         </section>
 
