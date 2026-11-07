@@ -61,6 +61,7 @@ function AppRouter() {
           </Route>
           <Route path="/_preview/admin" element={<PreviewWorkspaceRoute role="ADMIN" />}>
             <Route index element={<AdminDashboardPage />} />
+            <Route path="profile" element={<ProfilePage isPreview />} />
           </Route>
           <Route path="/_preview/coach" element={<PreviewWorkspaceRoute role="COACH" />}>
             <Route index element={<CoachDashboardPage isPreview />} />
