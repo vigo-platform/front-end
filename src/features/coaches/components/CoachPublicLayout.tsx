@@ -40,6 +40,7 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
                 <Link to="/register" className="rounded-full bg-ink px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-[#30352a]">
                   Get started
                 </Link>
+              </>
             )}
           </nav>
         </div>
