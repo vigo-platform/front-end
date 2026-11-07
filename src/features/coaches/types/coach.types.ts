@@ -44,15 +44,3 @@ export interface CoachSearchParams {
   sort?: CoachSort
 }
 
-export type PlanInclude = 'WORKOUT' | 'DIET' | 'SUPPLEMENT' | 'CHAT_SUPPORT'
-
-export interface CoachPlan {
-  plan_id: string
-  coach_id: string
-  title: string
-  description?: string
-  price: number
-  duration_days: number
-  includes?: PlanInclude[]
-  status: 'ACTIVE' | 'ARCHIVED'
-}
