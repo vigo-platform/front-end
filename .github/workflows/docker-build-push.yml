@@ -139,10 +139,10 @@ jobs:
           fi
 
           if [ "${IS_VERSIONED:-false}" = "true" ]; then
-            TAGS="`$IMAGE_TAG` (also tagged as `latest`)"
+            TAGS="\`$IMAGE_TAG\` (also tagged as \`latest\`)"
             IMAGES="[\`$REGISTRY_IMAGE:$IMAGE_TAG\`]($DOCKERHUB_URL)<br>[\`$REGISTRY_IMAGE:latest\`]($DOCKERHUB_URL)"
           else
-            TAGS="`$IMAGE_TAG`"
+            TAGS="\`$IMAGE_TAG\`"
             IMAGES="[\`$REGISTRY_IMAGE:$IMAGE_TAG\`]($DOCKERHUB_URL)"
           fi
 
@@ -155,9 +155,9 @@ jobs:
             echo "|---|---|"
             echo "| Status | $STATUS |"
             echo "| Trigger | $TRIGGER_TYPE |"
-            echo "| Git tag | `${GIT_TAG:-N/A}` |"
+            echo "| Git tag | \`${GIT_TAG:-N/A}\` |"
             echo "| Image tags | $TAGS |"
-            echo "| Commit | [`$SHORT_SHA`]($COMMIT_URL) |"
+            echo "| Commit | [\`$SHORT_SHA\`]($COMMIT_URL) |"
             echo "| Workflow run | [#$RUN_ID]($RUN_URL) |"
             echo
             echo "## Docker Image"
@@ -167,5 +167,5 @@ jobs:
             echo "| Image | $IMAGES |"
             echo "| Registry | $REGISTRY_NAME |"
             echo "| Build and push | $STATUS |"
-            echo "| Digest | `$DIGEST` |"
+            echo "| Digest | \`$DIGEST\` |"
           } >> "$GITHUB_STEP_SUMMARY"
