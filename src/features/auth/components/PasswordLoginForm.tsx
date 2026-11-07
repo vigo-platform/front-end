@@ -7,6 +7,9 @@ import { authService } from '../services/auth.service'
 type Step = 'CREDENTIALS' | 'VERIFY' | 'NEW_PASSWORD'
 
 interface PasswordLoginFormProps {
+  isConfigLoading: boolean
+  isLoginDisabled: boolean
+  configError: string
   onUseOtp: () => void
 }
 
@@ -14,7 +17,12 @@ const inputClassName =
   'h-11 w-full rounded-md border border-border bg-white px-3 text-[13px] text-ink outline-none transition placeholder:text-[#999991] focus:border-ink'
 const labelClassName = 'text-[11px] font-medium text-ink'
 
-function PasswordLoginForm({ onUseOtp }: PasswordLoginFormProps) {
+function PasswordLoginForm({
+  isConfigLoading,
+  isLoginDisabled,
+  configError,
+  onUseOtp,
+}: PasswordLoginFormProps) {
   const navigate = useNavigate()
   const { signIn } = useAuth()
   const [identifier, setIdentifier] = useState('')
@@ -156,6 +164,13 @@ function PasswordLoginForm({ onUseOtp }: PasswordLoginFormProps) {
       </div>
 
       {step === 'CREDENTIALS' && (
+        isConfigLoading ? (
+          <p className="text-[12px] text-[#77776f]">Loading login options...</p>
+        ) : isLoginDisabled ? (
+          <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
+            {configError || 'Login is currently disabled. Please try again later.'}
+          </p>
+        ) : (
         <form onSubmit={handleCredentials} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <label htmlFor="password-login-identifier" className={labelClassName}>
@@ -199,6 +214,7 @@ function PasswordLoginForm({ onUseOtp }: PasswordLoginFormProps) {
             {isLoading ? 'Signing in...' : 'Log in'}
           </button>
         </form>
+        )
       )}
 
       {step === 'VERIFY' && (
