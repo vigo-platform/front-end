@@ -26,7 +26,6 @@ export const previewCoach: UserProfile = {
 }
 
 export const previewCoachRelations = [
-  previewAthleteCoachRelation,
   {
     relation_id: '00000000-0000-4000-8000-000000000302',
     coach_id: previewCoach.user_id,
