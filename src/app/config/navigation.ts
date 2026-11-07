@@ -7,7 +7,7 @@ export interface NavigationItem {
 
 const athleteNavigationItems: NavigationItem[] = [
   { label: 'Dashboard', href: '/athlete' },
-  { label: 'My Workouts', href: '/athlete#workouts' },
+  { label: 'My Workouts', href: '/athlete/workouts' },
   { label: 'Discover Coaches', href: '/coaches' },
   { label: 'My Profile', href: '/profile' },
 ]
