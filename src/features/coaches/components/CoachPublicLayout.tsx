@@ -8,8 +8,14 @@ interface CoachPublicLayoutProps {
 }
 
 function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
-  const { isPreview } = useAuth()
-  const homePath = isPreview ? '/_preview/athlete' : '/'
+  const { isPreview, isAuthenticated, user } = useAuth()
+  const homePath = isPreview
+    ? '/_preview/athlete'
+    : user?.role === 'COACH'
+      ? '/coach'
+      : user?.role === 'ADMIN'
+        ? '/admin'
+        : '/athlete'
   const coachesPath = isPreview ? '/_preview/athlete/coaches' : '/coaches'
   return (
     <div className="min-h-screen bg-canvas text-ink">
@@ -19,10 +25,15 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
             Vigo<span className="text-[#9bcf3f]">.</span>
           </Link>
           <nav aria-label="Public navigation" className="flex items-center gap-4">
-            <Link to={coachesPath} className="text-xs font-semibold text-muted transition hover:text-ink">
-              Find a coach
-            </Link>
-            {!isPreview && (
+            {isAuthenticated ? (
+              <Link to={homePath} className="inline-flex items-center gap-2 rounded-full border border-border bg-canvas px-4 py-2.5 text-xs font-semibold text-ink transition hover:bg-[#eef2e7]">
+                <span aria-hidden="true">←</span> Back to dashboard
+              </Link>
+            ) : (
+              <>
+                <Link to={coachesPath} className="text-xs font-semibold text-muted transition hover:text-ink">
+                  Find a coach
+                </Link>
               <>
                 <Link to="/login" className="text-xs font-semibold text-muted transition hover:text-ink">
                   Log in
