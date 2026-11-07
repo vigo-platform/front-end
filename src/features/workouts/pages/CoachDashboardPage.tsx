@@ -97,7 +97,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
                 {activeAthletes.map((relation) => (
                   <div key={relation.relation_id} className="flex items-center gap-3 py-4 first:pt-0 last:pb-0">
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#eff2e9] text-[11px] font-bold text-[#60783a]">
-                      {relation.athlete_name.split(/\s+/).map((part) => part[0]).slice(0, 2).join('')}
+                      {relation.athlete_name.split(/\s+/).map((part: string) => part[0]).slice(0, 2).join('')}
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-[12px] font-bold text-[#34352f]">{relation.athlete_name}</p>
