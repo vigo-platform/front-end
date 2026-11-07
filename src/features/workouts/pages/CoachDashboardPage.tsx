@@ -110,7 +110,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
             ) : (
               <div className="mt-5 rounded-xl border border-dashed border-[#d9dacf] bg-[#fbfbf8] px-5 py-7 text-center">
                 <p className="text-[12px] font-semibold text-[#34352f]">Athlete relationships will appear here</p>
-                <p className="mt-1 text-[10px] text-[#85867d]">Ready for GET /coaches/me/athletes.</p>
+                <p className="mt-1 text-[10px] text-[#85867d]">The current backend does not expose coach–athlete relationship endpoints.</p>
               </div>
             )}
           </article>
@@ -139,7 +139,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
             ) : (
               <div className="mt-5 rounded-xl border border-dashed border-[#d9dacf] bg-[#fbfbf8] px-5 py-7 text-center">
                 <p className="text-[12px] font-semibold text-[#34352f]">Your published plans will appear here</p>
-                <p className="mt-1 text-[10px] text-[#85867d]">Ready for GET /coaches/me/plans.</p>
+                <p className="mt-1 text-[10px] text-[#85867d]">The current backend does not expose coach plan endpoints.</p>
               </div>
             )}
           </article>
