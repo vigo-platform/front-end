@@ -2,14 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AppShell from '../../../shared/components/layout/AppShell'
 import { useAuth } from '../../auth/context/auth-context'
-import { athleteService } from '../services/athlete.service'
 import { coachService } from '../../coaches/services/coach.service'
-import type { AthleteCoachRelation } from '../types/athlete-relation.types'
-import type { CoachPlan } from '../../coaches/types/coach.types'
-import {
-  previewAthleteCoachRelation,
-  previewCoachPlans,
-} from '../../auth/data/dashboard-preview'
+import type { CoachProfile } from '../../coaches/types/coach.types'
 
 interface AthleteDashboardPageProps {
   isPreview?: boolean
@@ -22,63 +16,41 @@ function formatDate(value?: string | null) {
   return new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric' }).format(date)
 }
 
-function formatPrice(value: number) {
-  return new Intl.NumberFormat('en-US').format(value) + ' Toman'
-}
-
 function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) {
-  const { user, accessToken, isPreview: previewContext } = useAuth()
-  const preview = isPreview || previewContext
-  const coachesPath = preview ? '/_preview/athlete/coaches' : '/coaches'
+  const { user } = useAuth()
+  const [coaches, setCoaches] = useState<CoachProfile[]>([])
+  const [totalCoaches, setTotalCoaches] = useState(0)
+  const [isLoadingCoaches, setIsLoadingCoaches] = useState(true)
+  const [coachError, setCoachError] = useState('')
+
   const displayName = user?.display_name?.trim() || 'Athlete'
-  const firstName = displayName.split(/\s+/)[0]
-  const [relations, setRelations] = useState<AthleteCoachRelation[]>(preview ? [previewAthleteCoachRelation] : [])
-  const [plans, setPlans] = useState<CoachPlan[]>(preview ? previewCoachPlans : [])
-  const [isLoadingRelations, setIsLoadingRelations] = useState(!preview)
-  const [relationError, setRelationError] = useState('')
+  const firstName = displayName.split(/\\s+/)[0]
 
   useEffect(() => {
-    if (preview) {
-      setRelations([previewAthleteCoachRelation])
-      setPlans(previewCoachPlans)
-      setIsLoadingRelations(false)
-      return
-    }
-    if (!accessToken) {
-      setIsLoadingRelations(false)
-      return
-    }
-
     let active = true
-    setIsLoadingRelations(true)
-    setRelationError('')
+    setIsLoadingCoaches(true)
+    setCoachError('')
 
-    athleteService.getMyCoaches(accessToken)
-      .then(async (items) => {
+    coachService.search({ page: 0, size: 3, sort: 'newest' })
+      .then((page) => {
         if (!active) return
-        setRelations(items)
-        const activeCoachRelations = items.filter((item) => item.status === 'ACTIVE')
-        const coachPlans = await Promise.all(
-          activeCoachRelations.map((item) => coachService.getPlans(item.coach_id).catch(() => [] as CoachPlan[])),
-        )
-        if (active) setPlans(coachPlans.flat())
+        setCoaches(page.content ?? [])
+        setTotalCoaches(page.total_elements ?? 0)
       })
       .catch((requestError: unknown) => {
         if (!active) return
-        setRelations([])
-        setPlans([])
-        setRelationError(requestError instanceof Error ? requestError.message : 'Could not load your coaching relationships.')
+        setCoaches([])
+        setTotalCoaches(0)
+        setCoachError(requestError instanceof Error ? requestError.message : 'Could not load coaches.')
       })
       .finally(() => {
-        if (active) setIsLoadingRelations(false)
+        if (active) setIsLoadingCoaches(false)
       })
 
     return () => { active = false }
-  }, [accessToken, preview])
+  }, [])
 
-  const activeRelations = relations.filter((item) => item.status === 'ACTIVE')
-  const relation = activeRelations[0] ?? null
-  const activeRelation = Boolean(relation)
+  const uniqueSpecialties = new Set(coaches.flatMap((coach) => coach.specialties ?? [])).size
 
   return (
     <AppShell title="Overview">
@@ -90,7 +62,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
               Good morning, {firstName}.
             </h1>
             <p className="mt-2 text-[13px] leading-6 text-[#77786f]">
-              Your coaching connections and account, all in one place.
+              Explore verified coaches and manage your Vigo account.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -106,128 +78,81 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
 
         <section className="grid gap-3 sm:grid-cols-3">
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
-            <div className="flex items-center justify-between">
-              <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Coaching relationship</p>
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f0f3e9] text-[12px] text-[#60783a]">↗</span>
-            </div>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingRelations ? '—' : String(activeRelations.length).padStart(2, '0')}</p>
-            <p className="mt-1 text-[10px] text-[#898a81]">Active coach connections</p>
+            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Available coaches</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingCoaches ? '—' : String(totalCoaches).padStart(2, '0')}</p>
+            <p className="mt-1 text-[10px] text-[#898a81]">Approved public profiles</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
-            <div className="flex items-center justify-between">
-              <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Available plans</p>
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f0f3e9] text-[12px] text-[#60783a]">▤</span>
-            </div>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingRelations ? '—' : String(plans.length).padStart(2, '0')}</p>
-            <p className="mt-1 text-[10px] text-[#898a81]">Plans from your coach</p>
+            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Specialties shown</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingCoaches ? '—' : String(uniqueSpecialties).padStart(2, '0')}</p>
+            <p className="mt-1 text-[10px] text-[#898a81]">Across the coaches loaded</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
-            <div className="flex items-center justify-between">
-              <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Account type</p>
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f0f3e9] text-[12px] text-[#60783a]">◉</span>
-            </div>
+            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Account type</p>
             <p className="mt-4 text-[25px] font-bold tracking-[-0.8px] text-[#20211d]">Athlete</p>
             <p className="mt-1 text-[10px] text-[#898a81]">Your current Vigo role</p>
           </article>
         </section>
 
-        <section className="grid gap-4 xl:grid-cols-[1.45fr_0.85fr]">
-          <article className="relative flex min-h-[285px] flex-col justify-between overflow-hidden rounded-[22px] bg-[#171916] p-7 text-white sm:p-9">
-            <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-24 h-[330px] w-[330px] rounded-full border-[48px] border-white/[0.04]" />
-            <div className="relative max-w-xl">
-              <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[1.2px] text-[#d8e9bc]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#c7f36b]" />
-                Your next step
-              </span>
-              <h2 className="mt-6 max-w-lg text-[29px] font-bold leading-[1.12] tracking-[-1.1px] sm:text-[36px]">
-                Find the coach who moves you forward.
-              </h2>
-              <p className="mt-3 max-w-md text-[12px] leading-6 text-white/60">
-                Explore coach profiles, compare specialties and discover the plans they offer.
-              </p>
-            </div>
-            <Link to={coachesPath} className="relative mt-8 inline-flex h-11 w-fit items-center gap-3 rounded-full bg-[#c7f36b] px-5 text-[11px] font-bold text-[#171914] transition hover:bg-[#d4fa83]">
-              Explore coaches <span aria-hidden="true">→</span>
-            </Link>
-            <span aria-hidden="true" className="pointer-events-none absolute bottom-0 right-8 text-[150px] font-black leading-none tracking-[-16px] text-white/[0.045]">V</span>
-          </article>
-
-          <article className="flex flex-col rounded-[22px] border border-[#e1e1da] bg-white p-6 sm:p-7">
-            <div className="flex items-center justify-between">
-              <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">Your coach</p>
-              <span className="rounded-full bg-[#f0f3e9] px-3 py-1.5 text-[8px] font-bold uppercase tracking-[1px] text-[#60783a]">
-                {isLoadingRelations ? 'Loading' : activeRelation ? 'Active' : 'Not connected'}
-              </span>
-            </div>
-            {relationError ? (
-              <p role="alert" className="mt-7 text-[11px] leading-5 text-[#a55343]">{relationError}</p>
-            ) : isLoadingRelations ? (
-              <p className="mt-7 text-[11px] text-[#77786f]">Loading your coaching relationship...</p>
-            ) : activeRelation && relation ? (
-              <>
-                <div className="mt-7 flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#c7f36b] text-[14px] font-bold text-[#20231b]">JD</div>
-                  <div className="min-w-0">
-                    <h3 className="truncate text-[15px] font-bold text-[#20211d]">{relation.coach_name}</h3>
-                    <p className="mt-1 text-[10px] text-[#888980]">Your active coach</p>
-                  </div>
-                </div>
-                <div className="mt-6 border-t border-[#edede8] pt-4">
-                  <p className="text-[9px] font-bold uppercase tracking-[1px] text-[#96978d]">Connected plan</p>
-                  <p className="mt-2 text-[13px] font-semibold text-[#30312b]">{relation.plan_title}</p>
-                  <p className="mt-1 text-[10px] text-[#888980]">Since {formatDate(relation.starts_at)}</p>
-                </div>
-                <Link to={coachesPath + '/' + relation.coach_id} className="mt-auto inline-flex w-fit items-center gap-2 pt-5 text-[11px] font-bold text-[#4e642e] hover:gap-3">
-                  View coach profile <span aria-hidden="true">→</span>
-                </Link>
-              </>
-            ) : (
-              <>
-                <h3 className="mt-7 text-[19px] font-bold leading-tight">Your coaching connection starts here.</h3>
-                <p className="mt-2 text-[11px] leading-5 text-[#77786f]">Discover coaches and explore their public profiles and plans.</p>
-                <Link to={coachesPath} className="mt-auto inline-flex w-fit items-center gap-2 pt-6 text-[11px] font-bold text-[#4e642e] hover:gap-3">
-                  Find a coach <span aria-hidden="true">→</span>
-                </Link>
-              </>
-            )}
-          </article>
+        <section className="relative flex min-h-[250px] flex-col justify-between overflow-hidden rounded-[22px] bg-[#171916] p-7 text-white sm:p-9">
+          <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-24 h-[330px] w-[330px] rounded-full border-[48px] border-white/[0.04]" />
+          <div className="relative max-w-xl">
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[1.2px] text-[#d8e9bc]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#c7f36b]" />
+              Your next step
+            </span>
+            <h2 className="mt-6 max-w-lg text-[29px] font-bold leading-[1.12] tracking-[-1.1px] sm:text-[36px]">
+              Find the coach who moves you forward.
+            </h2>
+            <p className="mt-3 max-w-md text-[12px] leading-6 text-white/60">
+              Browse approved coach profiles and compare their experience and specialties.
+            </p>
+          </div>
+          <Link to="/coaches" className="relative mt-8 inline-flex h-11 w-fit items-center gap-3 rounded-full bg-[#c7f36b] px-5 text-[11px] font-bold text-[#171914] transition hover:bg-[#d4fa83]">
+            Explore coaches <span aria-hidden="true">→</span>
+          </Link>
+          <span aria-hidden="true" className="pointer-events-none absolute bottom-0 right-8 text-[150px] font-black leading-none tracking-[-16px] text-white/[0.045]">V</span>
         </section>
 
         <section>
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">Explore</p>
-              <h2 className="mt-2 text-[22px] font-bold tracking-[-0.8px] text-[#20211d]">Coaching plans</h2>
-              <p className="mt-1 text-[12px] text-[#77786f]">Public plans published by coaches.</p>
+              <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">Marketplace</p>
+              <h2 className="mt-2 text-[22px] font-bold tracking-[-0.8px] text-[#20211d]">Discover coaches</h2>
+              <p className="mt-1 text-[12px] text-[#77786f]">Approved coaches currently available on Vigo.</p>
             </div>
-            <Link to={coachesPath} className="text-[10px] font-bold text-[#526a2e] hover:underline">View coach directory →</Link>
+            <Link to="/coaches" className="text-[10px] font-bold text-[#526a2e] hover:underline">View all coaches →</Link>
           </div>
-          {plans.length > 0 ? (
-            <div className="mt-4 grid gap-3 md:grid-cols-2">
-              {plans.map((plan) => (
-                <article key={plan.plan_id} className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-[9px] font-bold uppercase tracking-[1px] text-[#82975e]">Coaching plan</p>
-                      <h3 className="mt-2 text-[16px] font-bold tracking-[-0.4px] text-[#20211d]">{plan.title}</h3>
-                    </div>
-                    <span className="rounded-full bg-[#f0f3e9] px-2.5 py-1 text-[8px] font-bold uppercase text-[#60783a]">{plan.status}</span>
+
+          {coachError ? (
+            <div role="alert" className="mt-4 rounded-[18px] border border-[#ead1cd] bg-[#fff8f6] px-6 py-8 text-center">
+              <p className="text-[13px] font-semibold text-[#9b5147]">Could not load coaches</p>
+              <p className="mt-2 text-[11px] text-[#9b5147]">{coachError}</p>
+            </div>
+          ) : isLoadingCoaches ? (
+            <div className="mt-4 rounded-[18px] border border-[#e1e1da] bg-white px-6 py-8 text-center text-[12px] text-[#77786f]">Loading coaches...</div>
+          ) : coaches.length > 0 ? (
+            <div className="mt-4 grid gap-3 md:grid-cols-3">
+              {coaches.map((coach) => (
+                <article key={coach.coach_id} className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
+                  <p className="text-[9px] font-bold uppercase tracking-[1px] text-[#82975e]">Verified coach</p>
+                  <h3 className="mt-2 text-[16px] font-bold tracking-[-0.4px] text-[#20211d]">{coach.display_name}</h3>
+                  {coach.headline && <p className="mt-1 text-[11px] text-[#77786f]">{coach.headline}</p>}
+                  <p className="mt-3 text-[10px] text-[#77786f]">{coach.experience_years} years of experience</p>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {(coach.specialties ?? []).slice(0, 3).map((specialty) => (
+                      <span key={specialty} className="rounded-full bg-[#f0f3e9] px-2.5 py-1 text-[9px] text-[#60783a]">{specialty}</span>
+                    ))}
                   </div>
-                  <p className="mt-2 text-[11px] leading-5 text-[#77786f]">{plan.description}</p>
-                  <div className="mt-5 flex items-end justify-between border-t border-[#edede8] pt-4">
-                    <div>
-                      <p className="text-[9px] text-[#92938a]">Duration</p>
-                      <p className="mt-1 text-[12px] font-semibold text-[#34352f]">{plan.duration_days} days</p>
-                    </div>
-                    <p className="text-[12px] font-bold text-[#34352f]">{formatPrice(plan.price)}</p>
-                  </div>
+                  <Link to={'/coaches/' + coach.coach_id} className="mt-5 inline-flex text-[10px] font-bold text-[#526a2e] hover:underline">
+                    View profile →
+                  </Link>
                 </article>
               ))}
             </div>
           ) : (
             <div className="mt-4 rounded-[18px] border border-dashed border-[#d9dacf] bg-[#fbfbf8] px-6 py-8 text-center">
-              <p className="text-[13px] font-semibold text-[#34352f]">{isLoadingRelations ? 'Loading coach plans...' : 'No active coach plans yet'}</p>
-              <p className="mt-1 text-[11px] text-[#85867d]">{isLoadingRelations ? 'Your active coaching plans will appear here.' : 'When you connect with a coach, their active plans will appear here.'}</p>
+              <p className="text-[13px] font-semibold text-[#34352f]">No approved coaches are available yet</p>
             </div>
           )}
         </section>
@@ -246,10 +171,10 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
           <article className="flex flex-col justify-between rounded-[20px] border border-[#e1e1da] bg-[#eff2e9] p-6 sm:p-7">
             <div>
               <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#71864c]">Training activity</p>
-              <h2 className="mt-3 text-[21px] font-bold tracking-[-0.7px] text-[#20231b]">Your assigned sessions are ready.</h2>
-              <p className="mt-2 text-[11px] leading-5 text-[#73786a]">Open your assigned workouts, record completed reps and weights, and review your saved sessions.</p>
+              <h2 className="mt-3 text-[21px] font-bold tracking-[-0.7px] text-[#20231b]">Workout tracking is coming with the backend API.</h2>
+              <p className="mt-2 text-[11px] leading-5 text-[#73786a]">Assigned workouts and result submission are not exposed by the current backend yet. This dashboard does not show demo workouts.</p>
             </div>
-            <Link to={preview ? '/_preview/athlete/workouts' : '/athlete/workouts'} className="mt-6 inline-flex w-fit rounded-full border border-[#d7dfcb] bg-white/70 px-3 py-2 text-[10px] font-bold text-[#526a2e] transition hover:bg-white">View my workouts →</Link>
+            <Link to={isPreview ? '/_preview/athlete/workouts' : '/athlete/workouts'} className="mt-6 inline-flex w-fit rounded-full border border-[#d7dfcb] bg-white/70 px-3 py-2 text-[10px] font-bold text-[#526a2e] transition hover:bg-white">Workout API status →</Link>
           </article>
         </section>
       </div>
