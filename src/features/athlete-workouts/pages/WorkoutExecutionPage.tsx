@@ -19,7 +19,7 @@ function WorkoutExecutionPage() {
   const { workoutId = '' } = useParams()
   const navigate = useNavigate()
   const { isPreview } = useAuth()
-  const workoutsPath = isPreview ? '/_preview/athlete/workouts' : '/workouts'
+  const workoutsPath = isPreview ? '/_preview/athlete/workouts' : '/athlete/workouts'
   const workout = useMemo(() => getAssignedWorkout(workoutId), [workoutId])
   const existingResult = useMemo(
     () => getWorkoutExecutionResult(workoutId),
