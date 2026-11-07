@@ -1,0 +1,16 @@
+**/.git
+**/.gitignore
+**/.idea
+**/.vscode
+**/.DS_Store
+**/node_modules
+**/dist
+**/coverage
+**/.cache
+
+# Sensitive files and local environment settings
+.env
+.env.*
+!.env.example
+*.pem
+*.key
