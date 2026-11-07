@@ -4,33 +4,22 @@ import CoachPublicLayout from '../components/CoachPublicLayout'
 import { useAuth } from '../../auth/context/auth-context'
 import { getAvatarUrl } from '../utils/avatar'
 import { coachService } from '../services/coach.service'
-import type { CoachPlan, CoachProfile } from '../types/coach.types'
-
-function formatToman(value: number) {
-  return new Intl.NumberFormat('en-US').format(value) + ' Toman'
-}
-
+import type { CoachProfile } from '../types/coach.types'
 
 function CoachProfilePage() {
   const { coachId = '' } = useParams()
   const { isPreview } = useAuth()
   const coachesPath = isPreview ? '/_preview/athlete/coaches' : '/coaches'
   const [coach, setCoach] = useState<CoachProfile | null>(null)
-  const [plans, setPlans] = useState<CoachPlan[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
 
   useEffect(() => {
     let isActive = true
 
-    Promise.all([
-      coachService.getProfile(coachId),
-      coachService.getPlans(coachId).catch(() => [] as CoachPlan[]),
-    ])
-      .then(([profile, activePlans]) => {
-        if (!isActive) return
-        setCoach(profile)
-        setPlans(activePlans)
+    coachService.getProfile(coachId)
+      .then((profile) => {
+        if (isActive) setCoach(profile)
       })
       .catch((requestError: unknown) => {
         if (isActive) {
@@ -101,9 +90,7 @@ function CoachProfilePage() {
                 </div>
                 <div>
                   <p className="text-xs text-muted">Starting plan price</p>
-                  <p className="mt-1 text-lg font-semibold">
-                    {coach.min_plan_price == null ? 'Not listed' : formatToman(coach.min_plan_price)}
-                  </p>
+                  <p className="mt-1 text-lg font-semibold">Not available yet</p>
                 </div>
               </div>
             </section>
@@ -130,42 +117,11 @@ function CoachProfilePage() {
               </section>
             )}
 
-            <section className="space-y-4">
-              <div>
-                <h2 className="text-lg font-semibold">Coaching plans</h2>
-                <p className="mt-1 text-sm text-muted">Active plans published by this coach.</p>
-              </div>
-
-              {plans.length === 0 ? (
-                <div className="rounded-2xl border border-dashed border-border bg-white px-6 py-10 text-center text-sm text-muted">
-                  No active plans are currently listed.
-                </div>
-              ) : (
-                <div className="grid gap-4 md:grid-cols-2">
-                  {plans.map((plan) => (
-                    <article key={plan.plan_id} className="rounded-2xl border border-border bg-white p-5">
-                      <h3 className="text-base font-semibold">{plan.title}</h3>
-                      {plan.description && <p className="mt-2 text-sm leading-6 text-muted">{plan.description}</p>}
-                      <div className="mt-5 flex items-end justify-between gap-3 border-t border-border pt-4">
-                        <div>
-                          <p className="text-xs text-muted">Duration</p>
-                          <p className="mt-1 text-sm font-semibold">{plan.duration_days} days</p>
-                        </div>
-                        <p className="text-sm font-semibold">{formatToman(plan.price)}</p>
-                      </div>
-                      {plan.includes && plan.includes.length > 0 && (
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          {plan.includes.map((item) => (
-                            <span key={item} className="rounded-full bg-canvas px-3 py-1 text-[11px] font-medium text-muted">
-                              {item.replaceAll('_', ' ').toLowerCase()}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </article>
-                  ))}
-                </div>
-              )}
+            <section className="rounded-2xl border border-dashed border-border bg-white px-6 py-8">
+              <h2 className="text-base font-semibold">Coaching plans are not available yet</h2>
+              <p className="mt-2 text-sm leading-6 text-muted">
+                The current User service does not expose plan endpoints. This profile uses only the public coach profile API and does not request placeholder plan data.
+              </p>
             </section>
           </>
         )}
