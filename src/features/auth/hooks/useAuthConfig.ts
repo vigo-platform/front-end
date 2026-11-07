@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { authConfigService } from '../services/auth-config.service'
-import { authService } from '../services/auth.service'
 import type { AuthConfig } from '../types/auth-config.types'
 import type { AuthSettings } from '../types/auth.types'
 
@@ -23,26 +22,21 @@ export function useAuthConfig() {
         const response = await authConfigService.getConfig()
         if (isMounted) {
           setConfig(response.data)
+          setSettings(response.settings)
           setError(null)
         }
       } catch {
-        if (isMounted) setError('Unable to load authentication options.')
+        if (isMounted) {
+          setConfig(DEFAULT_CONFIG)
+          setSettings(null)
+          setError('Unable to load authentication settings from the server.')
+        }
       } finally {
         if (isMounted) setIsLoading(false)
       }
     }
 
-    async function loadSettings() {
-      try {
-        const response = await authService.getSettings()
-        if (isMounted) setSettings(response.data)
-      } catch {
-        // Keep the local channel configuration available when the API is offline.
-      }
-    }
-
     void loadConfig()
-    void loadSettings()
 
     return () => {
       isMounted = false
