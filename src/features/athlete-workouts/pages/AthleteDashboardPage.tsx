@@ -1,6 +1,11 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AppShell from '../../../shared/components/layout/AppShell'
 import { useAuth } from '../../auth/context/auth-context'
+import { athleteService } from '../services/athlete.service'
+import { coachService } from '../../coaches/services/coach.service'
+import type { AthleteCoachRelation } from '../types/athlete-relation.types'
+import type { CoachPlan } from '../../coaches/types/coach.types'
 import {
   previewAthleteCoachRelation,
   previewCoachPlans,
@@ -22,14 +27,58 @@ function formatPrice(value: number) {
 }
 
 function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) {
-  const { user, isPreview: previewContext } = useAuth()
+  const { user, accessToken, isPreview: previewContext } = useAuth()
   const preview = isPreview || previewContext
   const coachesPath = preview ? '/_preview/athlete/coaches' : '/coaches'
   const displayName = user?.display_name?.trim() || 'Athlete'
   const firstName = displayName.split(/\s+/)[0]
-  const relation = preview ? previewAthleteCoachRelation : null
-  const plans = preview ? previewCoachPlans : []
-  const activeRelation = relation?.status === 'ACTIVE'
+  const [relations, setRelations] = useState<AthleteCoachRelation[]>(preview ? [previewAthleteCoachRelation] : [])
+  const [plans, setPlans] = useState<CoachPlan[]>(preview ? previewCoachPlans : [])
+  const [isLoadingRelations, setIsLoadingRelations] = useState(!preview)
+  const [relationError, setRelationError] = useState('')
+
+  useEffect(() => {
+    if (preview) {
+      setRelations([previewAthleteCoachRelation])
+      setPlans(previewCoachPlans)
+      setIsLoadingRelations(false)
+      return
+    }
+    if (!accessToken) {
+      setIsLoadingRelations(false)
+      return
+    }
+
+    let active = true
+    setIsLoadingRelations(true)
+    setRelationError('')
+
+    athleteService.getMyCoaches(accessToken)
+      .then(async (items) => {
+        if (!active) return
+        setRelations(items)
+        const activeCoachRelations = items.filter((item) => item.status === 'ACTIVE')
+        const coachPlans = await Promise.all(
+          activeCoachRelations.map((item) => coachService.getPlans(item.coach_id).catch(() => [] as CoachPlan[])),
+        )
+        if (active) setPlans(coachPlans.flat())
+      })
+      .catch((requestError: unknown) => {
+        if (!active) return
+        setRelations([])
+        setPlans([])
+        setRelationError(requestError instanceof Error ? requestError.message : 'Could not load your coaching relationships.')
+      })
+      .finally(() => {
+        if (active) setIsLoadingRelations(false)
+      })
+
+    return () => { active = false }
+  }, [accessToken, preview])
+
+  const activeRelations = relations.filter((item) => item.status === 'ACTIVE')
+  const relation = activeRelations[0] ?? null
+  const activeRelation = Boolean(relation)
 
   return (
     <AppShell title="Overview">
@@ -61,7 +110,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
               <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Coaching relationship</p>
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f0f3e9] text-[12px] text-[#60783a]">↗</span>
             </div>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{preview && activeRelation ? '01' : '—'}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingRelations ? '—' : String(activeRelations.length).padStart(2, '0')}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">Active coach connections</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
@@ -69,7 +118,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
               <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Available plans</p>
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f0f3e9] text-[12px] text-[#60783a]">▤</span>
             </div>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{preview ? String(plans.length).padStart(2, '0') : '—'}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingRelations ? '—' : String(plans.length).padStart(2, '0')}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">Plans from your coach</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
@@ -107,10 +156,14 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
             <div className="flex items-center justify-between">
               <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">Your coach</p>
               <span className="rounded-full bg-[#f0f3e9] px-3 py-1.5 text-[8px] font-bold uppercase tracking-[1px] text-[#60783a]">
-                {activeRelation ? 'Active' : 'Not connected'}
+                {isLoadingRelations ? 'Loading' : activeRelation ? 'Active' : 'Not connected'}
               </span>
             </div>
-            {activeRelation && relation ? (
+            {relationError ? (
+              <p role="alert" className="mt-7 text-[11px] leading-5 text-[#a55343]">{relationError}</p>
+            ) : isLoadingRelations ? (
+              <p className="mt-7 text-[11px] text-[#77786f]">Loading your coaching relationship...</p>
+            ) : activeRelation && relation ? (
               <>
                 <div className="mt-7 flex items-center gap-3">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#c7f36b] text-[14px] font-bold text-[#20231b]">JD</div>
@@ -149,7 +202,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
             </div>
             <Link to={coachesPath} className="text-[10px] font-bold text-[#526a2e] hover:underline">View coach directory →</Link>
           </div>
-          {preview ? (
+          {plans.length > 0 ? (
             <div className="mt-4 grid gap-3 md:grid-cols-2">
               {plans.map((plan) => (
                 <article key={plan.plan_id} className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
@@ -173,8 +226,8 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
             </div>
           ) : (
             <div className="mt-4 rounded-[18px] border border-dashed border-[#d9dacf] bg-[#fbfbf8] px-6 py-8 text-center">
-              <p className="text-[13px] font-semibold text-[#34352f]">Coach plans will appear here</p>
-              <p className="mt-1 text-[11px] text-[#85867d]">The coach directory and public plan endpoints are ready to connect.</p>
+              <p className="text-[13px] font-semibold text-[#34352f]">{isLoadingRelations ? 'Loading coach plans...' : 'No active coach plans yet'}</p>
+              <p className="mt-1 text-[11px] text-[#85867d]">{isLoadingRelations ? 'Your active coaching plans will appear here.' : 'When you connect with a coach, their active plans will appear here.'}</p>
             </div>
           )}
         </section>
