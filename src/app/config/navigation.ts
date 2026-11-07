@@ -14,10 +14,12 @@ const athleteNavigationItems: NavigationItem[] = [
 
 const adminNavigationItems: NavigationItem[] = [
   { label: 'Overview', href: '/admin' },
+  { label: 'My Profile', href: '/profile' },
 ]
 
 const previewAdminNavigationItems: NavigationItem[] = [
   { label: 'Overview', href: '/_preview/admin' },
+  { label: 'My Profile', href: '/_preview/admin/profile' },
 ]
 
 const coachNavigationItems: NavigationItem[] = [
