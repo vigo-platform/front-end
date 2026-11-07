@@ -196,7 +196,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
               <h2 className="mt-3 text-[21px] font-bold tracking-[-0.7px] text-[#20231b]">Your assigned sessions are ready.</h2>
               <p className="mt-2 text-[11px] leading-5 text-[#73786a]">Open your assigned workouts, record completed reps and weights, and review your saved sessions.</p>
             </div>
-            <Link to={preview ? '/_preview/athlete/workouts' : '/workouts'} className="mt-6 inline-flex w-fit rounded-full border border-[#d7dfcb] bg-white/70 px-3 py-2 text-[10px] font-bold text-[#526a2e] transition hover:bg-white">View my workouts →</Link>
+            <Link to={preview ? '/_preview/athlete/workouts' : '/athlete/workouts'} className="mt-6 inline-flex w-fit rounded-full border border-[#d7dfcb] bg-white/70 px-3 py-2 text-[10px] font-bold text-[#526a2e] transition hover:bg-white">View my workouts →</Link>
           </article>
         </section>
       </div>
