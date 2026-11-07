@@ -4,13 +4,14 @@ import type { AuthContextValue } from '../context/auth-context'
 import { AuthContext } from '../context/auth-context'
 import type { UserProfile, UserRole } from '../../user/types/user.types'
 import { previewAthlete, previewCoach } from '../data/dashboard-preview'
+import { previewAdmin } from '../../admin/data/admin.mock'
 
 interface PreviewWorkspaceRouteProps {
-  role: Extract<UserRole, 'ATHLETE' | 'COACH'>
+  role: Extract<UserRole, 'ATHLETE' | 'COACH' | 'ADMIN'>
 }
 
 function PreviewWorkspaceRoute({ role }: PreviewWorkspaceRouteProps) {
-  const initialUser = role === 'COACH' ? previewCoach : previewAthlete
+  const initialUser = role === 'ADMIN' ? previewAdmin : role === 'COACH' ? previewCoach : previewAthlete
   const [user, setUser] = useState<UserProfile>(initialUser)
 
   const previewAuth: AuthContextValue = {

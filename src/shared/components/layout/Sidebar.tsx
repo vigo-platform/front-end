@@ -15,7 +15,7 @@ function Sidebar() {
   const { signOut, user, isPreview } = useAuth()
   const navigate = useNavigate()
   const navigationItems = getNavigationItems(user?.role, isPreview)
-  const workspacePath = isPreview ? `/_preview/${user?.role === 'COACH' ? 'coach' : 'athlete'}` : '/dashboard'
+  const workspacePath = isPreview ? `/_preview/${user?.role === 'ADMIN' ? 'admin' : user?.role === 'COACH' ? 'coach' : 'athlete'}` : '/dashboard'
   const displayName = user?.display_name || user?.email || 'Vigo member'
   const initials = getInitials(user?.display_name || user?.email || 'V')
 
@@ -37,7 +37,7 @@ function Sidebar() {
 
       <div className="mt-8 border-b border-white/10 pb-6">
         <p className="px-1 text-[9px] font-semibold uppercase tracking-[1.8px] text-white/40">
-          {user?.role === 'COACH' ? 'Coach workspace' : user?.role === 'ATHLETE' ? 'Athlete workspace' : 'Member workspace'}
+          {user?.role === 'ADMIN' ? 'Admin workspace' : user?.role === 'COACH' ? 'Coach workspace' : user?.role === 'ATHLETE' ? 'Athlete workspace' : 'Member workspace'}
         </p>
       </div>
 
@@ -46,7 +46,7 @@ function Sidebar() {
           <NavLink
             key={item.href}
             to={item.href}
-            end={item.href === '/athlete' || item.href === '/coach' || item.href === '/_preview/athlete' || item.href === '/_preview/coach' || item.href.endsWith('/workouts')}
+            end={item.href === '/athlete' || item.href === '/coach' || item.href === '/_preview/athlete' || item.href === '/_preview/coach' || item.href === '/admin' || item.href === '/_preview/admin' || item.href.endsWith('/workouts')}
             className={({ isActive }) =>
               [
                 'group flex min-h-11 items-center gap-3 rounded-xl px-3 text-[12px] font-semibold transition-colors',

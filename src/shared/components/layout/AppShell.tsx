@@ -29,7 +29,7 @@ function AppShell({ children, title }: AppShellProps) {
             <NavLink
               key={item.href}
               to={item.href}
-              end={item.href === '/athlete' || item.href === '/coach' || item.href === '/_preview/athlete' || item.href === '/_preview/coach'}
+              end={item.href === '/athlete' || item.href === '/coach' || item.href === '/_preview/athlete' || item.href === '/_preview/coach' || item.href === '/admin' || item.href === '/_preview/admin'}
               className={({ isActive }) =>
                 `shrink-0 rounded-full px-4 py-2 text-[11px] font-semibold transition-colors ${isActive ? 'bg-[#c7f36b] text-[#171914]' : 'bg-[#efefe9] text-[#74756d]'}`
               }

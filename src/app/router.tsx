@@ -18,6 +18,7 @@ import { useAuth } from '../features/auth/context/auth-context'
 import ProfilePreviewRoute from '../features/auth/components/ProfilePreviewRoute'
 import PreviewWorkspaceRoute from '../features/auth/components/PreviewWorkspaceRoute'
 import ProfilePage from '../features/user/pages/ProfilePage'
+import AdminDashboardPage from '../features/admin/pages/AdminDashboardPage'
 
 function PublicOnly({ children }: { children: ReactNode }) {
   const { isAuthenticated, isInitializing } = useAuth()
@@ -38,6 +39,7 @@ function AccountSuspendedPage() {
 
 function DashboardRedirect() {
   const { user } = useAuth()
+  if (user?.role === 'ADMIN') return <Navigate to="/admin" replace />
   return user?.role === 'COACH'
     ? <Navigate to="/coach" replace />
     : <Navigate to="/athlete" replace />
@@ -56,6 +58,10 @@ function AppRouter() {
             <Route path="workouts/:workoutId" element={<WorkoutExecutionPage />} />
             <Route path="coaches" element={<CoachDirectoryPage />} />
             <Route path="coaches/:coachId" element={<CoachProfilePage />} />
+          </Route>
+          <Route path="/_preview/admin" element={<PreviewWorkspaceRoute role="ADMIN" />}>
+            <Route index element={<AdminDashboardPage />} />
+            <Route path="profile" element={<ProfilePage isPreview />} />
           </Route>
           <Route path="/_preview/coach" element={<PreviewWorkspaceRoute role="COACH" />}>
             <Route index element={<CoachDashboardPage isPreview />} />
@@ -78,6 +84,7 @@ function AppRouter() {
       <Route path="/workouts/:workoutId" element={<RequireAuth allowedRoles={['ATHLETE']}><WorkoutExecutionPage /></RequireAuth>} />
       <Route path="/coaches" element={<CoachDirectoryPage />} />
       <Route path="/coaches/:coachId" element={<CoachProfilePage />} />
+      <Route path="/admin" element={<RequireAuth allowedRoles={['ADMIN']}><AdminDashboardPage /></RequireAuth>} />
       <Route path="/coach" element={<RequireAuth allowedRoles={['COACH']}><CoachDashboardPage /></RequireAuth>} />
       <Route path="/coach/exercises" element={<RequireAuth allowedRoles={['COACH']}><ExerciseLibraryPage /></RequireAuth>} />
       <Route path="/coach/workouts" element={<RequireAuth allowedRoles={['COACH']}><CoachWorkoutsPage /></RequireAuth>} />
