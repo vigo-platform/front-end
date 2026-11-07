@@ -20,7 +20,7 @@ function RegisterPage() {
   const availableChannels = config.signup.enabledChannels
 
   const [selectedChannel, setSelectedChannel] =
-    useState<OtpChannel>('EMAIL')
+    useState<OtpChannel | null>(null)
   const [identifier, setIdentifier] = useState('')
   const [step, setStep] = useState<RegisterStep>('IDENTIFIER')
 
@@ -36,9 +36,9 @@ function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
-  const activeChannel = availableChannels.includes(selectedChannel)
+  const activeChannel = selectedChannel && availableChannels.includes(selectedChannel)
     ? selectedChannel
-    : availableChannels[0]
+    : availableChannels[0] ?? 'EMAIL'
 
   const isEmail = activeChannel === 'EMAIL'
 
@@ -166,7 +166,7 @@ function RegisterPage() {
             availableChannels={availableChannels}
             activeChannel={activeChannel}
             isConfigLoading={isConfigLoading}
-            isRegistrationDisabled={settings?.registerEnabled === false}
+            isRegistrationDisabled={settings?.registerEnabled !== true}
             configError={configError ?? ''}
             errorMessage={errorMessage}
             isLoading={isLoading}
