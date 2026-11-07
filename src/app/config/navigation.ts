@@ -12,6 +12,18 @@ const athleteNavigationItems: NavigationItem[] = [
   { label: 'My Profile', href: '/profile' },
 ]
 
+const adminNavigationItems: NavigationItem[] = [
+  { label: 'Overview', href: '/admin' },
+  { label: 'User Management', href: '/admin#users' },
+  { label: 'Coach Applications', href: '/admin#coaches' },
+]
+
+const previewAdminNavigationItems: NavigationItem[] = [
+  { label: 'Overview', href: '/_preview/admin' },
+  { label: 'User Management', href: '/_preview/admin#users' },
+  { label: 'Coach Applications', href: '/_preview/admin#coaches' },
+]
+
 const coachNavigationItems: NavigationItem[] = [
   { label: 'Overview', href: '/coach' },
   { label: 'Exercise Library', href: '/coach/exercises' },
@@ -36,6 +48,7 @@ const previewCoachNavigationItems: NavigationItem[] = [
 ]
 
 export function getNavigationItems(role: UserRole | null | undefined, isPreview = false) {
+  if (role === 'ADMIN') return isPreview ? previewAdminNavigationItems : adminNavigationItems
   if (role === 'COACH') return isPreview ? previewCoachNavigationItems : coachNavigationItems
   if (role === 'ATHLETE') return isPreview ? previewAthleteNavigationItems : athleteNavigationItems
   return []
