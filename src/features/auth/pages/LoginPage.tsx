@@ -21,7 +21,7 @@ function LoginPage() {
   const availableChannels = config.login.enabledChannels
 
   const [selectedChannel, setSelectedChannel] =
-    useState<OtpChannel>('EMAIL')
+    useState<OtpChannel | null>(null)
   const [identifier, setIdentifier] = useState('')
   const [otp, setOtp] = useState('')
   const [mfaToken, setMfaToken] = useState('')
@@ -32,9 +32,9 @@ function LoginPage() {
   const [errorMessage, setErrorMessage] = useState('')
   const [loginMode, setLoginMode] = useState<'OTP' | 'PASSWORD'>('OTP')
 
-  const activeChannel = availableChannels.includes(selectedChannel)
+  const activeChannel = selectedChannel && availableChannels.includes(selectedChannel)
     ? selectedChannel
-    : availableChannels[0]
+    : availableChannels[0] ?? 'EMAIL'
 
   function handleError(error: unknown) {
     if (error instanceof ApiError) {
@@ -151,7 +151,12 @@ function LoginPage() {
   return (
     <AuthLayout>
       {loginMode === 'PASSWORD' ? (
-        <PasswordLoginForm onUseOtp={() => setLoginMode('OTP')} />
+        <PasswordLoginForm
+          isConfigLoading={isConfigLoading}
+          isLoginDisabled={settings?.loginEnabled !== true}
+          configError={configError ?? ''}
+          onUseOtp={() => setLoginMode('OTP')}
+        />
       ) : (
       <div className="w-full">
         {step === 'IDENTIFIER' && (
@@ -159,7 +164,7 @@ function LoginPage() {
             channels={availableChannels}
             activeChannel={activeChannel}
             isConfigLoading={isConfigLoading}
-            isLoginDisabled={settings?.loginEnabled === false}
+            isLoginDisabled={settings?.loginEnabled !== true}
             configError={configError ?? ''}
             errorMessage={errorMessage}
             isLoading={isLoading}
