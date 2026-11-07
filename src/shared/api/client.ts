@@ -1,6 +1,6 @@
 import type { ApiErrorPayload, ApiResponse } from './types'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? ''
 
 export class ApiError extends Error {
   code: string
@@ -30,10 +30,6 @@ export async function apiRequest<T>(
   path: string,
   options: RequestOptions = {},
 ): Promise<ApiResponse<T>> {
-  if (!API_BASE_URL) {
-    throw new Error('VITE_API_BASE_URL is not configured.')
-  }
-
   const headers = new Headers(options.headers)
 
   if (options.body !== undefined) {
