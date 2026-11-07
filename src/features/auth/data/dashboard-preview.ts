@@ -1,18 +1,6 @@
 import type { UserProfile } from '../../user/types/user.types'
 import type { CoachProfile } from '../../coaches/types/coach.types'
 
-export const previewAthlete: UserProfile = {
-  user_id: '00000000-0000-4000-8000-000000000101',
-  email: 'alex.morgan@example.com',
-  display_name: 'Alex Morgan',
-  phone: '+1 202 555 0142',
-  avatar_url: null,
-  role: 'ATHLETE',
-  status: 'ACTIVE',
-  created_at: '2025-08-14T09:30:00Z',
-  updated_at: '2026-10-28T12:00:00Z',
-}
-
 export const previewCoach: UserProfile = {
   user_id: '00000000-0000-4000-8000-000000000202',
   email: 'jordan.davis@example.com',
@@ -23,19 +11,6 @@ export const previewCoach: UserProfile = {
   status: 'ACTIVE',
   created_at: '2024-03-12T09:30:00Z',
   updated_at: '2026-10-28T12:00:00Z',
-}
-
-export const previewAthleteCoachRelation = {
-  relation_id: '00000000-0000-4000-8000-000000000301',
-  coach_id: previewCoach.user_id,
-  coach_name: 'Jordan Davis',
-  athlete_id: previewAthlete.user_id,
-  athlete_name: 'Alex Morgan',
-  plan_id: '00000000-0000-4000-8000-000000000401',
-  plan_title: 'Strength & Conditioning',
-  starts_at: '2026-10-01T00:00:00Z',
-  ends_at: '2026-12-31T23:59:59Z',
-  status: 'ACTIVE' as const,
 }
 
 export const previewCoachRelations = [
