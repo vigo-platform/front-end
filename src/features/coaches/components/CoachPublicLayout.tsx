@@ -11,11 +11,13 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
   const { isPreview, isAuthenticated, user } = useAuth()
   const homePath = isPreview
     ? '/_preview/athlete'
-    : user?.role === 'COACH'
-      ? '/coach'
-      : user?.role === 'ADMIN'
-        ? '/admin'
-        : '/athlete'
+    : !isAuthenticated
+      ? '/'
+      : user?.role === 'COACH'
+        ? '/coach'
+        : user?.role === 'ADMIN'
+          ? '/admin'
+          : '/athlete'
   const coachesPath = isPreview ? '/_preview/athlete/coaches' : '/coaches'
   return (
     <div className="min-h-screen bg-canvas text-ink">
