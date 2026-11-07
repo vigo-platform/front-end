@@ -55,7 +55,7 @@ function OtpLoginIdentifierStep({
         </p>
       ) : isLoginDisabled ? (
         <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
-          Login is currently disabled. Please try again later.
+          {configError || 'Login is currently disabled. Please try again later.'}
         </p>
       ) : channels.length === 0 ? (
         <p
