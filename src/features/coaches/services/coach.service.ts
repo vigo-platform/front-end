@@ -1,7 +1,6 @@
 import { apiRequest } from '../../../shared/api/client'
 import type {
   CoachPage,
-  CoachPlan,
   CoachProfile,
   CoachProfileRequest,
   CoachSearchParams,
@@ -25,13 +24,6 @@ export const coachService = {
   async getProfile(coachId: string): Promise<CoachProfile> {
     const response = await apiRequest<CoachProfile>(
       '/api/v1/coaches/' + encodeURIComponent(coachId),
-    )
-    return response.data
-  },
-
-  async getPlans(coachId: string): Promise<CoachPlan[]> {
-    const response = await apiRequest<CoachPlan[]>(
-      '/api/v1/coaches/' + encodeURIComponent(coachId) + '/plans',
     )
     return response.data
   },
