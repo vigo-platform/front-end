@@ -90,7 +90,7 @@ function Sidebar() {
           <div className="min-w-0">
             <p className="truncate text-[11px] font-semibold text-white">{displayName}</p>
             <p className="mt-0.5 text-[10px] capitalize text-white/40">
-              {t(user?.role?.toLowerCase() || 'workspace.memberRole')}
+              {user?.role === 'ADMIN' ? t('workspace.administrator') : user?.role === 'COACH' ? t('workspace.coachAccount') : user?.role === 'ATHLETE' ? t('workspace.athleteAccount') : t('workspace.memberRole')}
             </p>
           </div>
         </div>

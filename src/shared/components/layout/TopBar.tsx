@@ -8,7 +8,7 @@ interface TopBarProps {
 function getInitials(name: string) {
   return name
     .trim()
-    .split(/\\s+/)
+    .split(/\s+/)
     .slice(0, 2)
     .map((part) => part.charAt(0).toUpperCase())
     .join('')
