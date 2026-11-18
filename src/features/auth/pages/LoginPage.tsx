@@ -184,12 +184,11 @@ function LoginPage() {
           <>
             <div className="mb-6">
               <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
-                Verify your {isEmail ? 'email' : 'phone'}
+                {t('ui.Verify your {{channel}}', { channel: t(isEmail ? 'ui.Email' : 'ui.Phone') })}
               </h1>
 
               <p className="text-[13px] leading-relaxed text-[#55554f]">
-                Enter the verification code sent to your{' '}
-                {isEmail ? 'email address' : 'phone number'}.
+                {t('ui.Enter the verification code sent to your {{channel}}.', { channel: t(isEmail ? 'ui.Email address' : 'ui.Phone number') })}
               </p>
             </div>
 
