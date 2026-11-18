@@ -88,7 +88,6 @@ function ForgotPasswordPage() {
   }
 
   function goBack() {
-  const { t } = useTranslation()
     setErrorMessage('')
     if (step === 'VERIFY') {
       setOtp('')
