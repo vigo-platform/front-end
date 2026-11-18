@@ -61,7 +61,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
               {t('ui.Good morning, {{name}}.', { name: firstName })}
             </h1>
             <p className="mt-2 text-[13px] leading-6 text-[#77786f]">
-              Explore verified coaches and manage your Vigo account.
+              {t('ui.Explore verified coaches and manage your Vigo account.')}
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
