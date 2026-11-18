@@ -25,7 +25,7 @@ function CoachProfilePage() {
       })
       .catch((requestError: unknown) => {
         if (isActive) {
-          setError(requestError instanceof Error ? requestError.message : 'Could not load this coach profile.')
+          setError(requestError instanceof Error ? requestError.message : t('ui.Could not load this coach profile.'))
         }
       })
       .finally(() => {
