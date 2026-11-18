@@ -151,17 +151,17 @@ function PasswordLoginForm({
       <div className="mb-7">
         <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
           {step === 'CREDENTIALS'
-            ? 'Log in with your password'
+            ? t('ui.Log in with your password')
             : step === 'VERIFY'
-              ? 'Verify your identity'
-              : 'Update your password'}
+              ? t('ui.Verify your identity')
+              : t('ui.Update your password')}
         </h1>
         <p className="text-[13px] leading-[1.6] text-[#55554f]">
           {step === 'CREDENTIALS'
-            ? 'Enter your email or phone number and password.'
+            ? t('ui.Enter your email or phone number and password.')
             : step === 'VERIFY'
-              ? 'Enter the six-digit verification code.'
-              : 'Your password has expired. Choose a new password to continue.'}
+              ? t('ui.Enter the six-digit verification code.')
+              : t('ui.Your password has expired. Choose a new password to continue.')}
         </p>
       </div>
 
