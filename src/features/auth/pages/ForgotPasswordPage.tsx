@@ -115,8 +115,8 @@ function ForgotPasswordPage() {
         {step === 'VERIFY' && (
           <>
             <div className="mb-6">
-              <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">Verify your {isEmail ? 'email' : 'phone'}</h1>
-              <p className="text-[13px] leading-relaxed text-[#55554f]">Enter the verification code sent to {identifier}.</p>
+              <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">{t('ui.Verify your {{channel}}', { channel: t(isEmail ? 'ui.Email' : 'ui.Phone') })}</h1>
+              <p className="text-[13px] leading-relaxed text-[#55554f]">{t('ui.Enter the verification code sent to {{identifier}}.', { identifier })}</p>
             </div>
             <form onSubmit={verifyCode} className="flex flex-col gap-5">
               <div className="flex flex-col gap-2">
