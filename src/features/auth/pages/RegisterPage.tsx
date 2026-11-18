@@ -187,7 +187,7 @@ function RegisterPage() {
               </h1>
 
               <p className="text-[12px] leading-relaxed text-[#55554f]">
-                Enter the verification code sent to your {isEmail ? 'email address' : 'phone number'}.
+                {t('ui.Enter the verification code sent to your {{channel}}.', { channel: t(isEmail ? 'ui.Email address' : 'ui.Phone number') })}
               </p>
             </div>
 
