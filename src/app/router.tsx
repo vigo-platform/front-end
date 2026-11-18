@@ -32,8 +32,11 @@ function PublicOnly({ children }: { children: ReactNode }) {
 function AccountSuspendedPage() {
   const { t } = useTranslation()
   return (
-    <main className="flex min-h-screen items-center justify-center bg-canvas p-6">
-      <section className="w-full max-w-md rounded-2xl border border-border bg-white p-8 text-center">
+    <main className="min-h-screen bg-canvas p-6">
+      <header className="mx-auto flex w-full max-w-md justify-end pb-4">
+        <LanguageSwitcher />
+      </header>
+      <section className="mx-auto w-full max-w-md rounded-2xl border border-border bg-white p-8 text-center">
         <h1 className="text-xl font-semibold text-ink">{t('errors.suspended')}</h1>
         <p className="mt-3 text-sm leading-6 text-muted">{t('errors.suspendedDescription')}</p>
       </section>
