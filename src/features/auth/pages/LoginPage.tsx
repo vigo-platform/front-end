@@ -128,7 +128,7 @@ function LoginPage() {
 
       navigate('/login', {
         replace: true,
-        state: { message: 'Your password was updated. Please sign in.' },
+        state: { message: t('ui.Your password was updated. Please sign in.') },
       })
     } catch (error) {
       handleError(error)
