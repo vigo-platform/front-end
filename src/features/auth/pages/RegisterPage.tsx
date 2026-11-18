@@ -319,14 +319,14 @@ function RegisterPage() {
                     maxLength={72}
                     pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,32}"
                     required
-                    className={`${inputClassName} pr-11`}
+                    className={`${inputClassName} pe-11`}
                   />
 
                   <button
                     type="button"
                     onClick={() => setShowPassword((previous) => !previous)}
                     aria-label={showPassword ? t('ui.Hide password') : t('ui.Show password')}
-                    className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-[#55554f] hover:text-ink"
+                    className="absolute inset-y-0 end-0 flex w-11 items-center justify-center text-[#55554f] hover:text-ink"
                   >
                     {showPassword ? t('ui.Hide') : t('ui.Show')}
                   </button>
