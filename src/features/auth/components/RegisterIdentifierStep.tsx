@@ -121,7 +121,7 @@ function RegisterIdentifierStep({
         Already have an account?{' '}
         <Link
           to="/login"
-          className="ml-1 font-medium text-ink no-underline hover:underline"
+          className="ms-1 font-medium text-ink no-underline hover:underline"
         >
           {t("ui.Log in")}
         </Link>
