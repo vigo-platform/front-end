@@ -36,7 +36,7 @@ function CoachDirectoryPage() {
       })
       .catch((requestError: unknown) => {
         if (isActive) {
-          setError(requestError instanceof Error ? requestError.message : 'Could not load coaches.')
+          setError(requestError instanceof Error ? requestError.message : t('ui.Could not load coaches.'))
         }
       })
       .finally(() => {
