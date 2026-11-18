@@ -157,19 +157,19 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
               <span className="text-[9px] font-bold tracking-[1.5px] text-[#96978d]">{t('ui.01 / LIBRARY')}</span>
               <h3 className="mt-5 text-[15px] font-bold text-[#20211d]">{t("ui.Exercise library")}</h3>
               <p className="mt-2 text-[10px] leading-5 text-[#77786f]">{t("ui.Browse the current exercise interface and sample movement catalog.")}</p>
-              <span className="mt-5 inline-flex gap-2 text-[10px] font-bold text-[#526a2e] group-hover:gap-3"{t('ui.Open library →')}</span>
+              <span className="mt-5 inline-flex gap-2 text-[10px] font-bold text-[#526a2e] group-hover:gap-3">{t('ui.Open library →')}</span>
             </Link>
             <Link to={coachPath + '/workouts/new'} className="group rounded-[18px] border border-[#e1e1da] bg-white p-5 transition hover:-translate-y-1 hover:border-[#cbd9b3] hover:shadow-[0_14px_32px_rgba(35,42,23,0.06)]">
-              <span className="text-[9px] font-bold tracking-[1.5px] text-[#96978d]"{t('ui.02 / BUILDER')}</span>
+              <span className="text-[9px] font-bold tracking-[1.5px] text-[#96978d]">{t('ui.02 / BUILDER')}</span>
               <h3 className="mt-5 text-[15px] font-bold text-[#20211d]">{t("ui.Workout builder")}</h3>
               <p className="mt-2 text-[10px] leading-5 text-[#77786f]">{t("ui.Arrange exercises, sets, reps, and rest periods in a local draft.")}</p>
-              <span className="mt-5 inline-flex gap-2 text-[10px] font-bold text-[#526a2e] group-hover:gap-3"{t('ui.Build a workout →')}</span>
+              <span className="mt-5 inline-flex gap-2 text-[10px] font-bold text-[#526a2e] group-hover:gap-3">{t('ui.Build a workout →')}</span>
             </Link>
             <Link to={coachPath + '/workouts'} className="group rounded-[18px] border border-[#e1e1da] bg-white p-5 transition hover:-translate-y-1 hover:border-[#cbd9b3] hover:shadow-[0_14px_32px_rgba(35,42,23,0.06)]">
-              <span className="text-[9px] font-bold tracking-[1.5px] text-[#96978d]"{t('ui.03 / DRAFTS')}</span>
+              <span className="text-[9px] font-bold tracking-[1.5px] text-[#96978d]">{t('ui.03 / DRAFTS')}</span>
               <h3 className="mt-5 text-[15px] font-bold text-[#20211d]">{t("ui.My workouts")}</h3>
               <p className="mt-2 text-[10px] leading-5 text-[#77786f]">{t("ui.Continue editing workout drafts saved in this browser.")}</p>
-              <span className="mt-5 inline-flex gap-2 text-[10px] font-bold text-[#526a2e] group-hover:gap-3"{t('ui.View drafts →')}</span>
+              <span className="mt-5 inline-flex gap-2 text-[10px] font-bold text-[#526a2e] group-hover:gap-3">{t('ui.View drafts →')}</span>
             </Link>
           </div>
         </section>
