@@ -3,6 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/auth-context'
 import type { UserRole } from '../../user/types/user.types'
 import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 interface RequireAuthProps {
   children: ReactNode
@@ -10,10 +11,11 @@ interface RequireAuthProps {
 }
 function RequireAuth({ children, allowedRoles }: RequireAuthProps) {
   const { t } = useTranslation()
+  const { t } = useTranslation()
   const { isAuthenticated, isInitializing, user } = useAuth()
   const location = useLocation()
   if (isInitializing) {
-    return <div className="flex min-h-screen items-center justify-center text-sm text-muted">Restoring your session...</div>
+    return <div className="flex min-h-screen items-center justify-center text-sm text-muted">{t('ui.Restoring your session...')}</div>
   }
   if (!isAuthenticated) return <Navigate to="/login" replace state={{ from: location }} />
   if (user?.status === 'SUSPENDED') return <Navigate to="/account-suspended" replace />
