@@ -10,7 +10,7 @@ interface AthleteDashboardPageProps {
   isPreview?: boolean
 }
 
-function formatDate(value?: string | null, locale = 'en') {
+function formatNumber(value: number, locale = 'en') {\n  return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value)\n}\n\nfunction formatDate(value?: string | null, locale = 'en') {
   if (!value) return '—'
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return '—'
@@ -78,12 +78,12 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
         <section className="grid gap-3 sm:grid-cols-3">
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Available coaches")}</p>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingCoaches ? '—' : String(totalCoaches).padStart(2, '0')}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingCoaches ? '—' : formatNumber(totalCoaches, i18n.language)}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Approved public profiles")}</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Specialties shown")}</p>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingCoaches ? '—' : String(uniqueSpecialties).padStart(2, '0')}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingCoaches ? '—' : formatNumber(uniqueSpecialties, i18n.language)}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Across the coaches loaded")}</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
@@ -137,7 +137,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
                   <p className="text-[9px] font-bold uppercase tracking-[1px] text-[#82975e]">{t("ui.Verified coach")}</p>
                   <h3 className="mt-2 text-[16px] font-bold tracking-[-0.4px] text-[#20211d]">{coach.display_name}</h3>
                   {coach.headline && <p className="mt-1 text-[11px] text-[#77786f]">{coach.headline}</p>}
-                  <p className="mt-3 text-[10px] text-[#77786f]">{coach.experience_years} {t('ui.years of experience')}</p>
+                  <p className="mt-3 text-[10px] text-[#77786f]">{formatNumber(coach.experience_years, i18n.language)} {t('ui.years of experience')}</p>
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {(coach.specialties ?? []).slice(0, 3).map((specialty) => (
                       <span key={specialty} className="rounded-full bg-[#f0f3e9] px-2.5 py-1 text-[9px] text-[#60783a]">{specialty}</span>
