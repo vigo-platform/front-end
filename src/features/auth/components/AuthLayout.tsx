@@ -1,5 +1,6 @@
 
 import type { ReactNode } from 'react'
+import LanguageSwitcher from '../../../shared/components/LanguageSwitcher'
 
 interface AuthLayoutProps {
   children: ReactNode
@@ -11,7 +12,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
       {/* Main Section */}
       <section className="relative flex min-h-[calc(100vh-24px)] flex-col bg-white px-6 py-8 sm:px-11">
         {/* Logo */}
-        <header>
+        <header className="flex items-center justify-between gap-4">
           <a
             href="/login"
             className="inline-flex items-center gap-2 text-2xl font-bold text-ink no-underline"
@@ -19,6 +20,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
             Vigo
             <span className="size-[7px] rounded-full bg-accent" />
           </a>
+          <LanguageSwitcher />
         </header>
 
         {/* Form Content */}
