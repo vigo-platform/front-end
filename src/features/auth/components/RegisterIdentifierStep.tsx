@@ -73,14 +73,14 @@ function RegisterIdentifierStep({
 
           <div className="flex flex-col gap-2">
             <label htmlFor="identifier" className={labelClassName}>
-              {isEmail ? 'Email address' : 'Phone number'}
+              {t(isEmail ? 'ui.Email address' : 'ui.Phone number')}
             </label>
             <input
               id="identifier"
               type={isEmail ? 'email' : 'tel'}
               inputMode={isEmail ? 'email' : 'tel'}
               autoComplete={isEmail ? 'email' : 'tel'}
-              placeholder={isEmail ? 'you@example.com' : 'Enter your phone number'}
+              placeholder={isEmail ? 'you@example.com' : t('ui.Enter your phone number')}
               value={identifier}
               onChange={(event) => onIdentifierChange(event.target.value)}
               required
@@ -89,9 +89,7 @@ function RegisterIdentifierStep({
           </div>
 
           <p className="-mt-1 text-[12px] text-[#62625c]">
-            {isEmail
-              ? "We'll send a verification code to this email address."
-              : "We'll use this phone number for your registration."}
+            {isEmail ? t('ui.We\'ll send a verification code to this email address.') : t('ui.We\'ll use this phone number for your registration.')}
           </p>
 
           {configError && (
