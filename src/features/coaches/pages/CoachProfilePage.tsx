@@ -7,7 +7,11 @@ import { coachService } from '../services/coach.service'
 import type { CoachProfile } from '../types/coach.types'
 import { useTranslation } from 'react-i18next'
 
-function formatNumber(value: number, locale = 'en') {\n  return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value)\n}\n\nfunction CoachProfilePage() {
+function formatNumber(value: number, locale = 'en') {
+  return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value)
+}
+
+function CoachProfilePage() {
   const { t, i18n } = useTranslation()
   const { coachId = '' } = useParams()
   const { isPreview } = useAuth()
