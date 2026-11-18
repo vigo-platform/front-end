@@ -84,7 +84,7 @@ function PasswordResetIdentifierStep({
 
       <p className="mt-7 text-center text-[11px] text-[#33332f]">
         Remember your password?{' '}
-        <Link to="/login" className="ml-1 font-medium text-ink hover:underline">
+        <Link to="/login" className="ms-1 font-medium text-ink hover:underline">
           {t("ui.Log in")}
         </Link>
       </p>
