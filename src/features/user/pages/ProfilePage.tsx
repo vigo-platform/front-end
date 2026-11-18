@@ -51,7 +51,7 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
       })
       .catch((requestError: unknown) => {
         if (!active) return
-        setError(requestError instanceof Error ? requestError.message : 'Could not load your coach profile.')
+        setError(requestError instanceof Error ? requestError.message : t('ui.Could not load your coach profile.'))
       })
       .finally(() => {
         if (active) setIsLoadingCoach(false)
@@ -140,7 +140,7 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
       }
       setSuccess(t("ui.Your profile has been updated."))
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : 'Could not save your profile. Please try again.')
+      setError(requestError instanceof Error ? requestError.message : t('ui.Could not save your profile. Please try again.'))
     } finally {
       setIsSaving(false)
     }
