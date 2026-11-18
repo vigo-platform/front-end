@@ -17,7 +17,7 @@ function formatDate(value?: string | null) {
 }
 
 function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { user, isPreview: previewContext } = useAuth()
   const preview = isPreview || previewContext
   const coachPath = preview ? '/_preview/coach' : '/coach'
@@ -39,10 +39,10 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
           </div>
           <div className="flex flex-wrap gap-2">
             <span className="inline-flex items-center gap-2 rounded-full border border-[#dce8c8] bg-[#f2f8e8] px-3.5 py-2 text-[9px] font-bold uppercase tracking-[1px] text-[#526a2e]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#9bcf43]" />{user?.status || 'Status unavailable'}
+              <span className="h-1.5 w-1.5 rounded-full bg-[#9bcf43]" />{t('ui.' + (user?.status || 'Status unavailable'))}
             </span>
             <span className="rounded-full border border-[#e2e2db] bg-white px-3.5 py-2 text-[9px] font-semibold uppercase tracking-[1px] text-[#77786f]">
-              Member since {formatDate(user?.created_at)}
+              {t('ui.Member since')} {formatDate(user?.created_at)}
             </span>
           </div>
         </section>
@@ -92,7 +92,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
                 <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">{t("ui.Relationships")}</p>
                 <h2 className="mt-2 text-[21px] font-bold tracking-[-0.7px]">{t("ui.Your athletes")}</h2>
               </div>
-              <span className="text-[9px] font-semibold text-[#92938a]">{preview ? activeAthletes.length + ' active' : 'Not connected'}</span>
+              <span className="text-[9px] font-semibold text-[#92938a]">{preview ? activeAthletes.length + ' ' + t('ui.active') : t('ui.Not connected')}</span>
             </div>
             {preview ? (
               <div className="mt-5 divide-y divide-[#edede8]">
@@ -105,7 +105,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
                       <p className="truncate text-[12px] font-bold text-[#34352f]">{relation.athlete_name}</p>
                       <p className="mt-1 truncate text-[10px] text-[#888980]">{relation.plan_title}</p>
                     </div>
-                    <span className="rounded-full bg-[#f0f5e8] px-2.5 py-1 text-[8px] font-bold uppercase tracking-[0.8px] text-[#60783a]">Active</span>
+                    <span className="rounded-full bg-[#f0f5e8] px-2.5 py-1 text-[8px] font-bold uppercase tracking-[0.8px] text-[#60783a]">{t('ui.ACTIVE')}</span>
                   </div>
                 ))}
               </div>
@@ -123,7 +123,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
                 <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">{t("ui.Published content")}</p>
                 <h2 className="mt-2 text-[21px] font-bold tracking-[-0.7px]">{t("ui.Your plans")}</h2>
               </div>
-              <span className="text-[9px] font-semibold text-[#92938a]">{preview ? activePlans.length + ' active' : 'Not connected'}</span>
+              <span className="text-[9px] font-semibold text-[#92938a]">{preview ? activePlans.length + ' ' + t('ui.active') : t('ui.Not connected')}</span>
             </div>
             {preview ? (
               <div className="mt-5 space-y-3">
@@ -131,10 +131,10 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
                   <div key={plan.plan_id} className="rounded-xl bg-[#f7f8f3] p-4">
                     <div className="flex items-start justify-between gap-3">
                       <h3 className="text-[12px] font-bold text-[#34352f]">{plan.title}</h3>
-                      <span className="rounded-full bg-white px-2 py-1 text-[8px] font-bold uppercase text-[#60783a]">{plan.status}</span>
+                      <span className="rounded-full bg-white px-2 py-1 text-[8px] font-bold uppercase text-[#60783a]">{t('ui.' + plan.status)}</span>
                     </div>
                     <p className="mt-1 text-[10px] leading-5 text-[#85867d]">{plan.description}</p>
-                    <p className="mt-3 text-[10px] font-semibold text-[#526a2e]">{plan.duration_days} days · {new Intl.NumberFormat('en-US').format(plan.price)} Toman</p>
+                    <p className="mt-3 text-[10px] font-semibold text-[#526a2e]">{plan.duration_days} {t('ui.days')} · {new Intl.NumberFormat(i18n.language === 'fa' ? 'fa-IR' : 'en-US').format(plan.price)} تومان</p>
                   </div>
                 ))}
               </div>
@@ -181,7 +181,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
               <h2 className="mt-2 text-[17px] font-bold text-[#20231b]">{user?.display_name || 'Coach profile'}</h2>
               <p className="mt-1 text-[11px] text-[#73786a]">{user?.email || 'Email not available'} · {user?.phone || 'No phone number'}</p>
             </div>
-            <span className="inline-flex w-fit rounded-full border border-[#d7dfcb] bg-white/70 px-3 py-1.5 text-[8px] font-bold uppercase tracking-[1px] text-[#71864c]">{user?.status || 'Status unavailable'}</span>
+            <span className="inline-flex w-fit rounded-full border border-[#d7dfcb] bg-white/70 px-3 py-1.5 text-[8px] font-bold uppercase tracking-[1px] text-[#71864c]">{t('ui.' + (user?.status || 'Status unavailable'))}</span>
           </div>
         </section>
       </div>
