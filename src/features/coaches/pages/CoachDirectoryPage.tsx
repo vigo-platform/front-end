@@ -233,7 +233,7 @@ function CoachDirectoryPage() {
                     <div className="mt-auto grid grid-cols-2 gap-3 border-t border-border pt-4">
                       <div>
                         <p className="text-[11px] text-muted">{t("ui.Experience")}</p>
-                        <p className="mt-1 text-sm font-semibold">{coach.experience_years} years</p>
+                        <p className="mt-1 text-sm font-semibold">{coach.experience_years} {t('ui.years')}</p>
                       </div>
                       <div>
                         <p className="text-[11px] text-muted">{t("ui.Starting from")}</p>
