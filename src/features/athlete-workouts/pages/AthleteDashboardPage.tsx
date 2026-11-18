@@ -61,7 +61,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
           <div>
             <p className="text-[9px] font-bold uppercase tracking-[2px] text-[#82975e]">{t("ui.Athlete space")}</p>
             <h1 className="mt-3 text-[32px] font-bold leading-[1.08] tracking-[-1.5px] text-[#171815] sm:text-[42px]">
-              Good morning, {firstName}.
+              {t('ui.Good morning, {{name}}.', { name: firstName })}
             </h1>
             <p className="mt-2 text-[13px] leading-6 text-[#77786f]">
               Explore verified coaches and manage your Vigo account.
@@ -70,10 +70,10 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
           <div className="flex flex-wrap gap-2">
             <span className="inline-flex items-center gap-2 rounded-full border border-[#dce8c8] bg-[#f2f8e8] px-3.5 py-2 text-[9px] font-bold uppercase tracking-[1px] text-[#526a2e]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#9bcf43]" />
-              {user?.status || 'Status unavailable'}
+              {t('ui.' + (user?.status || 'Status unavailable'))}
             </span>
             <span className="rounded-full border border-[#e2e2db] bg-white px-3.5 py-2 text-[9px] font-semibold uppercase tracking-[1px] text-[#77786f]">
-              Member since {formatDate(user?.created_at)}
+              {t('ui.Member since')} {formatDate(user?.created_at)}
             </span>
           </div>
         </section>
@@ -123,7 +123,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
               <h2 className="mt-2 text-[22px] font-bold tracking-[-0.8px] text-[#20211d]">{t("ui.Discover coaches")}</h2>
               <p className="mt-1 text-[12px] text-[#77786f]">{t("ui.Approved coaches currently available on Vigo.")}</p>
             </div>
-            <Link to="/coaches" className="text-[10px] font-bold text-[#526a2e] hover:underline">View all coaches →</Link>
+            <Link to="/coaches" className="text-[10px] font-bold text-[#526a2e] hover:underline">{t('ui.View all coaches →')}</Link>
           </div>
 
           {coachError ? (
@@ -140,14 +140,14 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
                   <p className="text-[9px] font-bold uppercase tracking-[1px] text-[#82975e]">{t("ui.Verified coach")}</p>
                   <h3 className="mt-2 text-[16px] font-bold tracking-[-0.4px] text-[#20211d]">{coach.display_name}</h3>
                   {coach.headline && <p className="mt-1 text-[11px] text-[#77786f]">{coach.headline}</p>}
-                  <p className="mt-3 text-[10px] text-[#77786f]">{coach.experience_years} years of experience</p>
+                  <p className="mt-3 text-[10px] text-[#77786f]">{coach.experience_years} {t('ui.years of experience')}</p>
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {(coach.specialties ?? []).slice(0, 3).map((specialty) => (
                       <span key={specialty} className="rounded-full bg-[#f0f3e9] px-2.5 py-1 text-[9px] text-[#60783a]">{specialty}</span>
                     ))}
                   </div>
                   <Link to={'/coaches/' + coach.coach_id} className="mt-5 inline-flex text-[10px] font-bold text-[#526a2e] hover:underline">
-                    View profile →
+                    {t('ui.View profile →')}
                   </Link>
                 </article>
               ))}
@@ -176,7 +176,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
               <h2 className="mt-3 text-[21px] font-bold tracking-[-0.7px] text-[#20231b]">{t("ui.Workout tracking is coming with the backend API.")}</h2>
               <p className="mt-2 text-[11px] leading-5 text-[#73786a]">{t("ui.Assigned workouts and result submission are not exposed by the current backend yet. This dashboard does not show demo workouts.")}</p>
             </div>
-            <Link to={isPreview ? '/_preview/athlete/workouts' : '/athlete/workouts'} className="mt-6 inline-flex w-fit rounded-full border border-[#d7dfcb] bg-white/70 px-3 py-2 text-[10px] font-bold text-[#526a2e] transition hover:bg-white">Workout API status →</Link>
+            <Link to={isPreview ? '/_preview/athlete/workouts' : '/athlete/workouts'} className="mt-6 inline-flex w-fit rounded-full border border-[#d7dfcb] bg-white/70 px-3 py-2 text-[10px] font-bold text-[#526a2e] transition hover:bg-white">{t('ui.Workout API status →')}</Link>
           </article>
         </section>
       </div>
