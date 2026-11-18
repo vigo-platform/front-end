@@ -199,7 +199,7 @@ function LoginPage() {
             >
               <div className="flex flex-col gap-2">
                 <label htmlFor="otp" className={labelClassName}>
-                  Verification code
+                  {t("ui.Verification code")}
                 </label>
 
                 <input
@@ -239,7 +239,7 @@ function LoginPage() {
                 onClick={goBack}
                 className="h-8 text-[11px] text-ink hover:underline"
               >
-                Back
+                {t("ui.Back")}
               </button>
             </form>
           </>
@@ -248,10 +248,10 @@ function LoginPage() {
         <>
           <div className="mb-6">
             <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
-              Update your password
+              {t("ui.Update your password")}
             </h1>
             <p className="text-[13px] leading-relaxed text-[#55554f]">
-              Your current password has expired. Choose a new password to continue.
+              {t("ui.Your current password has expired. Choose a new password to continue.")}
             </p>
           </div>
           <form onSubmit={handleExpiredPasswordSubmit} className="flex flex-col gap-4">
