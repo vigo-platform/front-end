@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import ArrowIcon from '../components/ArrowIcon'
 import BrandMark from '../components/BrandMark'
 import WorkoutPreview from '../components/WorkoutPreview'
+import LanguageSwitcher from '../../../shared/components/LanguageSwitcher'
+import { useTranslation } from 'react-i18next'
 
 const navigation = [
   { label: 'Product', href: '#product' },
@@ -64,6 +66,7 @@ const steps = [
 ]
 
 function PublicLandingPage() {
+  const { t } = useTranslation()
   const [menuOpen, setMenuOpen] = useState(false)
 
   const closeMenu = () => setMenuOpen(false)
@@ -81,7 +84,7 @@ function PublicLandingPage() {
                 href={item.href}
                 className="text-[12px] font-medium text-[#66665f] transition hover:text-ink"
               >
-                {item.label}
+                {t('ui.' + item.label)}
               </a>
             ))}
           </nav>
@@ -101,9 +104,11 @@ function PublicLandingPage() {
             </Link>
           </div>
 
-          <button
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            <button
             type="button"
-            aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-label={menuOpen ? t('ui.Close navigation menu') : t('ui.Open navigation menu')}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((open) => !open)}
             className="flex h-10 w-10 items-center justify-center rounded-xl border border-border text-ink md:hidden"
@@ -117,7 +122,8 @@ function PublicLandingPage() {
                 <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
               </svg>
             )}
-          </button>
+            </button>
+          </div>
         </div>
 
         {menuOpen && (
@@ -129,9 +135,9 @@ function PublicLandingPage() {
                 </a>
               ))}
               <div className="flex flex-wrap gap-4 border-t border-border pt-4">
-                <Link to="/coaches" onClick={closeMenu} className="text-sm font-semibold text-[#6b8c31]">Find a coach</Link>
-                <Link to="/login" onClick={closeMenu} className="text-sm font-semibold">Log in</Link>
-                <Link to="/register" onClick={closeMenu} className="text-sm font-semibold text-[#6b8c31]">Get started</Link>
+                <Link to="/coaches" onClick={closeMenu} className="text-sm font-semibold text-[#6b8c31]">{t("ui.Find a coach")}</Link>
+                <Link to="/login" onClick={closeMenu} className="text-sm font-semibold">{t("ui.Log in")}</Link>
+                <Link to="/register" onClick={closeMenu} className="text-sm font-semibold text-[#6b8c31]">{t("ui.Get started")}</Link>
               </div>
             </div>
           </nav>
@@ -203,7 +209,7 @@ function PublicLandingPage() {
         <div className="mx-auto max-w-[1240px] px-5 sm:px-8 lg:px-10">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[2px] text-accent">One platform, two perspectives</p>
+              <p className="text-[10px] font-bold uppercase tracking-[2px] text-accent">{t("ui.One platform, two perspectives")}</p>
               <h2 className="mt-5 max-w-[430px] text-[36px] leading-[1.13] font-bold tracking-[-1.8px] sm:text-[48px]">
                 Your training, connected.
               </h2>
@@ -221,8 +227,8 @@ function PublicLandingPage() {
                     <path d="M5 20c.5-3.5 2.8-5.5 7-5.5s6.5 2 7 5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
                   </svg>
                 </div>
-                <p className="mt-7 text-[10px] font-bold uppercase tracking-[1.7px] text-accent">For athletes</p>
-                <h3 className="mt-3 text-[22px] font-bold tracking-[-0.7px]">Own your routine.</h3>
+                <p className="mt-7 text-[10px] font-bold uppercase tracking-[1.7px] text-accent">{t("ui.For athletes")}</p>
+                <h3 className="mt-3 text-[22px] font-bold tracking-[-0.7px]">{t("ui.Own your routine.")}</h3>
                 <p className="mt-3 text-[12px] leading-[1.9] text-white/60">
                   Discover coaches, connect with the right one, follow your
                   assigned workouts, and record your training results.
@@ -239,8 +245,8 @@ function PublicLandingPage() {
                     <path d="M4 8h4m2-3h4m2 6h4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
                   </svg>
                 </div>
-                <p className="mt-7 text-[10px] font-bold uppercase tracking-[1.7px] text-accent">For coaches</p>
-                <h3 className="mt-3 text-[22px] font-bold tracking-[-0.7px]">Coach with clarity.</h3>
+                <p className="mt-7 text-[10px] font-bold uppercase tracking-[1.7px] text-accent">{t("ui.For coaches")}</p>
+                <h3 className="mt-3 text-[22px] font-bold tracking-[-0.7px]">{t("ui.Coach with clarity.")}</h3>
                 <p className="mt-3 text-[12px] leading-[1.9] text-white/60">
                   Present your coaching profile, organize exercises into
                   structured workouts, and review what your athletes complete.
@@ -257,7 +263,7 @@ function PublicLandingPage() {
       <section id="how-it-works" className="py-20 sm:py-28">
         <div className="mx-auto max-w-[1240px] px-5 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-[620px] text-center">
-            <p className="text-[10px] font-bold uppercase tracking-[2px] text-[#718d43]">A simple training cycle</p>
+            <p className="text-[10px] font-bold uppercase tracking-[2px] text-[#718d43]">{t("ui.A simple training cycle")}</p>
             <h2 className="mt-4 text-[36px] leading-tight font-bold tracking-[-1.8px] sm:text-[48px]">
               From first connection to every rep.
             </h2>
@@ -274,8 +280,8 @@ function PublicLandingPage() {
                 <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl border-[6px] border-canvas bg-accent text-[14px] font-extrabold text-ink">
                   {step.number}
                 </div>
-                <h3 className="mt-7 text-[20px] font-bold tracking-[-0.6px]">{step.title}</h3>
-                <p className="mt-3 text-[12px] leading-[1.9] text-[#74746c]">{step.description}</p>
+                <h3 className="mt-7 text-[20px] font-bold tracking-[-0.6px]">{t('ui.' + step.title)}</h3>
+                <p className="mt-3 text-[12px] leading-[1.9] text-[#74746c]">{t('ui.' + step.description)}</p>
               </article>
             ))}
           </div>
@@ -286,7 +292,7 @@ function PublicLandingPage() {
         <div className="mx-auto max-w-[1240px] px-5 sm:px-8 lg:px-10">
           <div className="flex flex-col justify-between gap-7 md:flex-row md:items-end">
             <div className="max-w-[600px]">
-              <p className="text-[10px] font-bold uppercase tracking-[2px] text-[#718d43]">The essentials, together</p>
+              <p className="text-[10px] font-bold uppercase tracking-[2px] text-[#718d43]">{t("ui.The essentials, together")}</p>
               <h2 className="mt-4 text-[36px] leading-tight font-bold tracking-[-1.8px] sm:text-[48px]">
                 Everything around the workout.
               </h2>
@@ -307,9 +313,9 @@ function PublicLandingPage() {
                   </span>
                 </div>
                 <div className="mt-auto pt-10">
-                  <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#82975e]">{feature.tag}</p>
-                  <h3 className="mt-2 text-[17px] font-bold tracking-[-0.4px]">{feature.title}</h3>
-                  <p className="mt-3 text-[11px] leading-[1.85] text-[#77776f]">{feature.description}</p>
+                  <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#82975e]">{t('ui.' + feature.tag)}</p>
+                  <h3 className="mt-2 text-[17px] font-bold tracking-[-0.4px]">{t('ui.' + feature.title)}</h3>
+                  <p className="mt-3 text-[11px] leading-[1.85] text-[#77776f]">{t('ui.' + feature.description)}</p>
                 </div>
               </article>
             ))}
@@ -322,7 +328,7 @@ function PublicLandingPage() {
           <div className="pointer-events-none absolute -left-20 -top-36 h-80 w-80 rounded-full bg-[#a6d943]/15 blur-[80px]" />
           <div className="pointer-events-none absolute -bottom-40 -right-20 h-80 w-80 rounded-full bg-[#a6d943]/10 blur-[80px]" />
           <div className="relative mx-auto max-w-[680px]">
-            <p className="text-[10px] font-bold uppercase tracking-[2px] text-accent">Make your next move</p>
+            <p className="text-[10px] font-bold uppercase tracking-[2px] text-accent">{t("ui.Make your next move")}</p>
             <h2 className="mt-5 text-[36px] leading-[1.12] font-bold tracking-[-1.8px] sm:text-[52px]">
               Your training. Your coach. One connected experience.
             </h2>
@@ -346,11 +352,11 @@ function PublicLandingPage() {
             </p>
           </div>
           <nav aria-label="Footer navigation" className="flex flex-wrap gap-x-6 gap-y-3">
-            <a href="#product" className="text-[10px] font-medium text-[#6f6f67] hover:text-ink">Product</a>
-            <a href="#athletes" className="text-[10px] font-medium text-[#6f6f67] hover:text-ink">Athletes</a>
-            <a href="#coaches" className="text-[10px] font-medium text-[#6f6f67] hover:text-ink">Coaches</a>
-            <a href="#how-it-works" className="text-[10px] font-medium text-[#6f6f67] hover:text-ink">How it works</a>
-            <Link to="/login" className="text-[10px] font-medium text-[#6f6f67] hover:text-ink">Log in</Link>
+            <a href="#product" className="text-[10px] font-medium text-[#6f6f67] hover:text-ink">{t("ui.Product")}</a>
+            <a href="#athletes" className="text-[10px] font-medium text-[#6f6f67] hover:text-ink">{t("ui.Athletes")}</a>
+            <a href="#coaches" className="text-[10px] font-medium text-[#6f6f67] hover:text-ink">{t("ui.Coaches")}</a>
+            <a href="#how-it-works" className="text-[10px] font-medium text-[#6f6f67] hover:text-ink">{t("ui.How it works")}</a>
+            <Link to="/login" className="text-[10px] font-medium text-[#6f6f67] hover:text-ink">{t("ui.Log in")}</Link>
           </nav>
           <p className="text-[10px] text-[#92928a]">© {new Date().getFullYear()} Vigo. All rights reserved.</p>
         </div>
