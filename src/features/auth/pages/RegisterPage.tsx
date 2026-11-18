@@ -183,7 +183,7 @@ function RegisterPage() {
           <>
             <div className="mb-6">
               <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-ink">
-                Verify your contact
+                {t("ui.Verify your contact")}
               </h1>
 
               <p className="text-[12px] leading-relaxed text-[#55554f]">
@@ -197,7 +197,7 @@ function RegisterPage() {
             >
               <div className="flex flex-col gap-2">
                 <label htmlFor="otp" className={labelClassName}>
-                  Verification code
+                  {t("ui.Verification code")}
                 </label>
 
                 <input
@@ -223,7 +223,7 @@ function RegisterPage() {
                   disabled={isLoading}
                   className="font-medium text-ink hover:underline disabled:opacity-50"
                 >
-                  Resend code
+                  {t("ui.Resend code")}
                 </button>
               </p>
 
@@ -246,7 +246,7 @@ function RegisterPage() {
                 onClick={goBack}
                 className="h-8 text-[11px] text-ink hover:underline"
               >
-                Back
+                {t("ui.Back")}
               </button>
             </form>
           </>
@@ -256,11 +256,11 @@ function RegisterPage() {
           <>
             <div className="mb-6">
               <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-ink">
-                Complete your registration
+                {t("ui.Complete your registration")}
               </h1>
 
               <p className="text-[12px] leading-relaxed text-[#55554f]">
-                Finish setting up your account with your name and password.
+                {t("ui.Finish setting up your account with your name and password.")}
               </p>
             </div>
 
@@ -270,7 +270,7 @@ function RegisterPage() {
             >
               <div className="flex flex-col gap-2">
                 <label htmlFor="firstName" className={labelClassName}>
-                  First name
+                  {t("ui.First name")}
                 </label>
 
                 <input
@@ -287,7 +287,7 @@ function RegisterPage() {
 
               <div className="flex flex-col gap-2">
                 <label htmlFor="lastName" className={labelClassName}>
-                  Last name
+                  {t("ui.Last name")}
                 </label>
 
                 <input
@@ -304,7 +304,7 @@ function RegisterPage() {
 
               <div className="flex flex-col gap-2">
                 <label htmlFor="password" className={labelClassName}>
-                  Password
+                  {t("ui.Password")}
                 </label>
 
                 <div className="relative">
@@ -352,7 +352,7 @@ function RegisterPage() {
                 onClick={goBack}
                 className="h-7 text-[11px] text-ink hover:underline"
               >
-                Back
+                {t("ui.Back")}
               </button>
             </form>
           </>
@@ -361,11 +361,11 @@ function RegisterPage() {
         {step === 'SUCCESS' && (
           <div>
             <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-ink">
-              Account created
+              {t("ui.Account created")}
             </h1>
 
             <p className="mb-5 text-[12px] leading-relaxed text-[#55554f]">
-              Your account is ready. You can now log in to continue.
+              {t("ui.Your account is ready. You can now log in to continue.")}
             </p>
 
             <button
@@ -373,7 +373,7 @@ function RegisterPage() {
               onClick={() => navigate('/login')}
               className="flex h-10 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep"
             >
-              Log in
+              {t("ui.Log in")}
             </button>
           </div>
         )}
