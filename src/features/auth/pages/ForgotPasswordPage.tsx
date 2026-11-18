@@ -139,8 +139,8 @@ function ForgotPasswordPage() {
               <div className="flex flex-col gap-2">
                 <label htmlFor="new-password" className={labelClassName}>{t("ui.New password")}</label>
                 <div className="relative">
-                  <input id="new-password" type={showPassword ? 'text' : 'password'} autoComplete="new-password" placeholder={t("ui.Create a password")} value={password} onChange={(event) => setPassword(event.target.value)} minLength={8} maxLength={72} required className={`${inputClassName} pr-14`} />
-                  <button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? t('ui.Hide password') : t('ui.Show password')} className="absolute inset-y-0 right-0 flex w-12 items-center justify-center text-[11px] text-[#55554f] hover:text-ink">{showPassword ? t('ui.Hide') : t('ui.Show')}</button>
+                  <input id="new-password" type={showPassword ? 'text' : 'password'} autoComplete="new-password" placeholder={t("ui.Create a password")} value={password} onChange={(event) => setPassword(event.target.value)} minLength={8} maxLength={72} required className={`${inputClassName} pe-14`} />
+                  <button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? t('ui.Hide password') : t('ui.Show password')} className="absolute inset-y-0 end-0 flex w-12 items-center justify-center text-[11px] text-[#55554f] hover:text-ink">{showPassword ? t('ui.Hide') : t('ui.Show')}</button>
                 </div>
               </div>
               <div className="flex flex-col gap-2">
