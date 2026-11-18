@@ -10,8 +10,8 @@ interface CoachPublicLayoutProps {
 }
 
 function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
-  const { isPreview, isAuthenticated, user } = useAuth()
   const { t } = useTranslation()
+  const { isPreview, isAuthenticated, user } = useAuth()
   const homePath = isPreview
     ? '/_preview/athlete'
     : !isAuthenticated
@@ -37,13 +37,13 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
             ) : (
               <>
                 <Link to={coachesPath} className="text-xs font-semibold text-muted transition hover:text-ink">
-                  Find a coach
+                  {t("ui.Find a coach")}
                 </Link>
                 <Link to="/login" className="text-xs font-semibold text-muted transition hover:text-ink">
-                  Log in
+                  {t("ui.Log in")}
                 </Link>
                 <Link to="/register" className="rounded-full bg-ink px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-[#30352a]">
-                  Get started
+                  {t("ui.Get started")}
                 </Link>
               </>
             )}
