@@ -21,7 +21,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
   const { user, isPreview: previewContext } = useAuth()
   const preview = isPreview || previewContext
   const coachPath = preview ? '/_preview/coach' : '/coach'
-  const firstName = user?.display_name?.trim().split(/\s+/)[0] || 'Coach'
+  const firstName = user?.display_name?.trim().split(/\s+/)[0] || t('ui.Coach')
   const draft = loadWorkoutDraft()
   const activeAthletes = preview ? previewCoachRelations.filter((item) => item.status === 'ACTIVE') : []
   const activePlans = preview ? previewCoachPlans.filter((item) => item.status === 'ACTIVE') : []
