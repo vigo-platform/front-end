@@ -265,7 +265,7 @@ const resources = {
         "My profile": "My profile",
         "Exercise library": "Exercise library",
         "Admin workspace": "Admin workspace",
-        "Welcome back, {{name}}.": "Welcome back, {{name}}.",
+        "Welcome back, {{name}}.": "خوش برگشتی، {{name}}.",
         "Your athletes, coaching plans, and content workspace.": "Your athletes, coaching plans, and content workspace.",
         "Member since": "Member since",
         "Status unavailable": "Status unavailable",
@@ -431,7 +431,7 @@ const resources = {
         "Your profile has been updated.": "Your profile has been updated.",
         "Could not load your coach profile.": "Could not load your coach profile.",
         "Could not save your profile. Please try again.": "Could not save your profile. Please try again.",
-        "Welcome back, {{name}}!": "Welcome back, {{name}}!",
+        "Welcome back, {{name}}!": "خوش برگشتی، {{name}}!",
         "Here's an overview of your training progress.": "Here's an overview of your training progress.",
         "Your Progress": "Your Progress",
         "Completed Workouts": "Completed Workouts",
@@ -575,7 +575,22 @@ const resources = {
         "Restoring your session...": "در حال بازیابی نشست شما...",
         "Loading...": "در حال بارگذاری...",
         "Admin overview": "نمای کلی مدیریت",
-        "Account suspended": "حساب کاربری تعلیق شده است"
+        "Account suspended": "حساب کاربری تعلیق شده است",
+        "ADMIN": "مدیر",
+        "COACH": "مربی",
+        "ATHLETE": "ورزشکار",
+        "Member": "عضو",
+        "account": "حساب کاربری",
+        "Your role:": "نقش شما:",
+        "Verify your {{channel}}": "{{channel}} خود را تأیید کنید",
+        "Enter the verification code sent to your {{channel}}.": "کد تأییدی را که به {{channel}} شما ارسال شده وارد کنید.",
+        "Enter the verification code sent to {{identifier}}.": "کد تأییدی را که به {{identifier}} ارسال شده وارد کنید.",
+        "We'll send a verification code to your {{channel}}.": "کد تأیید به {{channel}} شما ارسال می‌شود.",
+        "Registration will use your {{channel}}.": "برای ثبت‌نام از {{channel}} شما استفاده می‌شود.",
+        "{{count}} coaches found": "{{count}} مربی پیدا شد",
+        "{{count}} years": "{{count}} سال",
+        "{{count}} exercises": "{{count}} حرکت",
+        "{{count}} exercises in this draft": "{{count}} حرکت در این پیش‌نویس"
 }
     }
   },
@@ -1151,7 +1166,22 @@ const resources = {
         "Restoring your session...": "در حال بازیابی نشست شما...",
         "Loading...": "در حال بارگذاری...",
         "Admin overview": "نمای کلی مدیریت",
-        "Account suspended": "حساب کاربری تعلیق شده است"
+        "Account suspended": "حساب کاربری تعلیق شده است",
+        "ADMIN": "مدیر",
+        "COACH": "مربی",
+        "ATHLETE": "ورزشکار",
+        "Member": "عضو",
+        "account": "حساب کاربری",
+        "Your role:": "نقش شما:",
+        "Verify your {{channel}}": "{{channel}} خود را تأیید کنید",
+        "Enter the verification code sent to your {{channel}}.": "کد تأییدی را که به {{channel}} شما ارسال شده وارد کنید.",
+        "Enter the verification code sent to {{identifier}}.": "کد تأییدی را که به {{identifier}} ارسال شده وارد کنید.",
+        "We'll send a verification code to your {{channel}}.": "کد تأیید به {{channel}} شما ارسال می‌شود.",
+        "Registration will use your {{channel}}.": "برای ثبت‌نام از {{channel}} شما استفاده می‌شود.",
+        "{{count}} coaches found": "{{count}} مربی پیدا شد",
+        "{{count}} years": "{{count}} سال",
+        "{{count}} exercises": "{{count}} حرکت",
+        "{{count}} exercises in this draft": "{{count}} حرکت در این پیش‌نویس"
 }
     }
   }
