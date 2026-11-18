@@ -156,7 +156,7 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
             <p className="mt-2 max-w-xl text-[12px] leading-6 text-[#77786f]">{t("ui.Keep your account details up to date. Your verified contact information is managed separately.")}</p>
           </div>
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[#e2e2db] bg-white px-3.5 py-2 text-[9px] font-bold uppercase tracking-[1px] text-[#77786f]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#9bcf43]" />{user?.role ?? 'Member'} account
+            <span className="h-1.5 w-1.5 rounded-full bg-[#9bcf43]" />{t('ui.' + (user?.role ?? 'Member'))} {t('ui.account')}
           </span>
         </header>
 
@@ -240,7 +240,7 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
                     {coachProfile?.status && (
                       <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[#f5f6f1] px-4 py-3">
                         <span className="text-[10px] font-semibold uppercase tracking-[1px] text-[#77796f]">{t("ui.Profile review status")}</span>
-                        <span className="rounded-full bg-white px-3 py-1.5 text-[9px] font-bold uppercase text-[#526a2e]">{coachProfile.status}</span>
+                        <span className="rounded-full bg-white px-3 py-1.5 text-[9px] font-bold uppercase text-[#526a2e]">{t('ui.' + coachProfile.status)}</span>
                       </div>
                     )}
                   </div>
@@ -257,8 +257,8 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
             </section>
             <section className="rounded-[20px] border border-[#e1e1da] bg-white p-5">
               <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Account status")}</p>
-              <p className="mt-3 text-[15px] font-bold text-[#20211d]">{user?.status ?? 'Unavailable'}</p>
-              <p className="mt-1 text-[10px] text-[#85867d]">Your role: {user?.role ?? '—'}</p>
+              <p className="mt-3 text-[15px] font-bold text-[#20211d]">{t('ui.' + (user?.status ?? 'Unavailable'))}</p>
+              <p className="mt-1 text-[10px] text-[#85867d]">{t('ui.Your role:')} {user?.role ? t('ui.' + user.role) : '—'}</p>
             </section>
             {error && <p role="alert" className="rounded-xl border border-[#f0d2cb] bg-[#fff6f3] px-4 py-3 text-[11px] leading-5 text-[#a34d3d]">{error}</p>}
             {success && <p role="status" className="rounded-xl border border-[#dce8c8] bg-[#f2f8e8] px-4 py-3 text-[11px] leading-5 text-[#526a2e]">{success}</p>}
