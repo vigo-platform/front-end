@@ -44,6 +44,7 @@ function AdminDashboardPage() {
   const [pendingCount, setPendingCount] = useState(0)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
+  const displayedPendingCount = preview ? previewCoachApplications.filter((item) => item.status === 'PENDING').length : pendingCount
 
   const filteredPreviewUsers = useMemo(() => previewUsers.filter((item) => {
     const search = q.trim().toLowerCase()
@@ -53,39 +54,55 @@ function AdminDashboardPage() {
   const filteredPreviewCoaches = previewCoaches.filter((item) => !coachStatus || item.status === coachStatus)
 
   useEffect(() => {
-    if (preview) {
-      setPendingCount(previewCoachApplications.filter((item) => item.status === 'PENDING').length)
-      return
-    }
-    if (!accessToken) return
+    if (preview || !accessToken) return
     let active = true
     adminService.listCoachApplications(accessToken, { page: 0, size: 1, status: 'PENDING' })
       .then((data) => { if (active) setPendingCount(data.total_elements) })
-      .catch((e: unknown) => { if (active) setError(e instanceof Error ? e.message : 'Could not load pending application count.') })
+      .catch((e: unknown) => { if (active) setError(e instanceof Error ? e.message : t('ui.Could not load pending application count.')) })
     return () => { active = false }
-  }, [accessToken, preview])
+  }, [accessToken, preview, t])
 
   useEffect(() => {
     if (preview || !accessToken || tab !== 'users') return
     let active = true
-    setLoading(true); setError('')
-    adminService.listUsers(accessToken, { page: userPage, size: 10, role, status, q })
-      .then((data) => { if (active) setUsers(data) })
-      .catch((e: unknown) => { if (active) setError(e instanceof Error ? e.message : 'Could not load users.') })
-      .finally(() => { if (active) setLoading(false) })
+    const loadUsers = async () => {
+      await Promise.resolve()
+      if (!active) return
+      setLoading(true)
+      setError('')
+      try {
+        const data = await adminService.listUsers(accessToken, { page: userPage, size: 10, role, status, q })
+        if (active) setUsers(data)
+      } catch (e) {
+        if (active) setError(e instanceof Error ? e.message : t('ui.Could not load users.'))
+      } finally {
+        if (active) setLoading(false)
+      }
+    }
+    void loadUsers()
     return () => { active = false }
-  }, [accessToken, preview, tab, userPage, role, status, q])
+  }, [accessToken, preview, tab, userPage, role, status, q, t])
 
   useEffect(() => {
     if (preview || !accessToken || tab !== 'coaches') return
     let active = true
-    setLoading(true); setError('')
-    adminService.listCoachApplications(accessToken, { page: coachPage, size: 10, status: coachStatus })
-      .then((data) => { if (active) setCoaches(data) })
-      .catch((e: unknown) => { if (active) setError(e instanceof Error ? e.message : 'Could not load applications.') })
-      .finally(() => { if (active) setLoading(false) })
+    const loadCoaches = async () => {
+      await Promise.resolve()
+      if (!active) return
+      setLoading(true)
+      setError('')
+      try {
+        const data = await adminService.listCoachApplications(accessToken, { page: coachPage, size: 10, status: coachStatus })
+        if (active) setCoaches(data)
+      } catch (e) {
+        if (active) setError(e instanceof Error ? e.message : t('ui.Could not load applications.'))
+      } finally {
+        if (active) setLoading(false)
+      }
+    }
+    void loadCoaches()
     return () => { active = false }
-  }, [accessToken, preview, tab, coachPage, coachStatus])
+  }, [accessToken, preview, tab, coachPage, coachStatus, t])
 
   async function showUser(item: AdminUser) {
     setSelectedCoach(null); setError('')
@@ -151,7 +168,7 @@ function AdminDashboardPage() {
 
         <section className="grid gap-3 sm:grid-cols-3">
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5"><p className={eyebrow}>{t("ui.Platform users")}</p><p className="mt-4 text-[30px] font-bold text-[#20211d]">{totalUsers}</p><p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Accounts in the platform")}</p></article>
-          <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5"><p className={eyebrow}>{t("ui.Pending applications")}</p><p className="mt-4 text-[30px] font-bold text-[#20211d]">{pendingCount}</p><p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Waiting for your review")}</p></article>
+          <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5"><p className={eyebrow}>{t("ui.Pending applications")}</p><p className="mt-4 text-[30px] font-bold text-[#20211d]">{displayedPendingCount}</p><p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Waiting for your review")}</p></article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5"><p className={eyebrow}>{t("ui.Your account")}</p><p className="mt-4 text-[22px] font-bold text-[#20211d]" >{t('ui.' + (user?.status ?? 'ACTIVE'))}</p><p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Administrator access")}</p></article>
         </section>
 
@@ -183,7 +200,7 @@ function AdminDashboardPage() {
           </> : <>
             <div className="flex flex-wrap items-end justify-between gap-3 py-5"><div><p className={eyebrow}>{t("ui.Review queue")}</p><p className="mt-1 text-[11px] text-[#77786f]">{t("ui.Inspect applications and approve or reject pending coaches.")}</p></div><label className="w-full max-w-[190px]"><span className={eyebrow}>{t("ui.Application status")}</span><select className={field} value={coachStatus} onChange={(e) => { setCoachStatus(e.target.value as CoachApplicationStatus | ''); setCoachPage(0) }}><option value="">{t("ui.All applications")}</option><option value="PENDING">{t("ui.Pending")}</option><option value="APPROVED">{t("ui.Approved")}</option><option value="REJECTED">{t("ui.Rejected")}</option></select></label></div>
             <div className="grid gap-3 lg:grid-cols-2">{coachRows.map((item) => <article key={item.coach_id} className="rounded-[16px] border border-[#e8e8e1] bg-[#fcfcfa] p-5">
-              <div className="flex items-start justify-between gap-3"><div className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#eaf0df] text-[11px] font-bold text-[#526a2e]">{initials(item.display_name)}</span><div><h3 className="text-[13px] font-bold text-[#292a25]">{item.display_name}</h3><p className="mt-1 text-[10px] text-[#85867d]">{item.headline || 'Coach applicant'}</p></div></div><Status value={item.status || 'PENDING'} /></div>
+              <div className="flex items-start justify-between gap-3"><div className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#eaf0df] text-[11px] font-bold text-[#526a2e]">{initials(item.display_name)}</span><div><h3 className="text-[13px] font-bold text-[#292a25]">{item.display_name}</h3><p className="mt-1 text-[10px] text-[#85867d]">{item.headline || t('ui.Coach applicant')}</p></div></div><Status value={item.status || 'PENDING'} /></div>
               <p className="mt-4 line-clamp-2 text-[10px] leading-5 text-[#77786f]">{item.bio}</p><div className="mt-3 flex flex-wrap gap-1.5">{item.specialties.map((s) => <span key={s} className="rounded-full bg-[#f0f1eb] px-2.5 py-1 text-[8px] font-semibold text-[#65665e]">{s}</span>)}</div>
               <div className="mt-4 flex items-center justify-between border-t border-[#edede8] pt-4"><span className="text-[9px] text-[#92938a]">{item.experience_years} years · {dateLabel(item.created_at, i18n.language)}</span><button onClick={() => void showCoach(item)} className="text-[9px] font-bold text-[#526a2e] hover:underline">{t("ui.View application →")}</button></div>
               {item.status === 'PENDING' && <div className="mt-4 flex gap-2"><button disabled={busy} onClick={() => void reviewCoach(item, 'approve')} className="h-9 flex-1 rounded-full bg-[#c7f36b] text-[9px] font-bold text-[#171914] disabled:opacity-50">{t('ui.Approve')}</button><button disabled={busy} onClick={() => void reviewCoach(item, 'reject')} className="h-9 flex-1 rounded-full border border-[#e5d3cd] bg-white text-[9px] font-bold text-[#a55343] disabled:opacity-50">{t('ui.Reject')}</button></div>}
@@ -199,7 +216,7 @@ function AdminDashboardPage() {
         {(selectedUser || selectedCoach) && <div className="fixed inset-0 z-[90] flex items-center justify-center bg-[#111210]/45 p-4" onMouseDown={(e) => { if (e.target === e.currentTarget) closeDetails() }}>
           <section role="dialog" aria-modal="true" className="max-h-[85vh] w-full max-w-[620px] overflow-y-auto rounded-[22px] border border-[#e1e1da] bg-[#fbfbf9] p-6 shadow-2xl sm:p-8">
             <div className="flex items-start justify-between gap-4"><div><p className={eyebrow}>{selectedUser ? 'Account details' : 'Coach application'}</p><h2 className="mt-2 text-[22px] font-bold text-[#20211d]">{selectedUser?.display_name || selectedCoach?.display_name}</h2></div><button onClick={closeDetails} className="rounded-full border border-[#e2e3dc] px-3 py-2 text-[10px] font-bold text-[#77786f]">{t('ui.Close')}</button></div>
-            {selectedUser && <div className="mt-6 grid gap-3 sm:grid-cols-2">{[['Email', selectedUser.email], ['Phone', selectedUser.phone || 'Not provided'], ['Role', selectedUser.role], ['Status', selectedUser.status], ['User ID', selectedUser.user_id], ['Joined', dateLabel(selectedUser.created_at, i18n.language)]].map(([k, v]) => <div key={k} className="rounded-xl border border-[#e8e8e1] bg-white p-4"><p className={eyebrow}>{k}</p><p className="mt-2 break-all text-[11px] font-semibold text-[#34352f]">{v}</p></div>)}</div>}
+            {selectedUser && <div className="mt-6 grid gap-3 sm:grid-cols-2">{[['Email', selectedUser.email], ['Phone', selectedUser.phone || 'Not provided'], ['Role', selectedUser.role], ['Status', selectedUser.status], ['User ID', selectedUser.user_id], ['Joined', dateLabel(selectedUser.created_at, i18n.language)]].map(([k, v]) => <div key={k} className="rounded-xl border border-[#e8e8e1] bg-white p-4"><p className={eyebrow}>{t('ui.' + k)}</p><p className="mt-2 break-all text-[11px] font-semibold text-[#34352f]">{k === 'Role' || k === 'Status' ? t('ui.' + v) : v}</p></div>)}</div>}
             {selectedCoach && <div className="mt-6 space-y-4"><div className="flex items-center gap-2"><Status value={selectedCoach.status || 'PENDING'} /><span className="text-[10px] text-[#85867d]">{selectedCoach.experience_years} years experience</span></div><div className="rounded-xl border border-[#e8e8e1] bg-white p-4"><p className={eyebrow}>{t("ui.Professional headline")}</p><p className="mt-2 text-[12px] font-semibold text-[#34352f]">{selectedCoach.headline || '—'}</p><p className={eyebrow + ' mt-5'}>{t("ui.Biography")}</p><p className="mt-2 whitespace-pre-wrap text-[11px] leading-6 text-[#66675f]">{selectedCoach.bio}</p><p className={eyebrow + ' mt-5'}>{t("ui.Specialties")}</p><div className="mt-2 flex flex-wrap gap-2">{selectedCoach.specialties.map((s) => <span key={s} className="rounded-full bg-[#f0f1eb] px-3 py-1.5 text-[9px] text-[#65665e]">{s}</span>)}</div><p className={eyebrow + ' mt-5'}>{t("ui.Certifications")}</p>{(selectedCoach.certifications || []).map((c) => <p key={c.title} className="mt-2 text-[10px] text-[#55564f]">{c.title}{c.issuer ? ' · ' + c.issuer : ''}{c.year ? ' · ' + c.year : ''}</p>)}{selectedCoach.rejection_reason && <p className="mt-4 rounded-lg bg-[#fff0ec] p-3 text-[10px] text-[#a55343]">Rejection reason: {selectedCoach.rejection_reason}</p>}</div>
               {selectedCoach.status === 'PENDING' && <div className="flex gap-2"><button disabled={busy} onClick={() => void reviewCoach(selectedCoach, 'approve')} className="h-10 flex-1 rounded-full bg-[#c7f36b] text-[10px] font-bold text-[#171914]">Approve</button><button disabled={busy} onClick={() => void reviewCoach(selectedCoach, 'reject')} className="h-10 flex-1 rounded-full border border-[#e5d3cd] text-[10px] font-bold text-[#a55343]">Reject</button></div>}</div>}
           </section>
