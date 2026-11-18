@@ -9,7 +9,11 @@ interface CoachDashboardPageProps {
   isPreview?: boolean
 }
 
-function formatNumber(value: number, locale = 'en') {\n  return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value)\n}\n\nfunction formatDate(value?: string | null, locale = 'en') {
+function formatNumber(value: number, locale = 'en') {
+  return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value)
+}
+
+function formatDate(value?: string | null, locale = 'en') {
   if (!value) return '—'
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return '—'
