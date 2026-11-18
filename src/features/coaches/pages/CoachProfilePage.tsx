@@ -5,8 +5,10 @@ import { useAuth } from '../../auth/context/auth-context'
 import { getAvatarUrl } from '../utils/avatar'
 import { coachService } from '../services/coach.service'
 import type { CoachProfile } from '../types/coach.types'
+import { useTranslation } from 'react-i18next'
 
 function CoachProfilePage() {
+  const { t } = useTranslation()
   const { coachId = '' } = useParams()
   const { isPreview } = useAuth()
   const coachesPath = isPreview ? '/_preview/athlete/coaches' : '/coaches'
@@ -38,7 +40,7 @@ function CoachProfilePage() {
   const avatarUrl = getAvatarUrl(coach?.avatar_url)
 
   return (
-    <CoachPublicLayout title="Coach profile">
+    <CoachPublicLayout title={t("ui.Coach profile")}>
       <div className="mx-auto w-full max-w-5xl space-y-6">
         <Link to={coachesPath} className="inline-flex text-sm font-medium text-muted hover:text-ink">
           ← Back to coaches
@@ -46,14 +48,14 @@ function CoachProfilePage() {
 
         {isLoading ? (
           <div className="rounded-2xl border border-border bg-white px-6 py-16 text-center text-sm text-muted" aria-live="polite">
-            Loading coach profile...
+            {t("ui.Loading coach profile...")}
           </div>
         ) : error || !coach ? (
           <section role="alert" className="rounded-2xl border border-border bg-white px-6 py-14 text-center">
-            <h1 className="text-xl font-semibold">Coach profile unavailable</h1>
+            <h1 className="text-xl font-semibold">{t("ui.Coach profile unavailable")}</h1>
             <p className="mt-2 text-sm text-muted">{error || 'This coach profile could not be found.'}</p>
             <Link to={coachesPath} className="mt-5 inline-flex rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white">
-              Browse coaches
+              {t("ui.Browse coaches")}
             </Link>
           </section>
         ) : (
@@ -68,7 +70,7 @@ function CoachProfilePage() {
                   </div>
                 )}
                 <div className="min-w-0 flex-1">
-                  <p className="text-xs font-semibold uppercase tracking-[1.6px] text-[#718d43]">Vigo coach</p>
+                  <p className="text-xs font-semibold uppercase tracking-[1.6px] text-[#718d43]">{t("ui.Vigo coach")}</p>
                   <h1 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">{coach.display_name}</h1>
                   {coach.headline && <p className="mt-2 text-sm text-muted">{coach.headline}</p>}
                   <div className="mt-4 flex flex-wrap gap-2">
@@ -81,28 +83,28 @@ function CoachProfilePage() {
 
               <div className="mt-8 grid gap-4 border-t border-border pt-6 sm:grid-cols-3">
                 <div>
-                  <p className="text-xs text-muted">Experience</p>
+                  <p className="text-xs text-muted">{t("ui.Experience")}</p>
                   <p className="mt-1 text-lg font-semibold">{coach.experience_years} years</p>
                 </div>
                 <div>
-                  <p className="text-xs text-muted">Active athletes</p>
+                  <p className="text-xs text-muted">{t("ui.Active athletes")}</p>
                   <p className="mt-1 text-lg font-semibold">{coach.active_athletes_count ?? '—'}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-muted">Starting plan price</p>
-                  <p className="mt-1 text-lg font-semibold">Not available yet</p>
+                  <p className="text-xs text-muted">{t("ui.Starting plan price")}</p>
+                  <p className="mt-1 text-lg font-semibold">{t("ui.Not available yet")}</p>
                 </div>
               </div>
             </section>
 
             <section className="rounded-3xl border border-border bg-white p-6 sm:p-8">
-              <h2 className="text-lg font-semibold">About</h2>
+              <h2 className="text-lg font-semibold">{t("ui.About")}</h2>
               <p className="mt-3 whitespace-pre-line text-sm leading-7 text-muted">{coach.bio}</p>
             </section>
 
             {coach.certifications && coach.certifications.length > 0 && (
               <section className="rounded-3xl border border-border bg-white p-6 sm:p-8">
-                <h2 className="text-lg font-semibold">Certifications</h2>
+                <h2 className="text-lg font-semibold">{t("ui.Certifications")}</h2>
                 <ul className="mt-4 space-y-3">
                   {coach.certifications.map((certification, index) => (
                     <li key={certification.title + index} className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-3 last:border-0 last:pb-0">
@@ -118,9 +120,9 @@ function CoachProfilePage() {
             )}
 
             <section className="rounded-2xl border border-dashed border-border bg-white px-6 py-8">
-              <h2 className="text-base font-semibold">Coaching plans are not available yet</h2>
+              <h2 className="text-base font-semibold">{t("ui.Coaching plans are not available yet")}</h2>
               <p className="mt-2 text-sm leading-6 text-muted">
-                The current User service does not expose plan endpoints. This profile uses only the public coach profile API and does not request placeholder plan data.
+                {t("ui.The current User service does not expose plan endpoints. This profile uses only the public coach profile API and does not request placeholder plan data.")}
               </p>
             </section>
           </>
