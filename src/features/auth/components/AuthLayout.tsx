@@ -1,12 +1,14 @@
 
 import type { ReactNode } from 'react'
 import LanguageSwitcher from '../../../shared/components/LanguageSwitcher'
+import { useTranslation } from 'react-i18next'
 
 interface AuthLayoutProps {
   children: ReactNode
 }
 
 function AuthLayout({ children }: AuthLayoutProps) {
+  const { t } = useTranslation()
   return (
     <main className="grid min-h-screen grid-cols-1 gap-6 bg-canvas p-3 lg:grid-cols-[minmax(0,1fr)_440px]">
       {/* Main Section */}
@@ -42,7 +44,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
             <circle cx="10" cy="7" r="4" />
             <path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
           </svg>
-          <span>A shared space for athletes and coaches.</span>
+          <span>{t("ui.A shared space for athletes and coaches.")}</span>
         </footer>
       </section>
 
@@ -73,9 +75,9 @@ function AuthLayout({ children }: AuthLayoutProps) {
 
           {/* Steps */}
           <div className="absolute inset-x-0 bottom-0 flex items-center justify-between text-[11px] text-muted">
-            <span>Plan</span>
+            <span>{t("ui.Plan")}</span>
             <i className="h-px w-8 bg-border" />
-            <strong className="font-medium text-ink">Train</strong>
+            <strong className="font-medium text-ink">{t("ui.Train")}</strong>
             <i className="h-px w-8 bg-border" />
             <span>Progress</span>
           </div>
@@ -98,7 +100,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
 
         {/* Footer */}
         <div className="mt-16 flex items-center justify-between text-[11px] text-muted">
-          <span>Built for your next step.</span>
+          <span>{t("ui.Built for your next step.")}</span>
           <span className="size-[7px] rounded-full bg-accent" />
         </div>
       </aside>
