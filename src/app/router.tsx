@@ -15,23 +15,26 @@ import RegisterPage from '../features/auth/pages/RegisterPage'
 import ForgotPasswordPage from '../features/auth/pages/ForgotPasswordPage'
 import RequireAuth from '../features/auth/components/RequireAuth'
 import { useAuth } from '../features/auth/context/auth-context'
+import { useTranslation } from 'react-i18next'
 import ProfilePreviewRoute from '../features/auth/components/ProfilePreviewRoute'
 import PreviewWorkspaceRoute from '../features/auth/components/PreviewWorkspaceRoute'
 import ProfilePage from '../features/user/pages/ProfilePage'
 import AdminDashboardPage from '../features/admin/pages/AdminDashboardPage'
 
 function PublicOnly({ children }: { children: ReactNode }) {
+  const { t } = useTranslation()
   const { isAuthenticated, isInitializing } = useAuth()
-  if (isInitializing) return <div className="flex min-h-screen items-center justify-center text-sm text-muted">Loading...</div>
+  if (isInitializing) return <div className="flex min-h-screen items-center justify-center text-sm text-muted">{t('common.loading')}</div>
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : children
 }
 
 function AccountSuspendedPage() {
+  const { t } = useTranslation()
   return (
     <main className="flex min-h-screen items-center justify-center bg-canvas p-6">
       <section className="w-full max-w-md rounded-2xl border border-border bg-white p-8 text-center">
-        <h1 className="text-xl font-semibold text-ink">Account suspended</h1>
-        <p className="mt-3 text-sm leading-6 text-muted">Your account is currently suspended. Please contact support for assistance.</p>
+        <h1 className="text-xl font-semibold text-ink">{t('errors.suspended')}</h1>
+        <p className="mt-3 text-sm leading-6 text-muted">{t('errors.suspendedDescription')}</p>
       </section>
     </main>
   )
