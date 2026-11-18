@@ -10,7 +10,10 @@ import { useTranslation } from 'react-i18next'
 type Tab = 'users' | 'coaches'
 const field = 'mt-2 h-11 w-full rounded-xl border border-[#e2e3dc] bg-[#fbfbf9] px-3.5 text-[11px] text-[#24251f] outline-none focus:border-[#a8c76d] focus:bg-white'
 const eyebrow = 'text-[9px] font-bold uppercase tracking-[1px] text-[#85867d]'
-function formatNumber(value: number, locale = 'en') {\n  return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value)\n}\nfunction dateLabel(value?: string, locale = 'en') {
+function formatNumber(value: number, locale = 'en') {
+  return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value)
+}
+function dateLabel(value?: string, locale = 'en') {
   if (!value) return '—'
   const date = new Date(value)
   return Number.isNaN(date.getTime()) ? '—' : new Intl.DateTimeFormat(locale === 'fa' ? 'fa-IR-u-ca-persian' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' }).format(date)
