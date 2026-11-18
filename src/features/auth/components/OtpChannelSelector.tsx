@@ -20,7 +20,7 @@ function OtpChannelSelector({
   return (
     <div className="flex flex-col gap-2">
       <span className="text-[11px] font-medium text-ink">
-        {t("ui.Continue with")}
+        {t("ui.{t('ui.Continue with')}")}
       </span>
 
       <div className="grid grid-cols-2 gap-2 rounded-lg bg-soft-gray p-1">
@@ -39,7 +39,7 @@ function OtpChannelSelector({
                   : 'text-[#77776f] hover:text-ink'
               }`}
             >
-              {channel === 'EMAIL' ? 'Email' : 'Phone'}
+              {channel === 'EMAIL' ? t('ui.Email') : t('ui.Phone')}
             </button>
           )
         })}
