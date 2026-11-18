@@ -663,7 +663,8 @@ const resources = {
         "Coach directory pages": "Coach directory pages",
         "Optional": "Optional",
         "Rejection reason:": "Rejection reason:",
-        "User ID": "User ID"
+        "User ID": "User ID",
+        "Back to dashboard": "Back to dashboard"
       }
     }
   },
@@ -1327,7 +1328,8 @@ const resources = {
         "Coach directory pages": "صفحه‌های فهرست مربیان",
         "Optional": "اختیاری",
         "Rejection reason:": "دلیل رد درخواست:",
-        "User ID": "شناسه کاربر"
+        "User ID": "شناسه کاربر",
+        "Back to dashboard": "بازگشت به داشبورد"
       }
     }
   }
