@@ -44,16 +44,16 @@ function OtpLoginIdentifierStep({
     <>
       <div className="mb-7">
         <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
-          Welcome back
+          {t("ui.Welcome back")}
         </h1>
         <p className="text-[13px] leading-[1.6] text-[#55554f]">
-          Log in to your Vigo workspace and pick up where you left off.
+          {t("ui.Log in to your Vigo workspace and pick up where you left off.")}
         </p>
       </div>
 
       {isConfigLoading ? (
         <p className="text-[12px] text-[#77776f]">
-          Loading login options...
+          {t("ui.Loading login options...")}
         </p>
       ) : isLoginDisabled ? (
         <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
@@ -64,7 +64,7 @@ function OtpLoginIdentifierStep({
           role="status"
           className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] leading-relaxed text-[#55554f]"
         >
-          Login is currently unavailable. Please try again later.
+          {t("ui.Login is currently unavailable. Please try again later.")}
         </p>
       ) : (
         <form onSubmit={onSubmit} className="flex flex-col gap-5">
@@ -127,12 +127,12 @@ function OtpLoginIdentifierStep({
           onClick={onUsePassword}
           className="text-[11px] font-medium text-ink hover:underline"
         >
-          Log in with password instead
+          {t("ui.Log in with password instead")}
         </button>
       </div>
       <div className="mt-2 text-center">
         <Link to="/forgot-password" className="text-[11px] font-medium text-ink hover:underline">
-          Forgot password?
+          {t("ui.Forgot password?")}
         </Link>
       </div>
 
@@ -142,7 +142,7 @@ function OtpLoginIdentifierStep({
           to="/register"
           className="ml-1 font-medium text-ink no-underline hover:underline"
         >
-          Create an account
+          {t("ui.Create an account")}
         </Link>
       </p>
     </>
