@@ -18,7 +18,7 @@ const categoryLabels: Record<CategoryFilter, string> = {
 }
 
 function ExerciseLibraryPage() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { isPreview } = useAuth()
   const coachPath = isPreview ? '/_preview/coach' : '/coach'
   const [search, setSearch] = useState('')
@@ -38,13 +38,17 @@ function ExerciseLibraryPage() {
         exercise.muscle_group,
         exercise.equipment,
         exercise.description,
+        t('ui.exercise.' + exercise.id + '.name'),
+        t('ui.exercise.' + exercise.id + '.muscle_group'),
+        t('ui.exercise.' + exercise.id + '.equipment'),
+        t('ui.exercise.' + exercise.id + '.description'),
       ]
         .join(' ')
         .toLowerCase()
 
       return matchesCategory && searchableText.includes(normalizedSearch)
     })
-  }, [category, search])
+  }, [category, search, i18n.language, t])
 
   function toggleExercise(exerciseId: string) {
     const draft = loadWorkoutDraft()
@@ -140,15 +144,15 @@ function ExerciseLibraryPage() {
                     <span className="rounded-full bg-[#f0f5e8] px-3 py-1 text-[11px] font-semibold text-[#607b38]">
                       {t('ui.' + categoryLabels[exercise.category])}
                     </span>
-                    <span className="text-xs text-muted">{exercise.equipment}</span>
+                    <span className="text-xs text-muted">{t('ui.exercise.' + exercise.id + '.equipment')}</span>
                   </div>
-                  <h3 className="mt-5 text-lg font-semibold">{exercise.name}</h3>
+                  <h3 className="mt-5 text-lg font-semibold">{t('ui.exercise.' + exercise.id + '.name')}</h3>
                   <p className="mt-2 text-sm leading-6 text-muted">
-                    {exercise.description}
+                    {t('ui.exercise.' + exercise.id + '.description')}
                   </p>
                   <div className="mt-auto flex items-center justify-between gap-3 pt-6">
                     <span className="text-xs font-medium text-muted">
-                      {exercise.muscle_group}
+                      {t('ui.exercise.' + exercise.id + '.muscle_group')}
                     </span>
                     <button
                       type="button"
