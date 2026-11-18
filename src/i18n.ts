@@ -664,7 +664,9 @@ const resources = {
         "Optional": "Optional",
         "Rejection reason:": "Rejection reason:",
         "User ID": "User ID",
-        "Back to dashboard": "Back to dashboard"
+        "Back to dashboard": "Back to dashboard",
+        "Could not load coaches.": "Could not load coaches.",
+        "Could not load this coach profile.": "Could not load this coach profile."
       }
     }
   },
@@ -1149,8 +1151,8 @@ const resources = {
         "Preview user is unavailable.": "Preview user is unavailable.",
         "Your session is not available. Please sign in again.": "Your session is not available. Please sign in again.",
         "Your profile has been updated.": "Your profile has been updated.",
-        "Could not load your coach profile.": "Could not load your coach profile.",
-        "Could not save your profile. Please try again.": "Could not save your profile. Please try again.",
+        "Could not load your coach profile.": "بارگذاری پروفایل مربی ممکن نشد.",
+        "Could not save your profile. Please try again.": "ذخیره پروفایل ممکن نشد. لطفاً دوباره تلاش کنید.",
         "Welcome back, {{name}}!": "خوش برگشتی، {{name}}!",
         "Here's an overview of your training progress.": "Here's an overview of your training progress.",
         "Your Progress": "Your Progress",
@@ -1329,7 +1331,9 @@ const resources = {
         "Optional": "اختیاری",
         "Rejection reason:": "دلیل رد درخواست:",
         "User ID": "شناسه کاربر",
-        "Back to dashboard": "بازگشت به داشبورد"
+        "Back to dashboard": "بازگشت به داشبورد",
+        "Could not load coaches.": "بارگذاری مربیان ممکن نشد.",
+        "Could not load this coach profile.": "بارگذاری پروفایل این مربی ممکن نشد."
       }
     }
   }
