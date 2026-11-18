@@ -40,7 +40,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
         if (!active) return
         setCoaches([])
         setTotalCoaches(0)
-        setCoachError(requestError instanceof Error ? requestError.message : 'Could not load coaches.')
+        setCoachError(requestError instanceof Error ? requestError.message : t('ui.Could not load coaches.'))
       })
       .finally(() => {
         if (active) setIsLoadingCoaches(false)
