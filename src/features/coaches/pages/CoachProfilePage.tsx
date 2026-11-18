@@ -43,7 +43,7 @@ function CoachProfilePage() {
     <CoachPublicLayout title={t("ui.Coach profile")}>
       <div className="mx-auto w-full max-w-5xl space-y-6">
         <Link to={coachesPath} className="inline-flex text-sm font-medium text-muted hover:text-ink">
-          ← Back to coaches
+          ← {t('ui.Back to coaches')}
         </Link>
 
         {isLoading ? (
@@ -53,7 +53,7 @@ function CoachProfilePage() {
         ) : error || !coach ? (
           <section role="alert" className="rounded-2xl border border-border bg-white px-6 py-14 text-center">
             <h1 className="text-xl font-semibold">{t("ui.Coach profile unavailable")}</h1>
-            <p className="mt-2 text-sm text-muted">{error || 'This coach profile could not be found.'}</p>
+            <p className="mt-2 text-sm text-muted">{error || t('ui.This coach profile could not be found.')}</p>
             <Link to={coachesPath} className="mt-5 inline-flex rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white">
               {t("ui.Browse coaches")}
             </Link>
@@ -84,7 +84,7 @@ function CoachProfilePage() {
               <div className="mt-8 grid gap-4 border-t border-border pt-6 sm:grid-cols-3">
                 <div>
                   <p className="text-xs text-muted">{t("ui.Experience")}</p>
-                  <p className="mt-1 text-lg font-semibold">{coach.experience_years} years</p>
+                  <p className="mt-1 text-lg font-semibold">{coach.experience_years} {t('ui.years')}</p>
                 </div>
                 <div>
                   <p className="text-xs text-muted">{t("ui.Active athletes")}</p>
