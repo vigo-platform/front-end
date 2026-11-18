@@ -2,6 +2,7 @@ import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import OtpChannelSelector from './OtpChannelSelector'
 import type { OtpChannel } from '../types/auth-config.types'
+import { useTranslation } from 'react-i18next'
 
 interface PasswordResetIdentifierStepProps {
   channels: OtpChannel[]
@@ -28,6 +29,7 @@ function PasswordResetIdentifierStep({
   isLoading,
   onSubmit,
 }: PasswordResetIdentifierStepProps) {
+  const { t } = useTranslation()
   const isEmail = channel === 'EMAIL'
 
   return (
