@@ -53,7 +53,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
         {/* Label */}
         <div className="flex items-center gap-2 text-[10px] text-[#45453f]">
           <span className="h-[2px] w-5 bg-accent" />
-          TRAIN WITH CLARITY
+          {t("ui.TRAIN WITH CLARITY")}
         </div>
 
         {/* Visual */}
@@ -86,15 +86,15 @@ function AuthLayout({ children }: AuthLayoutProps) {
         {/* Brand Message */}
         <div className="mt-auto">
           <h2 className="mb-3 text-[30px] leading-[1.25] font-bold tracking-[-1px] text-ink">
-            Move with
+            {t("ui.Move with")}
             <br />
-            purpose.
+            {t("ui.purpose.")}
           </h2>
 
           <p className="text-[13px] leading-relaxed text-[#62625c]">
-            Clear plans. Stronger connections.
+            {t("ui.Clear plans. Stronger connections.")}
             <br />
-            One place to bring your training together.
+            {t("ui.One place to bring your training together.")}
           </p>
         </div>
 
