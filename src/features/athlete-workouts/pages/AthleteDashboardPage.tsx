@@ -25,7 +25,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
   const [isLoadingCoaches, setIsLoadingCoaches] = useState(true)
   const [coachError, setCoachError] = useState('')
 
-  const displayName = user?.display_name?.trim() || 'Athlete'
+  const displayName = user?.display_name?.trim() || t('ui.Athlete')
   const firstName = displayName.split(/\\s+/)[0]
 
   useEffect(() => {
