@@ -9,13 +9,13 @@ import { useTranslation } from 'react-i18next'
 
 const pageSize = 12
 
-function formatToman(value: number) {
-  return new Intl.NumberFormat('en-US').format(value) + ' Toman'
+function formatToman(value: number, locale = 'en') {
+  return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value) + (locale === 'fa' ? ' تومان' : ' Toman')
 }
 
 
 function CoachDirectoryPage() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { isPreview } = useAuth()
   const coachesPath = isPreview ? '/_preview/athlete/coaches' : '/coaches'
   const [page, setPage] = useState<CoachPage | null>(null)
@@ -238,7 +238,7 @@ function CoachDirectoryPage() {
                       <div>
                         <p className="text-[11px] text-muted">{t("ui.Starting from")}</p>
                         <p className="mt-1 text-sm font-semibold">
-                          {coach.min_plan_price == null ? 'Not listed' : formatToman(coach.min_plan_price)}
+                          {coach.min_plan_price == null ? 'Not listed' : formatToman(coach.min_plan_price, i18n.language)}
                         </p>
                       </div>
                     </div>
