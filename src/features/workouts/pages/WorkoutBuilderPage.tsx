@@ -174,10 +174,10 @@ function WorkoutBuilderPage() {
                           </span>
                           <div className="min-w-0">
                             <h4 className="truncate text-sm font-semibold">
-                              {item.exercise?.name ?? 'Exercise unavailable'}
+                              {item.exercise ? t('ui.exercise.' + item.exercise.id + '.name') : t('ui.Exercise unavailable')}
                             </h4>
                             <p className="mt-1 text-xs text-muted">
-                              {item.exercise?.muscle_group ?? 'Unknown muscle group'}
+                              {item.exercise ? t('ui.exercise.' + item.exercise.id + '.muscle_group') : t('ui.Unknown muscle group')}
                             </p>
                           </div>
                         </div>
