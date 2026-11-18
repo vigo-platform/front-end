@@ -139,7 +139,7 @@ function OtpLoginIdentifierStep({
         New to Vigo?{' '}
         <Link
           to="/register"
-          className="ml-1 font-medium text-ink no-underline hover:underline"
+          className="ms-1 font-medium text-ink no-underline hover:underline"
         >
           {t("ui.Create an account")}
         </Link>
