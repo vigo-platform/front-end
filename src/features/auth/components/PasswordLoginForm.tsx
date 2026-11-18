@@ -41,7 +41,7 @@ function PasswordLoginForm({
     setErrorMessage(
       error instanceof ApiError
         ? error.message
-        : 'Unable to connect to the server. Please try again.',
+        : t('ui.Unable to connect to the server. Please try again.'),
     )
   }
 
@@ -137,7 +137,7 @@ function PasswordLoginForm({
 
       navigate('/login', {
         replace: true,
-        state: { message: 'Your password was updated. Please sign in.' },
+        state: { message: t('ui.Your password was updated. Please sign in.') },
       })
     } catch (error) {
       handleError(error)
@@ -170,7 +170,7 @@ function PasswordLoginForm({
           <p className="text-[12px] text-[#77776f]">{t("ui.Loading login options...")}</p>
         ) : isLoginDisabled ? (
           <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
-            {configError || 'Login is currently disabled. Please try again later.'}
+            {configError || t('ui.Login is currently disabled. Please try again later.')}
           </p>
         ) : (
         <form onSubmit={handleCredentials} className="flex flex-col gap-4">
@@ -213,7 +213,7 @@ function PasswordLoginForm({
             disabled={isLoading}
             className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isLoading ? 'Signing in...' : 'Log in'}
+            {isLoading ? t('ui.Signing in...') : t('ui.Log in')}
           </button>
         </form>
         )
@@ -249,7 +249,7 @@ function PasswordLoginForm({
             disabled={isLoading}
             className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60"
           >
-            {isLoading ? 'Verifying...' : 'Verify'}
+            {isLoading ? t('ui.Verifying...') : t('ui.Verify')}
           </button>
           <button type="button" onClick={() => setStep('CREDENTIALS')} className="h-8 text-[11px] text-ink hover:underline">
             {t("ui.Back")}
@@ -285,7 +285,7 @@ function PasswordLoginForm({
             disabled={isLoading}
             className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60"
           >
-            {isLoading ? 'Updating...' : 'Update password'}
+            {isLoading ? t('ui.Updating...') : t('ui.Update password')}
           </button>
         </form>
       )}
