@@ -661,7 +661,9 @@ const resources = {
         "Mobile navigation": "Mobile navigation",
         "Footer navigation": "Footer navigation",
         "Coach directory pages": "Coach directory pages",
-        "Optional": "Optional"
+        "Optional": "Optional",
+        "Rejection reason:": "Rejection reason:",
+        "User ID": "User ID"
       }
     }
   },
@@ -952,7 +954,7 @@ const resources = {
         "Try changing your search terms or filters.": "Try changing your search terms or filters.",
         "coaches found": "coaches found",
         "Only approved and active coaches are listed.": "Only approved and active coaches are listed.",
-        "years": "years",
+        "years": "سال",
         "Starting from": "Starting from",
         "Not listed": "Not listed",
         "View profile": "View profile",
@@ -960,11 +962,11 @@ const resources = {
         "Next": "Next",
         "Page": "Page",
         "of": "of",
-        "Back to coaches": "Back to coaches",
+        "Back to coaches": "بازگشت به مربیان",
         "Coach profile": "Coach profile",
         "Loading coach profile...": "Loading coach profile...",
         "Coach profile unavailable": "Coach profile unavailable",
-        "This coach profile could not be found.": "This coach profile could not be found.",
+        "This coach profile could not be found.": "پروفایل این مربی پیدا نشد.",
         "Browse coaches": "Browse coaches",
         "Vigo coach": "Vigo coach",
         "Active athletes": "Active athletes",
@@ -1007,7 +1009,7 @@ const resources = {
         "Your information": "Your information",
         "Full name": "Full name",
         "Phone": "تلفن",
-        "Not provided": "Not provided",
+        "Not provided": "ثبت نشده",
         "Account status": "Account status",
         "Training activity": "Training activity",
         "Workout tracking is coming with the backend API.": "Workout tracking is coming with the backend API.",
@@ -1323,7 +1325,9 @@ const resources = {
         "Mobile navigation": "ناوبری موبایل",
         "Footer navigation": "ناوبری پایین صفحه",
         "Coach directory pages": "صفحه‌های فهرست مربیان",
-        "Optional": "اختیاری"
+        "Optional": "اختیاری",
+        "Rejection reason:": "دلیل رد درخواست:",
+        "User ID": "شناسه کاربر"
       }
     }
   }
