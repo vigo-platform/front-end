@@ -216,7 +216,7 @@ function RegisterPage() {
               </div>
 
               <p className="text-[11px] text-[#55554f]">
-                Didn't receive the code?{' '}
+                {t('ui.Didn\'t receive the code?')}{' '}
                 <button
                   type="button"
                   onClick={handleResendCode}
@@ -238,7 +238,7 @@ function RegisterPage() {
                 disabled={isLoading}
                 className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {isLoading ? 'Verifying...' : 'Verify'}
+                {isLoading ? t('ui.Verifying...') : t('ui.Verify')}
               </button>
 
               <button
@@ -325,10 +325,10 @@ function RegisterPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword((previous) => !previous)}
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    aria-label={showPassword ? t('ui.Hide password') : t('ui.Show password')}
                     className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-[#55554f] hover:text-ink"
                   >
-                    {showPassword ? 'Hide' : 'Show'}
+                    {showPassword ? t('ui.Hide') : t('ui.Show')}
                   </button>
                 </div>
               </div>
@@ -344,7 +344,7 @@ function RegisterPage() {
                 disabled={isLoading}
                 className="mt-1 flex h-10 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {isLoading ? 'Creating account...' : 'Create account'}
+                {isLoading ? t('ui.Creating account...') : t('ui.Create account')}
               </button>
 
               <button
