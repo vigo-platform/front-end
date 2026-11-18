@@ -41,16 +41,16 @@ function RegisterIdentifierStep({
     <>
       <div className="mb-6">
         <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-ink">
-          Create your account
+          {t("ui.Create your account")}
         </h1>
         <p className="text-[12px] leading-relaxed text-[#55554f]">
-          Join Vigo to bring your training and coaching together.
+          {t("ui.Join Vigo to bring your training and coaching together.")}
         </p>
       </div>
 
       {isConfigLoading ? (
         <p className="text-[12px] text-[#77776f]">
-          Loading registration options...
+          {t("ui.Loading registration options...")}
         </p>
       ) : isRegistrationDisabled ? (
         <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
@@ -61,7 +61,7 @@ function RegisterIdentifierStep({
           role="status"
           className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] leading-relaxed text-[#55554f]"
         >
-          Registration is currently unavailable. Please try again later.
+          {t("ui.Registration is currently unavailable. Please try again later.")}
         </p>
       ) : (
         <form onSubmit={onSubmit} className="flex flex-col gap-5">
@@ -125,7 +125,7 @@ function RegisterIdentifierStep({
           to="/login"
           className="ml-1 font-medium text-ink no-underline hover:underline"
         >
-          Log in
+          {t("ui.Log in")}
         </Link>
       </p>
     </>
