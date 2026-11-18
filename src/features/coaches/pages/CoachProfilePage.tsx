@@ -7,8 +7,8 @@ import { coachService } from '../services/coach.service'
 import type { CoachProfile } from '../types/coach.types'
 import { useTranslation } from 'react-i18next'
 
-function CoachProfilePage() {
-  const { t } = useTranslation()
+function formatNumber(value: number, locale = 'en') {\n  return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value)\n}\n\nfunction CoachProfilePage() {
+  const { t, i18n } = useTranslation()
   const { coachId = '' } = useParams()
   const { isPreview } = useAuth()
   const coachesPath = isPreview ? '/_preview/athlete/coaches' : '/coaches'
@@ -84,11 +84,11 @@ function CoachProfilePage() {
               <div className="mt-8 grid gap-4 border-t border-border pt-6 sm:grid-cols-3">
                 <div>
                   <p className="text-xs text-muted">{t("ui.Experience")}</p>
-                  <p className="mt-1 text-lg font-semibold">{coach.experience_years} {t('ui.years')}</p>
+                  <p className="mt-1 text-lg font-semibold">{formatNumber(coach.experience_years, i18n.language)} {t('ui.years')}</p>
                 </div>
                 <div>
                   <p className="text-xs text-muted">{t("ui.Active athletes")}</p>
-                  <p className="mt-1 text-lg font-semibold">{coach.active_athletes_count ?? '—'}</p>
+                  <p className="mt-1 text-lg font-semibold">{coach.active_athletes_count == null ? '—' : formatNumber(coach.active_athletes_count, i18n.language)}</p>
                 </div>
                 <div>
                   <p className="text-xs text-muted">{t("ui.Starting plan price")}</p>
