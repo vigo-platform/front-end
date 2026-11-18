@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../auth/context/auth-context'
+import LanguageSwitcher from '../../../shared/components/LanguageSwitcher'
+import { useTranslation } from 'react-i18next'
 
 interface CoachPublicLayoutProps {
   children: ReactNode
@@ -9,6 +11,7 @@ interface CoachPublicLayoutProps {
 
 function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
   const { isPreview, isAuthenticated, user } = useAuth()
+  const { t } = useTranslation()
   const homePath = isPreview
     ? '/_preview/athlete'
     : !isAuthenticated
@@ -26,7 +29,7 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
           <Link to={homePath} className="text-xl font-extrabold tracking-tight">
             Vigo<span className="text-[#9bcf3f]">.</span>
           </Link>
-          <nav aria-label="Public navigation" className="flex items-center gap-4">
+          <nav aria-label={t('navigation.main')} className="flex items-center gap-4">
             {isAuthenticated ? (
               <Link to={homePath} className="inline-flex items-center gap-2 rounded-full border border-border bg-canvas px-4 py-2.5 text-xs font-semibold text-ink transition hover:bg-[#eef2e7]">
                 <span aria-hidden="true">←</span> Back to dashboard
@@ -44,6 +47,7 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
                 </Link>
               </>
             )}
+            <LanguageSwitcher />
           </nav>
         </div>
       </header>
