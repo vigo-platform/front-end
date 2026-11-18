@@ -176,7 +176,7 @@ function PasswordLoginForm({
         <form onSubmit={handleCredentials} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <label htmlFor="password-login-identifier" className={labelClassName}>
-              Email or phone number
+              {t("ui.Email or phone number")}
             </label>
             <input
               id="password-login-identifier"
@@ -190,7 +190,7 @@ function PasswordLoginForm({
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="password-login-password" className={labelClassName}>
-              Password
+              {t("ui.Password")}
             </label>
             <input
               id="password-login-password"
@@ -223,7 +223,7 @@ function PasswordLoginForm({
         <form onSubmit={handleVerify} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <label htmlFor="password-login-otp" className={labelClassName}>
-              Verification code
+              {t("ui.Verification code")}
             </label>
             <input
               id="password-login-otp"
@@ -252,7 +252,7 @@ function PasswordLoginForm({
             {isLoading ? 'Verifying...' : 'Verify'}
           </button>
           <button type="button" onClick={() => setStep('CREDENTIALS')} className="h-8 text-[11px] text-ink hover:underline">
-            Back
+            {t("ui.Back")}
           </button>
         </form>
       )}
@@ -261,7 +261,7 @@ function PasswordLoginForm({
         <form onSubmit={handlePasswordUpdate} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <label htmlFor="expired-new-password" className={labelClassName}>
-              New password
+              {t("ui.New password")}
             </label>
             <input
               id="expired-new-password"
@@ -292,10 +292,10 @@ function PasswordLoginForm({
 
       <div className="mt-5 flex flex-col items-center gap-3 text-center text-[11px]">
         <button type="button" onClick={onUseOtp} className="font-medium text-ink hover:underline">
-          Use a verification code instead
+          {t("ui.Use a verification code instead")}
         </button>
         <Link to="/forgot-password" className="font-medium text-ink hover:underline">
-          Forgot password?
+          {t("ui.Forgot password?")}
         </Link>
       </div>
     </div>
