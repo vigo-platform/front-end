@@ -77,7 +77,7 @@ function PublicLandingPage() {
         <div className="mx-auto flex min-h-[76px] max-w-[1240px] items-center justify-between px-5 sm:px-8 lg:px-10">
           <BrandMark />
 
-          <nav aria-label="Main navigation" className="hidden items-center gap-8 md:flex">
+          <nav aria-label={t("ui.Main navigation")} className="hidden items-center gap-8 md:flex">
             {navigation.map((item) => (
               <a
                 key={item.href}
@@ -127,7 +127,7 @@ function PublicLandingPage() {
         </div>
 
         {menuOpen && (
-          <nav aria-label="Mobile navigation" className="border-t border-[#e9e9e3] bg-canvas px-5 py-4 md:hidden">
+          <nav aria-label={t("ui.Mobile navigation")} className="border-t border-[#e9e9e3] bg-canvas px-5 py-4 md:hidden">
             <div className="flex flex-col gap-4">
               {navigation.map((item) => (
                 <a key={item.href} href={item.href} onClick={closeMenu} className="text-sm font-medium text-[#55554f]">
@@ -351,7 +351,7 @@ function PublicLandingPage() {
               {t("ui.A connected training space for bodybuilding coaches and athletes.")}
             </p>
           </div>
-          <nav aria-label="Footer navigation" className="flex flex-wrap gap-x-6 gap-y-3">
+          <nav aria-label={t("ui.Footer navigation")} className="flex flex-wrap gap-x-6 gap-y-3">
             <a href="#product" className="text-[10px] font-medium text-[#6f6f67] hover:text-ink">{t("ui.Product")}</a>
             <a href="#athletes" className="text-[10px] font-medium text-[#6f6f67] hover:text-ink">{t("ui.Athletes")}</a>
             <a href="#coaches" className="text-[10px] font-medium text-[#6f6f67] hover:text-ink">{t("ui.Coaches")}</a>
