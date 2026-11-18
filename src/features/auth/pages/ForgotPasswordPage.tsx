@@ -29,7 +29,7 @@ function ForgotPasswordPage() {
   const isEmail = channel === 'EMAIL'
 
   function handleError(error: unknown) {
-    setErrorMessage(error instanceof ApiError ? error.message : 'Unable to connect to the server. Please try again.')
+    setErrorMessage(error instanceof ApiError ? error.message : t('ui.Unable to connect to the server. Please try again.'))
   }
 
   async function requestCode(event: FormEvent<HTMLFormElement>) {
@@ -57,7 +57,7 @@ function ForgotPasswordPage() {
         setMfaToken(response.data.challenge.mfaToken)
         setChannel(response.data.challenge.channel === 'SMS' ? 'PHONE' : 'EMAIL')
         setOtp('')
-        setErrorMessage('A second verification code is required. Check your other verification channel.')
+        setErrorMessage(t('ui.A second verification code is required. Check your other verification channel.'))
         return
       }
       setPasswordResetToken(response.data.passwordReset.passwordResetToken)
@@ -73,7 +73,7 @@ function ForgotPasswordPage() {
     event.preventDefault()
     setErrorMessage('')
     if (password !== confirmPassword) {
-      setErrorMessage('Passwords do not match.')
+      setErrorMessage(t('ui.Passwords do not match.'))
       return
     }
     try {
@@ -124,7 +124,7 @@ function ForgotPasswordPage() {
                 <input id="reset-otp" type="text" inputMode="numeric" autoComplete="one-time-code" placeholder={t("ui.Enter code")} value={otp} onChange={(event) => setOtp(event.target.value)} minLength={6} maxLength={6} pattern="[0-9]{6}" required className={inputClassName} />
               </div>
               {errorMessage && <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">{errorMessage}</p>}
-              <button type="submit" disabled={isLoading} className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">{isLoading ? 'Verifying...' : 'Verify code'}</button>
+              <button type="submit" disabled={isLoading} className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">{isLoading ? t('ui.Verifying...') : t('ui.Verify code')}</button>
               <button type="button" onClick={goBack} className="h-8 text-[11px] text-ink hover:underline">{t("ui.Back")}</button>
             </form>
           </>
@@ -140,7 +140,7 @@ function ForgotPasswordPage() {
                 <label htmlFor="new-password" className={labelClassName}>{t("ui.New password")}</label>
                 <div className="relative">
                   <input id="new-password" type={showPassword ? 'text' : 'password'} autoComplete="new-password" placeholder={t("ui.Create a password")} value={password} onChange={(event) => setPassword(event.target.value)} minLength={8} maxLength={72} required className={`${inputClassName} pr-14`} />
-                  <button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? 'Hide password' : 'Show password'} className="absolute inset-y-0 right-0 flex w-12 items-center justify-center text-[11px] text-[#55554f] hover:text-ink">{showPassword ? 'Hide' : 'Show'}</button>
+                  <button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? t('ui.Hide password') : t('ui.Show password')} className="absolute inset-y-0 right-0 flex w-12 items-center justify-center text-[11px] text-[#55554f] hover:text-ink">{showPassword ? t('ui.Hide') : t('ui.Show')}</button>
                 </div>
               </div>
               <div className="flex flex-col gap-2">
@@ -148,7 +148,7 @@ function ForgotPasswordPage() {
                 <input id="confirm-password" type="password" autoComplete="new-password" placeholder={t("ui.Enter your password again")} value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} minLength={8} maxLength={72} required className={inputClassName} />
               </div>
               {errorMessage && <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">{errorMessage}</p>}
-              <button type="submit" disabled={isLoading} className="mt-1 flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">{isLoading ? 'Updating password...' : 'Reset password'}</button>
+              <button type="submit" disabled={isLoading} className="mt-1 flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">{isLoading ? t('ui.Updating password...') : t('ui.Reset password')}</button>
               <button type="button" onClick={goBack} className="h-8 text-[11px] text-ink hover:underline">{t("ui.Back")}</button>
             </form>
           </>
