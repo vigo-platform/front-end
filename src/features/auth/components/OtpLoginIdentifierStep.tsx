@@ -2,6 +2,7 @@ import type { FormEventHandler } from 'react'
 import { Link } from 'react-router-dom'
 import OtpChannelSelector from './OtpChannelSelector'
 import type { OtpChannel } from '../types/auth-config.types'
+import { useTranslation } from 'react-i18next'
 
 interface OtpLoginIdentifierStepProps {
   channels: OtpChannel[]
@@ -36,6 +37,7 @@ function OtpLoginIdentifierStep({
   onSubmit,
   onUsePassword,
 }: OtpLoginIdentifierStepProps) {
+  const { t } = useTranslation()
   const isEmail = activeChannel === 'EMAIL'
 
   return (
