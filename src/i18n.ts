@@ -668,7 +668,10 @@ const resources = {
         "Could not load coaches.": "Could not load coaches.",
         "Could not load this coach profile.": "Could not load this coach profile.",
         "A second verification code is required. Check your other verification channel.": "A second verification code is required. Check your other verification channel.",
-        "Passwords do not match.": "Passwords do not match."
+        "Passwords do not match.": "Passwords do not match.",
+        "{{count}} users found": "{{count}} users found",
+        "{{count}} applications": "{{count}} applications",
+        "{{count}} years experience": "{{count}} years experience"
       }
     }
   },
@@ -1337,7 +1340,10 @@ const resources = {
         "Could not load coaches.": "بارگذاری مربیان ممکن نشد.",
         "Could not load this coach profile.": "بارگذاری پروفایل این مربی ممکن نشد.",
         "A second verification code is required. Check your other verification channel.": "به کد تأیید دوم نیاز است. کانال تأیید دیگر خود را بررسی کنید.",
-        "Passwords do not match.": "رمزهای عبور مطابقت ندارند."
+        "Passwords do not match.": "رمزهای عبور مطابقت ندارند.",
+        "{{count}} users found": "{{count}} کاربر پیدا شد",
+        "{{count}} applications": "{{count}} درخواست",
+        "{{count}} years experience": "{{count}} سال سابقه"
       }
     }
   }
