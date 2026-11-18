@@ -9,7 +9,11 @@ import { useTranslation } from 'react-i18next'
 
 const pageSize = 12
 
-function formatNumber(value: number, locale = 'en') {\n  return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value)\n}\n\nfunction formatToman(value: number, locale = 'en') {
+function formatNumber(value: number, locale = 'en') {
+  return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value)
+}
+
+function formatToman(value: number, locale = 'en') {
   return formatNumber(value, locale) + (locale === 'fa' ? ' تومان' : ' Toman')
 }
 
