@@ -51,7 +51,7 @@ function PasswordResetIdentifierStep({
         />
         <div className="flex flex-col gap-2">
           <label htmlFor="reset-identifier" className={labelClassName}>
-            {isEmail ? 'Email address' : 'Phone number'}
+            {t(isEmail ? 'ui.Email address' : 'ui.Phone number')}
           </label>
           <input
             id="reset-identifier"
