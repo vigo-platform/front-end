@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import type { PrescribedExercise } from '../types/athlete-workout.types'
 
 export interface WorkoutSetInput {
@@ -22,6 +23,7 @@ function WorkoutExerciseCard({
   inputs,
   onInputChange,
 }: WorkoutExerciseCardProps) {
+  const { t } = useTranslation()
   return (
     <section className="rounded-2xl border border-border bg-white p-5 sm:p-6">
       <div className="flex items-start justify-between gap-3">
@@ -92,7 +94,7 @@ function WorkoutExerciseCard({
                   onChange={(event) =>
                     onInputChange(key, 'weight_kg', event.target.value)
                   }
-                  placeholder="Optional"
+                  placeholder={t('ui.Optional')}
                   className="h-11 w-full rounded-xl border border-border px-3 text-sm outline-none focus:border-[#8da85d]"
                 />
               </label>
