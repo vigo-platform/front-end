@@ -91,16 +91,16 @@ function PublicLandingPage() {
 
           <div className="hidden items-center gap-5 md:flex">
             <Link to="/coaches" className="text-[12px] font-semibold text-ink transition hover:text-[#6d8c36]">
-              Find a coach
+              {t("ui.Find a coach")}
             </Link>
             <Link to="/login" className="text-[12px] font-semibold text-ink transition hover:text-[#6d8c36]">
-              Log in
+              {t("ui.Log in")}
             </Link>
             <Link
               to="/register"
               className="inline-flex h-11 items-center gap-2 rounded-full bg-ink px-5 text-[12px] font-semibold text-white transition hover:bg-[#30352a]"
             >
-              Get started <ArrowIcon />
+              {t("ui.Get started")} <ArrowIcon />
             </Link>
           </div>
 
@@ -131,7 +131,7 @@ function PublicLandingPage() {
             <div className="flex flex-col gap-4">
               {navigation.map((item) => (
                 <a key={item.href} href={item.href} onClick={closeMenu} className="text-sm font-medium text-[#55554f]">
-                  {item.label}
+                  {t('ui.' + item.label)}
                 </a>
               ))}
               <div className="flex flex-wrap gap-4 border-t border-border pt-4">
@@ -151,19 +151,19 @@ function PublicLandingPage() {
             <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#dfe5d3] bg-white/75 px-3.5 py-2">
               <span className="h-2 w-2 rounded-full bg-[#9bcf3f]" />
               <span className="text-[10px] font-semibold uppercase tracking-[1.6px] text-[#626b52]">
-                A better way to train together
+                {t("ui.A better way to train together")}
               </span>
             </div>
 
             <h1 className="max-w-[650px] text-[clamp(42px,5.7vw,72px)] leading-[1.04] font-extrabold tracking-[-3.8px] text-ink">
-              Better coaching.
+              {t("ui.Better coaching.")}
               <br />
               <span className="relative inline-block">
-                Smarter training.
+                {t("ui.Smarter training.")}
                 <span className="absolute -bottom-1 left-0 -z-10 h-3 w-full rounded-full bg-accent/80" />
               </span>
               <br />
-              Stronger progress.
+              {t("ui.Stronger progress.")}
             </h1>
 
             <p className="mt-7 max-w-[490px] text-[15px] leading-[1.9] text-[#696961] sm:text-[16px]">
@@ -177,24 +177,24 @@ function PublicLandingPage() {
                 to="/register"
                 className="inline-flex h-[54px] items-center justify-center gap-3 rounded-full bg-accent px-7 text-[13px] font-bold text-ink shadow-[0_8px_24px_rgba(167,211,81,0.22)] transition hover:-translate-y-0.5 hover:bg-accent-deep"
               >
-                Start your journey <ArrowIcon />
+                {t("ui.Start your journey")} <ArrowIcon />
               </Link>
               <a
                 href="#how-it-works"
                 className="inline-flex h-[54px] items-center justify-center gap-2 rounded-full border border-[#d7d8cf] bg-white/70 px-7 text-[13px] font-semibold text-ink transition hover:border-ink"
               >
-                Explore how it works <ArrowIcon diagonal />
+                {t("ui.Explore how it works")} <ArrowIcon diagonal />
               </a>
             </div>
 
             <div className="mt-12 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[#e3e4dc] pt-6">
               <div className="flex items-center gap-2 text-[11px] font-medium text-[#68685f]">
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#e8f0dc] text-[#647e3b]">✓</span>
-                Built for coaches
+                {t("ui.Built for coaches")}
               </div>
               <div className="flex items-center gap-2 text-[11px] font-medium text-[#68685f]">
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#e8f0dc] text-[#647e3b]">✓</span>
-                Designed for athletes
+                {t("ui.Designed for athletes")}
               </div>
             </div>
           </div>
@@ -211,7 +211,7 @@ function PublicLandingPage() {
             <div>
               <p className="text-[10px] font-bold uppercase tracking-[2px] text-accent">{t("ui.One platform, two perspectives")}</p>
               <h2 className="mt-5 max-w-[430px] text-[36px] leading-[1.13] font-bold tracking-[-1.8px] sm:text-[48px]">
-                Your training, connected.
+                {t("ui.Your training, connected.")}
               </h2>
               <p className="mt-5 max-w-[390px] text-[13px] leading-[1.9] text-white/60">
                 Less time managing scattered information. More clarity around
@@ -234,7 +234,7 @@ function PublicLandingPage() {
                   assigned workouts, and record your training results.
                 </p>
                 <Link to="/register" className="mt-7 inline-flex items-center gap-2 text-[11px] font-semibold text-accent hover:gap-3">
-                  Join as an athlete <ArrowIcon />
+                  {t("ui.Join as an athlete")} <ArrowIcon />
                 </Link>
               </article>
 
@@ -252,7 +252,7 @@ function PublicLandingPage() {
                   structured workouts, and review what your athletes complete.
                 </p>
                 <Link to="/register" className="mt-7 inline-flex items-center gap-2 text-[11px] font-semibold text-accent hover:gap-3">
-                  Join as a coach <ArrowIcon />
+                  {t("ui.Join as a coach")} <ArrowIcon />
                 </Link>
               </article>
             </div>
@@ -265,7 +265,7 @@ function PublicLandingPage() {
           <div className="mx-auto max-w-[620px] text-center">
             <p className="text-[10px] font-bold uppercase tracking-[2px] text-[#718d43]">{t("ui.A simple training cycle")}</p>
             <h2 className="mt-4 text-[36px] leading-tight font-bold tracking-[-1.8px] sm:text-[48px]">
-              From first connection to every rep.
+              {t("ui.From first connection to every rep.")}
             </h2>
             <p className="mt-5 text-[13px] leading-[1.9] text-[#74746c]">
               Keep the coaching journey in sequence, with a shared place for
@@ -294,7 +294,7 @@ function PublicLandingPage() {
             <div className="max-w-[600px]">
               <p className="text-[10px] font-bold uppercase tracking-[2px] text-[#718d43]">{t("ui.The essentials, together")}</p>
               <h2 className="mt-4 text-[36px] leading-tight font-bold tracking-[-1.8px] sm:text-[48px]">
-                Everything around the workout.
+                {t("ui.Everything around the workout.")}
               </h2>
             </div>
             <p className="max-w-[350px] text-[12px] leading-[1.9] text-[#74746c]">
@@ -330,14 +330,14 @@ function PublicLandingPage() {
           <div className="relative mx-auto max-w-[680px]">
             <p className="text-[10px] font-bold uppercase tracking-[2px] text-accent">{t("ui.Make your next move")}</p>
             <h2 className="mt-5 text-[36px] leading-[1.12] font-bold tracking-[-1.8px] sm:text-[52px]">
-              Your training. Your coach. One connected experience.
+              {t("ui.Your training. Your coach. One connected experience.")}
             </h2>
             <p className="mx-auto mt-5 max-w-[480px] text-[12px] leading-[1.9] text-white/60">
               Bring more structure to the way you coach and the way you train.
               Start building your Vigo experience.
             </p>
             <Link to="/register" className="mt-8 inline-flex h-[52px] items-center gap-3 rounded-full bg-accent px-7 text-[12px] font-bold text-ink transition hover:-translate-y-0.5 hover:bg-accent-deep">
-              Get started with Vigo <ArrowIcon />
+              {t("ui.Get started with Vigo")} <ArrowIcon />
             </Link>
           </div>
         </div>
@@ -348,7 +348,7 @@ function PublicLandingPage() {
           <div>
             <BrandMark />
             <p className="mt-3 max-w-[270px] text-[10px] leading-[1.8] text-[#818178]">
-              A connected training space for bodybuilding coaches and athletes.
+              {t("ui.A connected training space for bodybuilding coaches and athletes.")}
             </p>
           </div>
           <nav aria-label="Footer navigation" className="flex flex-wrap gap-x-6 gap-y-3">
