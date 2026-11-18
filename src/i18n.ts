@@ -136,7 +136,7 @@ const resources = {
         "Login is currently disabled. Please try again later.": "Login is currently disabled. Please try again later.",
         "Login is currently unavailable. Please try again later.": "Login is currently unavailable. Please try again later.",
         "Email address": "Email address",
-        "Phone number": "Phone number",
+        "Phone number": "شماره تلفن",
         "Enter your phone number": "Enter your phone number",
         "Please wait...": "Please wait...",
         "Continue": "Continue",
@@ -175,7 +175,7 @@ const resources = {
         "Creating account...": "Creating account...",
         "Create account": "Create account",
         "Account created": "Account created",
-        "Your account is ready. You can now log in to continue.": "Your account is ready. You can now log in to continue.",
+        "Your account is ready. You can now log in to continue.": "حساب شما آماده است. اکنون می‌توانید برای ادامه وارد شوید.",
         "Verify your email": "Verify your email",
         "Verify your phone": "Verify your phone",
         "email address": "email address",
@@ -571,7 +571,11 @@ const resources = {
         "exercise.ex-008.name": "پل باسن",
         "exercise.ex-008.muscle_group": "عضلات سرینی",
         "exercise.ex-008.equipment": "وزن بدن",
-        "exercise.ex-008.description": "حرکت بازکردن مفصل ران با تمرکز بر فعال‌سازی عضلات سرینی."
+        "exercise.ex-008.description": "حرکت بازکردن مفصل ران با تمرکز بر فعال‌سازی عضلات سرینی.",
+        "Restoring your session...": "در حال بازیابی نشست شما...",
+        "Loading...": "در حال بارگذاری...",
+        "Admin overview": "نمای کلی مدیریت",
+        "Account suspended": "حساب کاربری تعلیق شده است"
 }
     }
   },
@@ -1143,7 +1147,11 @@ const resources = {
         "exercise.ex-008.name": "پل باسن",
         "exercise.ex-008.muscle_group": "عضلات سرینی",
         "exercise.ex-008.equipment": "وزن بدن",
-        "exercise.ex-008.description": "حرکت بازکردن مفصل ران با تمرکز بر فعال‌سازی عضلات سرینی."
+        "exercise.ex-008.description": "حرکت بازکردن مفصل ران با تمرکز بر فعال‌سازی عضلات سرینی.",
+        "Restoring your session...": "در حال بازیابی نشست شما...",
+        "Loading...": "در حال بارگذاری...",
+        "Admin overview": "نمای کلی مدیریت",
+        "Account suspended": "حساب کاربری تعلیق شده است"
 }
     }
   }
