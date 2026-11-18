@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ApiError } from '../../../shared/api/client'
 import { useAuth } from '../context/auth-context'
 import { authService } from '../services/auth.service'
+import { useTranslation } from 'react-i18next'
 
 type Step = 'CREDENTIALS' | 'VERIFY' | 'NEW_PASSWORD'
 
@@ -23,6 +24,7 @@ function PasswordLoginForm({
   configError,
   onUseOtp,
 }: PasswordLoginFormProps) {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { signIn } = useAuth()
   const [identifier, setIdentifier] = useState('')
@@ -74,7 +76,7 @@ function PasswordLoginForm({
         return
       }
 
-      setErrorMessage('The server returned an unsupported login response.')
+      setErrorMessage(t("ui.The server returned an unsupported login response."))
     } catch (error) {
       handleError(error)
     } finally {
@@ -104,7 +106,7 @@ function PasswordLoginForm({
         return
       }
 
-      setErrorMessage('The server returned an unsupported verification response.')
+      setErrorMessage(t("ui.The server returned an unsupported verification response."))
     } catch (error) {
       handleError(error)
     } finally {
@@ -116,7 +118,7 @@ function PasswordLoginForm({
     event.preventDefault()
     setErrorMessage('')
     if (newPassword.trim().length === 0) {
-      setErrorMessage('Password cannot contain only whitespace.')
+      setErrorMessage(t("ui.Password cannot contain only whitespace."))
       return
     }
 
@@ -165,7 +167,7 @@ function PasswordLoginForm({
 
       {step === 'CREDENTIALS' && (
         isConfigLoading ? (
-          <p className="text-[12px] text-[#77776f]">Loading login options...</p>
+          <p className="text-[12px] text-[#77776f]">{t("ui.Loading login options...")}</p>
         ) : isLoginDisabled ? (
           <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
             {configError || 'Login is currently disabled. Please try again later.'}
