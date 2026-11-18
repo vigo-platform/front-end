@@ -36,10 +36,10 @@ function PasswordResetIdentifierStep({
     <>
       <div className="mb-7">
         <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
-          Reset your password
+          {t("ui.Reset your password")}
         </h1>
         <p className="text-[13px] leading-[1.6] text-[#55554f]">
-          Enter the email address or phone number linked to your account.
+          {t("ui.Enter the email address or phone number linked to your account.")}
         </p>
       </div>
 
@@ -85,7 +85,7 @@ function PasswordResetIdentifierStep({
       <p className="mt-7 text-center text-[11px] text-[#33332f]">
         Remember your password?{' '}
         <Link to="/login" className="ml-1 font-medium text-ink hover:underline">
-          Log in
+          {t("ui.Log in")}
         </Link>
       </p>
     </>
