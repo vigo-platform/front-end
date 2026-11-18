@@ -1,4 +1,5 @@
 import { useAuth } from '../../../features/auth/context/auth-context'
+import { useTranslation } from 'react-i18next'
 
 interface TopBarProps {
   title: string
@@ -7,7 +8,7 @@ interface TopBarProps {
 function getInitials(name: string) {
   return name
     .trim()
-    .split(/\s+/)
+    .split(/\\s+/)
     .slice(0, 2)
     .map((part) => part.charAt(0).toUpperCase())
     .join('')
@@ -15,21 +16,29 @@ function getInitials(name: string) {
 
 function TopBar({ title }: TopBarProps) {
   const { user } = useAuth()
-  const displayName = user?.display_name || user?.email || 'Vigo member'
+  const { t } = useTranslation()
+  const displayName = user?.display_name || user?.email || t('workspace.memberName')
   const initials = getInitials(user?.display_name || user?.email || 'V')
+  const roleLabel = user?.role === 'ADMIN'
+    ? t('workspace.administrator')
+    : user?.role === 'COACH'
+      ? t('workspace.coachAccount')
+      : user?.role === 'ATHLETE'
+        ? t('workspace.athleteAccount')
+        : t('workspace.account')
 
   return (
-    <header className="flex h-[72px] shrink-0 items-center justify-between border-b border-[#e8e8e1] bg-[#fbfbf9] px-5 sm:px-8 lg:px-10">
+    <header className="flex min-h-[72px] shrink-0 items-center justify-between gap-4 border-b border-[#e8e8e1] bg-[#fbfbf9] px-5 py-3 sm:px-8 lg:px-10">
       <div className="min-w-0">
         <p className="text-[9px] font-medium uppercase tracking-[1.5px] text-[#96968e]">
-          Workspace <span className="px-1.5 text-[#c5c5bc]">/</span> {title}
+          {t('workspace.title')} <span className="px-1.5 text-[#c5c5bc]">/</span> {t(title)}
         </p>
       </div>
 
       <div className="flex items-center gap-3">
         <div className="hidden text-right sm:block">
           <p className="max-w-40 truncate text-[10px] font-semibold text-[#292a25]">{displayName}</p>
-          <p className="mt-0.5 text-[9px] text-[#92928a]">{user?.role === 'ADMIN' ? 'Administrator account' : user?.role === 'COACH' ? 'Coach account' : user?.role === 'ATHLETE' ? 'Athlete account' : 'Vigo account'}</p>
+          <p className="mt-0.5 text-[9px] text-[#92928a]">{roleLabel}</p>
         </div>
         {user?.avatar_url ? (
           <img src={user.avatar_url} alt="" className="h-8 w-8 rounded-full border border-[#e6e6df] object-cover" />

@@ -6,43 +6,43 @@ export interface NavigationItem {
 }
 
 const athleteNavigationItems: NavigationItem[] = [
-  { label: 'Dashboard', href: '/athlete' },
-  { label: 'My Workouts', href: '/athlete/workouts' },
-  { label: 'Discover Coaches', href: '/coaches' },
-  { label: 'My Profile', href: '/profile' },
+  { label: 'navigation.dashboard', href: '/athlete' },
+  { label: 'navigation.myWorkouts', href: '/athlete/workouts' },
+  { label: 'navigation.discoverCoaches', href: '/coaches' },
+  { label: 'navigation.myProfile', href: '/profile' },
 ]
 
 const adminNavigationItems: NavigationItem[] = [
-  { label: 'Overview', href: '/admin' },
-  { label: 'My Profile', href: '/profile' },
+  { label: 'navigation.overview', href: '/admin' },
+  { label: 'navigation.myProfile', href: '/profile' },
 ]
 
 const previewAdminNavigationItems: NavigationItem[] = [
-  { label: 'Overview', href: '/_preview/admin' },
-  { label: 'My Profile', href: '/_preview/admin/profile' },
+  { label: 'navigation.overview', href: '/_preview/admin' },
+  { label: 'navigation.myProfile', href: '/_preview/admin/profile' },
 ]
 
 const coachNavigationItems: NavigationItem[] = [
-  { label: 'Overview', href: '/coach' },
-  { label: 'Exercise Library', href: '/coach/exercises' },
-  { label: 'My Workouts', href: '/coach/workouts' },
-  { label: 'Workout Builder', href: '/coach/workouts/new' },
-  { label: 'My Profile', href: '/profile' },
+  { label: 'navigation.overview', href: '/coach' },
+  { label: 'navigation.exerciseLibrary', href: '/coach/exercises' },
+  { label: 'navigation.myWorkouts', href: '/coach/workouts' },
+  { label: 'navigation.workoutBuilder', href: '/coach/workouts/new' },
+  { label: 'navigation.myProfile', href: '/profile' },
 ]
 
 const previewAthleteNavigationItems: NavigationItem[] = [
-  { label: 'Dashboard', href: '/_preview/athlete' },
-  { label: 'My Workouts', href: '/_preview/athlete/workouts' },
-  { label: 'Find a Coach', href: '/_preview/athlete/coaches' },
-  { label: 'My Profile', href: '/_preview/athlete/profile' },
+  { label: 'navigation.dashboard', href: '/_preview/athlete' },
+  { label: 'navigation.myWorkouts', href: '/_preview/athlete/workouts' },
+  { label: 'navigation.findCoach', href: '/_preview/athlete/coaches' },
+  { label: 'navigation.myProfile', href: '/_preview/athlete/profile' },
 ]
 
 const previewCoachNavigationItems: NavigationItem[] = [
-  { label: 'Overview', href: '/_preview/coach' },
-  { label: 'Exercise Library', href: '/_preview/coach/exercises' },
-  { label: 'My Workouts', href: '/_preview/coach/workouts' },
-  { label: 'Workout Builder', href: '/_preview/coach/workouts/new' },
-  { label: 'My Profile', href: '/_preview/coach/profile' },
+  { label: 'navigation.overview', href: '/_preview/coach' },
+  { label: 'navigation.exerciseLibrary', href: '/_preview/coach/exercises' },
+  { label: 'navigation.myWorkouts', href: '/_preview/coach/workouts' },
+  { label: 'navigation.workoutBuilder', href: '/_preview/coach/workouts/new' },
+  { label: 'navigation.myProfile', href: '/_preview/coach/profile' },
 ]
 
 export function getNavigationItems(role: UserRole | null | undefined, isPreview = false) {

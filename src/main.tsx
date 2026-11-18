@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client'
 import '@fontsource-variable/manrope'
 import '@fontsource-variable/vazirmatn'
 
+import './i18n'
 import './index.css'
 import App from './App.tsx'
 

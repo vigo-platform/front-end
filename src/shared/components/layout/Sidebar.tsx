@@ -1,6 +1,7 @@
 import { NavLink, Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../features/auth/context/auth-context'
 import { getNavigationItems } from '../../../app/config/navigation'
+import { useTranslation } from 'react-i18next'
 
 function getInitials(name: string) {
   return name
@@ -13,11 +14,19 @@ function getInitials(name: string) {
 
 function Sidebar() {
   const { signOut, user, isPreview } = useAuth()
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const navigationItems = getNavigationItems(user?.role, isPreview)
   const workspacePath = isPreview ? `/_preview/${user?.role === 'ADMIN' ? 'admin' : user?.role === 'COACH' ? 'coach' : 'athlete'}` : '/dashboard'
-  const displayName = user?.display_name || user?.email || 'Vigo member'
+  const displayName = user?.display_name || user?.email || t('workspace.memberName')
   const initials = getInitials(user?.display_name || user?.email || 'V')
+  const workspaceLabel = user?.role === 'ADMIN'
+    ? t('workspace.admin')
+    : user?.role === 'COACH'
+      ? t('workspace.coach')
+      : user?.role === 'ATHLETE'
+        ? t('workspace.athlete')
+        : t('workspace.member')
 
   async function handleLogout() {
     if (isPreview) {
@@ -37,11 +46,11 @@ function Sidebar() {
 
       <div className="mt-8 border-b border-white/10 pb-6">
         <p className="px-1 text-[9px] font-semibold uppercase tracking-[1.8px] text-white/40">
-          {user?.role === 'ADMIN' ? 'Admin workspace' : user?.role === 'COACH' ? 'Coach workspace' : user?.role === 'ATHLETE' ? 'Athlete workspace' : 'Member workspace'}
+          {workspaceLabel}
         </p>
       </div>
 
-      <nav aria-label="Main navigation" className="mt-5 flex flex-col gap-1.5">
+      <nav aria-label={t('navigation.main')} className="mt-5 flex flex-col gap-1.5">
         {navigationItems.map((item, index) => (
           <NavLink
             key={item.href}
@@ -58,11 +67,11 @@ function Sidebar() {
           >
             {({ isActive }) => (
               <>
-                <span className={`flex h-6 w-6 items-center justify-center rounded-lg text-[9px] font-bold ${isActive ? 'bg-black/[0.08]' : 'bg-white/[0.09] text-white/55'}`}>
+                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-white/[0.09] text-[9px] font-bold text-white/55">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <span>{item.label}</span>
-                {isActive && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-[#171914]" />}
+                <span>{t(item.label)}</span>
+                {isActive && <span className="ms-auto h-1.5 w-1.5 rounded-full bg-[#171914]" />}
               </>
             )}
           </NavLink>
@@ -81,16 +90,16 @@ function Sidebar() {
           <div className="min-w-0">
             <p className="truncate text-[11px] font-semibold text-white">{displayName}</p>
             <p className="mt-0.5 text-[10px] capitalize text-white/40">
-              {user?.role?.toLowerCase() || 'Member'}
+              {t(user?.role?.toLowerCase() || 'workspace.memberRole')}
             </p>
           </div>
         </div>
         <button
           type="button"
           onClick={handleLogout}
-          className="mt-5 flex w-full items-center justify-between rounded-lg px-2 py-2 text-left text-[11px] font-medium text-white/45 transition hover:bg-white/[0.06] hover:text-white"
+          className="mt-5 flex w-full items-center justify-between rounded-lg px-2 py-2 text-start text-[11px] font-medium text-white/45 transition hover:bg-white/[0.06] hover:text-white"
         >
-          {isPreview ? 'Back to overview' : 'Sign out'}
+          {isPreview ? t('workspace.backToOverview') : t('workspace.signOut')}
           <span aria-hidden="true">↗</span>
         </button>
       </div>
