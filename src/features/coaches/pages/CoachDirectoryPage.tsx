@@ -255,7 +255,7 @@ function CoachDirectoryPage() {
             </section>
 
             {page.total_pages > 1 && (
-              <nav aria-label="Coach directory pages" className="flex items-center justify-center gap-4 pt-2">
+              <nav aria-label={t("ui.Coach directory pages")} className="flex items-center justify-center gap-4 pt-2">
                 <button
                   type="button"
                   disabled={page.page <= 0 || isLoading}
