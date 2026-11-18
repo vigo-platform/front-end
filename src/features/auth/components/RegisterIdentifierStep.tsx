@@ -2,6 +2,7 @@ import type { FormEventHandler } from 'react'
 import { Link } from 'react-router-dom'
 import OtpChannelSelector from './OtpChannelSelector'
 import type { OtpChannel } from '../types/auth-config.types'
+import { useTranslation } from 'react-i18next'
 
 interface RegisterIdentifierStepProps {
   availableChannels: OtpChannel[]
@@ -30,6 +31,7 @@ function RegisterIdentifierStep({
   onChannelChange,
   onSubmit,
 }: RegisterIdentifierStepProps) {
+  const { t } = useTranslation()
   const isEmail = activeChannel === 'EMAIL'
   const inputClassName =
     'h-11 w-full rounded-md border border-border bg-white px-3 text-[13px] text-ink outline-none transition placeholder:text-[#999991] focus:border-ink'
