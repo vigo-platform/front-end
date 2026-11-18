@@ -7,10 +7,12 @@ import { ApiError } from '../../../shared/api/client'
 import { useAuthConfig } from '../hooks/useAuthConfig'
 import type { OtpChannel } from '../types/auth-config.types'
 import { useAuth } from '../context/auth-context'
+import { useTranslation } from 'react-i18next'
 
 type RegisterStep = 'IDENTIFIER' | 'VERIFY' | 'COMPLETE' | 'SUCCESS'
 
 function RegisterPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { signIn } = useAuth()
 
@@ -46,7 +48,7 @@ function RegisterPage() {
     if (error instanceof ApiError) {
       setErrorMessage(error.message)
     } else {
-      setErrorMessage('Unable to connect to the server. Please try again.')
+      setErrorMessage(t("ui.Unable to connect to the server. Please try again."))
     }
   }
 
@@ -203,7 +205,7 @@ function RegisterPage() {
                   type="text"
                   inputMode="numeric"
                   autoComplete="one-time-code"
-                  placeholder="Enter code"
+                  placeholder={t("ui.Enter code")}
                   value={otp}
                   onChange={(event) => setOtp(event.target.value)}
                   minLength={5}
@@ -275,7 +277,7 @@ function RegisterPage() {
                   id="firstName"
                   type="text"
                   autoComplete="given-name"
-                  placeholder="First name"
+                  placeholder={t("ui.First name")}
                   value={firstName}
                   onChange={(event) => setFirstName(event.target.value)}
                   required
@@ -292,7 +294,7 @@ function RegisterPage() {
                   id="lastName"
                   type="text"
                   autoComplete="family-name"
-                  placeholder="Last name"
+                  placeholder={t("ui.Last name")}
                   value={lastName}
                   onChange={(event) => setLastName(event.target.value)}
                   required
@@ -310,7 +312,7 @@ function RegisterPage() {
                     id="password"
                     type={showPassword ? 'text' : 'password'}
                     autoComplete="new-password"
-                    placeholder="Create a password"
+                    placeholder={t("ui.Create a password")}
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                     minLength={8}
