@@ -1,4 +1,5 @@
 import type { OtpChannel } from '../types/auth-config.types'
+import { useTranslation } from 'react-i18next'
 
 interface OtpChannelSelectorProps {
   channels: OtpChannel[]
@@ -11,6 +12,7 @@ function OtpChannelSelector({
   value,
   onChange,
 }: OtpChannelSelectorProps) {
+  const { t } = useTranslation()
   if (channels.length <= 1) {
     return null
   }
@@ -18,7 +20,7 @@ function OtpChannelSelector({
   return (
     <div className="flex flex-col gap-2">
       <span className="text-[11px] font-medium text-ink">
-        Continue with
+        {t("ui.Continue with")}
       </span>
 
       <div className="grid grid-cols-2 gap-2 rounded-lg bg-soft-gray p-1">
