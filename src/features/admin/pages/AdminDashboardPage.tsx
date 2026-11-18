@@ -17,8 +17,9 @@ function dateLabel(value?: string) {
 }
 function initials(value?: string) { return (value || 'Vigo').split(/\s+/).slice(0, 2).map((part) => part[0]?.toUpperCase()).join('') }
 function Status({ value }: { value: string }) {
+  const { t } = useTranslation()
   const style = value === 'ACTIVE' || value === 'APPROVED' ? 'bg-[#eff6e5] text-[#597333]' : value === 'SUSPENDED' || value === 'REJECTED' ? 'bg-[#fff0ec] text-[#a55343]' : 'bg-[#fff6df] text-[#92702c]'
-  return <span className={`inline-flex rounded-full px-2.5 py-1 text-[8px] font-bold uppercase tracking-[.8px] ${style}`}>{value}</span>
+  return <span className={`inline-flex rounded-full px-2.5 py-1 text-[8px] font-bold uppercase tracking-[.8px] ${style}`}>{t('ui.' + value)}</span>
 }
 
 function AdminDashboardPage() {
@@ -103,26 +104,26 @@ function AdminDashboardPage() {
   async function toggleUser(item: AdminUser) {
     const next: UserStatus = item.status === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE'
     if (item.role === 'ADMIN' || item.user_id === user?.user_id) return
-    const reason = next === 'SUSPENDED' ? window.prompt('Reason for suspension (optional):') : undefined
-    if (reason === null || !window.confirm(`Change this account status to ${next}?`)) return
+    const reason = next === 'SUSPENDED' ? window.prompt(t('ui.Reason for suspension (optional):')) : undefined
+    if (reason === null || !window.confirm(t('ui.Change this account status to {{status}}?', { status: t('ui.' + next) }))) return
     setBusy(true); setError(''); setNotice('')
     try {
       const updated = preview ? { ...item, status: next } : await adminService.setUserStatus(accessToken!, item.user_id, { status: next, ...(reason?.trim() ? { reason: reason.trim() } : {}) })
       setPreviewUsers((current) => current.map((entry) => entry.user_id === updated.user_id ? updated : entry))
       setUsers((current) => ({ ...current, content: current.content.map((entry) => entry.user_id === updated.user_id ? updated : entry) }))
-      setSelectedUser(updated); setNotice(`Account status changed to ${next}.`)
+      setSelectedUser(updated); setNotice(t('ui.Account status changed to {{status}}.', { status: t('ui.' + next) }))
     } catch (e) { setError(e instanceof Error ? e.message : 'Could not update account.') }
     finally { setBusy(false) }
   }
   async function reviewCoach(item: AdminCoachApplication, action: 'approve' | 'reject') {
     let reason = ''
     if (action === 'reject') {
-      const answer = window.prompt('Rejection reason (5–500 characters):')
+      const answer = window.prompt(t('ui.Rejection reason (5–500 characters):'))
       if (answer === null) return
       reason = answer.trim()
       if (reason.length < 5 || reason.length > 500) { setError('The reason must contain 5–500 characters.'); return }
     }
-    if (!window.confirm(`Are you sure you want to ${action} this application?`)) return
+    if (!window.confirm(t('ui.Are you sure you want to {{action}} this application?', { action: t(action === 'approve' ? 'ui.Approve' : 'ui.Reject') }))) return
     setBusy(true); setError(''); setNotice('')
     try {
       const updated = preview
@@ -130,7 +131,7 @@ function AdminDashboardPage() {
         : action === 'approve' ? await adminService.approveCoach(accessToken!, item.coach_id) : await adminService.rejectCoach(accessToken!, item.coach_id, reason)
       setPreviewCoaches((current) => current.map((entry) => entry.coach_id === updated.coach_id ? updated : entry))
       setCoaches((current) => ({ ...current, content: current.content.map((entry) => entry.coach_id === updated.coach_id ? updated : entry) }))
-      setSelectedCoach(updated); setNotice(`Application ${action === 'approve' ? 'approved' : 'rejected'}.`)
+      setSelectedCoach(updated); setNotice(t('ui.Application {{action}}.', { action: t(action === 'approve' ? 'ui.Approved' : 'ui.Rejected') }))
     } catch (e) { setError(e instanceof Error ? e.message : 'Could not review application.') }
     finally { setBusy(false) }
   }
@@ -141,7 +142,7 @@ function AdminDashboardPage() {
   const closeDetails = () => { setSelectedUser(null); setSelectedCoach(null) }
 
   return (
-    <AppShell title="Admin overview">
+    <AppShell title={t('ui.Admin overview')}>
       <div className="mx-auto w-full max-w-[1320px] space-y-7">
         <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div><p className="text-[9px] font-bold uppercase tracking-[2px] text-[#82975e]">Administration</p><h1 className="mt-3 text-[34px] font-bold leading-tight tracking-[-1.5px] text-[#171815] sm:text-[42px]">Good to see you, {(user?.display_name || 'Admin').split(/\s+/)[0]}.</h1><p className="mt-2 text-[12px] leading-6 text-[#77786f]">Manage platform accounts and review coach applications.</p></div>
@@ -151,7 +152,7 @@ function AdminDashboardPage() {
         <section className="grid gap-3 sm:grid-cols-3">
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5"><p className={eyebrow}>Platform users</p><p className="mt-4 text-[30px] font-bold text-[#20211d]">{totalUsers}</p><p className="mt-1 text-[10px] text-[#898a81]">Accounts in the platform</p></article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5"><p className={eyebrow}>Pending applications</p><p className="mt-4 text-[30px] font-bold text-[#20211d]">{pendingCount}</p><p className="mt-1 text-[10px] text-[#898a81]">Waiting for your review</p></article>
-          <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5"><p className={eyebrow}>Your account</p><p className="mt-4 text-[22px] font-bold text-[#20211d]">{user?.status ?? 'ACTIVE'}</p><p className="mt-1 text-[10px] text-[#898a81]">Administrator access</p></article>
+          <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5"><p className={eyebrow}>Your account</p><p className="mt-4 text-[22px] font-bold text-[#20211d]" >{t('ui.' + (user?.status ?? 'ACTIVE'))}</p><p className="mt-1 text-[10px] text-[#898a81]">Administrator access</p></article>
         </section>
 
         <section className="rounded-[20px] border border-[#e1e1da] bg-white p-4 sm:p-6">
@@ -173,8 +174,8 @@ function AdminDashboardPage() {
               <thead><tr className="border-y border-[#edede8] text-[8px] font-bold uppercase tracking-[1px] text-[#92938a]"><th className="py-3 pr-4">User</th><th className="py-3 pr-4">Role</th><th className="py-3 pr-4">Status</th><th className="py-3 pr-4">Joined</th><th className="py-3 text-right">Action</th></tr></thead>
               <tbody>{userRows.map((item) => <tr key={item.user_id} className="border-b border-[#f0f0eb] last:border-0">
                 <td className="py-4 pr-4"><button onClick={() => void showUser(item)} className="flex items-center gap-3 text-left"><span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#edf1e6] text-[10px] font-bold text-[#526a2e]">{initials(item.display_name || item.email)}</span><span><span className="block max-w-[220px] truncate text-[11px] font-bold text-[#292a25]">{item.display_name || 'Unnamed user'}</span><span className="mt-1 block max-w-[220px] truncate text-[9px] text-[#92938a]">{item.email}</span></span></button></td>
-                <td className="py-4 pr-4 text-[10px] font-semibold text-[#55564f]">{item.role}</td><td className="py-4 pr-4"><Status value={item.status} /></td><td className="py-4 pr-4 text-[10px] text-[#77786f]">{dateLabel(item.created_at)}</td>
-                <td className="py-4 text-right"><button disabled={busy || item.role === 'ADMIN' || item.user_id === user?.user_id} onClick={() => void toggleUser(item)} className="rounded-full border border-[#e2e3dc] px-3 py-2 text-[9px] font-bold text-[#55564f] hover:bg-[#f5f8ef] disabled:opacity-30">{item.status === 'ACTIVE' ? 'Suspend' : 'Activate'}</button></td>
+                <td className="py-4 pr-4 text-[10px] font-semibold text-[#55564f]">{t('ui.' + item.role)}</td><td className="py-4 pr-4"><Status value={item.status} /></td><td className="py-4 pr-4 text-[10px] text-[#77786f]">{dateLabel(item.created_at)}</td>
+                <td className="py-4 text-right"><button disabled={busy || item.role === 'ADMIN' || item.user_id === user?.user_id} onClick={() => void toggleUser(item)} className="rounded-full border border-[#e2e3dc] px-3 py-2 text-[9px] font-bold text-[#55564f] hover:bg-[#f5f8ef] disabled:opacity-30">{item.status === 'ACTIVE' ? t('ui.Suspend') : t('ui.Activate')}</button></td>
               </tr>)}</tbody></table>
               {!loading && userRows.length === 0 && <p className="py-10 text-center text-[11px] text-[#92938a]">No users match these filters.</p>}
             </div>
