@@ -1,6 +1,8 @@
 import ArrowIcon from './ArrowIcon'
+import { useTranslation } from 'react-i18next'
 
 function WorkoutPreview() {
+  const { t } = useTranslation()
   return (
     <div className="relative mx-auto w-full max-w-[560px]">
       <div className="absolute -right-7 -top-7 h-36 w-36 rounded-full bg-accent/50 blur-3xl" />
@@ -15,69 +17,69 @@ function WorkoutPreview() {
               </svg>
             </span>
             <div>
-              <p className="text-[12px] font-bold text-ink">Training overview</p>
-              <p className="mt-0.5 text-[10px] text-muted">Your week, in one place</p>
+              <p className="text-[12px] font-bold text-ink">{t("ui.Training overview")}</p>
+              <p className="mt-0.5 text-[10px] text-muted">{t("ui.Your week, in one place")}</p>
             </div>
           </div>
           <span className="rounded-full bg-[#f4f5f0] px-3 py-1.5 text-[10px] font-semibold text-[#66685f]">
-            WEEKLY PLAN
+            {t("ui.WEEKLY PLAN")}
           </span>
         </div>
 
         <div className="grid grid-cols-3 gap-2.5 py-5">
           <div className="rounded-2xl bg-canvas p-3">
-            <p className="text-[10px] text-muted">Sessions</p>
+            <p className="text-[10px] text-muted">{t("ui.Sessions")}</p>
             <p className="mt-1 text-[23px] font-bold tracking-tight text-ink">04</p>
           </div>
           <div className="rounded-2xl bg-canvas p-3">
-            <p className="text-[10px] text-muted">Completed</p>
+            <p className="text-[10px] text-muted">{t("ui.Completed")}</p>
             <p className="mt-1 text-[23px] font-bold tracking-tight text-ink">02</p>
           </div>
           <div className="rounded-2xl bg-canvas p-3">
-            <p className="text-[10px] text-muted">Up next</p>
-            <p className="mt-1 text-[17px] font-bold tracking-tight text-ink">Today</p>
+            <p className="text-[10px] text-muted">{t("ui.Up next")}</p>
+            <p className="mt-1 text-[17px] font-bold tracking-tight text-ink">{t("ui.Today")}</p>
           </div>
         </div>
 
         <div className="flex items-center justify-between pb-3">
-          <p className="text-[12px] font-bold text-ink">Your workouts</p>
-          <span className="text-[10px] font-medium text-muted">THIS WEEK</span>
+          <p className="text-[12px] font-bold text-ink">{t("ui.Your workouts")}</p>
+          <span className="text-[10px] font-medium text-muted">{t("ui.THIS WEEK")}</span>
         </div>
 
         <div className="space-y-2.5">
           <div className="flex items-center gap-3 rounded-2xl border border-[#e9ebdf] p-3">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#eaf2dc] text-[11px] font-bold text-[#566b35]">
-              MON
+              {t("ui.MON")}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-[12px] font-bold text-ink">Upper body</p>
-              <p className="mt-1 text-[10px] text-muted">5 exercises · Strength</p>
+              <p className="truncate text-[12px] font-bold text-ink">{t("ui.Upper body")}</p>
+              <p className="mt-1 text-[10px] text-muted">{t("ui.5 exercises · Strength")}</p>
             </div>
             <span className="rounded-full bg-[#edf5e2] px-2.5 py-1 text-[9px] font-semibold text-[#607b38]">
-              DONE
+              {t("ui.DONE")}
             </span>
           </div>
           <div className="flex items-center gap-3 rounded-2xl border border-[#e9ebdf] bg-[#fbfcf8] p-3">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent text-[11px] font-bold text-ink">
-              WED
+              {t("ui.WED")}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-[12px] font-bold text-ink">Lower body</p>
-              <p className="mt-1 text-[10px] text-muted">6 exercises · Strength</p>
+              <p className="truncate text-[12px] font-bold text-ink">{t("ui.Lower body")}</p>
+              <p className="mt-1 text-[10px] text-muted">{t("ui.6 exercises · Strength")}</p>
             </div>
             <span className="rounded-full bg-[#f3f3ef] px-2.5 py-1 text-[9px] font-semibold text-[#77776e]">
-              NEXT
+              {t("ui.NEXT")}
             </span>
           </div>
           <div className="flex items-center gap-3 rounded-2xl border border-[#e9ebdf] p-3">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#f1f0eb] text-[11px] font-bold text-[#77776e]">
-              FRI
+              {t("ui.FRI")}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-[12px] font-bold text-ink">Full body</p>
-              <p className="mt-1 text-[10px] text-muted">4 exercises · Strength</p>
+              <p className="truncate text-[12px] font-bold text-ink">{t("ui.Full body")}</p>
+              <p className="mt-1 text-[10px] text-muted">{t("ui.4 exercises · Strength")}</p>
             </div>
-            <span className="text-[9px] font-medium text-muted">UPCOMING</span>
+            <span className="text-[9px] font-medium text-muted">{t("ui.UPCOMING")}</span>
           </div>
         </div>
 
@@ -88,8 +90,8 @@ function WorkoutPreview() {
             </svg>
           </span>
           <div className="min-w-0 flex-1">
-            <p className="text-[11px] font-semibold">A connected training routine</p>
-            <p className="mt-1 text-[9px] text-white/55">Plan · Execute · Review</p>
+            <p className="text-[11px] font-semibold">{t("ui.A connected training routine")}</p>
+            <p className="mt-1 text-[9px] text-white/55">{t("ui.Plan · Execute · Review")}</p>
           </div>
           <span className="text-accent"><ArrowIcon diagonal /></span>
         </div>
@@ -102,8 +104,8 @@ function WorkoutPreview() {
           </svg>
         </span>
         <div>
-          <p className="text-[10px] font-bold text-ink">Stay on track</p>
-          <p className="text-[9px] text-muted">One shared training space</p>
+          <p className="text-[10px] font-bold text-ink">{t("ui.Stay on track")}</p>
+          <p className="text-[9px] text-muted">{t("ui.One shared training space")}</p>
         </div>
       </div>
     </div>
