@@ -232,8 +232,8 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
                       <label>
                         <span className={labelClass}>{t("ui.Instagram username")}</span>
                         <div className="relative">
-                          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[12px] text-[#92938a]">@</span>
-                          <input className={fieldClass + ' pl-8'} value={instagram} onChange={(event) => setInstagram(event.target.value.replace(/^@/, ''))} maxLength={30} placeholder="your.profile" />
+                          <span className="absolute start-4 top-1/2 -translate-y-1/2 text-[12px] text-[#92938a]">@</span>
+                          <input className={fieldClass + ' ps-8'} value={instagram} onChange={(event) => setInstagram(event.target.value.replace(/^@/, ''))} maxLength={30} placeholder="your.profile" />
                         </div>
                       </label>
                     </div>
