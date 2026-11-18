@@ -9,11 +9,11 @@ interface CoachDashboardPageProps {
   isPreview?: boolean
 }
 
-function formatDate(value?: string | null) {
+function formatDate(value?: string | null, locale = 'en') {
   if (!value) return '—'
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return '—'
-  return new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric' }).format(date)
+  return new Intl.DateTimeFormat(locale === 'fa' ? 'fa-IR-u-ca-persian' : 'en-US', { month: 'short', year: 'numeric' }).format(date)
 }
 
 function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
@@ -42,7 +42,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
               <span className="h-1.5 w-1.5 rounded-full bg-[#9bcf43]" />{t('ui.' + (user?.status || 'Status unavailable'))}
             </span>
             <span className="rounded-full border border-[#e2e2db] bg-white px-3.5 py-2 text-[9px] font-semibold uppercase tracking-[1px] text-[#77786f]">
-              {t('ui.Member since')} {formatDate(user?.created_at)}
+              {t('ui.Member since')} {formatDate(user?.created_at, i18n.language)}
             </span>
           </div>
         </section>
@@ -154,7 +154,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-3">
             <Link to={coachPath + '/exercises'} className="group rounded-[18px] border border-[#e1e1da] bg-white p-5 transition hover:-translate-y-1 hover:border-[#cbd9b3] hover:shadow-[0_14px_32px_rgba(35,42,23,0.06)]">
-              <span className="text-[9px] font-bold tracking-[1.5px] text-[#96978d]"{t('ui.01 / LIBRARY')}</span>
+              <span className="text-[9px] font-bold tracking-[1.5px] text-[#96978d]">{t('ui.01 / LIBRARY')}</span>
               <h3 className="mt-5 text-[15px] font-bold text-[#20211d]">{t("ui.Exercise library")}</h3>
               <p className="mt-2 text-[10px] leading-5 text-[#77786f]">{t("ui.Browse the current exercise interface and sample movement catalog.")}</p>
               <span className="mt-5 inline-flex gap-2 text-[10px] font-bold text-[#526a2e] group-hover:gap-3"{t('ui.Open library →')}</span>
