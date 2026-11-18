@@ -20,7 +20,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   color: var(--color-ink);
   background: var(--color-canvas);
 }
@@ -56,4 +55,40 @@ img {
 [lang="fa"],
 [dir="rtl"] {
   font-family: var(--font-vazirmatn);
+}
+
+[dir="rtl"] {
+  text-align: start;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+[dir="rtl"] .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .mr-auto {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select {
+  text-align: start;
+}
+
+[dir="rtl"] input[type="email"],
+[dir="rtl"] input[type="url"],
+[dir="rtl"] input[type="number"],
+[dir="rtl"] input[type="tel"] {
+  direction: ltr;
+  text-align: right;
 }
