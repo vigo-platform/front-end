@@ -32,7 +32,7 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
           <nav aria-label={t('navigation.main')} className="flex items-center gap-4">
             {isAuthenticated ? (
               <Link to={homePath} className="inline-flex items-center gap-2 rounded-full border border-border bg-canvas px-4 py-2.5 text-xs font-semibold text-ink transition hover:bg-[#eef2e7]">
-                <span aria-hidden="true">←</span> Back to dashboard
+                <span aria-hidden="true">←</span> {t('ui.Back to dashboard')}
               </Link>
             ) : (
               <>
