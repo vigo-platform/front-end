@@ -8,10 +8,12 @@ import { useAuthConfig } from '../hooks/useAuthConfig'
 import type { OtpChannel } from '../types/auth-config.types'
 import PasswordLoginForm from '../components/PasswordLoginForm'
 import { useAuth } from '../context/auth-context'
+import { useTranslation } from 'react-i18next'
 
 type LoginStep = 'IDENTIFIER' | 'VERIFY' | 'NEW_PASSWORD'
 
 function LoginPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { signIn } = useAuth()
 
@@ -40,7 +42,7 @@ function LoginPage() {
     if (error instanceof ApiError) {
       setErrorMessage(error.message)
     } else {
-      setErrorMessage('Unable to connect to the server. Please try again.')
+      setErrorMessage(t("ui.Unable to connect to the server. Please try again."))
     }
   }
 
@@ -95,7 +97,7 @@ function LoginPage() {
         return
       }
 
-      setErrorMessage('Verification is not complete. Please try again.')
+      setErrorMessage(t("ui.Verification is not complete. Please try again."))
     } catch (error) {
       handleError(error)
     } finally {
@@ -107,7 +109,7 @@ function LoginPage() {
     event.preventDefault()
     setErrorMessage('')
     if (newPassword.trim().length === 0) {
-      setErrorMessage('Password cannot contain only whitespace.')
+      setErrorMessage(t("ui.Password cannot contain only whitespace."))
       return
     }
 
@@ -205,7 +207,7 @@ function LoginPage() {
                   type="text"
                   inputMode="numeric"
                   autoComplete="one-time-code"
-                  placeholder="Enter code"
+                  placeholder={t("ui.Enter code")}
                   value={otp}
                   onChange={(event) => setOtp(event.target.value)}
                   minLength={5}
@@ -254,7 +256,7 @@ function LoginPage() {
           </div>
           <form onSubmit={handleExpiredPasswordSubmit} className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <label htmlFor="login-new-password" className={labelClassName}>New password</label>
+              <label htmlFor="login-new-password" className={labelClassName}>{t("ui.New password")}</label>
               <input
                 id="login-new-password"
                 type="password"
