@@ -10,15 +10,15 @@ interface AthleteDashboardPageProps {
   isPreview?: boolean
 }
 
-function formatDate(value?: string | null) {
+function formatDate(value?: string | null, locale = 'en') {
   if (!value) return '—'
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return '—'
-  return new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric' }).format(date)
+  return new Intl.DateTimeFormat(locale === 'fa' ? 'fa-IR-u-ca-persian' : 'en-US', { month: 'short', year: 'numeric' }).format(date)
 }
 
 function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { user } = useAuth()
   const [coaches, setCoaches] = useState<CoachProfile[]>([])
   const [totalCoaches, setTotalCoaches] = useState(0)
@@ -30,9 +30,6 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
 
   useEffect(() => {
     let active = true
-    setIsLoadingCoaches(true)
-    setCoachError('')
-
     coachService.search({ page: 0, size: 3, sort: 'newest' })
       .then((page) => {
         if (!active) return
@@ -73,7 +70,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
               {t('ui.' + (user?.status || 'Status unavailable'))}
             </span>
             <span className="rounded-full border border-[#e2e2db] bg-white px-3.5 py-2 text-[9px] font-semibold uppercase tracking-[1px] text-[#77786f]">
-              {t('ui.Member since')} {formatDate(user?.created_at)}
+              {t('ui.Member since')} {formatDate(user?.created_at, i18n.language)}
             </span>
           </div>
         </section>
