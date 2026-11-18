@@ -230,7 +230,7 @@ function LoginPage() {
                 disabled={isLoading}
                 className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {isLoading ? 'Verifying...' : 'Verify'}
+                {isLoading ? t('ui.Verifying...') : t('ui.Verify')}
               </button>
 
               <button
@@ -274,7 +274,7 @@ function LoginPage() {
               </p>
             )}
             <button type="submit" disabled={isLoading} className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">
-              {isLoading ? 'Updating...' : 'Update password'}
+              {isLoading ? t('ui.Updating...') : t('ui.Update password')}
             </button>
           </form>
         </>
