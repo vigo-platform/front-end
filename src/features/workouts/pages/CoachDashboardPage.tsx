@@ -9,7 +9,7 @@ interface CoachDashboardPageProps {
   isPreview?: boolean
 }
 
-function formatDate(value?: string | null, locale = 'en') {
+function formatNumber(value: number, locale = 'en') {\n  return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value)\n}\n\nfunction formatDate(value?: string | null, locale = 'en') {
   if (!value) return '—'
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return '—'
@@ -50,17 +50,17 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
         <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Active athletes")}</p>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{preview ? String(activeAthletes.length).padStart(2, '0') : '—'}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{preview ? formatNumber(activeAthletes.length, i18n.language) : '—'}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Coach relationships")}</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Active plans")}</p>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{preview ? String(activePlans.length).padStart(2, '0') : '—'}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{preview ? formatNumber(activePlans.length, i18n.language) : '—'}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Published coaching plans")}</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Workout draft")}</p>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{draft.exercises.length.toString().padStart(2, '0')}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{formatNumber(draft.exercises.length, i18n.language)}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Exercises in this browser")}</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5">
@@ -134,7 +134,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
                       <span className="rounded-full bg-white px-2 py-1 text-[8px] font-bold uppercase text-[#60783a]">{t('ui.' + plan.status)}</span>
                     </div>
                     <p className="mt-1 text-[10px] leading-5 text-[#85867d]">{plan.description}</p>
-                    <p className="mt-3 text-[10px] font-semibold text-[#526a2e]">{plan.duration_days} {t('ui.days')} · {new Intl.NumberFormat(i18n.language === 'fa' ? 'fa-IR' : 'en-US').format(plan.price)} تومان</p>
+                    <p className="mt-3 text-[10px] font-semibold text-[#526a2e]">{formatNumber(plan.duration_days, i18n.language)} {t('ui.days')} · {new Intl.NumberFormat(i18n.language === 'fa' ? 'fa-IR' : 'en-US').format(plan.price)} {i18n.language === 'fa' ? 'تومان' : 'Toman'}</p>
                   </div>
                 ))}
               </div>
