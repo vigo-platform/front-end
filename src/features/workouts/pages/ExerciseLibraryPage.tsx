@@ -5,6 +5,7 @@ import { useAuth } from '../../auth/context/auth-context'
 import { exerciseLibrary } from '../data/exercises'
 import { loadWorkoutDraft, saveWorkoutDraft } from '../services/workout-draft.service'
 import type { ExerciseCategory } from '../types/workout.types'
+import { useTranslation } from 'react-i18next'
 
 type CategoryFilter = 'ALL' | ExerciseCategory
 
@@ -17,6 +18,7 @@ const categoryLabels: Record<CategoryFilter, string> = {
 }
 
 function ExerciseLibraryPage() {
+  const { t } = useTranslation()
   const { isPreview } = useAuth()
   const coachPath = isPreview ? '/_preview/coach' : '/coach'
   const [search, setSearch] = useState('')
@@ -62,18 +64,18 @@ function ExerciseLibraryPage() {
   }
 
   return (
-    <AppShell title="Exercise library">
+    <AppShell title={t("ui.Exercise library")}>
       <div className="mx-auto w-full max-w-6xl space-y-7">
         <section className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <Link to={coachPath} className="text-sm font-medium text-muted hover:text-ink">
-              ← Coach workspace
+              {t("ui.← Coach workspace")}
             </Link>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight">
-              Exercise library
+              {t("ui.Exercise library")}
             </h2>
             <p className="mt-2 text-sm text-muted">
-              Find movements and add them to your current workout draft.
+              {t("ui.Find movements and add them to your current workout draft.")}
             </p>
           </div>
           <Link
@@ -91,16 +93,16 @@ function ExerciseLibraryPage() {
 
         <section className="flex flex-col gap-3 sm:flex-row">
           <label className="flex-1">
-            <span className="sr-only">Search exercises</span>
+            <span className="sr-only">{t("ui.Search exercises")}</span>
             <input
               value={search}
               onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search by exercise, muscle group, or equipment"
+              placeholder={t("ui.Search by exercise, muscle group, or equipment")}
               className="h-12 w-full rounded-xl border border-border bg-white px-4 text-sm outline-none transition focus:border-[#8da85d]"
             />
           </label>
           <label>
-            <span className="sr-only">Filter by category</span>
+            <span className="sr-only">{t("ui.Filter by category")}</span>
             <select
               value={category}
               onChange={(event) =>
@@ -110,7 +112,7 @@ function ExerciseLibraryPage() {
             >
               {Object.entries(categoryLabels).map(([value, label]) => (
                 <option key={value} value={value}>
-                  {label}
+                  {t('ui.' + label)}
                 </option>
               ))}
             </select>
@@ -119,9 +121,9 @@ function ExerciseLibraryPage() {
 
         {filteredExercises.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-border bg-white px-6 py-14 text-center">
-            <h3 className="font-semibold">No exercises found</h3>
+            <h3 className="font-semibold">{t("ui.No exercises found")}</h3>
             <p className="mt-2 text-sm text-muted">
-              Try another search term or category.
+              {t("ui.Try another search term or category.")}
             </p>
           </div>
         ) : (
@@ -136,7 +138,7 @@ function ExerciseLibraryPage() {
                 >
                   <div className="flex items-start justify-between gap-3">
                     <span className="rounded-full bg-[#f0f5e8] px-3 py-1 text-[11px] font-semibold text-[#607b38]">
-                      {categoryLabels[exercise.category]}
+                      {t('ui.' + categoryLabels[exercise.category])}
                     </span>
                     <span className="text-xs text-muted">{exercise.equipment}</span>
                   </div>
