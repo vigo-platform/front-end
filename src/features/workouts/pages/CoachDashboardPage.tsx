@@ -101,7 +101,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
               <span className="text-[9px] font-semibold text-fg-muted">{preview ? activeAthletes.length + ' ' + t('ui.active') : t('ui.Not connected')}</span>
             </div>
             {preview ? (
-              <div className="mt-5 divide-y divide-[#edede8]">
+              <div className="mt-5 divide-y divide-border-default">
                 {activeAthletes.map((relation) => (
                   <div key={relation.relation_id} className="flex items-center gap-3 py-4 first:pt-0 last:pb-0">
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface-muted text-[11px] font-bold text-success-fg">
@@ -159,20 +159,20 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
             <h2 className="mt-2 text-[22px] font-bold tracking-[-0.8px] text-fg">{t("ui.Create and organize")}</h2>
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-3">
-            <Link to={coachPath + '/exercises'} className="group rounded-[18px] border border-border-default bg-surface p-5 transition hover:-translate-y-1 hover:border-[#cbd9b3] hover:shadow-[0_14px_32px_rgba(35,42,23,0.06)]">
-              <span className="text-[9px] font-bold tracking-[1.5px] text-[#96978d]">{t('ui.01 / LIBRARY')}</span>
+            <Link to={coachPath + '/exercises'} className="group rounded-[18px] border border-border-default bg-surface p-5 transition hover:-translate-y-1 hover:border-success-border hover:shadow-[0_14px_32px_rgba(35,42,23,0.06)]">
+              <span className="text-[9px] font-bold tracking-[1.5px] text-fg-muted">{t('ui.01 / LIBRARY')}</span>
               <h3 className="mt-5 text-[15px] font-bold text-fg">{t("ui.Exercise library")}</h3>
               <p className="mt-2 text-[10px] leading-5 text-fg-secondary">{t("ui.Browse the current exercise interface and sample movement catalog.")}</p>
               <span className="mt-5 inline-flex gap-2 text-[10px] font-bold text-success-fg group-hover:gap-3">{t('ui.Open library →')}</span>
             </Link>
-            <Link to={coachPath + '/workouts/new'} className="group rounded-[18px] border border-border-default bg-surface p-5 transition hover:-translate-y-1 hover:border-[#cbd9b3] hover:shadow-[0_14px_32px_rgba(35,42,23,0.06)]">
-              <span className="text-[9px] font-bold tracking-[1.5px] text-[#96978d]">{t('ui.02 / BUILDER')}</span>
+            <Link to={coachPath + '/workouts/new'} className="group rounded-[18px] border border-border-default bg-surface p-5 transition hover:-translate-y-1 hover:border-success-border hover:shadow-[0_14px_32px_rgba(35,42,23,0.06)]">
+              <span className="text-[9px] font-bold tracking-[1.5px] text-fg-muted">{t('ui.02 / BUILDER')}</span>
               <h3 className="mt-5 text-[15px] font-bold text-fg">{t("ui.Workout builder")}</h3>
               <p className="mt-2 text-[10px] leading-5 text-fg-secondary">{t("ui.Arrange exercises, sets, reps, and rest periods in a local draft.")}</p>
               <span className="mt-5 inline-flex gap-2 text-[10px] font-bold text-success-fg group-hover:gap-3">{t('ui.Build a workout →')}</span>
             </Link>
-            <Link to={coachPath + '/workouts'} className="group rounded-[18px] border border-border-default bg-surface p-5 transition hover:-translate-y-1 hover:border-[#cbd9b3] hover:shadow-[0_14px_32px_rgba(35,42,23,0.06)]">
-              <span className="text-[9px] font-bold tracking-[1.5px] text-[#96978d]">{t('ui.03 / DRAFTS')}</span>
+            <Link to={coachPath + '/workouts'} className="group rounded-[18px] border border-border-default bg-surface p-5 transition hover:-translate-y-1 hover:border-success-border hover:shadow-[0_14px_32px_rgba(35,42,23,0.06)]">
+              <span className="text-[9px] font-bold tracking-[1.5px] text-fg-muted">{t('ui.03 / DRAFTS')}</span>
               <h3 className="mt-5 text-[15px] font-bold text-fg">{t("ui.My workouts")}</h3>
               <p className="mt-2 text-[10px] leading-5 text-fg-secondary">{t("ui.Continue editing workout drafts saved in this browser.")}</p>
               <span className="mt-5 inline-flex gap-2 text-[10px] font-bold text-success-fg group-hover:gap-3">{t('ui.View drafts →')}</span>
@@ -185,9 +185,9 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
             <div>
               <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-success-fg">{t('ui.Account')}</p>
               <h2 className="mt-2 text-[17px] font-bold text-fg">{user?.display_name || t('ui.Coach profile')}</h2>
-              <p className="mt-1 text-[11px] text-[#73786a]">{user?.email || t('ui.Email not available')} · {user?.phone || t('ui.No phone number')}</p>
+              <p className="mt-1 text-[11px] text-fg-muted">{user?.email || t('ui.Email not available')} · {user?.phone || t('ui.No phone number')}</p>
             </div>
-            <span className="inline-flex w-fit rounded-full border border-[#d7dfcb] bg-surface/70 px-3 py-1.5 text-[8px] font-bold uppercase tracking-[1px] text-success-fg">{t('ui.' + (user?.status || 'Status unavailable'))}</span>
+            <span className="inline-flex w-fit rounded-full border border-success-border bg-surface/70 px-3 py-1.5 text-[8px] font-bold uppercase tracking-[1px] text-success-fg">{t('ui.' + (user?.status || 'Status unavailable'))}</span>
           </div>
         </section>
       </div>
