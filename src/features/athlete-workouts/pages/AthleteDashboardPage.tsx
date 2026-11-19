@@ -171,8 +171,8 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
             <dl className="mt-5 grid gap-4 sm:grid-cols-2">
               <div className="min-w-0"><dt className="text-[10px] text-fg-muted">{t("ui.Full name")}</dt><dd className="mt-1 truncate text-[12px] font-semibold text-fg">{user?.display_name || '—'}</dd></div>
               <div className="min-w-0"><dt className="text-[10px] text-fg-muted">{t("ui.Email address")}</dt><dd className="mt-1 break-all text-[12px] font-semibold text-fg">{user?.email || '—'}</dd></div>
-              <div className="min-w-0"><dt className="text-[10px] text-fg-muted">{t("ui.Phone")}</dt><dd className="mt-1 text-[12px] font-semibold text-fg">{user?.phone || 'Not provided'}</dd></div>
-              <div className="min-w-0"><dt className="text-[10px] text-fg-muted">{t("ui.Account status")}</dt><dd className="mt-1 text-[12px] font-semibold text-fg">{user?.status || '—'}</dd></div>
+              <div className="min-w-0"><dt className="text-[10px] text-fg-muted">{t("ui.Phone")}</dt><dd className="mt-1 text-[12px] font-semibold text-fg">{user?.phone || t('ui.Not provided')}</dd></div>
+              <div className="min-w-0"><dt className="text-[10px] text-fg-muted">{t("ui.Account status")}</dt><dd className="mt-1 text-[12px] font-semibold text-fg">{user?.status ? t('ui.' + user.status) : '—'}</dd></div>
             </dl>
           </article>
           <article className="flex flex-col justify-between rounded-[20px] border border-border-default bg-surface-muted p-6 sm:p-7">
