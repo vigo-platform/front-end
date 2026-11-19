@@ -3,14 +3,12 @@ import { Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/auth-context'
 import type { UserRole } from '../../user/types/user.types'
 import { useTranslation } from 'react-i18next'
-import { useTranslation } from 'react-i18next'
 
 interface RequireAuthProps {
   children: ReactNode
   allowedRoles?: UserRole[]
 }
 function RequireAuth({ children, allowedRoles }: RequireAuthProps) {
-  const { t } = useTranslation()
   const { t } = useTranslation()
   const { isAuthenticated, isInitializing, user } = useAuth()
   const location = useLocation()

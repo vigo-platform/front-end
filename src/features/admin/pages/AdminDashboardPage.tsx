@@ -20,13 +20,13 @@ function dateLabel(value?: string, locale = 'en') {
 }
 function initials(value?: string) { return (value || 'Vigo').split(/\s+/).slice(0, 2).map((part) => part[0]?.toUpperCase()).join('') }
 function Status({ value }: { value: string }) {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const style = value === 'ACTIVE' || value === 'APPROVED' ? 'bg-[#eff6e5] text-[#597333]' : value === 'SUSPENDED' || value === 'REJECTED' ? 'bg-[#fff0ec] text-[#a55343]' : 'bg-[#fff6df] text-[#92702c]'
   return <span className={`inline-flex rounded-full px-2.5 py-1 text-[8px] font-bold uppercase tracking-[.8px] ${style}`}>{t('ui.' + value)}</span>
 }
 
 function AdminDashboardPage() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { accessToken, user, isPreview } = useAuth()
   const preview = Boolean(isPreview)
   const [tab, setTab] = useState<Tab>('users')
