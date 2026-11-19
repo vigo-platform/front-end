@@ -145,7 +145,7 @@ function LoginPage() {
   }
 
   const inputClassName =
-    'h-11 w-full rounded-md border border-border bg-white px-3 text-[13px] text-ink outline-none transition placeholder:text-[#999991] focus:border-ink'
+    'h-11 w-full rounded-md border border-border bg-surface px-3 text-[13px] text-ink outline-none transition placeholder:text-fg-muted focus:border-ink'
 
   const labelClassName = 'text-[11px] font-medium text-ink'
 
@@ -188,7 +188,7 @@ function LoginPage() {
                 {t('ui.Verify your {{channel}}', { channel: t(isEmail ? 'ui.Email' : 'ui.Phone') })}
               </h1>
 
-              <p className="text-[13px] leading-relaxed text-[#55554f]">
+              <p className="text-[13px] leading-relaxed text-fg-secondary">
                 {t('ui.Enter the verification code sent to your {{channel}}.', { channel: t(isEmail ? 'ui.Email address' : 'ui.Phone number') })}
               </p>
             </div>
@@ -202,7 +202,7 @@ function LoginPage() {
               {errorMessage && (
                 <p
                   role="alert"
-                  className="rounded-md bg-red-50 px-3 py-2 text-[12px] leading-relaxed text-red-700"
+                  className="rounded-md bg-danger-surface px-3 py-2 text-[12px] leading-relaxed text-danger-fg"
                 >
                   {errorMessage}
                 </p>
@@ -226,14 +226,14 @@ function LoginPage() {
             <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
               {t("ui.Update your password")}
             </h1>
-            <p className="text-[13px] leading-relaxed text-[#55554f]">
+            <p className="text-[13px] leading-relaxed text-fg-secondary">
               {t("ui.Your current password has expired. Choose a new password to continue.")}
             </p>
           </div>
           <form onSubmit={handleExpiredPasswordSubmit} className="flex flex-col gap-4">
             <Input id="login-new-password" label={t("ui.New password")} labelClassName={labelClassName} type="password" autoComplete="new-password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} minLength={8} maxLength={72} required className={inputClassName} />
             {errorMessage && (
-              <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">
+              <p role="alert" className="rounded-md bg-danger-surface px-3 py-2 text-[12px] text-danger-fg">
                 {errorMessage}
               </p>
             )}
