@@ -136,14 +136,14 @@ function WorkoutBuilderPage() {
                 <div>
                   <h3 className="font-semibold">{t("ui.Selected exercises")}</h3>
                   <p className="mt-1 text-xs text-muted">
-                    {draft.exercises.length} exercise(s) in this draft
+                    {t('ui.Exercises in this draft', { count: draft.exercises.length })}
                   </p>
                 </div>
                 <Link
                   to={coachPath + '/exercises'}
                   className="text-sm font-semibold text-[#6d8c36] hover:underline"
                 >
-                  + Add exercises
+                  + {t('ui.Add exercises')}
                 </Link>
               </div>
 
@@ -198,7 +198,7 @@ function WorkoutBuilderPage() {
                         ] as const).map(([field, label, min, max]) => (
                           <label key={field} className="min-w-0">
                             <span className="mb-1.5 block text-xs text-muted">
-                              {label}
+                              {t('ui.' + label)}
                             </span>
                             <input
                               type="number"
@@ -254,9 +254,7 @@ function WorkoutBuilderPage() {
             <div className="rounded-2xl border border-[#e5e8dc] bg-[#f0f5e8] p-5">
               <p className="text-sm font-semibold">{t("ui.Publishing is not connected yet")}</p>
               <p className="mt-2 text-xs leading-5 text-[#5d6651]">
-                The current repository does not include a Workout API contract.
-                This draft is saved locally and cannot yet be published or
-                assigned to an athlete.
+                {t('ui.The current repository does not include a Workout API contract. This draft is saved locally and cannot yet be published or assigned to an athlete.')}
               </p>
             </div>
           </aside>
