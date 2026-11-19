@@ -47,6 +47,90 @@
   --color-accent-deep: #a6d943;
 }
 
+/* Semantic design tokens.
+ * Keep component styles tied to these roles instead of literal color values.
+ * The current values intentionally preserve the existing Vigo visual palette.
+ */
+:root {
+  color-scheme: light;
+
+  --page: #f6f6f3;
+  --surface: #ffffff;
+  --surface-subtle: #fbfbf9;
+  --surface-muted: #f0f5e8;
+
+  --foreground: #171815;
+  --foreground-secondary: #77786f;
+  --foreground-muted: #92938a;
+  --foreground-inverse: #ffffff;
+
+  --border-default: #e1e1da;
+  --border-strong: #d2d2cc;
+
+  --brand: #c7f36b;
+  --brand-hover: #a6d943;
+  --on-brand: #171914;
+
+  --sidebar: #111210;
+  --sidebar-foreground: #ffffff;
+  --sidebar-muted: rgb(255 255 255 / 60%);
+  --sidebar-active: #c7f36b;
+  --on-sidebar-active: #171914;
+
+  --success-surface: #eff6e5;
+  --success-border: #dce8c8;
+  --success-foreground: #526a2e;
+
+  --warning-surface: #fff6df;
+  --warning-border: #ead9a8;
+  --warning-foreground: #92702c;
+
+  --danger-surface: #fff0ec;
+  --danger-border: #f0d2cb;
+  --danger-foreground: #a55343;
+
+  --focus-ring: rgb(199 243 107 / 35%);
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-muted: var(--surface-muted);
+
+  --color-fg: var(--foreground);
+  --color-fg-secondary: var(--foreground-secondary);
+  --color-fg-muted: var(--foreground-muted);
+  --color-fg-inverse: var(--foreground-inverse);
+
+  --color-border-default: var(--border-default);
+  --color-border-strong: var(--border-strong);
+
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-on-brand: var(--on-brand);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-fg: var(--sidebar-foreground);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-sidebar-active: var(--sidebar-active);
+  --color-on-sidebar-active: var(--on-sidebar-active);
+
+  --color-success-surface: var(--success-surface);
+  --color-success-border: var(--success-border);
+  --color-success-fg: var(--success-foreground);
+
+  --color-warning-surface: var(--warning-surface);
+  --color-warning-border: var(--warning-border);
+  --color-warning-fg: var(--warning-foreground);
+
+  --color-danger-surface: var(--danger-surface);
+  --color-danger-border: var(--danger-border);
+  --color-danger-fg: var(--danger-foreground);
+
+  --color-focus-ring: var(--focus-ring);
+}
+
 :root {
   font-family: var(--font-manrope);
   font-synthesis: none;
