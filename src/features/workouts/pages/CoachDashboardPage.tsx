@@ -182,7 +182,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
         <section className="rounded-[20px] border border-[#e1e1da] bg-[#eff2e9] p-6 sm:p-7">
           <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-center">
             <div>
-              <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#71864c]">Account</p>
+              <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#71864c]">{t('ui.Account')}</p>
               <h2 className="mt-2 text-[17px] font-bold text-[#20231b]">{user?.display_name || 'Coach profile'}</h2>
               <p className="mt-1 text-[11px] text-[#73786a]">{user?.email || 'Email not available'} · {user?.phone || 'No phone number'}</p>
             </div>
