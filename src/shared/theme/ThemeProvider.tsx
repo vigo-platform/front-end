@@ -1,16 +1,5 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-
-export type ThemePreference = 'light' | 'dark' | 'system'
-type ResolvedTheme = Exclude<ThemePreference, 'system'>
-
-interface ThemeContextValue {
-  theme: ThemePreference
-  resolvedTheme: ResolvedTheme
-  setTheme: (theme: ThemePreference) => void
-}
-
-const STORAGE_KEY = 'vigo-theme'
-const ThemeContext = createContext<ThemeContextValue | null>(null)
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { STORAGE_KEY, ThemeContext, type ResolvedTheme, type ThemePreference } from './ThemeContext'
 
 function readStoredTheme(): ThemePreference {
   try {
@@ -44,7 +33,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       setSystemTheme(event.matches ? 'dark' : 'light')
     }
 
-    setSystemTheme(mediaQuery.matches ? 'dark' : 'light')
     mediaQuery.addEventListener('change', updateSystemTheme)
     return () => mediaQuery.removeEventListener('change', updateSystemTheme)
   }, [])
@@ -61,12 +49,4 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const value = useMemo(() => ({ theme, resolvedTheme, setTheme }), [theme, resolvedTheme, setTheme])
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
-}
-
-export function useTheme() {
-  const context = useContext(ThemeContext)
-  if (!context) {
-    throw new Error('useTheme must be used within ThemeProvider')
-  }
-  return context
 }

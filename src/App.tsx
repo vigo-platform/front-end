@@ -2,7 +2,7 @@ import { BrowserRouter } from 'react-router-dom'
 import './App.css'
 import AppRouter from './app/router'
 import { AuthProvider } from './features/auth/context/AuthContext'
-import { ThemeProvider } from './shared/theme/ThemeContext'
+import { ThemeProvider } from './shared/theme/ThemeProvider'
 
 function App() {
   return (

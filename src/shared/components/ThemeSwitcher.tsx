@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { useTheme, type ThemePreference } from '../theme/ThemeContext'
+import { type ThemePreference } from '../theme/ThemeContext'
+import { useTheme } from '../theme/useTheme'
 
 const options: ThemePreference[] = ['light', 'dark', 'system']
 
