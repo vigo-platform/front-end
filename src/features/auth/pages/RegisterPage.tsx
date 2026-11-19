@@ -9,6 +9,7 @@ import type { OtpChannel } from '../types/auth-config.types'
 import { useAuth } from '../context/auth-context'
 import { useTranslation } from 'react-i18next'
 import { Button, Input } from '../../../shared/components/ui'
+import { Spinner } from '../../../shared/components/feedback'
 
 type RegisterStep = 'IDENTIFIER' | 'VERIFY' | 'COMPLETE' | 'SUCCESS'
 
