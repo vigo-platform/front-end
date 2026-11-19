@@ -8,6 +8,7 @@ import { useAuthConfig } from '../hooks/useAuthConfig'
 import type { OtpChannel } from '../types/auth-config.types'
 import { useAuth } from '../context/auth-context'
 import { useTranslation } from 'react-i18next'
+import Spinner from '../../../shared/components/feedback/Spinner'
 
 type RegisterStep = 'IDENTIFIER' | 'VERIFY' | 'COMPLETE' | 'SUCCESS'
 
@@ -238,7 +239,7 @@ function RegisterPage() {
                 disabled={isLoading}
                 className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {isLoading ? t('ui.Verifying...') : t('ui.Verify')}
+                {isLoading && <Spinner size="sm" />}{t('ui.Verify')}
               </button>
 
               <button
@@ -344,7 +345,7 @@ function RegisterPage() {
                 disabled={isLoading}
                 className="mt-1 flex h-10 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {isLoading ? t('ui.Creating account...') : t('ui.Create account')}
+                {isLoading && <Spinner size="sm" />}{t('ui.Create account')}
               </button>
 
               <button
