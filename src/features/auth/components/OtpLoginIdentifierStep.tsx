@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import OtpChannelSelector from './OtpChannelSelector'
 import type { OtpChannel } from '../types/auth-config.types'
 import { useTranslation } from 'react-i18next'
+import Spinner from '../../../shared/components/feedback/Spinner'
+import { AuthOptionsSkeleton } from '../../../shared/components/feedback/LoadingStates'
 
 interface OtpLoginIdentifierStepProps {
   channels: OtpChannel[]
@@ -52,9 +54,7 @@ function OtpLoginIdentifierStep({
       </div>
 
       {isConfigLoading ? (
-        <p className="text-[12px] text-[#77776f]">
-          {t("ui.Loading login options...")}
-        </p>
+        <AuthOptionsSkeleton />
       ) : isLoginDisabled ? (
         <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
           {configError || 'Login is currently disabled. Please try again later.'}
@@ -115,7 +115,7 @@ function OtpLoginIdentifierStep({
             disabled={isLoading}
             className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isLoading ? 'Please wait...' : 'Continue'}
+            {isLoading && <Spinner size="sm" />}{'Continue'}
           </button>
         </form>
       )}
