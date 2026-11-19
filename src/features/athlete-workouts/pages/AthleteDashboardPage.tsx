@@ -5,6 +5,7 @@ import { useAuth } from '../../auth/context/auth-context'
 import { coachService } from '../../coaches/services/coach.service'
 import type { CoachProfile } from '../../coaches/types/coach.types'
 import { useTranslation } from 'react-i18next'
+import LanguageSwitcher from '../../../shared/components/LanguageSwitcher'
 
 interface AthleteDashboardPageProps {
   isPreview?: boolean
