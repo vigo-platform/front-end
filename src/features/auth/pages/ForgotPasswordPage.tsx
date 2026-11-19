@@ -149,7 +149,7 @@ function ForgotPasswordPage() {
           <div>
             <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-ink">{t("ui.Password updated")}</h1>
             <p className="mb-5 text-[12px] leading-relaxed text-[#55554f]">{t("ui.Your password has been changed. Log in with your new password to continue.")}</p>
-            <button type="button" onClick={() => navigate('/login')} className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep">{t("ui.Log in")}</button>
+            <Button type="button" onClick={() => navigate('/login')} className="h-11 w-full text-[13px]">{t("ui.Log in")}</Button>
           </div>
         )}
       </div>
