@@ -28,7 +28,7 @@ const AdminDashboardPage = lazy(() => import('../features/admin/pages/AdminDashb
 
 function PublicOnly({ children }: { children: ReactNode }) {
   const { isAuthenticated, isInitializing } = useAuth()
-  if (isInitializing) return <main className="flex min-h-screen items-center justify-center bg-canvas"><Spinner size="lg" className="text-[#718d43]" /></main>
+  if (isInitializing) return <main className="flex min-h-screen items-center justify-center bg-canvas"><Spinner size="lg" className="text-brand-hover" /></main>
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : children
 }
 
@@ -36,9 +36,9 @@ function AccountSuspendedPage() {
   const { t } = useTranslation()
   return (
     <main className="flex min-h-screen items-center justify-center bg-canvas p-6">
-      <section className="w-full max-w-md rounded-2xl border border-border bg-white p-8 text-center">
-        <h1 className="text-xl font-semibold text-ink">{t('errors.suspended')}</h1>
-        <p className="mt-3 text-sm leading-6 text-muted">{t('errors.suspendedDescription')}</p>
+      <section className="w-full max-w-md rounded-2xl border border-border-default bg-surface p-8 text-center">
+        <h1 className="text-xl font-semibold text-fg">{t('errors.suspended')}</h1>
+        <p className="mt-3 text-sm leading-6 text-fg-secondary">{t('errors.suspendedDescription')}</p>
       </section>
     </main>
   )
