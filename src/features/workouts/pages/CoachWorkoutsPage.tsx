@@ -28,7 +28,7 @@ function CoachWorkoutsPage() {
           </div>
           <Link
             to={coachPath + '/workouts/new'}
-            className="inline-flex h-11 items-center justify-center rounded-full bg-ink px-5 text-sm font-semibold text-white transition hover:bg-[#30352a]"
+            className="inline-flex h-11 items-center justify-center rounded-full bg-ink px-5 text-sm font-semibold text-white transition hover:bg-sidebar-hover"
           >
             {t("ui.Create workout")}
           </Link>
@@ -60,7 +60,7 @@ function CoachWorkoutsPage() {
             </div>
             <Link
               to={coachPath + '/workouts/new'}
-              className="mt-6 inline-flex text-sm font-semibold text-ink hover:text-[#6d8c36]"
+              className="mt-6 inline-flex text-sm font-semibold text-ink hover:text-success-fg"
             >
               Continue editing →
             </Link>

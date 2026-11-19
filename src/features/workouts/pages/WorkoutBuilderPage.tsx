@@ -113,7 +113,7 @@ function WorkoutBuilderPage() {
                   onChange={(event) => updateDraft({ title: event.target.value })}
                   maxLength={100}
                   placeholder={t("ui.e.g. Upper body strength")}
-                  className="h-12 w-full rounded-xl border border-border px-4 text-sm outline-none focus:border-[#8da85d]"
+                  className="h-12 w-full rounded-xl border border-border px-4 text-sm outline-none focus:border-brand-hover"
                 />
               </label>
               <label className="mt-4 block">
@@ -126,7 +126,7 @@ function WorkoutBuilderPage() {
                   rows={3}
                   maxLength={500}
                   placeholder={t("ui.Add a short note about this workout")}
-                  className="w-full resize-y rounded-xl border border-border px-4 py-3 text-sm outline-none focus:border-[#8da85d]"
+                  className="w-full resize-y rounded-xl border border-border px-4 py-3 text-sm outline-none focus:border-brand-hover"
                 />
               </label>
             </div>
@@ -141,7 +141,7 @@ function WorkoutBuilderPage() {
                 </div>
                 <Link
                   to={coachPath + '/exercises'}
-                  className="text-sm font-semibold text-[#6d8c36] hover:underline"
+                  className="text-sm font-semibold text-success-fg hover:underline"
                 >
                   + {t('ui.Add exercises')}
                 </Link>
@@ -165,7 +165,7 @@ function WorkoutBuilderPage() {
                   {selectedExercises.map((item, index) => (
                     <article
                       key={item.exercise_id}
-                      className="rounded-xl border border-[#e9eae4] p-4"
+                      className="rounded-xl border border-border-default p-4"
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex min-w-0 items-start gap-3">
@@ -184,7 +184,7 @@ function WorkoutBuilderPage() {
                         <button
                           type="button"
                           onClick={() => removeExercise(item.exercise_id)}
-                          className="text-xs font-medium text-[#9b5147] hover:underline"
+                          className="text-xs font-medium text-danger-fg hover:underline"
                         >
                           {t("ui.Remove")}
                         </button>
@@ -212,7 +212,7 @@ function WorkoutBuilderPage() {
                                   Number(event.target.value),
                                 )
                               }
-                              className="h-10 w-full rounded-lg border border-border px-3 text-sm outline-none focus:border-[#8da85d]"
+                              className="h-10 w-full rounded-lg border border-border px-3 text-sm outline-none focus:border-brand-hover"
                             />
                           </label>
                         ))}
@@ -227,7 +227,7 @@ function WorkoutBuilderPage() {
           <aside className="space-y-4 lg:sticky lg:top-6">
             <div className="rounded-2xl border border-border bg-surface p-5">
               <h3 className="font-semibold">{t("ui.Workout summary")}</h3>
-              <div className="mt-5 flex items-center justify-between border-b border-[#eeeeea] pb-3 text-sm">
+              <div className="mt-5 flex items-center justify-between border-b border-border-default pb-3 text-sm">
                 <span className="text-fg-secondary">{t("ui.Exercises")}</span>
                 <span className="font-semibold">{draft.exercises.length}</span>
               </div>
@@ -240,7 +240,7 @@ function WorkoutBuilderPage() {
               <button
                 type="button"
                 onClick={handleSave}
-                className="mt-4 h-11 w-full rounded-full bg-fg px-5 text-sm font-semibold text-fg-inverse transition hover:bg-[#30352a]"
+                className="mt-4 h-11 w-full rounded-full bg-fg px-5 text-sm font-semibold text-fg-inverse transition hover:bg-sidebar-hover"
               >
                 {t("ui.Save draft")}
               </button>
@@ -253,7 +253,7 @@ function WorkoutBuilderPage() {
 
             <div className="rounded-2xl border border-border-default bg-surface-muted p-5">
               <p className="text-sm font-semibold">{t("ui.Publishing is not connected yet")}</p>
-              <p className="mt-2 text-xs leading-5 text-[#5d6651]">
+              <p className="mt-2 text-xs leading-5 text-fg-secondary">
                 {t('ui.The current repository does not include a Workout API contract. This draft is saved locally and cannot yet be published or assigned to an athlete.')}
               </p>
             </div>

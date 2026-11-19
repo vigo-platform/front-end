@@ -84,7 +84,7 @@ function ExerciseLibraryPage() {
           </div>
           <Link
             to={coachPath + '/workouts/new'}
-            className="inline-flex h-11 items-center justify-center rounded-full bg-ink px-5 text-sm font-semibold text-white transition hover:bg-[#30352a]"
+            className="inline-flex h-11 items-center justify-center rounded-full bg-ink px-5 text-sm font-semibold text-white transition hover:bg-sidebar-hover"
           >
             Open workout builder ({selectedIds.length})
           </Link>
@@ -102,7 +102,7 @@ function ExerciseLibraryPage() {
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder={t("ui.Search by exercise, muscle group, or equipment")}
-              className="h-12 w-full rounded-xl border border-border bg-surface px-4 text-sm outline-none transition focus:border-[#8da85d]"
+              className="h-12 w-full rounded-xl border border-border bg-surface px-4 text-sm outline-none transition focus:border-brand-hover"
             />
           </label>
           <label>
@@ -112,7 +112,7 @@ function ExerciseLibraryPage() {
               onChange={(event) =>
                 setCategory(event.target.value as CategoryFilter)
               }
-              className="h-12 w-full rounded-xl border border-border bg-surface px-4 text-sm outline-none focus:border-[#8da85d] sm:min-w-48"
+              className="h-12 w-full rounded-xl border border-border bg-surface px-4 text-sm outline-none focus:border-brand-hover sm:min-w-48"
             >
               {Object.entries(categoryLabels).map(([value, label]) => (
                 <option key={value} value={value}>
@@ -159,8 +159,8 @@ function ExerciseLibraryPage() {
                       onClick={() => toggleExercise(exercise.id)}
                       className={
                         isSelected
-                          ? 'rounded-full border border-[#d8e4c5] bg-surface-muted px-4 py-2 text-xs font-semibold text-fg-secondary'
-                          : 'rounded-full bg-ink px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#30352a]'
+                          ? 'rounded-full border border-success-border bg-surface-muted px-4 py-2 text-xs font-semibold text-fg-secondary'
+                          : 'rounded-full bg-ink px-4 py-2 text-xs font-semibold text-white transition hover:bg-sidebar-hover'
                       }
                     >
                       {isSelected ? 'Remove' : 'Add to workout'}

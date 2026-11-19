@@ -104,14 +104,14 @@ function CoachDirectoryPage() {
     <CoachPublicLayout title={t("ui.Discover coaches")}>
       <div className="mx-auto w-full max-w-6xl space-y-7">
         <section>
-          <p className="text-xs font-semibold uppercase tracking-[1.7px] text-[#718d43]">{t("ui.Find your coach")}</p>
+          <p className="text-xs font-semibold uppercase tracking-[1.7px] text-success-fg">{t("ui.Find your coach")}</p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight">{t("ui.Discover coaches")}</h1>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
             {t("ui.Explore approved coach profiles, compare their specialties, and find a coaching style that fits your goals.")}
           </p>
         </section>
 
-        <form onSubmit={handleSearch} className="grid gap-3 rounded-2xl border border-border bg-white p-4 sm:grid-cols-2 lg:grid-cols-6">
+        <form onSubmit={handleSearch} className="grid gap-3 rounded-2xl border border-border bg-surface p-4 sm:grid-cols-2 lg:grid-cols-6">
           <label className="sm:col-span-2 lg:col-span-2">
             <span className="mb-2 block text-xs font-semibold text-muted">{t("ui.Name or keyword")}</span>
             <input
@@ -119,7 +119,7 @@ function CoachDirectoryPage() {
               onChange={(event) => setSearch(event.target.value)}
               maxLength={100}
               placeholder={t("ui.Search coaches")}
-              className="h-11 w-full rounded-xl border border-border bg-canvas px-3 text-sm outline-none focus:border-[#8da85d]"
+              className="h-11 w-full rounded-xl border border-border bg-canvas px-3 text-sm outline-none focus:border-brand-hover"
             />
           </label>
           <label>
@@ -129,7 +129,7 @@ function CoachDirectoryPage() {
               onChange={(event) => setSpecialty(event.target.value)}
               maxLength={40}
               placeholder={t("ui.e.g. Strength")}
-              className="h-11 w-full rounded-xl border border-border bg-canvas px-3 text-sm outline-none focus:border-[#8da85d]"
+              className="h-11 w-full rounded-xl border border-border bg-canvas px-3 text-sm outline-none focus:border-brand-hover"
             />
           </label>
           <label>
@@ -139,7 +139,7 @@ function CoachDirectoryPage() {
               min="0"
               value={minPrice}
               onChange={(event) => setMinPrice(event.target.value)}
-              className="h-11 w-full rounded-xl border border-border bg-canvas px-3 text-sm outline-none focus:border-[#8da85d]"
+              className="h-11 w-full rounded-xl border border-border bg-canvas px-3 text-sm outline-none focus:border-brand-hover"
             />
           </label>
           <label>
@@ -149,11 +149,11 @@ function CoachDirectoryPage() {
               min="0"
               value={maxPrice}
               onChange={(event) => setMaxPrice(event.target.value)}
-              className="h-11 w-full rounded-xl border border-border bg-canvas px-3 text-sm outline-none focus:border-[#8da85d]"
+              className="h-11 w-full rounded-xl border border-border bg-canvas px-3 text-sm outline-none focus:border-brand-hover"
             />
           </label>
           <div className="flex items-end">
-            <Button type="submit" loading={isLoading} className="h-11 w-full rounded-xl bg-ink px-4 text-sm font-semibold text-white transition hover:bg-[#30352a]">
+            <Button type="submit" loading={isLoading} className="h-11 w-full rounded-xl bg-ink px-4 text-sm font-semibold text-white transition hover:bg-sidebar-hover">
               {t("ui.Search")}
             </Button>
           </div>
@@ -162,7 +162,7 @@ function CoachDirectoryPage() {
             <select
               value={sort}
               onChange={(event) => setSort(event.target.value as CoachSort)}
-              className="h-11 w-full rounded-xl border border-border bg-canvas px-3 text-sm outline-none focus:border-[#8da85d]"
+              className="h-11 w-full rounded-xl border border-border bg-canvas px-3 text-sm outline-none focus:border-brand-hover"
             >
               <option value="newest">{t("ui.Newest")}</option>
               <option value="experience">{t("ui.Experience")}</option>
@@ -173,13 +173,13 @@ function CoachDirectoryPage() {
         </form>
 
         {error && (
-          <section role="alert" className="rounded-2xl border border-red-200 bg-red-50 p-5">
-            <p className="text-sm font-semibold text-red-800">{t("ui.Could not load coaches")}</p>
+          <section role="alert" className="rounded-2xl border border-danger-border bg-danger-surface p-5">
+            <p className="text-sm font-semibold text-danger-fg">{t("ui.Could not load coaches")}</p>
             <p className="mt-1 text-sm text-red-700">{error}</p>
             <button
               type="button"
               onClick={() => changePage(page?.page ?? 0)}
-              className="mt-3 text-sm font-semibold text-red-800 underline"
+              className="mt-3 text-sm font-semibold text-danger-fg underline"
             >
               {t("ui.Try again")}
             </button>
@@ -189,7 +189,7 @@ function CoachDirectoryPage() {
         {isLoading ? (
           <CoachDirectorySkeleton count={6} />
         ) : !error && page?.content.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-border bg-white px-6 py-16 text-center">
+          <div className="rounded-2xl border border-dashed border-border bg-surface px-6 py-16 text-center">
             <h2 className="font-semibold">{t("ui.No coaches found")}</h2>
             <p className="mt-2 text-sm text-muted">{t("ui.Try changing your search terms or filters.")}</p>
           </div>
@@ -207,7 +207,7 @@ function CoachDirectoryPage() {
                 const avatarUrl = getAvatarUrl(coach.avatar_url)
 
                 return (
-                  <article key={coach.coach_id} className="flex min-h-64 flex-col rounded-2xl border border-border bg-white p-5 transition hover:-translate-y-0.5 hover:shadow-lg">
+                  <article key={coach.coach_id} className="flex min-h-64 flex-col rounded-2xl border border-border bg-surface p-5 transition hover:-translate-y-0.5 hover:shadow-lg">
                     <div className="flex items-start gap-4">
                       {avatarUrl ? (
                         <img src={avatarUrl} alt="" className="h-14 w-14 shrink-0 rounded-2xl object-cover" />
@@ -249,7 +249,7 @@ function CoachDirectoryPage() {
 
                     <Link
                       to={coachesPath + '/' + coach.coach_id}
-                      className="mt-4 inline-flex h-10 items-center justify-center rounded-full bg-ink px-4 text-xs font-semibold text-white transition hover:bg-[#30352a]"
+                      className="mt-4 inline-flex h-10 items-center justify-center rounded-full bg-ink px-4 text-xs font-semibold text-white transition hover:bg-sidebar-hover"
                     >
                       {t("ui.View profile")}
                     </Link>
@@ -264,7 +264,7 @@ function CoachDirectoryPage() {
                   type="button"
                   disabled={page.page <= 0 || isLoading}
                   onClick={() => changePage(page.page - 1)}
-                  className="rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-40"
+                  className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   {t("ui.Previous")}
                 </button>
@@ -275,7 +275,7 @@ function CoachDirectoryPage() {
                   type="button"
                   disabled={page.page + 1 >= page.total_pages || isLoading}
                   onClick={() => changePage(page.page + 1)}
-                  className="rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-40"
+                  className="rounded-full border border-border bg-surface px-4 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   {t("ui.Next")}
                 </button>
