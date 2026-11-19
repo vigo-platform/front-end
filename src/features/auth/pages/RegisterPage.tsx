@@ -158,7 +158,7 @@ function RegisterPage() {
   }
 
   const inputClassName =
-    'h-11 w-full rounded-md border border-border bg-white px-3 text-[13px] text-ink outline-none transition placeholder:text-[#999991] focus:border-ink'
+    'h-11 w-full rounded-md border border-border bg-surface px-3 text-[13px] text-ink outline-none transition placeholder:text-fg-muted focus:border-ink'
 
   const labelClassName = 'text-[11px] font-medium text-ink'
 
@@ -188,7 +188,7 @@ function RegisterPage() {
                 {t("ui.Verify your contact")}
               </h1>
 
-              <p className="text-[12px] leading-relaxed text-[#55554f]">
+              <p className="text-[12px] leading-relaxed text-fg-secondary">
                 {t('ui.Enter the verification code sent to your {{channel}}.', { channel: t(isEmail ? 'ui.Email address' : 'ui.Phone number') })}
               </p>
             </div>
@@ -199,7 +199,7 @@ function RegisterPage() {
             >
               <Input id="otp" label={t("ui.Verification code")} labelClassName={labelClassName} type="text" inputMode="numeric" autoComplete="one-time-code" placeholder={t("ui.Enter code")} value={otp} onChange={(event) => setOtp(event.target.value)} minLength={5} maxLength={6} required className={inputClassName} />
 
-              <p className="text-[11px] text-[#55554f]">
+              <p className="text-[11px] text-fg-secondary">
                 {t('ui.Didn\'t receive the code?')}{' '}
                 <button
                   type="button"
@@ -212,7 +212,7 @@ function RegisterPage() {
               </p>
 
               {errorMessage && (
-                <p role="alert" className="text-[12px] text-red-600">
+                <p role="alert" className="text-[12px] text-danger-fg">
                   {errorMessage}
                 </p>
               )}
@@ -237,7 +237,7 @@ function RegisterPage() {
                 {t("ui.Complete your registration")}
               </h1>
 
-              <p className="text-[12px] leading-relaxed text-[#55554f]">
+              <p className="text-[12px] leading-relaxed text-fg-secondary">
                 {t("ui.Finish setting up your account with your name and password.")}
               </p>
             </div>
@@ -252,11 +252,11 @@ function RegisterPage() {
 
               <div className="relative">
                 <Input id="password" label={t("ui.Password")} labelClassName={labelClassName} type={showPassword ? 'text' : 'password'} autoComplete="new-password" placeholder={t("ui.Create a password")} value={password} onChange={(event) => setPassword(event.target.value)} minLength={8} maxLength={72} pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,32}" required className={`${inputClassName} pe-11`} />
-                <button type="button" onClick={() => setShowPassword((previous) => !previous)} aria-label={showPassword ? t('ui.Hide password') : t('ui.Show password')} className="absolute bottom-0 end-0 flex h-11 w-11 items-center justify-center text-[#55554f] hover:text-ink">{showPassword ? t('ui.Hide') : t('ui.Show')}</button>
+                <button type="button" onClick={() => setShowPassword((previous) => !previous)} aria-label={showPassword ? t('ui.Hide password') : t('ui.Show password')} className="absolute bottom-0 end-0 flex h-11 w-11 items-center justify-center text-fg-secondary hover:text-ink">{showPassword ? t('ui.Hide') : t('ui.Show')}</button>
               </div>
 
               {errorMessage && (
-                <p role="alert" className="text-[12px] text-red-600">
+                <p role="alert" className="text-[12px] text-danger-fg">
                   {errorMessage}
                 </p>
               )}
@@ -280,7 +280,7 @@ function RegisterPage() {
               {t("ui.Account created")}
             </h1>
 
-            <p className="mb-5 text-[12px] leading-relaxed text-[#55554f]">
+            <p className="mb-5 text-[12px] leading-relaxed text-fg-secondary">
               {t("ui.Your account is ready. You can now log in to continue.")}
             </p>
 

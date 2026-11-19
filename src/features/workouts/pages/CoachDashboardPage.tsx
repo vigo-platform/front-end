@@ -45,7 +45,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
           </div>
           <div className="flex flex-wrap gap-2">
             <span className="inline-flex items-center gap-2 rounded-full border border-success-border bg-success-surface px-3.5 py-2 text-[9px] font-bold uppercase tracking-[1px] text-success-fg">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#9bcf43]" />{t('ui.' + (user?.status || 'Status unavailable'))}
+              <span className="h-1.5 w-1.5 rounded-full bg-brand-hover" />{t('ui.' + (user?.status || 'Status unavailable'))}
             </span>
             <span className="rounded-full border border-border-default bg-surface px-3.5 py-2 text-[9px] font-semibold uppercase tracking-[1px] text-fg-secondary">
               {t('ui.Member since')} {formatDate(user?.created_at, i18n.language)}
@@ -55,29 +55,29 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
 
         <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <article className="rounded-[18px] border border-border-default bg-surface p-5">
-            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Active athletes")}</p>
+            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-fg-muted">{t("ui.Active athletes")}</p>
             <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-fg">{preview ? formatNumber(activeAthletes.length, i18n.language) : '—'}</p>
-            <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Coach relationships")}</p>
+            <p className="mt-1 text-[10px] text-fg-muted">{t("ui.Coach relationships")}</p>
           </article>
           <article className="rounded-[18px] border border-border-default bg-surface p-5">
-            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Active plans")}</p>
+            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-fg-muted">{t("ui.Active plans")}</p>
             <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-fg">{preview ? formatNumber(activePlans.length, i18n.language) : '—'}</p>
-            <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Published coaching plans")}</p>
+            <p className="mt-1 text-[10px] text-fg-muted">{t("ui.Published coaching plans")}</p>
           </article>
           <article className="rounded-[18px] border border-border-default bg-surface p-5">
-            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Workout draft")}</p>
+            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-fg-muted">{t("ui.Workout draft")}</p>
             <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-fg">{formatNumber(draft.exercises.length, i18n.language)}</p>
-            <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Exercises in this browser")}</p>
+            <p className="mt-1 text-[10px] text-fg-muted">{t("ui.Exercises in this browser")}</p>
           </article>
           <article className="rounded-[18px] border border-border-default bg-surface p-5">
-            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Account role")}</p>
+            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-fg-muted">{t("ui.Account role")}</p>
             <p className="mt-4 text-[25px] font-bold tracking-[-0.8px] text-fg">{t("ui.Coach")}</p>
-            <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Your current Vigo role")}</p>
+            <p className="mt-1 text-[10px] text-fg-muted">{t("ui.Your current Vigo role")}</p>
           </article>
         </section>
 
         <section className="relative flex min-h-[270px] flex-col justify-between overflow-hidden rounded-[22px] bg-sidebar p-7 text-fg-inverse sm:p-9">
-          <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-24 h-[330px] w-[330px] rounded-full border-[48px] border-white/[0.04]" />
+          <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-24 h-[330px] w-[330px] rounded-full border-[48px] border-sidebar-fg/[0.04]" />
           <div className="relative max-w-xl">
             <span className="inline-flex items-center gap-2 rounded-full bg-surface/10 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[1.2px] text-sidebar-active">
               <span className="h-1.5 w-1.5 rounded-full bg-brand" />{t("ui.Your coaching workspace")}
@@ -95,7 +95,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
           <article className="rounded-[20px] border border-border-default bg-surface p-6 sm:p-7">
             <div className="flex items-end justify-between gap-3">
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">{t("ui.Relationships")}</p>
+                <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-fg-muted">{t("ui.Relationships")}</p>
                 <h2 className="mt-2 text-[21px] font-bold tracking-[-0.7px]">{t("ui.Your athletes")}</h2>
               </div>
               <span className="text-[9px] font-semibold text-fg-muted">{preview ? activeAthletes.length + ' ' + t('ui.active') : t('ui.Not connected')}</span>
@@ -109,7 +109,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-[12px] font-bold text-[#34352f]">{relation.athlete_name}</p>
-                      <p className="mt-1 truncate text-[10px] text-[#888980]">{relation.plan_title}</p>
+                      <p className="mt-1 truncate text-[10px] text-fg-muted">{relation.plan_title}</p>
                     </div>
                     <span className="rounded-full bg-surface-muted px-2.5 py-1 text-[8px] font-bold uppercase tracking-[0.8px] text-[#60783a]">{t('ui.ACTIVE')}</span>
                   </div>
@@ -126,7 +126,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
           <article className="rounded-[20px] border border-border-default bg-surface p-6 sm:p-7">
             <div className="flex items-end justify-between gap-3">
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">{t("ui.Published content")}</p>
+                <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-fg-muted">{t("ui.Published content")}</p>
                 <h2 className="mt-2 text-[21px] font-bold tracking-[-0.7px]">{t("ui.Your plans")}</h2>
               </div>
               <span className="text-[9px] font-semibold text-fg-muted">{preview ? activePlans.length + ' ' + t('ui.active') : t('ui.Not connected')}</span>
@@ -155,7 +155,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
 
         <section>
           <div>
-            <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">{t("ui.Workspace tools")}</p>
+            <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-fg-muted">{t("ui.Workspace tools")}</p>
             <h2 className="mt-2 text-[22px] font-bold tracking-[-0.8px] text-fg">{t("ui.Create and organize")}</h2>
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-3">

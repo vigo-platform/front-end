@@ -74,7 +74,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
           </div>
           <div className="flex flex-wrap gap-2">
             <span className="inline-flex items-center gap-2 rounded-full border border-success-border bg-success-surface px-3.5 py-2 text-[9px] font-bold uppercase tracking-[1px] text-success-fg">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#9bcf43]" />
+              <span className="h-1.5 w-1.5 rounded-full bg-brand-hover" />
               {t('ui.' + (user?.status || 'Status unavailable'))}
             </span>
             <span className="rounded-full border border-border-default bg-surface px-3.5 py-2 text-[9px] font-semibold uppercase tracking-[1px] text-fg-secondary">
@@ -85,24 +85,24 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
 
         <section className="grid gap-3 sm:grid-cols-3">
           <article className="rounded-[18px] border border-border-default bg-surface p-5 sm:p-6">
-            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Available coaches")}</p>
+            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-fg-muted">{t("ui.Available coaches")}</p>
             <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-fg">{isLoadingCoaches ? <Skeleton className="h-9 w-20" /> : formatNumber(totalCoaches, i18n.language)}</p>
-            <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Approved public profiles")}</p>
+            <p className="mt-1 text-[10px] text-fg-muted">{t("ui.Approved public profiles")}</p>
           </article>
           <article className="rounded-[18px] border border-border-default bg-surface p-5 sm:p-6">
-            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Specialties shown")}</p>
+            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-fg-muted">{t("ui.Specialties shown")}</p>
             <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-fg">{isLoadingCoaches ? <Skeleton className="h-9 w-20" /> : formatNumber(uniqueSpecialties, i18n.language)}</p>
-            <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Across the coaches loaded")}</p>
+            <p className="mt-1 text-[10px] text-fg-muted">{t("ui.Across the coaches loaded")}</p>
           </article>
           <article className="rounded-[18px] border border-border-default bg-surface p-5 sm:p-6">
-            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Account type")}</p>
+            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-fg-muted">{t("ui.Account type")}</p>
             <p className="mt-4 text-[25px] font-bold tracking-[-0.8px] text-fg">{t("ui.Athlete")}</p>
-            <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Your current Vigo role")}</p>
+            <p className="mt-1 text-[10px] text-fg-muted">{t("ui.Your current Vigo role")}</p>
           </article>
         </section>
 
         <section className="relative flex min-h-[250px] flex-col justify-between overflow-hidden rounded-[22px] bg-sidebar p-7 text-fg-inverse sm:p-9">
-          <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-24 h-[330px] w-[330px] rounded-full border-[48px] border-white/[0.04]" />
+          <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-24 h-[330px] w-[330px] rounded-full border-[48px] border-sidebar-fg/[0.04]" />
           <div className="relative max-w-xl">
             <span className="inline-flex items-center gap-2 rounded-full bg-surface/10 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[1.2px] text-sidebar-active">
               <span className="h-1.5 w-1.5 rounded-full bg-brand" />
@@ -124,7 +124,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
         <section>
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">{t("ui.Marketplace")}</p>
+              <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-fg-muted">{t("ui.Marketplace")}</p>
               <h2 className="mt-2 text-[22px] font-bold tracking-[-0.8px] text-fg">{t("ui.Discover coaches")}</h2>
               <p className="mt-1 text-[12px] text-fg-secondary">{t("ui.Approved coaches currently available on Vigo.")}</p>
             </div>
@@ -132,7 +132,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
           </div>
 
           {coachError ? (
-            <div role="alert" className="mt-4 rounded-[18px] border border-[#ead1cd] bg-[#fff8f6] px-6 py-8 text-center">
+            <div role="alert" className="mt-4 rounded-[18px] border border-danger-border bg-danger-surface px-6 py-8 text-center">
               <p className="text-[13px] font-semibold text-[#9b5147]">{t("ui.Could not load coaches")}</p>
               <p className="mt-2 text-[11px] text-[#9b5147]">{coachError}</p>
             </div>
@@ -166,7 +166,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
 
         <section className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
           <article className="rounded-[20px] border border-border-default bg-surface p-6 sm:p-7">
-            <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">{t("ui.Account details")}</p>
+            <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-fg-muted">{t("ui.Account details")}</p>
             <h2 className="mt-2 text-[18px] font-bold tracking-[-0.5px]">{t("ui.Your information")}</h2>
             <dl className="mt-5 grid gap-4 sm:grid-cols-2">
               <div className="min-w-0"><dt className="text-[10px] text-fg-muted">{t("ui.Full name")}</dt><dd className="mt-1 truncate text-[12px] font-semibold text-[#34352f]">{user?.display_name || '—'}</dd></div>

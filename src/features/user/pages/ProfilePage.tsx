@@ -158,7 +158,7 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
             <p className="mt-2 max-w-xl text-[12px] leading-6 text-fg-secondary">{t("ui.Keep your account details up to date. Your verified contact information is managed separately.")}</p>
           </div>
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-border-default bg-surface px-3.5 py-2 text-[9px] font-bold uppercase tracking-[1px] text-fg-secondary">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#9bcf43]" />{t('ui.' + (user?.role ?? 'Member'))} {t('ui.account')}
+            <span className="h-1.5 w-1.5 rounded-full bg-brand-hover" />{t('ui.' + (user?.role ?? 'Member'))} {t('ui.account')}
           </span>
         </header>
 
@@ -258,7 +258,7 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
               <p className="mt-2 text-[11px] leading-5 text-fg-inverse/60">{isCoach ? 'Your headline, bio, and specialties help athletes understand your coaching approach.' : 'Your personal details help keep your Vigo account accurate.'}</p>
             </section>
             <section className="rounded-[20px] border border-border-default bg-surface p-5">
-              <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Account status")}</p>
+              <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-fg-muted">{t("ui.Account status")}</p>
               <p className="mt-3 text-[15px] font-bold text-fg">{t('ui.' + (user?.status ?? 'Unavailable'))}</p>
               <p className="mt-1 text-[10px] text-fg-muted">{t('ui.Your role:')} {user?.role ? t('ui.' + user.role) : '—'}</p>
             </section>
