@@ -17,7 +17,7 @@ function BrandMark() {
         </svg>
       </span>
       <span className="text-[19px] font-extrabold tracking-[-1px] text-ink">
-        vigo<span className="text-[#9bcf3f]">.</span>
+        vigo<span className="text-brand-hover">.</span>
       </span>
     </Link>
   )

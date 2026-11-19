@@ -2,7 +2,7 @@ import Skeleton from './Skeleton'
 
 export function CoachCardSkeleton() {
   return (
-    <article className="min-h-64 rounded-2xl border border-border bg-white p-5" aria-hidden="true">
+    <article className="min-h-64 rounded-2xl border border-border bg-surface p-5" aria-hidden="true">
       <div className="flex items-start gap-4">
         <Skeleton className="h-14 w-14 shrink-0 rounded-2xl" />
         <div className="min-w-0 flex-1 space-y-2 pt-1">
@@ -44,7 +44,7 @@ export function CoachDirectorySkeleton({ count = 6 }: { count?: number }) {
 export function CoachProfileSkeleton() {
   return (
     <div aria-label="Loading coach profile" aria-busy="true" className="space-y-6">
-      <section className="rounded-3xl border border-border bg-white p-6 sm:p-8">
+      <section className="rounded-3xl border border-border bg-surface p-6 sm:p-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
           <Skeleton className="h-24 w-24 shrink-0 rounded-3xl" />
           <div className="flex-1 space-y-3">
@@ -67,7 +67,7 @@ export function CoachProfileSkeleton() {
           ))}
         </div>
       </section>
-      <section className="rounded-3xl border border-border bg-white p-6 sm:p-8">
+      <section className="rounded-3xl border border-border bg-surface p-6 sm:p-8">
         <Skeleton className="h-5 w-24" />
         <div className="mt-5 space-y-3">
           <Skeleton className="h-3 w-full" />
@@ -83,7 +83,7 @@ export function DashboardStatsSkeleton({ count = 3 }: { count?: number }) {
   return (
     <div aria-label="Loading dashboard statistics" aria-busy="true" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {Array.from({ length: count }, (_, index) => (
-        <div key={index} className="rounded-[18px] border border-border bg-white p-5 sm:p-6">
+        <div key={index} className="rounded-[18px] border border-border bg-surface p-5 sm:p-6">
           <Skeleton className="h-3 w-28" />
           <Skeleton className="mt-5 h-9 w-20" />
           <Skeleton className="mt-2 h-3 w-36" />
@@ -142,7 +142,7 @@ export function AdminApplicationGridSkeleton() {
   return (
     <div aria-label="Loading coach applications" aria-busy="true" className="grid gap-3 lg:grid-cols-2">
       {Array.from({ length: 4 }, (_, index) => (
-        <article key={index} className="rounded-[16px] border border-border bg-white p-5">
+        <article key={index} className="rounded-[16px] border border-border bg-surface p-5">
           <div className="flex items-center gap-3">
             <Skeleton className="h-10 w-10 rounded-full" />
             <div className="flex-1 space-y-2">
@@ -170,7 +170,7 @@ export function AdminDetailsSkeleton() {
   return (
     <div aria-label="Loading account details" aria-busy="true" className="mt-6 grid gap-3 sm:grid-cols-2">
       {Array.from({ length: 6 }, (_, index) => (
-        <div key={index} className="rounded-xl border border-border bg-white p-4">
+        <div key={index} className="rounded-xl border border-border bg-surface p-4">
           <Skeleton className="h-3 w-16" />
           <Skeleton className="mt-3 h-4 w-3/4" />
         </div>
