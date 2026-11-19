@@ -17,8 +17,8 @@ interface PasswordResetIdentifierStepProps {
 }
 
 const inputClassName =
-  'h-11 w-full rounded-md border border-border bg-surface px-3 text-[13px] text-ink outline-none transition placeholder:text-fg-muted focus:border-ink'
-const labelClassName = 'text-[11px] font-medium text-ink'
+  'h-11 w-full rounded-md border border-border-default bg-surface px-3 text-[13px] text-fg outline-none transition placeholder:text-fg-muted focus:border-ink'
+const labelClassName = 'text-[11px] font-medium text-fg'
 
 function PasswordResetIdentifierStep({
   channels,
@@ -36,7 +36,7 @@ function PasswordResetIdentifierStep({
   return (
     <>
       <div className="mb-7">
-        <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
+        <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-fg">
           {t("ui.Reset your password")}
         </h1>
         <p className="text-[13px] leading-[1.6] text-fg-secondary">
@@ -78,7 +78,7 @@ function PasswordResetIdentifierStep({
 
       <p className="mt-7 text-center text-[11px] text-fg">
         Remember your password?{' '}
-        <Link to="/login" className="ms-1 font-medium text-ink hover:underline">
+        <Link to="/login" className="ms-1 font-medium text-fg hover:underline">
           {t("ui.Log in")}
         </Link>
       </p>
