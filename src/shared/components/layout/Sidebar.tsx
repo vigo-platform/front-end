@@ -44,7 +44,7 @@ function Sidebar() {
         <span className="mt-1 h-2 w-2 rounded-full bg-brand" />
       </Link>
 
-      <div className="mt-8 border-b border-white/10 pb-6">
+      <div className="mt-8 border-b border-sidebar-fg/10 pb-6">
         <p className="px-1 text-[9px] font-semibold uppercase tracking-[1.8px] text-sidebar-muted">
           {workspaceLabel}
         </p>
@@ -61,13 +61,13 @@ function Sidebar() {
                 'group flex min-h-11 items-center gap-3 rounded-xl px-3 text-[12px] font-semibold transition-colors',
                 isActive
                   ? 'bg-sidebar-active text-on-sidebar-active'
-                  : 'text-sidebar-muted hover:bg-white/[0.07] hover:text-sidebar-fg',
+                  : 'text-sidebar-muted hover:bg-sidebar-fg/[0.07] hover:text-sidebar-fg',
               ].join(' ')
             }
           >
             {({ isActive }) => (
               <>
-                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-white/[0.09] text-[9px] font-bold text-white/55">
+                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-sidebar-fg/[0.09] text-[9px] font-bold text-sidebar-fg/55">
                   {String(index + 1).padStart(2, '0')}
                 </span>
                 <span>{t(item.label)}</span>
@@ -78,12 +78,12 @@ function Sidebar() {
         ))}
       </nav>
 
-      <div className="mt-auto border-t border-white/10 pt-5">
+      <div className="mt-auto border-t border-sidebar-fg/10 pt-5">
         <div className="flex min-w-0 items-center gap-3 px-1">
           {user?.avatar_url ? (
             <img src={user.avatar_url} alt="" className="h-9 w-9 shrink-0 rounded-full object-cover" />
           ) : (
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 text-[10px] font-bold text-white">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sidebar-fg/15 text-[10px] font-bold text-white">
               {initials || 'V'}
             </span>
           )}
@@ -97,7 +97,7 @@ function Sidebar() {
         <button
           type="button"
           onClick={handleLogout}
-          className="mt-5 flex w-full items-center justify-between rounded-lg px-2 py-2 text-start text-[11px] font-medium text-sidebar-muted transition hover:bg-white/[0.06] hover:text-sidebar-fg"
+          className="mt-5 flex w-full items-center justify-between rounded-lg px-2 py-2 text-start text-[11px] font-medium text-sidebar-muted transition hover:bg-sidebar-fg/[0.06] hover:text-sidebar-fg"
         >
           {isPreview ? t('workspace.backToOverview') : t('workspace.signOut')}
           <span aria-hidden="true">↗</span>
