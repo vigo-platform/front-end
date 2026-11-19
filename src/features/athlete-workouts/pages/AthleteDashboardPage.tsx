@@ -6,6 +6,8 @@ import { coachService } from '../../coaches/services/coach.service'
 import type { CoachProfile } from '../../coaches/types/coach.types'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../../../shared/components/LanguageSwitcher'
+import Skeleton from '../../../shared/components/feedback/Skeleton'
+import { CoachDirectorySkeleton } from '../../../shared/components/feedback/LoadingStates'
 
 interface AthleteDashboardPageProps {
   isPreview?: boolean
@@ -84,12 +86,12 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
         <section className="grid gap-3 sm:grid-cols-3">
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Available coaches")}</p>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingCoaches ? '—' : formatNumber(totalCoaches, i18n.language)}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingCoaches ? <Skeleton className="mt-4 h-9 w-20" /> : formatNumber(totalCoaches, i18n.language)}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Approved public profiles")}</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Specialties shown")}</p>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingCoaches ? '—' : formatNumber(uniqueSpecialties, i18n.language)}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingCoaches ? <Skeleton className="mt-4 h-9 w-20" /> : formatNumber(uniqueSpecialties, i18n.language)}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Across the coaches loaded")}</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
@@ -135,7 +137,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
               <p className="mt-2 text-[11px] text-[#9b5147]">{coachError}</p>
             </div>
           ) : isLoadingCoaches ? (
-            <div className="mt-4 rounded-[18px] border border-[#e1e1da] bg-white px-6 py-8 text-center text-[12px] text-[#77786f]">{t("ui.Loading coaches...")}</div>
+            <div className="mt-4"><CoachDirectorySkeleton count={3} /></div>
           ) : coaches.length > 0 ? (
             <div className="mt-4 grid gap-3 md:grid-cols-3">
               {coaches.map((coach) => (
