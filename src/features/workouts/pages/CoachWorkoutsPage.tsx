@@ -60,7 +60,7 @@ function CoachWorkoutsPage() {
             </div>
             <Link
               to={coachPath + '/workouts/new'}
-              className="mt-6 inline-flex text-sm font-semibold text-ink hover:text-success-fg"
+              className="mt-6 inline-flex text-sm font-semibold text-fg hover:text-success-fg"
             >
               {t('ui.Continue editing')} →
             </Link>
