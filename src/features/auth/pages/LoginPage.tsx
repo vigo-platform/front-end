@@ -145,7 +145,7 @@ function LoginPage() {
   }
 
   const inputClassName =
-    'h-11 w-full rounded-md border border-border bg-surface px-3 text-[13px] text-fg outline-none transition placeholder:text-fg-muted focus:border-fg'
+    'h-11 w-full rounded-md border border-border-default bg-surface px-3 text-[13px] text-fg outline-none transition placeholder:text-fg-muted focus:border-fg'
 
   const labelClassName = 'text-[11px] font-medium text-fg'
 
