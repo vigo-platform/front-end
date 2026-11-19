@@ -37,6 +37,7 @@ function RegisterPage() {
 
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [isResending, setIsResending] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
   const activeChannel = selectedChannel && availableChannels.includes(selectedChannel)
@@ -102,7 +103,7 @@ function RegisterPage() {
     setErrorMessage('')
 
     try {
-      setIsLoading(true)
+      setIsResending(true)
 
       const response = await authService.initiateSignup({
         identifier: identifier.trim(),
@@ -113,7 +114,7 @@ function RegisterPage() {
     } catch (error) {
       handleError(error)
     } finally {
-      setIsLoading(false)
+      setIsResending(false)
     }
   }
 
@@ -221,10 +222,10 @@ function RegisterPage() {
                 <button
                   type="button"
                   onClick={handleResendCode}
-                  disabled={isLoading}
-                  className="font-medium text-ink hover:underline disabled:opacity-50"
+                  disabled={isLoading || isResending}
+                  className="inline-flex items-center gap-2 font-medium text-ink hover:underline disabled:opacity-50"
                 >
-                  {t("ui.Resend code")}
+                  {isResending && <Spinner size="sm" />}{t("ui.Resend code")}
                 </button>
               </p>
 
