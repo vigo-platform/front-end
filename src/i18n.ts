@@ -672,6 +672,9 @@ const resources = {
         "{{count}} users found": "{{count}} users found",
         "{{count}} applications": "{{count}} applications",
         "{{count}} years experience": "{{count}} years experience"
+      ,
+        "Exercises in this draft": "Exercises in this draft: {{count}}",
+        "Add exercises": "Add exercises",
       }
     }
   },
@@ -1344,6 +1347,9 @@ const resources = {
         "{{count}} users found": "{{count}} کاربر پیدا شد",
         "{{count}} applications": "{{count}} درخواست",
         "{{count}} years experience": "{{count}} سال سابقه"
+      ,
+        "Exercises in this draft": "تعداد حرکات در پیش‌نویس: {{count}}",
+        "Add exercises": "افزودن حرکت",
       }
     }
   }
