@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../auth/context/auth-context'
 import { useTranslation } from 'react-i18next'
+import ThemeSwitcher from '../../../shared/components/ThemeSwitcher'
 
 interface CoachPublicLayoutProps {
   children: ReactNode
@@ -28,7 +29,9 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
           <Link to={homePath} className="text-xl font-extrabold tracking-tight">
             Vigo<span className="text-[#9bcf3f]">.</span>
           </Link>
-          <nav aria-label={t('navigation.main')} className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <ThemeSwitcher />
+            <nav aria-label={t('navigation.main')} className="flex items-center gap-4">
             {isAuthenticated ? (
               <Link to={homePath} className="inline-flex items-center gap-2 rounded-full border border-border bg-canvas px-4 py-2.5 text-xs font-semibold text-ink transition hover:bg-[#eef2e7]">
                 <span aria-hidden="true">←</span> {t('ui.Back to dashboard')}
@@ -46,7 +49,8 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
                 </Link>
               </>
             )}
-          </nav>
+            </nav>
+          </div>
         </div>
       </header>
       <main className="px-4 py-7 sm:px-6 sm:py-10">

@@ -4,6 +4,7 @@ import ArrowIcon from '../components/ArrowIcon'
 import BrandMark from '../components/BrandMark'
 import WorkoutPreview from '../components/WorkoutPreview'
 import LanguageSwitcher from '../../../shared/components/LanguageSwitcher'
+import ThemeSwitcher from '../../../shared/components/ThemeSwitcher'
 import { useTranslation } from 'react-i18next'
 
 const navigation = [
@@ -106,6 +107,7 @@ function PublicLandingPage() {
 
           <div className="flex items-center gap-3">
             <LanguageSwitcher />
+            <ThemeSwitcher />
             <button
             type="button"
             aria-label={menuOpen ? t('ui.Close navigation menu') : t('ui.Open navigation menu')}

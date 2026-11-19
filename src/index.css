@@ -37,14 +37,14 @@
   --font-manrope: "Manrope Variable", sans-serif;
   --font-vazirmatn: "Vazirmatn Variable", sans-serif;
 
-  --color-ink: #111111;
+  --color-ink: var(--foreground);
   --color-white: #ffffff;
-  --color-canvas: #f7f7f5;
-  --color-soft-gray: #eeeeeb;
-  --color-border: #d2d2cc;
-  --color-muted: #85857e;
-  --color-accent: #c7f36b;
-  --color-accent-deep: #a6d943;
+  --color-canvas: var(--page);
+  --color-soft-gray: var(--surface-muted);
+  --color-border: var(--border-default);
+  --color-muted: var(--foreground-muted);
+  --color-accent: var(--brand);
+  --color-accent-deep: var(--brand-hover);
 }
 
 /* Semantic design tokens.
@@ -52,8 +52,6 @@
  * The current values intentionally preserve the existing Vigo visual palette.
  */
 :root {
-  color-scheme: light;
-
   --page: #f6f6f3;
   --surface: #ffffff;
   --surface-subtle: #fbfbf9;
@@ -93,6 +91,55 @@
   --sidebar-hover: #30352a;
   --skeleton-base: #eeefeb;
   --skeleton-highlight: rgb(255 255 255 / 68%);
+}
+
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --page: #10120f;
+  --surface: #171a15;
+  --surface-subtle: #1d211a;
+  --surface-muted: #242b1e;
+
+  --foreground: #f2f4ed;
+  --foreground-secondary: #c0c5b8;
+  --foreground-muted: #939b8b;
+  --foreground-inverse: #171914;
+
+  --border-default: #343a30;
+  --border-strong: #46503d;
+
+  --brand: #c7f36b;
+  --brand-hover: #d5fa8c;
+  --on-brand: #171914;
+
+  --sidebar: #0b0d0a;
+  --sidebar-foreground: #f4f6ef;
+  --sidebar-muted: rgb(244 246 239 / 62%);
+  --sidebar-active: #c7f36b;
+  --on-sidebar-active: #171914;
+
+  --success-surface: #1d2a18;
+  --success-border: #35482b;
+  --success-foreground: #c5e59b;
+
+  --warning-surface: #302817;
+  --warning-border: #594729;
+  --warning-foreground: #f0cf83;
+
+  --danger-surface: #321f1b;
+  --danger-border: #5a342d;
+  --danger-foreground: #f0a99b;
+
+  --focus-ring: rgb(199 243 107 / 42%);
+  --sidebar-hover: #252d20;
+  --skeleton-base: #252a22;
+  --skeleton-highlight: rgb(255 255 255 / 9%);
 }
 
 @theme inline {
@@ -141,8 +188,12 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--color-ink);
-  background: var(--color-canvas);
+  color: var(--foreground);
+  background: var(--page);
+}
+
+.bg-white {
+  background-color: var(--surface);
 }
 
 html,

@@ -1,5 +1,6 @@
 import { useAuth } from '../../../features/auth/context/auth-context'
 import { useTranslation } from 'react-i18next'
+import ThemeSwitcher from '../ThemeSwitcher'
 
 interface TopBarProps {
   title: string
@@ -36,6 +37,7 @@ function TopBar({ title }: TopBarProps) {
       </div>
 
       <div className="flex items-center gap-3">
+        <ThemeSwitcher />
         <div className="hidden text-right sm:block">
           <p className="max-w-40 truncate text-[10px] font-semibold text-fg">{displayName}</p>
           <p className="mt-0.5 text-[9px] text-fg-muted">{roleLabel}</p>

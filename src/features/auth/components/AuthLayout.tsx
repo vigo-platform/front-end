@@ -1,6 +1,7 @@
 
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import ThemeSwitcher from '../../../shared/components/ThemeSwitcher'
 
 interface AuthLayoutProps {
   children: ReactNode
@@ -21,6 +22,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
             Vigo
             <span className="size-[7px] rounded-full bg-brand" />
           </a>
+          <ThemeSwitcher />
         </header>
 
         {/* Form Content */}
