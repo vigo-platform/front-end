@@ -254,8 +254,8 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
           <aside className="flex flex-col gap-4">
             <section className="rounded-[20px] border border-border-default bg-sidebar p-6 text-fg-inverse">
               <span className="inline-flex rounded-full bg-surface/10 px-3 py-1.5 text-[8px] font-bold uppercase tracking-[1.2px] text-sidebar-active">{t("ui.Profile visibility")}</span>
-              <h2 className="mt-5 text-[20px] font-bold leading-tight tracking-[-0.6px]">{isCoach ? 'Make your profile count.' : 'Your account, up to date.'}</h2>
-              <p className="mt-2 text-[11px] leading-5 text-fg-inverse/60">{isCoach ? 'Your headline, bio, and specialties help athletes understand your coaching approach.' : 'Your personal details help keep your Vigo account accurate.'}</p>
+              <h2 className="mt-5 text-[20px] font-bold leading-tight tracking-[-0.6px]">{isCoach ? t('ui.Make your profile count.') : t('ui.Your account, up to date.')}</h2>
+              <p className="mt-2 text-[11px] leading-5 text-fg-inverse/60">{isCoach ? t('ui.Your headline, bio, and specialties help athletes understand your coaching approach.') : t('ui.Your personal details help keep your Vigo account accurate.')}</p>
             </section>
             <section className="rounded-[20px] border border-border-default bg-surface p-5">
               <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-fg-muted">{t("ui.Account status")}</p>
@@ -265,7 +265,7 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
             {error && <p role="alert" className="rounded-xl border border-danger-border bg-danger-surface px-4 py-3 text-[11px] leading-5 text-danger-fg">{error}</p>}
             {success && <p role="status" className="rounded-xl border border-success-border bg-success-surface px-4 py-3 text-[11px] leading-5 text-success-fg">{success}</p>}
             <Button type="submit" loading={isSaving} disabled={isLoadingCoach} className="h-12 rounded-full bg-brand px-5 text-[11px] font-bold text-on-brand transition hover:bg-brand-hover">
-              Save changes <span aria-hidden="true">→</span>
+              {t('ui.Save changes')} <span aria-hidden="true">→</span>
             </Button>
             <p className="text-center text-[9px] leading-4 text-fg-muted">{t("ui.Only fields supported by your current API contracts are editable here.")}</p>
           </aside>
