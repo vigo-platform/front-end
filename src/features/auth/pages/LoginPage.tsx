@@ -145,9 +145,9 @@ function LoginPage() {
   }
 
   const inputClassName =
-    'h-11 w-full rounded-md border border-border bg-surface px-3 text-[13px] text-ink outline-none transition placeholder:text-fg-muted focus:border-ink'
+    'h-11 w-full rounded-md border border-border bg-surface px-3 text-[13px] text-fg outline-none transition placeholder:text-fg-muted focus:border-fg'
 
-  const labelClassName = 'text-[11px] font-medium text-ink'
+  const labelClassName = 'text-[11px] font-medium text-fg'
 
   const isEmail = activeChannel === 'EMAIL'
 
@@ -184,7 +184,7 @@ function LoginPage() {
         {step === 'VERIFY' && (
           <>
             <div className="mb-6">
-              <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
+              <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-fg">
                 {t('ui.Verify your {{channel}}', { channel: t(isEmail ? 'ui.Email' : 'ui.Phone') })}
               </h1>
 
@@ -213,7 +213,7 @@ function LoginPage() {
               <button
                 type="button"
                 onClick={goBack}
-                className="h-8 text-[11px] text-ink hover:underline"
+                className="h-8 text-[11px] text-fg hover:underline"
               >
                 {t("ui.Back")}
               </button>
@@ -223,7 +223,7 @@ function LoginPage() {
       {step === 'NEW_PASSWORD' && (
         <>
           <div className="mb-6">
-            <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
+            <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-fg">
               {t("ui.Update your password")}
             </h1>
             <p className="text-[13px] leading-relaxed text-fg-secondary">
