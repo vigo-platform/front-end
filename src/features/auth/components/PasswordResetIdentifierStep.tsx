@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import OtpChannelSelector from './OtpChannelSelector'
 import type { OtpChannel } from '../types/auth-config.types'
 import { useTranslation } from 'react-i18next'
+import Spinner from '../../../shared/components/feedback/Spinner'
 
 interface PasswordResetIdentifierStepProps {
   channels: OtpChannel[]
@@ -78,7 +79,7 @@ function PasswordResetIdentifierStep({
           disabled={isLoading}
           className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60"
         >
-          {isLoading ? 'Sending code...' : 'Send verification code'}
+          {isLoading && <Spinner size="sm" />}{'Send verification code'}
         </button>
       </form>
 
