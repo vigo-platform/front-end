@@ -23,8 +23,8 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
           : '/athlete'
   const coachesPath = isPreview ? '/_preview/athlete/coaches' : '/coaches'
   return (
-    <div className="min-h-screen bg-canvas text-ink">
-      <header className="border-b border-border bg-surface">
+    <div className="min-h-screen bg-page text-fg">
+      <header className="border-b border-border-default bg-surface">
         <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
           <Link to={homePath} className="text-xl font-extrabold tracking-tight">
             Vigo<span className="text-brand-hover">.</span>
@@ -33,15 +33,15 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
             <ThemeSwitcher />
             <nav aria-label={t('navigation.main')} className="flex items-center gap-4">
             {isAuthenticated ? (
-              <Link to={homePath} className="inline-flex items-center gap-2 rounded-full border border-border bg-canvas px-4 py-2.5 text-xs font-semibold text-ink transition hover:bg-surface-muted">
+              <Link to={homePath} className="inline-flex items-center gap-2 rounded-full border border-border-default bg-page px-4 py-2.5 text-xs font-semibold text-fg transition hover:bg-surface-muted">
                 <span aria-hidden="true">←</span> {t('ui.Back to dashboard')}
               </Link>
             ) : (
               <>
-                <Link to={coachesPath} className="text-xs font-semibold text-muted transition hover:text-ink">
+                <Link to={coachesPath} className="text-xs font-semibold text-fg-muted transition hover:text-fg">
                   {t("ui.Find a coach")}
                 </Link>
-                <Link to="/login" className="text-xs font-semibold text-muted transition hover:text-ink">
+                <Link to="/login" className="text-xs font-semibold text-fg-muted transition hover:text-fg">
                   {t("ui.Log in")}
                 </Link>
                 <Link to="/register" className="rounded-full bg-fg px-4 py-2.5 text-xs font-semibold text-fg-inverse transition hover:bg-fg/90">
