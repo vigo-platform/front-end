@@ -9,7 +9,7 @@ import type { OtpChannel } from '../types/auth-config.types'
 import PasswordLoginForm from '../components/PasswordLoginForm'
 import { useAuth } from '../context/auth-context'
 import { useTranslation } from 'react-i18next'
-import Spinner from '../../../shared/components/feedback/Spinner'
+import { Button, Input } from '../../../shared/components/ui'
 
 type LoginStep = 'IDENTIFIER' | 'VERIFY' | 'NEW_PASSWORD'
 
@@ -197,25 +197,7 @@ function LoginPage() {
               onSubmit={handleVerifyOtp}
               className="flex flex-col gap-5"
             >
-              <div className="flex flex-col gap-2">
-                <label htmlFor="otp" className={labelClassName}>
-                  {t("ui.Verification code")}
-                </label>
-
-                <input
-                  id="otp"
-                  type="text"
-                  inputMode="numeric"
-                  autoComplete="one-time-code"
-                  placeholder={t("ui.Enter code")}
-                  value={otp}
-                  onChange={(event) => setOtp(event.target.value)}
-                  minLength={5}
-                  maxLength={6}
-                  required
-                  className={inputClassName}
-                />
-              </div>
+              <Input id="otp" label={t("ui.Verification code")} labelClassName={labelClassName} type="text" inputMode="numeric" autoComplete="one-time-code" placeholder={t("ui.Enter code")} value={otp} onChange={(event) => setOtp(event.target.value)} minLength={5} maxLength={6} required className={inputClassName} />
 
               {errorMessage && (
                 <p
@@ -226,13 +208,7 @@ function LoginPage() {
                 </p>
               )}
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {isLoading && <Spinner size="sm" />}{t('ui.Verify')}
-              </button>
+              <Button type="submit" loading={isLoading} size="md" className="h-11 w-full text-[13px]">{t('ui.Verify')}</Button>
 
               <button
                 type="button"
@@ -255,28 +231,13 @@ function LoginPage() {
             </p>
           </div>
           <form onSubmit={handleExpiredPasswordSubmit} className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <label htmlFor="login-new-password" className={labelClassName}>{t("ui.New password")}</label>
-              <input
-                id="login-new-password"
-                type="password"
-                autoComplete="new-password"
-                value={newPassword}
-                onChange={(event) => setNewPassword(event.target.value)}
-                minLength={8}
-                maxLength={72}
-                required
-                className={inputClassName}
-              />
-            </div>
+            <Input id="login-new-password" label={t("ui.New password")} labelClassName={labelClassName} type="password" autoComplete="new-password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} minLength={8} maxLength={72} required className={inputClassName} />
             {errorMessage && (
               <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">
                 {errorMessage}
               </p>
             )}
-            <button type="submit" disabled={isLoading} className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">
-              {isLoading && <Spinner size="sm" />}{t('ui.Update password')}
-            </button>
+            <Button type="submit" loading={isLoading} size="md" className="h-11 w-full text-[13px]">{t('ui.Update password')}</Button>
           </form>
         </>
       )}

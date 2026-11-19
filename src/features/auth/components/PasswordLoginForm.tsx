@@ -4,7 +4,7 @@ import { ApiError } from '../../../shared/api/client'
 import { useAuth } from '../context/auth-context'
 import { authService } from '../services/auth.service'
 import { useTranslation } from 'react-i18next'
-import Spinner from '../../../shared/components/feedback/Spinner'
+import { Button, Input } from '../../../shared/components/ui'
 import { AuthOptionsSkeleton } from '../../../shared/components/feedback/LoadingStates'
 
 type Step = 'CREDENTIALS' | 'VERIFY' | 'NEW_PASSWORD'
@@ -176,83 +176,27 @@ function PasswordLoginForm({
           </p>
         ) : (
         <form onSubmit={handleCredentials} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="password-login-identifier" className={labelClassName}>
-              {t("ui.Email or phone number")}
-            </label>
-            <input
-              id="password-login-identifier"
-              type="text"
-              autoComplete="username"
-              value={identifier}
-              onChange={(event) => setIdentifier(event.target.value)}
-              required
-              className={inputClassName}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="password-login-password" className={labelClassName}>
-              {t("ui.Password")}
-            </label>
-            <input
-              id="password-login-password"
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              required
-              maxLength={72}
-              className={inputClassName}
-            />
-          </div>
+          <Input id="password-login-identifier" label={t("ui.Email or phone number")} labelClassName={labelClassName} type="text" autoComplete="username" value={identifier} onChange={(event) => setIdentifier(event.target.value)} required className={inputClassName} />
+          <Input id="password-login-password" label={t("ui.Password")} labelClassName={labelClassName} type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required maxLength={72} className={inputClassName} />
           {errorMessage && (
             <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">
               {errorMessage}
             </p>
           )}
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isLoading && <Spinner size="sm" />}{t('ui.Log in')}
-          </button>
+          <Button type="submit" loading={isLoading} size="md" className="h-11 w-full text-[13px]">{t('ui.Log in')}</Button>
         </form>
         )
       )}
 
       {step === 'VERIFY' && (
         <form onSubmit={handleVerify} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="password-login-otp" className={labelClassName}>
-              {t("ui.Verification code")}
-            </label>
-            <input
-              id="password-login-otp"
-              type="text"
-              inputMode="numeric"
-              autoComplete="one-time-code"
-              value={otp}
-              onChange={(event) => setOtp(event.target.value)}
-              minLength={6}
-              maxLength={6}
-              pattern="[0-9]{6}"
-              required
-              className={inputClassName}
-            />
-          </div>
+          <Input id="password-login-otp" label={t("ui.Verification code")} labelClassName={labelClassName} type="text" inputMode="numeric" autoComplete="one-time-code" value={otp} onChange={(event) => setOtp(event.target.value)} minLength={6} maxLength={6} pattern="[0-9]{6}" required className={inputClassName} />
           {errorMessage && (
             <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">
               {errorMessage}
             </p>
           )}
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60"
-          >
-            {isLoading && <Spinner size="sm" />}{t('ui.Verify')}
-          </button>
+          <Button type="submit" loading={isLoading} size="md" className="h-11 w-full text-[13px]">{t('ui.Verify')}</Button>
           <button type="button" onClick={() => setStep('CREDENTIALS')} className="h-8 text-[11px] text-ink hover:underline">
             {t("ui.Back")}
           </button>
@@ -261,34 +205,13 @@ function PasswordLoginForm({
 
       {step === 'NEW_PASSWORD' && (
         <form onSubmit={handlePasswordUpdate} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="expired-new-password" className={labelClassName}>
-              {t("ui.New password")}
-            </label>
-            <input
-              id="expired-new-password"
-              type="password"
-              autoComplete="new-password"
-              value={newPassword}
-              onChange={(event) => setNewPassword(event.target.value)}
-              minLength={8}
-              maxLength={72}
-              required
-              className={inputClassName}
-            />
-          </div>
+          <Input id="expired-new-password" label={t("ui.New password")} labelClassName={labelClassName} type="password" autoComplete="new-password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} minLength={8} maxLength={72} required className={inputClassName} />
           {errorMessage && (
             <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">
               {errorMessage}
             </p>
           )}
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60"
-          >
-            {isLoading && <Spinner size="sm" />}{t('ui.Update password')}
-          </button>
+          <Button type="submit" loading={isLoading} size="md" className="h-11 w-full text-[13px]">{t('ui.Update password')}</Button>
         </form>
       )}
 
