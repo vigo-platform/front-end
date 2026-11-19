@@ -167,9 +167,7 @@ function PublicLandingPage() {
             </h1>
 
             <p className="mt-7 max-w-[490px] text-[15px] leading-[1.9] text-[#696961] sm:text-[16px]">
-              Vigo brings coaches and athletes into one connected space — from
-              finding the right coach to planning, completing, and reviewing
-              every workout.
+              {t('ui.Vigo brings coaches and athletes into one connected space — from finding the right coach to planning, completing, and reviewing every workout.')}
             </p>
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -214,8 +212,7 @@ function PublicLandingPage() {
                 {t("ui.Your training, connected.")}
               </h2>
               <p className="mt-5 max-w-[390px] text-[13px] leading-[1.9] text-white/60">
-                Less time managing scattered information. More clarity around
-                the work that happens between coach and athlete.
+                {t('ui.Less time managing scattered information. More clarity around the work that happens between coach and athlete.')}
               </p>
             </div>
 
@@ -230,8 +227,7 @@ function PublicLandingPage() {
                 <p className="mt-7 text-[10px] font-bold uppercase tracking-[1.7px] text-accent">{t("ui.For athletes")}</p>
                 <h3 className="mt-3 text-[22px] font-bold tracking-[-0.7px]">{t("ui.Own your routine.")}</h3>
                 <p className="mt-3 text-[12px] leading-[1.9] text-white/60">
-                  Discover coaches, connect with the right one, follow your
-                  assigned workouts, and record your training results.
+                  {t('ui.Discover coaches, connect with the right one, follow your assigned workouts, and record your training results.')}
                 </p>
                 <Link to="/register" className="mt-7 inline-flex items-center gap-2 text-[11px] font-semibold text-accent hover:gap-3">
                   {t("ui.Join as an athlete")} <ArrowIcon />
@@ -248,8 +244,7 @@ function PublicLandingPage() {
                 <p className="mt-7 text-[10px] font-bold uppercase tracking-[1.7px] text-accent">{t("ui.For coaches")}</p>
                 <h3 className="mt-3 text-[22px] font-bold tracking-[-0.7px]">{t("ui.Coach with clarity.")}</h3>
                 <p className="mt-3 text-[12px] leading-[1.9] text-white/60">
-                  Present your coaching profile, organize exercises into
-                  structured workouts, and review what your athletes complete.
+                  {t('ui.Present your coaching profile, organize exercises into structured workouts, and review what your athletes complete.')}
                 </p>
                 <Link to="/register" className="mt-7 inline-flex items-center gap-2 text-[11px] font-semibold text-accent hover:gap-3">
                   {t("ui.Join as a coach")} <ArrowIcon />
@@ -268,8 +263,7 @@ function PublicLandingPage() {
               {t("ui.From first connection to every rep.")}
             </h2>
             <p className="mt-5 text-[13px] leading-[1.9] text-[#74746c]">
-              Keep the coaching journey in sequence, with a shared place for
-              the plan and the work completed along the way.
+              {t('ui.Keep the coaching journey in sequence, with a shared place for the plan and the work completed along the way.')}
             </p>
           </div>
 
@@ -298,8 +292,7 @@ function PublicLandingPage() {
               </h2>
             </div>
             <p className="max-w-[350px] text-[12px] leading-[1.9] text-[#74746c]">
-              Purpose-built tools for the everyday workflow of bodybuilding
-              coaches and athletes.
+              {t('ui.Purpose-built tools for the everyday workflow of bodybuilding coaches and athletes.')}
             </p>
           </div>
 
@@ -333,8 +326,7 @@ function PublicLandingPage() {
               {t("ui.Your training. Your coach. One connected experience.")}
             </h2>
             <p className="mx-auto mt-5 max-w-[480px] text-[12px] leading-[1.9] text-white/60">
-              Bring more structure to the way you coach and the way you train.
-              Start building your Vigo experience.
+              {t('ui.Bring more structure to the way you coach and the way you train. Start building your Vigo experience.')}
             </p>
             <Link to="/register" className="mt-8 inline-flex h-[52px] items-center gap-3 rounded-full bg-accent px-7 text-[12px] font-bold text-ink transition hover:-translate-y-0.5 hover:bg-accent-deep">
               {t("ui.Get started with Vigo")} <ArrowIcon />
@@ -358,7 +350,7 @@ function PublicLandingPage() {
             <a href="#how-it-works" className="text-[10px] font-medium text-[#6f6f67] hover:text-ink">{t("ui.How it works")}</a>
             <Link to="/login" className="text-[10px] font-medium text-[#6f6f67] hover:text-ink">{t("ui.Log in")}</Link>
           </nav>
-          <p className="text-[10px] text-[#92928a]">© {new Date().getFullYear()} Vigo. All rights reserved.</p>
+          <p className="text-[10px] text-[#92928a]">© {new Date().getFullYear()} Vigo. {t('ui.All rights reserved.')}</p>
         </div>
       </footer>
     </main>
