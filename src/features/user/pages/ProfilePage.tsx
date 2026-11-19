@@ -7,6 +7,8 @@ import type { CoachProfile, CoachProfileRequest } from '../../coaches/types/coac
 import { userService } from '../services/user.service'
 import type { Gender, UpdateProfileRequest } from '../types/user.types'
 import { useTranslation } from 'react-i18next'
+import { ProfileSectionSkeleton } from '../../../shared/components/feedback/LoadingStates'
+import LoadingButton from '../../../shared/components/feedback/LoadingButton'
 
 interface ProfilePageProps {
   isPreview?: boolean
@@ -207,7 +209,7 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
                   <p className="mt-1 text-[11px] text-[#85867d]">{t("ui.This information is used on your public coach profile.")}</p>
                 </div>
                 {isLoadingCoach ? (
-                  <p className="py-8 text-[12px] text-[#85867d]">{t("ui.Loading coach profile…")}</p>
+                  <ProfileSectionSkeleton />
                 ) : (
                   <div className="mt-6 grid gap-5">
                     <label>
@@ -262,9 +264,9 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
             </section>
             {error && <p role="alert" className="rounded-xl border border-[#f0d2cb] bg-[#fff6f3] px-4 py-3 text-[11px] leading-5 text-[#a34d3d]">{error}</p>}
             {success && <p role="status" className="rounded-xl border border-[#dce8c8] bg-[#f2f8e8] px-4 py-3 text-[11px] leading-5 text-[#526a2e]">{success}</p>}
-            <button type="submit" disabled={isSaving || isLoadingCoach} className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#c7f36b] px-5 text-[11px] font-bold text-[#171914] transition hover:bg-[#d4fa83] disabled:cursor-not-allowed disabled:opacity-60">
-              {isSaving ? 'Saving changes…' : 'Save changes'} <span aria-hidden="true">→</span>
-            </button>
+            <LoadingButton type="submit" loading={isSaving} disabled={isLoadingCoach} className="h-12 rounded-full bg-[#c7f36b] px-5 text-[11px] font-bold text-[#171914] transition hover:bg-[#d4fa83]">
+              Save changes <span aria-hidden="true">→</span>
+            </LoadingButton>
             <p className="text-center text-[9px] leading-4 text-[#92938a]">{t("ui.Only fields supported by your current API contracts are editable here.")}</p>
           </aside>
         </form>
