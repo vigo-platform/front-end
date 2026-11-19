@@ -1,26 +1,30 @@
+import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import type { ReactNode } from 'react'
-import CoachDashboardPage from '../features/workouts/pages/CoachDashboardPage'
-import ExerciseLibraryPage from '../features/workouts/pages/ExerciseLibraryPage'
-import WorkoutBuilderPage from '../features/workouts/pages/WorkoutBuilderPage'
-import CoachWorkoutsPage from '../features/workouts/pages/CoachWorkoutsPage'
-import AthleteDashboardPage from '../features/athlete-workouts/pages/AthleteDashboardPage'
-import AthleteWorkoutsPage from '../features/athlete-workouts/pages/AthleteWorkoutsPage'
-import WorkoutExecutionPage from '../features/athlete-workouts/pages/WorkoutExecutionPage'
-import CoachDirectoryPage from '../features/coaches/pages/CoachDirectoryPage'
-import CoachProfilePage from '../features/coaches/pages/CoachProfilePage'
-import PublicLandingPage from '../features/landing/pages/PublicLandingPage'
-import LoginPage from '../features/auth/pages/LoginPage'
-import RegisterPage from '../features/auth/pages/RegisterPage'
-import ForgotPasswordPage from '../features/auth/pages/ForgotPasswordPage'
 import RequireAuth from '../features/auth/components/RequireAuth'
 import { useAuth } from '../features/auth/context/auth-context'
 import { useTranslation } from 'react-i18next'
 import Spinner from '../shared/components/feedback/Spinner'
 import ProfilePreviewRoute from '../features/auth/components/ProfilePreviewRoute'
 import PreviewWorkspaceRoute from '../features/auth/components/PreviewWorkspaceRoute'
-import ProfilePage from '../features/user/pages/ProfilePage'
-import AdminDashboardPage from '../features/admin/pages/AdminDashboardPage'
+import RouteLoadingFallback from '../shared/components/feedback/RouteLoadingFallback'
+
+// Keep route screens in separate chunks and download each screen only when needed.
+const CoachDashboardPage = lazy(() => import('../features/workouts/pages/CoachDashboardPage'))
+const ExerciseLibraryPage = lazy(() => import('../features/workouts/pages/ExerciseLibraryPage'))
+const WorkoutBuilderPage = lazy(() => import('../features/workouts/pages/WorkoutBuilderPage'))
+const CoachWorkoutsPage = lazy(() => import('../features/workouts/pages/CoachWorkoutsPage'))
+const AthleteDashboardPage = lazy(() => import('../features/athlete-workouts/pages/AthleteDashboardPage'))
+const AthleteWorkoutsPage = lazy(() => import('../features/athlete-workouts/pages/AthleteWorkoutsPage'))
+const WorkoutExecutionPage = lazy(() => import('../features/athlete-workouts/pages/WorkoutExecutionPage'))
+const CoachDirectoryPage = lazy(() => import('../features/coaches/pages/CoachDirectoryPage'))
+const CoachProfilePage = lazy(() => import('../features/coaches/pages/CoachProfilePage'))
+const PublicLandingPage = lazy(() => import('../features/landing/pages/PublicLandingPage'))
+const LoginPage = lazy(() => import('../features/auth/pages/LoginPage'))
+const RegisterPage = lazy(() => import('../features/auth/pages/RegisterPage'))
+const ForgotPasswordPage = lazy(() => import('../features/auth/pages/ForgotPasswordPage'))
+const ProfilePage = lazy(() => import('../features/user/pages/ProfilePage'))
+const AdminDashboardPage = lazy(() => import('../features/admin/pages/AdminDashboardPage'))
 
 function PublicOnly({ children }: { children: ReactNode }) {
   const { isAuthenticated, isInitializing } = useAuth()
@@ -50,53 +54,56 @@ function DashboardRedirect() {
 
 function AppRouter() {
   return (
-    <Routes>
-      <Route path="/" element={<PublicLandingPage />} />
-      {import.meta.env.DEV && (
-        <>
-          <Route path="/_preview/athlete" element={<PreviewWorkspaceRoute role="ATHLETE" />}>
-            <Route index element={<AthleteDashboardPage isPreview />} />
-            <Route path="profile" element={<ProfilePage isPreview />} />
-            <Route path="workouts" element={<AthleteWorkoutsPage />} />
-            <Route path="workouts/:workoutId" element={<WorkoutExecutionPage />} />
-            <Route path="coaches" element={<CoachDirectoryPage />} />
-            <Route path="coaches/:coachId" element={<CoachProfilePage />} />
-          </Route>
-          <Route path="/_preview/admin" element={<PreviewWorkspaceRoute role="ADMIN" />}>
-            <Route index element={<AdminDashboardPage />} />
-            <Route path="profile" element={<ProfilePage isPreview />} />
-          </Route>
-          <Route path="/_preview/coach" element={<PreviewWorkspaceRoute role="COACH" />}>
-            <Route index element={<CoachDashboardPage isPreview />} />
-            <Route path="profile" element={<ProfilePage isPreview />} />
-            <Route path="exercises" element={<ExerciseLibraryPage />} />
-            <Route path="workouts" element={<CoachWorkoutsPage />} />
-            <Route path="workouts/new" element={<WorkoutBuilderPage />} />
-          </Route>
-          <Route path="/_preview/profile/athlete" element={<ProfilePreviewRoute role="ATHLETE" />} />
-          <Route path="/_preview/profile/coach" element={<ProfilePreviewRoute role="COACH" />} />
-        </>
-      )}
-      <Route path="/login" element={<PublicOnly><LoginPage /></PublicOnly>} />
-      <Route path="/register" element={<PublicOnly><RegisterPage /></PublicOnly>} />
-      <Route path="/forgot-password" element={<PublicOnly><ForgotPasswordPage /></PublicOnly>} />
-      <Route path="/dashboard" element={<RequireAuth><DashboardRedirect /></RequireAuth>} />
-      <Route path="/profile" element={<RequireAuth><ProfilePage /></RequireAuth>} />
-      <Route path="/athlete" element={<RequireAuth allowedRoles={['ATHLETE']}><AthleteDashboardPage /></RequireAuth>} />
-      <Route path="/athlete/workouts" element={<RequireAuth allowedRoles={['ATHLETE']}><AthleteWorkoutsPage /></RequireAuth>} />
-      <Route path="/athlete/workouts/:workoutId" element={<RequireAuth allowedRoles={['ATHLETE']}><WorkoutExecutionPage /></RequireAuth>} />
-      <Route path="/workouts" element={<Navigate to="/athlete/workouts" replace />} />
-      <Route path="/workouts/:workoutId" element={<RequireAuth allowedRoles={['ATHLETE']}><WorkoutExecutionPage /></RequireAuth>} />
-      <Route path="/coaches" element={<CoachDirectoryPage />} />
-      <Route path="/coaches/:coachId" element={<CoachProfilePage />} />
-      <Route path="/admin" element={<RequireAuth allowedRoles={['ADMIN']}><AdminDashboardPage /></RequireAuth>} />
-      <Route path="/coach" element={<RequireAuth allowedRoles={['COACH']}><CoachDashboardPage /></RequireAuth>} />
-      <Route path="/coach/exercises" element={<RequireAuth allowedRoles={['COACH']}><ExerciseLibraryPage /></RequireAuth>} />
-      <Route path="/coach/workouts" element={<RequireAuth allowedRoles={['COACH']}><CoachWorkoutsPage /></RequireAuth>} />
-      <Route path="/coach/workouts/new" element={<RequireAuth allowedRoles={['COACH']}><WorkoutBuilderPage /></RequireAuth>} />
-      <Route path="/account-suspended" element={<AccountSuspendedPage />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <Suspense fallback={<RouteLoadingFallback />}>
+      <Routes>
+        <Route path="/" element={<PublicLandingPage />} />
+        {import.meta.env.DEV && (
+          <>
+            <Route path="/_preview/athlete" element={<PreviewWorkspaceRoute role="ATHLETE" />}>
+              <Route index element={<AthleteDashboardPage isPreview />} />
+              <Route path="profile" element={<ProfilePage isPreview />} />
+              <Route path="workouts" element={<AthleteWorkoutsPage />} />
+              <Route path="workouts/:workoutId" element={<WorkoutExecutionPage />} />
+              <Route path="coaches" element={<CoachDirectoryPage />} />
+              <Route path="coaches/:coachId" element={<CoachProfilePage />} />
+            </Route>
+            <Route path="/_preview/admin" element={<PreviewWorkspaceRoute role="ADMIN" />}>
+              <Route index element={<AdminDashboardPage />} />
+              <Route path="profile" element={<ProfilePage isPreview />} />
+            </Route>
+            <Route path="/_preview/coach" element={<PreviewWorkspaceRoute role="COACH" />}>
+              <Route index element={<CoachDashboardPage isPreview />} />
+              <Route path="profile" element={<ProfilePage isPreview />} />
+              <Route path="exercises" element={<ExerciseLibraryPage />} />
+              <Route path="workouts" element={<CoachWorkoutsPage />} />
+              <Route path="workouts/new" element={<WorkoutBuilderPage />} />
+            </Route>
+            <Route path="/_preview/profile/athlete" element={<ProfilePreviewRoute role="ATHLETE" />} />
+            <Route path="/_preview/profile/coach" element={<ProfilePreviewRoute role="COACH" />} />
+          </>
+        )}
+        <Route path="/login" element={<PublicOnly><LoginPage /></PublicOnly>} />
+        <Route path="/register" element={<PublicOnly><RegisterPage /></PublicOnly>} />
+        <Route path="/forgot-password" element={<PublicOnly><ForgotPasswordPage /></PublicOnly>} />
+        <Route path="/dashboard" element={<RequireAuth><DashboardRedirect /></RequireAuth>} />
+        <Route path="/profile" element={<RequireAuth><ProfilePage /></RequireAuth>} />
+        <Route path="/athlete" element={<RequireAuth allowedRoles={['ATHLETE']}><AthleteDashboardPage /></RequireAuth>} />
+        <Route path="/athlete/workouts" element={<RequireAuth allowedRoles={['ATHLETE']}><AthleteWorkoutsPage /></RequireAuth>} />
+        <Route path="/athlete/workouts/:workoutId" element={<RequireAuth allowedRoles={['ATHLETE']}><WorkoutExecutionPage /></RequireAuth>} />
+        <Route path="/workouts" element={<Navigate to="/athlete/workouts" replace />} />
+        <Route path="/workouts/:workoutId" element={<RequireAuth allowedRoles={['ATHLETE']}><WorkoutExecutionPage /></RequireAuth>} />
+        <Route path="/coaches" element={<CoachDirectoryPage />} />
+        <Route path="/coaches/:coachId" element={<CoachProfilePage />} />
+        <Route path="/admin" element={<RequireAuth allowedRoles={['ADMIN']}><AdminDashboardPage /></RequireAuth>} />
+        <Route path="/coach" element={<RequireAuth allowedRoles={['COACH']}><CoachDashboardPage /></RequireAuth>} />
+        <Route path="/coach/exercises" element={<RequireAuth allowedRoles={['COACH']}><ExerciseLibraryPage /></RequireAuth>} />
+        <Route path="/coach/workouts" element={<RequireAuth allowedRoles={['COACH']}><CoachWorkoutsPage /></RequireAuth>} />
+        <Route path="/coach/workouts/new" element={<RequireAuth allowedRoles={['COACH']}><WorkoutBuilderPage /></RequireAuth>} />
+        <Route path="/account-suspended" element={<AccountSuspendedPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Suspense>
   )
 }
+
 export default AppRouter
