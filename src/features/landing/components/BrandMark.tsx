@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 function BrandMark() {
   return (
     <Link to="/" aria-label="Vigo home" className="flex items-center gap-2.5">
-      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-ink text-accent">
+      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-fg text-brand">
         <svg aria-hidden="true" viewBox="0 0 28 28" className="h-6 w-6" fill="none">
           <path
             d="m5 7 6.2 14h2.1L19.5 7h-3.3l-4 9.2L8.3 7H5Z"
@@ -16,7 +16,7 @@ function BrandMark() {
           />
         </svg>
       </span>
-      <span className="text-[19px] font-extrabold tracking-[-1px] text-ink">
+      <span className="text-[19px] font-extrabold tracking-[-1px] text-fg">
         vigo<span className="text-brand-hover">.</span>
       </span>
     </Link>
