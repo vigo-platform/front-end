@@ -675,6 +675,8 @@ const resources = {
       ,
         "Exercises in this draft": "Exercises in this draft: {{count}}",
         "Add exercises": "Add exercises",
+      
+        "Coach application": "Coach application",
       }
     }
   },
@@ -1350,6 +1352,8 @@ const resources = {
       ,
         "Exercises in this draft": "تعداد حرکات در پیش‌نویس: {{count}}",
         "Add exercises": "افزودن حرکت",
+      
+        "Coach application": "درخواست مربی‌گری",
       }
     }
   }
