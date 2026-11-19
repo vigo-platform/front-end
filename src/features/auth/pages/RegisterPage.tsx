@@ -8,7 +8,7 @@ import { useAuthConfig } from '../hooks/useAuthConfig'
 import type { OtpChannel } from '../types/auth-config.types'
 import { useAuth } from '../context/auth-context'
 import { useTranslation } from 'react-i18next'
-import Spinner from '../../../shared/components/feedback/Spinner'
+import { Button, Input } from '../../../shared/components/ui'
 
 type RegisterStep = 'IDENTIFIER' | 'VERIFY' | 'COMPLETE' | 'SUCCESS'
 
@@ -197,25 +197,7 @@ function RegisterPage() {
               onSubmit={handleVerifySubmit}
               className="flex flex-col gap-4"
             >
-              <div className="flex flex-col gap-2">
-                <label htmlFor="otp" className={labelClassName}>
-                  {t("ui.Verification code")}
-                </label>
-
-                <input
-                  id="otp"
-                  type="text"
-                  inputMode="numeric"
-                  autoComplete="one-time-code"
-                  placeholder={t("ui.Enter code")}
-                  value={otp}
-                  onChange={(event) => setOtp(event.target.value)}
-                  minLength={5}
-                  maxLength={6}
-                  required
-                  className={inputClassName}
-                />
-              </div>
+              <Input id="otp" label={t("ui.Verification code")} labelClassName={labelClassName} type="text" inputMode="numeric" autoComplete="one-time-code" placeholder={t("ui.Enter code")} value={otp} onChange={(event) => setOtp(event.target.value)} minLength={5} maxLength={6} required className={inputClassName} />
 
               <p className="text-[11px] text-[#55554f]">
                 {t('ui.Didn\'t receive the code?')}{' '}
@@ -235,13 +217,7 @@ function RegisterPage() {
                 </p>
               )}
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {isLoading && <Spinner size="sm" />}{t('ui.Verify')}
-              </button>
+              <Button type="submit" loading={isLoading} className="h-11 w-full text-[13px]">{t('ui.Verify')}</Button>
 
               <button
                 type="button"
@@ -270,69 +246,13 @@ function RegisterPage() {
               onSubmit={handleCompleteSubmit}
               className="flex flex-col gap-4"
             >
-              <div className="flex flex-col gap-2">
-                <label htmlFor="firstName" className={labelClassName}>
-                  {t("ui.First name")}
-                </label>
+              <Input id="firstName" label={t("ui.First name")} labelClassName={labelClassName} type="text" autoComplete="given-name" placeholder={t("ui.First name")} value={firstName} onChange={(event) => setFirstName(event.target.value)} required className={inputClassName} />
 
-                <input
-                  id="firstName"
-                  type="text"
-                  autoComplete="given-name"
-                  placeholder={t("ui.First name")}
-                  value={firstName}
-                  onChange={(event) => setFirstName(event.target.value)}
-                  required
-                  className={inputClassName}
-                />
-              </div>
+              <Input id="lastName" label={t("ui.Last name")} labelClassName={labelClassName} type="text" autoComplete="family-name" placeholder={t("ui.Last name")} value={lastName} onChange={(event) => setLastName(event.target.value)} required className={inputClassName} />
 
-              <div className="flex flex-col gap-2">
-                <label htmlFor="lastName" className={labelClassName}>
-                  {t("ui.Last name")}
-                </label>
-
-                <input
-                  id="lastName"
-                  type="text"
-                  autoComplete="family-name"
-                  placeholder={t("ui.Last name")}
-                  value={lastName}
-                  onChange={(event) => setLastName(event.target.value)}
-                  required
-                  className={inputClassName}
-                />
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <label htmlFor="password" className={labelClassName}>
-                  {t("ui.Password")}
-                </label>
-
-                <div className="relative">
-                  <input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    autoComplete="new-password"
-                    placeholder={t("ui.Create a password")}
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    minLength={8}
-                    maxLength={72}
-                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,32}"
-                    required
-                    className={`${inputClassName} pe-11`}
-                  />
-
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword((previous) => !previous)}
-                    aria-label={showPassword ? t('ui.Hide password') : t('ui.Show password')}
-                    className="absolute inset-y-0 end-0 flex w-11 items-center justify-center text-[#55554f] hover:text-ink"
-                  >
-                    {showPassword ? t('ui.Hide') : t('ui.Show')}
-                  </button>
-                </div>
+              <div className="relative">
+                <Input id="password" label={t("ui.Password")} labelClassName={labelClassName} type={showPassword ? 'text' : 'password'} autoComplete="new-password" placeholder={t("ui.Create a password")} value={password} onChange={(event) => setPassword(event.target.value)} minLength={8} maxLength={72} pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,32}" required className={`${inputClassName} pe-11`} />
+                <button type="button" onClick={() => setShowPassword((previous) => !previous)} aria-label={showPassword ? t('ui.Hide password') : t('ui.Show password')} className="absolute bottom-0 end-0 flex h-11 w-11 items-center justify-center text-[#55554f] hover:text-ink">{showPassword ? t('ui.Hide') : t('ui.Show')}</button>
               </div>
 
               {errorMessage && (
@@ -341,13 +261,7 @@ function RegisterPage() {
                 </p>
               )}
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="mt-1 flex h-10 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {isLoading && <Spinner size="sm" />}{t('ui.Create account')}
-              </button>
+              <Button type="submit" loading={isLoading} className="mt-1 h-10 w-full text-[13px]">{t('ui.Create account')}</Button>
 
               <button
                 type="button"
@@ -370,13 +284,7 @@ function RegisterPage() {
               {t("ui.Your account is ready. You can now log in to continue.")}
             </p>
 
-            <button
-              type="button"
-              onClick={() => navigate('/login')}
-              className="flex h-10 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep"
-            >
-              {t("ui.Log in")}
-            </button>
+            <Button type="button" onClick={() => navigate('/login')} className="h-10 w-full text-[13px]">{t("ui.Log in")}</Button>
           </div>
         )}
       </div>
