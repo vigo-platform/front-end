@@ -101,7 +101,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
           </article>
         </section>
 
-        <section className="relative flex min-h-[250px] flex-col justify-between overflow-hidden rounded-[22px] bg-sidebar p-7 text-fg-inverse sm:p-9">
+        <section className="relative flex min-h-[250px] flex-col justify-between overflow-hidden rounded-[22px] bg-sidebar p-7 text-sidebar-fg sm:p-9">
           <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-24 h-[330px] w-[330px] rounded-full border-[48px] border-sidebar-fg/[0.04]" />
           <div className="relative max-w-xl">
             <span className="inline-flex items-center gap-2 rounded-full bg-surface/10 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[1.2px] text-sidebar-active">
@@ -111,14 +111,14 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
             <h2 className="mt-6 max-w-lg text-[29px] font-bold leading-[1.12] tracking-[-1.1px] sm:text-[36px]">
               {t("ui.Find the coach who moves you forward.")}
             </h2>
-            <p className="mt-3 max-w-md text-[12px] leading-6 text-fg-inverse/60">
+            <p className="mt-3 max-w-md text-[12px] leading-6 text-sidebar-fg/60">
               {t("ui.Browse approved coach profiles and compare their experience and specialties.")}
             </p>
           </div>
           <Link to="/coaches" className="relative mt-8 inline-flex h-11 w-fit items-center gap-3 rounded-full bg-brand px-5 text-[11px] font-bold text-on-brand transition hover:bg-brand-hover">
             {t("ui.Explore coaches")} <span aria-hidden="true">→</span>
           </Link>
-          <span aria-hidden="true" className="pointer-events-none absolute bottom-0 right-8 text-[150px] font-black leading-none tracking-[-16px] text-fg-inverse/[0.045]">V</span>
+          <span aria-hidden="true" className="pointer-events-none absolute bottom-0 right-8 text-[150px] font-black leading-none tracking-[-16px] text-sidebar-fg/[0.045]">V</span>
         </section>
 
         <section>
