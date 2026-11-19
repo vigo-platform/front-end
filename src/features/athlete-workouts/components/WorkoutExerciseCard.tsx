@@ -25,10 +25,10 @@ function WorkoutExerciseCard({
 }: WorkoutExerciseCardProps) {
   const { t } = useTranslation()
   return (
-    <section className="rounded-2xl border border-border bg-white p-5 sm:p-6">
+    <section className="rounded-2xl border border-border bg-surface p-5 sm:p-6">
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-start gap-3">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#f0f5e8] text-xs font-bold text-[#607b38]">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-surface-muted text-xs font-bold text-success-fg">
             {String(exerciseIndex + 1).padStart(2, '0')}
           </span>
           <div className="min-w-0">
@@ -77,7 +77,7 @@ function WorkoutExerciseCard({
                     onInputChange(key, 'actual_reps', event.target.value)
                   }
                   placeholder={String(exercise.reps)}
-                  className="h-11 w-full rounded-xl border border-border px-3 text-sm outline-none focus:border-[#8da85d]"
+                  className="h-11 w-full rounded-xl border border-border px-3 text-sm outline-none focus:border-brand-hover"
                 />
               </label>
               <label className="min-w-0">
@@ -95,7 +95,7 @@ function WorkoutExerciseCard({
                     onInputChange(key, 'weight_kg', event.target.value)
                   }
                   placeholder={t('ui.Optional')}
-                  className="h-11 w-full rounded-xl border border-border px-3 text-sm outline-none focus:border-[#8da85d]"
+                  className="h-11 w-full rounded-xl border border-border px-3 text-sm outline-none focus:border-brand-hover"
                 />
               </label>
             </div>

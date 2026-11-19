@@ -36,7 +36,7 @@ function RegisterIdentifierStep({
   const { t } = useTranslation()
   const isEmail = activeChannel === 'EMAIL'
   const inputClassName =
-    'h-11 w-full rounded-md border border-border bg-white px-3 text-[13px] text-ink outline-none transition placeholder:text-[#999991] focus:border-ink'
+    'h-11 w-full rounded-md border border-border bg-surface px-3 text-[13px] text-ink outline-none transition placeholder:text-fg-muted focus:border-ink'
   const labelClassName = 'text-[11px] font-medium text-ink'
 
   return (
@@ -45,7 +45,7 @@ function RegisterIdentifierStep({
         <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-ink">
           {t("ui.Create your account")}
         </h1>
-        <p className="text-[12px] leading-relaxed text-[#55554f]">
+        <p className="text-[12px] leading-relaxed text-fg-secondary">
           {t("ui.Join Vigo to bring your training and coaching together.")}
         </p>
       </div>
@@ -53,13 +53,13 @@ function RegisterIdentifierStep({
       {isConfigLoading ? (
         <AuthOptionsSkeleton />
       ) : isRegistrationDisabled ? (
-        <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
+        <p role="status" className="rounded-md bg-surface-muted px-3 py-3 text-[12px] text-fg-secondary">
           {configError || 'Registration is currently disabled. Please try again later.'}
         </p>
       ) : availableChannels.length === 0 ? (
         <p
           role="status"
-          className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] leading-relaxed text-[#55554f]"
+          className="rounded-md bg-surface-muted px-3 py-3 text-[12px] leading-relaxed text-fg-secondary"
         >
           {t("ui.Registration is currently unavailable. Please try again later.")}
         </p>
@@ -85,12 +85,12 @@ function RegisterIdentifierStep({
             className={inputClassName}
           />
 
-          <p className="-mt-1 text-[12px] text-[#62625c]">
+          <p className="-mt-1 text-[12px] text-fg-secondary">
             {isEmail ? t('ui.We\'ll send a verification code to this email address.') : t('ui.We\'ll use this phone number for your registration.')}
           </p>
 
           {configError && (
-            <p role="alert" className="text-[12px] text-red-600">
+            <p role="alert" className="text-[12px] text-danger-fg">
               {configError}
             </p>
           )}
@@ -98,7 +98,7 @@ function RegisterIdentifierStep({
           {errorMessage && (
             <p
               role="alert"
-              className="rounded-md bg-red-50 px-3 py-2 text-[12px] leading-relaxed text-red-700"
+              className="rounded-md bg-danger-surface px-3 py-2 text-[12px] leading-relaxed text-danger-fg"
             >
               {errorMessage}
             </p>
@@ -110,7 +110,7 @@ function RegisterIdentifierStep({
         </form>
       )}
 
-      <p className="mt-6 text-center text-[11px] text-[#33332f]">
+      <p className="mt-6 text-center text-[11px] text-fg">
         Already have an account?{' '}
         <Link
           to="/login"

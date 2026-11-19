@@ -35,8 +35,8 @@ function OtpChannelSelector({
               aria-pressed={isSelected}
               className={`h-9 rounded-md text-[12px] font-medium transition ${
                 isSelected
-                  ? 'bg-white text-ink shadow-sm'
-                  : 'text-[#77776f] hover:text-ink'
+                  ? 'bg-surface text-ink shadow-sm'
+                  : 'text-fg-secondary hover:text-ink'
               }`}
             >
               {channel === 'EMAIL' ? t('ui.Email') : t('ui.Phone')}

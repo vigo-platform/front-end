@@ -22,21 +22,21 @@ function DashboardPage() {
         <section>
           <h2 className="mb-4 text-lg font-semibold">{t("ui.Your Progress")}</h2>
           <div className="grid grid-cols-3 gap-4">
-            <div className="rounded-2xl border border-border bg-white p-5">
+            <div className="rounded-2xl border border-border bg-surface p-5">
               <p className="text-sm text-muted">{t("ui.Completed Workouts")}</p>
               <p className="mt-2 text-2xl font-bold">
                 {stats.completed_workouts}
               </p>
             </div>
 
-            <div className="rounded-2xl border border-border bg-white p-5">
+            <div className="rounded-2xl border border-border bg-surface p-5">
               <p className="text-sm text-muted">{t("ui.Training Hours")}</p>
               <p className="mt-2 text-2xl font-bold">
                 {stats.training_hours}
               </p>
             </div>
 
-            <div className="rounded-2xl border border-border bg-white p-5">
+            <div className="rounded-2xl border border-border bg-surface p-5">
               <p className="text-sm text-muted">{t("ui.Current Streak")}</p>
               <p className="mt-2 text-2xl font-bold">
                 {stats.current_streak_days} days
@@ -45,14 +45,14 @@ function DashboardPage() {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-border bg-white p-6">
+        <section className="rounded-2xl border border-border bg-surface p-6">
           <h2 className="text-lg font-semibold">{t("ui.Your Coach")}</h2>
           <p className="mt-3 font-medium">{coach.display_name}</p>
           <p className="mt-1 text-sm text-muted">{coach.headline}</p>
           <p className="mt-4 text-sm">Current plan: {plan.title}</p>
         </section>
 
-        <section className="rounded-2xl border border-border bg-white p-6">
+        <section className="rounded-2xl border border-border bg-surface p-6">
           <h2 className="text-lg font-semibold">{t("ui.Next Workout")}</h2>
           <h3 className="mt-3 font-medium">{next_workout.title}</h3>
           <p className="mt-2 text-sm text-muted">
@@ -68,7 +68,7 @@ function DashboardPage() {
             {assigned_workouts.map((workout) => (
               <article
                 key={workout.id}
-                className="rounded-2xl border border-border bg-white p-5"
+                className="rounded-2xl border border-border bg-surface p-5"
               >
                 <h3 className="font-semibold">{workout.title}</h3>
                 <p className="mt-2 text-sm text-muted">

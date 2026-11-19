@@ -17,7 +17,7 @@ interface PasswordLoginFormProps {
 }
 
 const inputClassName =
-  'h-11 w-full rounded-md border border-border bg-white px-3 text-[13px] text-ink outline-none transition placeholder:text-[#999991] focus:border-ink'
+  'h-11 w-full rounded-md border border-border bg-surface px-3 text-[13px] text-ink outline-none transition placeholder:text-fg-muted focus:border-ink'
 const labelClassName = 'text-[11px] font-medium text-ink'
 
 function PasswordLoginForm({
@@ -158,7 +158,7 @@ function PasswordLoginForm({
               ? t('ui.Verify your identity')
               : t('ui.Update your password')}
         </h1>
-        <p className="text-[13px] leading-[1.6] text-[#55554f]">
+        <p className="text-[13px] leading-[1.6] text-fg-secondary">
           {step === 'CREDENTIALS'
             ? t('ui.Enter your email or phone number and password.')
             : step === 'VERIFY'
@@ -171,7 +171,7 @@ function PasswordLoginForm({
         isConfigLoading ? (
           <AuthOptionsSkeleton />
         ) : isLoginDisabled ? (
-          <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
+          <p role="status" className="rounded-md bg-surface-muted px-3 py-3 text-[12px] text-fg-secondary">
             {configError || t('ui.Login is currently disabled. Please try again later.')}
           </p>
         ) : (
@@ -179,7 +179,7 @@ function PasswordLoginForm({
           <Input id="password-login-identifier" label={t("ui.Email or phone number")} labelClassName={labelClassName} type="text" autoComplete="username" value={identifier} onChange={(event) => setIdentifier(event.target.value)} required className={inputClassName} />
           <Input id="password-login-password" label={t("ui.Password")} labelClassName={labelClassName} type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required maxLength={72} className={inputClassName} />
           {errorMessage && (
-            <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">
+            <p role="alert" className="rounded-md bg-danger-surface px-3 py-2 text-[12px] text-danger-fg">
               {errorMessage}
             </p>
           )}
@@ -192,7 +192,7 @@ function PasswordLoginForm({
         <form onSubmit={handleVerify} className="flex flex-col gap-4">
           <Input id="password-login-otp" label={t("ui.Verification code")} labelClassName={labelClassName} type="text" inputMode="numeric" autoComplete="one-time-code" value={otp} onChange={(event) => setOtp(event.target.value)} minLength={6} maxLength={6} pattern="[0-9]{6}" required className={inputClassName} />
           {errorMessage && (
-            <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">
+            <p role="alert" className="rounded-md bg-danger-surface px-3 py-2 text-[12px] text-danger-fg">
               {errorMessage}
             </p>
           )}
@@ -207,7 +207,7 @@ function PasswordLoginForm({
         <form onSubmit={handlePasswordUpdate} className="flex flex-col gap-4">
           <Input id="expired-new-password" label={t("ui.New password")} labelClassName={labelClassName} type="password" autoComplete="new-password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} minLength={8} maxLength={72} required className={inputClassName} />
           {errorMessage && (
-            <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">
+            <p role="alert" className="rounded-md bg-danger-surface px-3 py-2 text-[12px] text-danger-fg">
               {errorMessage}
             </p>
           )}

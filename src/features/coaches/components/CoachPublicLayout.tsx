@@ -24,16 +24,16 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
   const coachesPath = isPreview ? '/_preview/athlete/coaches' : '/coaches'
   return (
     <div className="min-h-screen bg-canvas text-ink">
-      <header className="border-b border-border bg-white">
+      <header className="border-b border-border bg-surface">
         <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
           <Link to={homePath} className="text-xl font-extrabold tracking-tight">
-            Vigo<span className="text-[#9bcf3f]">.</span>
+            Vigo<span className="text-brand-hover">.</span>
           </Link>
           <div className="flex items-center gap-3">
             <ThemeSwitcher />
             <nav aria-label={t('navigation.main')} className="flex items-center gap-4">
             {isAuthenticated ? (
-              <Link to={homePath} className="inline-flex items-center gap-2 rounded-full border border-border bg-canvas px-4 py-2.5 text-xs font-semibold text-ink transition hover:bg-[#eef2e7]">
+              <Link to={homePath} className="inline-flex items-center gap-2 rounded-full border border-border bg-canvas px-4 py-2.5 text-xs font-semibold text-ink transition hover:bg-surface-muted">
                 <span aria-hidden="true">←</span> {t('ui.Back to dashboard')}
               </Link>
             ) : (

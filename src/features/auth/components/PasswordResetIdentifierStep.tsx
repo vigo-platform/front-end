@@ -17,7 +17,7 @@ interface PasswordResetIdentifierStepProps {
 }
 
 const inputClassName =
-  'h-11 w-full rounded-md border border-border bg-white px-3 text-[13px] text-ink outline-none transition placeholder:text-[#999991] focus:border-ink'
+  'h-11 w-full rounded-md border border-border bg-surface px-3 text-[13px] text-ink outline-none transition placeholder:text-fg-muted focus:border-ink'
 const labelClassName = 'text-[11px] font-medium text-ink'
 
 function PasswordResetIdentifierStep({
@@ -39,7 +39,7 @@ function PasswordResetIdentifierStep({
         <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
           {t("ui.Reset your password")}
         </h1>
-        <p className="text-[13px] leading-[1.6] text-[#55554f]">
+        <p className="text-[13px] leading-[1.6] text-fg-secondary">
           {t("ui.Enter the email address or phone number linked to your account.")}
         </p>
       </div>
@@ -66,7 +66,7 @@ function PasswordResetIdentifierStep({
         {errorMessage && (
           <p
             role="alert"
-            className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700"
+            className="rounded-md bg-danger-surface px-3 py-2 text-[12px] text-danger-fg"
           >
             {errorMessage}
           </p>
@@ -76,7 +76,7 @@ function PasswordResetIdentifierStep({
         </Button>
       </form>
 
-      <p className="mt-7 text-center text-[11px] text-[#33332f]">
+      <p className="mt-7 text-center text-[11px] text-fg">
         Remember your password?{' '}
         <Link to="/login" className="ms-1 font-medium text-ink hover:underline">
           {t("ui.Log in")}
