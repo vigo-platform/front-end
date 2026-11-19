@@ -4,6 +4,8 @@ import { ApiError } from '../../../shared/api/client'
 import { useAuth } from '../context/auth-context'
 import { authService } from '../services/auth.service'
 import { useTranslation } from 'react-i18next'
+import Spinner from '../../../shared/components/feedback/Spinner'
+import { AuthOptionsSkeleton } from '../../../shared/components/feedback/LoadingStates'
 
 type Step = 'CREDENTIALS' | 'VERIFY' | 'NEW_PASSWORD'
 
@@ -167,7 +169,7 @@ function PasswordLoginForm({
 
       {step === 'CREDENTIALS' && (
         isConfigLoading ? (
-          <p className="text-[12px] text-[#77776f]">{t("ui.Loading login options...")}</p>
+          <AuthOptionsSkeleton />
         ) : isLoginDisabled ? (
           <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
             {configError || t('ui.Login is currently disabled. Please try again later.')}
@@ -213,7 +215,7 @@ function PasswordLoginForm({
             disabled={isLoading}
             className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isLoading ? t('ui.Signing in...') : t('ui.Log in')}
+            {isLoading && <Spinner size="sm" />}{t('ui.Log in')}
           </button>
         </form>
         )
@@ -249,7 +251,7 @@ function PasswordLoginForm({
             disabled={isLoading}
             className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60"
           >
-            {isLoading ? t('ui.Verifying...') : t('ui.Verify')}
+            {isLoading && <Spinner size="sm" />}{t('ui.Verify')}
           </button>
           <button type="button" onClick={() => setStep('CREDENTIALS')} className="h-8 text-[11px] text-ink hover:underline">
             {t("ui.Back")}
@@ -285,7 +287,7 @@ function PasswordLoginForm({
             disabled={isLoading}
             className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60"
           >
-            {isLoading ? t('ui.Updating...') : t('ui.Update password')}
+            {isLoading && <Spinner size="sm" />}{t('ui.Update password')}
           </button>
         </form>
       )}
