@@ -1,6 +1,5 @@
 import { useAuth } from '../../../features/auth/context/auth-context'
 import { useTranslation } from 'react-i18next'
-import LanguageSwitcher from '../LanguageSwitcher'
 
 interface TopBarProps {
   title: string
@@ -37,7 +36,6 @@ function TopBar({ title }: TopBarProps) {
       </div>
 
       <div className="flex items-center gap-3">
-        <LanguageSwitcher />
         <div className="hidden text-right sm:block">
           <p className="max-w-40 truncate text-[10px] font-semibold text-[#292a25]">{displayName}</p>
           <p className="mt-0.5 text-[9px] text-[#92928a]">{roleLabel}</p>
