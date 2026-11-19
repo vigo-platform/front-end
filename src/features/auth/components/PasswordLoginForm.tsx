@@ -17,8 +17,8 @@ interface PasswordLoginFormProps {
 }
 
 const inputClassName =
-  'h-11 w-full rounded-md border border-border bg-surface px-3 text-[13px] text-ink outline-none transition placeholder:text-fg-muted focus:border-ink'
-const labelClassName = 'text-[11px] font-medium text-ink'
+  'h-11 w-full rounded-md border border-border-default bg-surface px-3 text-[13px] text-fg outline-none transition placeholder:text-fg-muted focus:border-ink'
+const labelClassName = 'text-[11px] font-medium text-fg'
 
 function PasswordLoginForm({
   isConfigLoading,
@@ -151,7 +151,7 @@ function PasswordLoginForm({
   return (
     <div className="w-full">
       <div className="mb-7">
-        <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
+        <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-fg">
           {step === 'CREDENTIALS'
             ? t('ui.Log in with your password')
             : step === 'VERIFY'
@@ -197,7 +197,7 @@ function PasswordLoginForm({
             </p>
           )}
           <Button type="submit" loading={isLoading} size="md" className="h-11 w-full text-[13px]">{t('ui.Verify')}</Button>
-          <button type="button" onClick={() => setStep('CREDENTIALS')} className="h-8 text-[11px] text-ink hover:underline">
+          <button type="button" onClick={() => setStep('CREDENTIALS')} className="h-8 text-[11px] text-fg hover:underline">
             {t("ui.Back")}
           </button>
         </form>
@@ -216,10 +216,10 @@ function PasswordLoginForm({
       )}
 
       <div className="mt-5 flex flex-col items-center gap-3 text-center text-[11px]">
-        <button type="button" onClick={onUseOtp} className="font-medium text-ink hover:underline">
+        <button type="button" onClick={onUseOtp} className="font-medium text-fg hover:underline">
           {t("ui.Use a verification code instead")}
         </button>
-        <Link to="/forgot-password" className="font-medium text-ink hover:underline">
+        <Link to="/forgot-password" className="font-medium text-fg hover:underline">
           {t("ui.Forgot password?")}
         </Link>
       </div>
