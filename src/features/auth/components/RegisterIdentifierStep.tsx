@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import OtpChannelSelector from './OtpChannelSelector'
 import type { OtpChannel } from '../types/auth-config.types'
 import { useTranslation } from 'react-i18next'
-import Spinner from '../../../shared/components/feedback/Spinner'
+import { Button, Input } from '../../../shared/components/ui'
 import { AuthOptionsSkeleton } from '../../../shared/components/feedback/LoadingStates'
 
 interface RegisterIdentifierStepProps {
@@ -71,22 +71,19 @@ function RegisterIdentifierStep({
             onChange={onChannelChange}
           />
 
-          <div className="flex flex-col gap-2">
-            <label htmlFor="identifier" className={labelClassName}>
-              {t(isEmail ? 'ui.Email address' : 'ui.Phone number')}
-            </label>
-            <input
-              id="identifier"
-              type={isEmail ? 'email' : 'tel'}
-              inputMode={isEmail ? 'email' : 'tel'}
-              autoComplete={isEmail ? 'email' : 'tel'}
-              placeholder={isEmail ? 'you@example.com' : t('ui.Enter your phone number')}
-              value={identifier}
-              onChange={(event) => onIdentifierChange(event.target.value)}
-              required
-              className={inputClassName}
-            />
-          </div>
+          <Input
+            id="identifier"
+            label={t(isEmail ? 'ui.Email address' : 'ui.Phone number')}
+            labelClassName={labelClassName}
+            type={isEmail ? 'email' : 'tel'}
+            inputMode={isEmail ? 'email' : 'tel'}
+            autoComplete={isEmail ? 'email' : 'tel'}
+            placeholder={isEmail ? 'you@example.com' : t('ui.Enter your phone number')}
+            value={identifier}
+            onChange={(event) => onIdentifierChange(event.target.value)}
+            required
+            className={inputClassName}
+          />
 
           <p className="-mt-1 text-[12px] text-[#62625c]">
             {isEmail ? t('ui.We\'ll send a verification code to this email address.') : t('ui.We\'ll use this phone number for your registration.')}
@@ -107,13 +104,9 @@ function RegisterIdentifierStep({
             </p>
           )}
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="flex h-10 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isLoading && <Spinner size="sm" />}{'Continue'}
-          </button>
+          <Button type="submit" loading={isLoading} className="h-10 w-full text-[13px]">
+            Continue
+          </Button>
         </form>
       )}
 
