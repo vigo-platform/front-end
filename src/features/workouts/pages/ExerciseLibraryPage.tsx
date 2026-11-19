@@ -18,7 +18,7 @@ const categoryLabels: Record<CategoryFilter, string> = {
 }
 
 function ExerciseLibraryPage() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const { isPreview } = useAuth()
   const coachPath = isPreview ? '/_preview/coach' : '/coach'
   const [search, setSearch] = useState('')
@@ -48,7 +48,7 @@ function ExerciseLibraryPage() {
 
       return matchesCategory && searchableText.includes(normalizedSearch)
     })
-  }, [category, search, i18n.language, t])
+  }, [category, search, t])
 
   function toggleExercise(exerciseId: string) {
     const draft = loadWorkoutDraft()
