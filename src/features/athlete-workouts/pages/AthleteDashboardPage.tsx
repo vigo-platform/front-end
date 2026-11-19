@@ -52,7 +52,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
       })
 
     return () => { active = false }
-  }, [])
+  }, [t])
 
   const uniqueSpecialties = new Set(coaches.flatMap((coach) => coach.specialties ?? [])).size
 
