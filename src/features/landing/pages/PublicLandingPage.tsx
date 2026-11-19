@@ -113,7 +113,7 @@ function PublicLandingPage() {
             aria-label={menuOpen ? t('ui.Close navigation menu') : t('ui.Open navigation menu')}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((open) => !open)}
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-border text-fg md:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-xl border border-border-default text-fg md:hidden"
           >
             {menuOpen ? (
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
@@ -136,7 +136,7 @@ function PublicLandingPage() {
                   {t('ui.' + item.label)}
                 </a>
               ))}
-              <div className="flex flex-wrap gap-4 border-t border-border pt-4">
+              <div className="flex flex-wrap gap-4 border-t border-border-default pt-4">
                 <Link to="/coaches" onClick={closeMenu} className="text-sm font-semibold text-success-fg">{t("ui.Find a coach")}</Link>
                 <Link to="/login" onClick={closeMenu} className="text-sm font-semibold">{t("ui.Log in")}</Link>
                 <Link to="/register" onClick={closeMenu} className="text-sm font-semibold text-success-fg">{t("ui.Get started")}</Link>
