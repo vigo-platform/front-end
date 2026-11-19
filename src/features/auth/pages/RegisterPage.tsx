@@ -159,9 +159,9 @@ function RegisterPage() {
   }
 
   const inputClassName =
-    'h-11 w-full rounded-md border border-border bg-surface px-3 text-[13px] text-ink outline-none transition placeholder:text-fg-muted focus:border-ink'
+    'h-11 w-full rounded-md border border-border bg-surface px-3 text-[13px] text-fg outline-none transition placeholder:text-fg-muted focus:border-fg'
 
-  const labelClassName = 'text-[11px] font-medium text-ink'
+  const labelClassName = 'text-[11px] font-medium text-fg'
 
   return (
     <AuthLayout>
@@ -185,7 +185,7 @@ function RegisterPage() {
         {step === 'VERIFY' && (
           <>
             <div className="mb-6">
-              <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-ink">
+              <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-fg">
                 {t("ui.Verify your contact")}
               </h1>
 
@@ -206,7 +206,7 @@ function RegisterPage() {
                   type="button"
                   onClick={handleResendCode}
                   disabled={isLoading || isResending}
-                  className="inline-flex items-center gap-2 font-medium text-ink hover:underline disabled:opacity-50"
+                  className="inline-flex items-center gap-2 font-medium text-fg hover:underline disabled:opacity-50"
                 >
                   {isResending && <Spinner size="sm" />}{t("ui.Resend code")}
                 </button>
@@ -223,7 +223,7 @@ function RegisterPage() {
               <button
                 type="button"
                 onClick={goBack}
-                className="h-8 text-[11px] text-ink hover:underline"
+                className="h-8 text-[11px] text-fg hover:underline"
               >
                 {t("ui.Back")}
               </button>
@@ -234,7 +234,7 @@ function RegisterPage() {
         {step === 'COMPLETE' && (
           <>
             <div className="mb-6">
-              <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-ink">
+              <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-fg">
                 {t("ui.Complete your registration")}
               </h1>
 
@@ -253,7 +253,7 @@ function RegisterPage() {
 
               <div className="relative">
                 <Input id="password" label={t("ui.Password")} labelClassName={labelClassName} type={showPassword ? 'text' : 'password'} autoComplete="new-password" placeholder={t("ui.Create a password")} value={password} onChange={(event) => setPassword(event.target.value)} minLength={8} maxLength={72} pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,32}" required className={`${inputClassName} pe-11`} />
-                <button type="button" onClick={() => setShowPassword((previous) => !previous)} aria-label={showPassword ? t('ui.Hide password') : t('ui.Show password')} className="absolute bottom-0 end-0 flex h-11 w-11 items-center justify-center text-fg-secondary hover:text-ink">{showPassword ? t('ui.Hide') : t('ui.Show')}</button>
+                <button type="button" onClick={() => setShowPassword((previous) => !previous)} aria-label={showPassword ? t('ui.Hide password') : t('ui.Show password')} className="absolute bottom-0 end-0 flex h-11 w-11 items-center justify-center text-fg-secondary hover:text-fg">{showPassword ? t('ui.Hide') : t('ui.Show')}</button>
               </div>
 
               {errorMessage && (
@@ -267,7 +267,7 @@ function RegisterPage() {
               <button
                 type="button"
                 onClick={goBack}
-                className="h-7 text-[11px] text-ink hover:underline"
+                className="h-7 text-[11px] text-fg hover:underline"
               >
                 {t("ui.Back")}
               </button>
@@ -277,7 +277,7 @@ function RegisterPage() {
 
         {step === 'SUCCESS' && (
           <div>
-            <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-ink">
+            <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-fg">
               {t("ui.Account created")}
             </h1>
 
