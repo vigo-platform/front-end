@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import OtpChannelSelector from './OtpChannelSelector'
 import type { OtpChannel } from '../types/auth-config.types'
 import { useTranslation } from 'react-i18next'
-import Spinner from '../../../shared/components/feedback/Spinner'
+import { Button, Input } from '../../../shared/components/ui'
 
 interface PasswordResetIdentifierStepProps {
   channels: OtpChannel[]
@@ -50,22 +50,19 @@ function PasswordResetIdentifierStep({
           value={channel}
           onChange={onChannelChange}
         />
-        <div className="flex flex-col gap-2">
-          <label htmlFor="reset-identifier" className={labelClassName}>
-            {t(isEmail ? 'ui.Email address' : 'ui.Phone number')}
-          </label>
-          <input
-            id="reset-identifier"
-            type={isEmail ? 'email' : 'tel'}
-            inputMode={isEmail ? 'email' : 'tel'}
-            autoComplete={isEmail ? 'email' : 'tel'}
-            placeholder={isEmail ? 'you@example.com' : '09123456789'}
-            value={identifier}
-            onChange={(event) => onIdentifierChange(event.target.value)}
-            required
-            className={inputClassName}
-          />
-        </div>
+        <Input
+          id="reset-identifier"
+          label={t(isEmail ? 'ui.Email address' : 'ui.Phone number')}
+          labelClassName={labelClassName}
+          type={isEmail ? 'email' : 'tel'}
+          inputMode={isEmail ? 'email' : 'tel'}
+          autoComplete={isEmail ? 'email' : 'tel'}
+          placeholder={isEmail ? 'you@example.com' : '09123456789'}
+          value={identifier}
+          onChange={(event) => onIdentifierChange(event.target.value)}
+          required
+          className={inputClassName}
+        />
         {errorMessage && (
           <p
             role="alert"
@@ -74,13 +71,9 @@ function PasswordResetIdentifierStep({
             {errorMessage}
           </p>
         )}
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60"
-        >
-          {isLoading && <Spinner size="sm" />}{'Send verification code'}
-        </button>
+        <Button type="submit" loading={isLoading} className="h-11 w-full text-[13px]">
+          Send verification code
+        </Button>
       </form>
 
       <p className="mt-7 text-center text-[11px] text-[#33332f]">
