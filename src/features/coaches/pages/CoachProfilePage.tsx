@@ -39,7 +39,7 @@ function CoachProfilePage() {
     return () => {
       isActive = false
     }
-  }, [coachId])
+  }, [coachId, t])
 
   const avatarUrl = getAvatarUrl(coach?.avatar_url)
 
