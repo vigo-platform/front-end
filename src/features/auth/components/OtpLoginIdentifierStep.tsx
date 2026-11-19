@@ -45,10 +45,10 @@ function OtpLoginIdentifierStep({
   return (
     <>
       <div className="mb-7">
-        <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
+        <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-fg">
           {t("ui.Welcome back")}
         </h1>
-        <p className="text-[13px] leading-[1.6] text-[#55554f]">
+        <p className="text-[13px] leading-[1.6] text-fg-secondary">
           {t("ui.Log in to your Vigo workspace and pick up where you left off.")}
         </p>
       </div>
@@ -56,13 +56,13 @@ function OtpLoginIdentifierStep({
       {isConfigLoading ? (
         <AuthOptionsSkeleton />
       ) : isLoginDisabled ? (
-        <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
+        <p role="status" className="rounded-md bg-surface-muted px-3 py-3 text-[12px] text-fg-secondary">
           {configError || 'Login is currently disabled. Please try again later.'}
         </p>
       ) : channels.length === 0 ? (
         <p
           role="status"
-          className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] leading-relaxed text-[#55554f]"
+          className="rounded-md bg-surface-muted px-3 py-3 text-[12px] leading-relaxed text-fg-secondary"
         >
           {t("ui.Login is currently unavailable. Please try again later.")}
         </p>
@@ -88,7 +88,7 @@ function OtpLoginIdentifierStep({
             className={inputClassName}
           />
 
-          <p className="-mt-2 text-[12px] leading-relaxed text-[#62625c]">
+          <p className="-mt-2 text-[12px] leading-relaxed text-fg-secondary">
             {t('ui.We\'ll send a verification code to your {{channel}}.', { channel: t(isEmail ? 'ui.Email address' : 'ui.Phone number') })}
           </p>
 
@@ -117,22 +117,22 @@ function OtpLoginIdentifierStep({
         <button
           type="button"
           onClick={onUsePassword}
-          className="text-[11px] font-medium text-ink hover:underline"
+          className="text-[11px] font-medium text-fg hover:underline"
         >
           {t("ui.Log in with password instead")}
         </button>
       </div>
       <div className="mt-2 text-center">
-        <Link to="/forgot-password" className="text-[11px] font-medium text-ink hover:underline">
+        <Link to="/forgot-password" className="text-[11px] font-medium text-fg hover:underline">
           {t("ui.Forgot password?")}
         </Link>
       </div>
 
-      <p className="mt-7 text-center text-[11px] text-[#33332f]">
+      <p className="mt-7 text-center text-[11px] text-fg">
         New to Vigo?{' '}
         <Link
           to="/register"
-          className="ms-1 font-medium text-ink no-underline hover:underline"
+          className="ms-1 font-medium text-fg no-underline hover:underline"
         >
           {t("ui.Create an account")}
         </Link>
