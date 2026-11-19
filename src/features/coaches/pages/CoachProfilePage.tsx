@@ -6,6 +6,7 @@ import { getAvatarUrl } from '../utils/avatar'
 import { coachService } from '../services/coach.service'
 import type { CoachProfile } from '../types/coach.types'
 import { useTranslation } from 'react-i18next'
+import { CoachProfileSkeleton } from '../../../shared/components/feedback/LoadingStates'
 
 function formatNumber(value: number, locale = 'en') {
   return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value)
@@ -51,9 +52,7 @@ function CoachProfilePage() {
         </Link>
 
         {isLoading ? (
-          <div className="rounded-2xl border border-border bg-white px-6 py-16 text-center text-sm text-muted" aria-live="polite">
-            {t("ui.Loading coach profile...")}
-          </div>
+          <CoachProfileSkeleton />
         ) : error || !coach ? (
           <section role="alert" className="rounded-2xl border border-border bg-white px-6 py-14 text-center">
             <h1 className="text-xl font-semibold">{t("ui.Coach profile unavailable")}</h1>
