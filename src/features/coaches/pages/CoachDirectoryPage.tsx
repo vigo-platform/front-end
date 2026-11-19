@@ -7,7 +7,7 @@ import { coachService } from '../services/coach.service'
 import type { CoachPage, CoachSearchParams, CoachSort } from '../types/coach.types'
 import { useTranslation } from 'react-i18next'
 import { CoachDirectorySkeleton } from '../../../shared/components/feedback/LoadingStates'
-import LoadingButton from '../../../shared/components/feedback/LoadingButton'
+import { Button } from '../../../shared/components/ui'
 
 const pageSize = 12
 
@@ -153,9 +153,9 @@ function CoachDirectoryPage() {
             />
           </label>
           <div className="flex items-end">
-            <LoadingButton type="submit" loading={isLoading} className="h-11 w-full rounded-xl bg-ink px-4 text-sm font-semibold text-white transition hover:bg-[#30352a]">
+            <Button type="submit" loading={isLoading} className="h-11 w-full rounded-xl bg-ink px-4 text-sm font-semibold text-white transition hover:bg-[#30352a]">
               {t("ui.Search")}
-            </LoadingButton>
+            </Button>
           </div>
           <label className="sm:col-span-2 lg:col-span-2">
             <span className="mb-2 block text-xs font-semibold text-muted">{t("ui.Sort by")}</span>
