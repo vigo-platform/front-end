@@ -33,7 +33,7 @@
 }
 
 
-@theme {
+@theme inline {
   --font-manrope: "Manrope Variable", sans-serif;
   --font-vazirmatn: "Vazirmatn Variable", sans-serif;
 
