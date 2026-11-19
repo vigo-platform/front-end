@@ -36,13 +36,13 @@ function RegisterIdentifierStep({
   const { t } = useTranslation()
   const isEmail = activeChannel === 'EMAIL'
   const inputClassName =
-    'h-11 w-full rounded-md border border-border bg-surface px-3 text-[13px] text-ink outline-none transition placeholder:text-fg-muted focus:border-ink'
-  const labelClassName = 'text-[11px] font-medium text-ink'
+    'h-11 w-full rounded-md border border-border-default bg-surface px-3 text-[13px] text-fg outline-none transition placeholder:text-fg-muted focus:border-ink'
+  const labelClassName = 'text-[11px] font-medium text-fg'
 
   return (
     <>
       <div className="mb-6">
-        <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-ink">
+        <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-fg">
           {t("ui.Create your account")}
         </h1>
         <p className="text-[12px] leading-relaxed text-fg-secondary">
@@ -114,7 +114,7 @@ function RegisterIdentifierStep({
         Already have an account?{' '}
         <Link
           to="/login"
-          className="ms-1 font-medium text-ink no-underline hover:underline"
+          className="ms-1 font-medium text-fg no-underline hover:underline"
         >
           {t("ui.Log in")}
         </Link>
