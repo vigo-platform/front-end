@@ -6,6 +6,8 @@ import { getAvatarUrl } from '../utils/avatar'
 import { coachService } from '../services/coach.service'
 import type { CoachPage, CoachSearchParams, CoachSort } from '../types/coach.types'
 import { useTranslation } from 'react-i18next'
+import { CoachDirectorySkeleton } from '../../../shared/components/feedback/LoadingStates'
+import LoadingButton from '../../../shared/components/feedback/LoadingButton'
 
 const pageSize = 12
 
@@ -151,9 +153,9 @@ function CoachDirectoryPage() {
             />
           </label>
           <div className="flex items-end">
-            <button type="submit" className="h-11 w-full rounded-xl bg-ink px-4 text-sm font-semibold text-white transition hover:bg-[#30352a]">
+            <LoadingButton type="submit" loading={isLoading} className="h-11 w-full rounded-xl bg-ink px-4 text-sm font-semibold text-white transition hover:bg-[#30352a]">
               {t("ui.Search")}
-            </button>
+            </LoadingButton>
           </div>
           <label className="sm:col-span-2 lg:col-span-2">
             <span className="mb-2 block text-xs font-semibold text-muted">{t("ui.Sort by")}</span>
@@ -185,9 +187,7 @@ function CoachDirectoryPage() {
         )}
 
         {isLoading ? (
-          <div className="rounded-2xl border border-border bg-white px-6 py-16 text-center text-sm text-muted" aria-live="polite">
-            {t("ui.Loading coaches...")}
-          </div>
+          <CoachDirectorySkeleton count={6} />
         ) : !error && page?.content.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-border bg-white px-6 py-16 text-center">
             <h2 className="font-semibold">{t("ui.No coaches found")}</h2>
