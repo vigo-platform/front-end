@@ -49,7 +49,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
       </section>
 
       {/* Brand Section */}
-      <aside className="relative flex min-h-[calc(100vh-24px)] flex-col overflow-hidden rounded-[18px] border border-border bg-page p-8 sm:p-10">
+      <aside className="relative flex min-h-[calc(100vh-24px)] flex-col overflow-hidden rounded-[18px] border border-border-default bg-page p-8 sm:p-10">
         {/* Label */}
         <div className="flex items-center gap-2 text-[10px] text-fg-secondary">
           <span className="h-[2px] w-5 bg-brand" />
@@ -66,7 +66,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
 
           {/* Orbit Dots */}
           <span className="absolute left-[8%] top-[28%] size-2 rounded-full bg-brand" />
-          <span className="absolute bottom-[29%] right-[5%] size-2 rounded-full bg-ink" />
+          <span className="absolute bottom-[29%] right-[5%] size-2 rounded-full bg-fg" />
 
           {/* Center */}
           <div className="absolute left-1/2 top-1/2 flex size-[118px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-brand text-[52px] font-bold text-fg">
