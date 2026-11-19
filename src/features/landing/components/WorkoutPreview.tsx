@@ -84,7 +84,7 @@ function WorkoutPreview() {
         </div>
 
         <div className="mt-4 flex items-center gap-3 rounded-2xl bg-fg p-3.5 text-fg-inverse">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-surface/10 text-accent">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-surface/10 text-brand">
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
               <path d="M12 3v18M3 12h18" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
             </svg>
@@ -93,7 +93,7 @@ function WorkoutPreview() {
             <p className="text-[11px] font-semibold">{t("ui.A connected training routine")}</p>
             <p className="mt-1 text-[9px] text-fg-inverse/55">{t("ui.Plan · Execute · Review")}</p>
           </div>
-          <span className="text-accent"><ArrowIcon diagonal /></span>
+          <span className="text-brand"><ArrowIcon diagonal /></span>
         </div>
       </div>
 
