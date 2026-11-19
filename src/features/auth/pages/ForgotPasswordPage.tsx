@@ -6,6 +6,7 @@ import { authService } from '../services/auth.service'
 import { ApiError } from '../../../shared/api/client'
 import type { OtpChannel } from '../types/auth-config.types'
 import { useTranslation } from 'react-i18next'
+import Spinner from '../../../shared/components/feedback/Spinner'
 
 type ResetStep = 'IDENTIFIER' | 'VERIFY' | 'NEW_PASSWORD' | 'SUCCESS'
 const channels: OtpChannel[] = ['EMAIL', 'PHONE']
@@ -124,7 +125,7 @@ function ForgotPasswordPage() {
                 <input id="reset-otp" type="text" inputMode="numeric" autoComplete="one-time-code" placeholder={t("ui.Enter code")} value={otp} onChange={(event) => setOtp(event.target.value)} minLength={6} maxLength={6} pattern="[0-9]{6}" required className={inputClassName} />
               </div>
               {errorMessage && <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">{errorMessage}</p>}
-              <button type="submit" disabled={isLoading} className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">{isLoading ? t('ui.Verifying...') : t('ui.Verify code')}</button>
+              <button type="submit" disabled={isLoading} className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">{isLoading && <Spinner size="sm" />}{t('ui.Verify code')}</button>
               <button type="button" onClick={goBack} className="h-8 text-[11px] text-ink hover:underline">{t("ui.Back")}</button>
             </form>
           </>
@@ -148,7 +149,7 @@ function ForgotPasswordPage() {
                 <input id="confirm-password" type="password" autoComplete="new-password" placeholder={t("ui.Enter your password again")} value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} minLength={8} maxLength={72} required className={inputClassName} />
               </div>
               {errorMessage && <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">{errorMessage}</p>}
-              <button type="submit" disabled={isLoading} className="mt-1 flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">{isLoading ? t('ui.Updating password...') : t('ui.Reset password')}</button>
+              <button type="submit" disabled={isLoading} className="mt-1 flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">{isLoading && <Spinner size="sm" />}{t('ui.Reset password')}</button>
               <button type="button" onClick={goBack} className="h-8 text-[11px] text-ink hover:underline">{t("ui.Back")}</button>
             </form>
           </>
