@@ -7,7 +7,8 @@ import type { AdminCoachApplication, AdminPage, AdminUser, CoachApplicationStatu
 import type { UserRole, UserStatus } from '../../user/types/user.types'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../../../shared/components/LanguageSwitcher'
-import { AdminApplicationGridSkeleton, TableRowsSkeleton } from '../../../shared/components/feedback/LoadingStates'
+import { AdminApplicationGridSkeleton, AdminDetailsSkeleton, TableRowsSkeleton } from '../../../shared/components/feedback/LoadingStates'
+import Spinner from '../../../shared/components/feedback/Spinner'
 
 type Tab = 'users' | 'coaches'
 const field = 'mt-2 h-11 w-full rounded-xl border border-[#e2e3dc] bg-[#fbfbf9] px-3.5 text-[11px] text-[#24251f] outline-none focus:border-[#a8c76d] focus:bg-white'
@@ -45,7 +46,8 @@ function AdminDashboardPage() {
   const [selectedUser, setSelectedUser] = useState<AdminUser | null>(null)
   const [selectedCoach, setSelectedCoach] = useState<AdminCoachApplication | null>(null)
   const [loading, setLoading] = useState(false)
-  const [busy, setBusy] = useState(false)
+  const [busyAction, setBusyAction] = useState<string | null>(null)
+  const [isDetailsLoading, setIsDetailsLoading] = useState(false)
   const [pendingCount, setPendingCount] = useState(0)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
@@ -110,32 +112,34 @@ function AdminDashboardPage() {
   }, [accessToken, preview, tab, coachPage, coachStatus, t])
 
   async function showUser(item: AdminUser) {
-    setSelectedCoach(null); setError('')
+    setSelectedCoach(null); setSelectedUser(null); setError('')
     if (preview || !accessToken) { setSelectedUser(item); return }
-    try { setLoading(true); setSelectedUser(await adminService.getUser(accessToken, item.user_id)) }
+    setIsDetailsLoading(true)
+    try { setSelectedUser(await adminService.getUser(accessToken, item.user_id)) }
     catch (e) { setError(e instanceof Error ? e.message : t('ui.Could not load user details.')) }
-    finally { setLoading(false) }
+    finally { setIsDetailsLoading(false) }
   }
   async function showCoach(item: AdminCoachApplication) {
-    setSelectedUser(null); setError('')
+    setSelectedUser(null); setSelectedCoach(null); setError('')
     if (preview || !accessToken) { setSelectedCoach(item); return }
-    try { setLoading(true); setSelectedCoach(await adminService.getCoachApplication(accessToken, item.coach_id)) }
+    setIsDetailsLoading(true)
+    try { setSelectedCoach(await adminService.getCoachApplication(accessToken, item.coach_id)) }
     catch (e) { setError(e instanceof Error ? e.message : t('ui.Could not load application details.')) }
-    finally { setLoading(false) }
+    finally { setIsDetailsLoading(false) }
   }
   async function toggleUser(item: AdminUser) {
     const next: UserStatus = item.status === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE'
     if (item.role === 'ADMIN' || item.user_id === user?.user_id) return
     const reason = next === 'SUSPENDED' ? window.prompt(t('ui.Reason for suspension (optional):')) : undefined
     if (reason === null || !window.confirm(t('ui.Change this account status to {{status}}?', { status: t('ui.' + next) }))) return
-    setBusy(true); setError(''); setNotice('')
+    setBusyAction(item.user_id); setError(''); setNotice('')
     try {
       const updated = preview ? { ...item, status: next } : await adminService.setUserStatus(accessToken!, item.user_id, { status: next, ...(reason?.trim() ? { reason: reason.trim() } : {}) })
       setPreviewUsers((current) => current.map((entry) => entry.user_id === updated.user_id ? updated : entry))
       setUsers((current) => ({ ...current, content: current.content.map((entry) => entry.user_id === updated.user_id ? updated : entry) }))
       setSelectedUser(updated); setNotice(t('ui.Account status changed to {{status}}.', { status: t('ui.' + next) }))
     } catch (e) { setError(e instanceof Error ? e.message : t('ui.Could not update account.')) }
-    finally { setBusy(false) }
+    finally { setBusyAction(null) }
   }
   async function reviewCoach(item: AdminCoachApplication, action: 'approve' | 'reject') {
     let reason = ''
@@ -146,7 +150,7 @@ function AdminDashboardPage() {
       if (reason.length < 5 || reason.length > 500) { setError(t("ui.The reason must contain 5–500 characters.")); return }
     }
     if (!window.confirm(t('ui.Are you sure you want to {{action}} this application?', { action: t(action === 'approve' ? 'ui.Approve' : 'ui.Reject') }))) return
-    setBusy(true); setError(''); setNotice('')
+    setBusyAction(item.coach_id); setError(''); setNotice('')
     try {
       const updated = preview
         ? { ...item, status: action === 'approve' ? 'APPROVED' as const : 'REJECTED' as const, rejection_reason: action === 'reject' ? reason : null }
@@ -155,13 +159,13 @@ function AdminDashboardPage() {
       setCoaches((current) => ({ ...current, content: current.content.map((entry) => entry.coach_id === updated.coach_id ? updated : entry) }))
       setSelectedCoach(updated); setNotice(t('ui.Application {{action}}.', { action: t(action === 'approve' ? 'ui.Approved' : 'ui.Rejected') }))
     } catch (e) { setError(e instanceof Error ? e.message : t('ui.Could not review application.')) }
-    finally { setBusy(false) }
+    finally { setBusyAction(null) }
   }
 
   const totalUsers = preview ? previewUsers.length : users.total_elements
   const userRows = preview ? makePreviewPage(filteredPreviewUsers, userPage).content : users.content
   const coachRows = preview ? filteredPreviewCoaches : coaches.content
-  const closeDetails = () => { setSelectedUser(null); setSelectedCoach(null) }
+  const closeDetails = () => { setSelectedUser(null); setSelectedCoach(null); setIsDetailsLoading(false) }
 
   return (
     <AppShell title={t('ui.Admin overview')}>
@@ -198,7 +202,7 @@ function AdminDashboardPage() {
               <tbody>{loading && userRows.length === 0 ? <tr><td colSpan={5}><TableRowsSkeleton rows={5} columns={5} /></td></tr> : userRows.map((item) => <tr key={item.user_id} className="border-b border-[#f0f0eb] last:border-0">
                 <td className="py-4 pr-4"><button onClick={() => void showUser(item)} className="flex items-center gap-3 text-left"><span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#edf1e6] text-[10px] font-bold text-[#526a2e]">{initials(item.display_name || item.email)}</span><span><span className="block max-w-[220px] truncate text-[11px] font-bold text-[#292a25]">{item.display_name || 'Unnamed user'}</span><span className="mt-1 block max-w-[220px] truncate text-[9px] text-[#92938a]">{item.email}</span></span></button></td>
                 <td className="py-4 pr-4 text-[10px] font-semibold text-[#55564f]">{t('ui.' + item.role)}</td><td className="py-4 pr-4"><Status value={item.status} /></td><td className="py-4 pr-4 text-[10px] text-[#77786f]">{dateLabel(item.created_at, i18n.language)}</td>
-                <td className="py-4 text-right"><button disabled={busy || item.role === 'ADMIN' || item.user_id === user?.user_id} onClick={() => void toggleUser(item)} className="rounded-full border border-[#e2e3dc] px-3 py-2 text-[9px] font-bold text-[#55564f] hover:bg-[#f5f8ef] disabled:opacity-30">{item.status === 'ACTIVE' ? t('ui.Suspend') : t('ui.Activate')}</button></td>
+                <td className="py-4 text-right"><button disabled={busyAction !== null || item.role === 'ADMIN' || item.user_id === user?.user_id} onClick={() => void toggleUser(item)} className="rounded-full border border-[#e2e3dc] px-3 py-2 text-[9px] font-bold text-[#55564f] hover:bg-[#f5f8ef] disabled:opacity-30">{busyAction === item.user_id && <Spinner size="sm" />}{item.status === 'ACTIVE' ? t('ui.Suspend') : t('ui.Activate')}</button></td>
               </tr>)}</tbody></table>
               {!loading && userRows.length === 0 && <p className="py-10 text-center text-[11px] text-[#92938a]">{t("ui.No users match these filters.")}</p>}
             </div>
@@ -209,7 +213,7 @@ function AdminDashboardPage() {
               <div className="flex items-start justify-between gap-3"><div className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#eaf0df] text-[11px] font-bold text-[#526a2e]">{initials(item.display_name)}</span><div><h3 className="text-[13px] font-bold text-[#292a25]">{item.display_name}</h3><p className="mt-1 text-[10px] text-[#85867d]">{item.headline || t('ui.Coach applicant')}</p></div></div><Status value={item.status || 'PENDING'} /></div>
               <p className="mt-4 line-clamp-2 text-[10px] leading-5 text-[#77786f]">{item.bio}</p><div className="mt-3 flex flex-wrap gap-1.5">{item.specialties.map((s) => <span key={s} className="rounded-full bg-[#f0f1eb] px-2.5 py-1 text-[8px] font-semibold text-[#65665e]">{s}</span>)}</div>
               <div className="mt-4 flex items-center justify-between border-t border-[#edede8] pt-4"><span className="text-[9px] text-[#92938a]">{t('ui.{{count}} years experience', { count: formatNumber(item.experience_years, i18n.language) })} · {dateLabel(item.created_at, i18n.language)}</span><button onClick={() => void showCoach(item)} className="text-[9px] font-bold text-[#526a2e] hover:underline">{t("ui.View application →")}</button></div>
-              {item.status === 'PENDING' && <div className="mt-4 flex gap-2"><button disabled={busy} onClick={() => void reviewCoach(item, 'approve')} className="h-9 flex-1 rounded-full bg-[#c7f36b] text-[9px] font-bold text-[#171914] disabled:opacity-50">{t('ui.Approve')}</button><button disabled={busy} onClick={() => void reviewCoach(item, 'reject')} className="h-9 flex-1 rounded-full border border-[#e5d3cd] bg-white text-[9px] font-bold text-[#a55343] disabled:opacity-50">{t('ui.Reject')}</button></div>}
+              {item.status === 'PENDING' && <div className="mt-4 flex gap-2"><button disabled={busyAction !== null} onClick={() => void reviewCoach(item, 'approve')} className="h-9 flex-1 rounded-full bg-[#c7f36b] text-[9px] font-bold text-[#171914] disabled:opacity-50">{t('ui.Approve')}</button><button disabled={busy} onClick={() => void reviewCoach(item, 'reject')} className="h-9 flex-1 rounded-full border border-[#e5d3cd] bg-white text-[9px] font-bold text-[#a55343] disabled:opacity-50">{busyAction === item.coach_id && <Spinner size="sm" />}{t('ui.Reject')}</button></div>}
             </article>)}</div>}
             {!loading && coachRows.length === 0 && <p className="py-10 text-center text-[11px] text-[#92938a]">{t("ui.No coach applications in this queue.")}</p>}
             {!preview && <div className="flex items-center justify-between pt-4"><p className="text-[9px] text-[#92938a]">{t('ui.{{count}} applications', { count: formatNumber(coaches.total_elements, i18n.language) })}</p><div className="flex gap-2"><button disabled={coachPage <= 0} onClick={() => setCoachPage((v) => Math.max(0, v - 1))} className="rounded-full border border-[#e2e3dc] px-3 py-2 text-[9px] disabled:opacity-30">{t("ui.Previous")}</button><span className="px-2 py-2 text-[9px] text-[#77786f]">{formatNumber(coachPage + 1, i18n.language)} / {formatNumber(Math.max(1, coaches.total_pages), i18n.language)}</span><button disabled={coachPage + 1 >= coaches.total_pages} onClick={() => setCoachPage((v) => v + 1)} className="rounded-full border border-[#e2e3dc] px-3 py-2 text-[9px] disabled:opacity-30">{t("ui.Next")}</button></div></div>}
@@ -218,11 +222,12 @@ function AdminDashboardPage() {
           {notice && <p role="status" className="mt-4 rounded-xl border border-[#dce8c8] bg-[#f2f8e8] px-4 py-3 text-[10px] text-[#526a2e]">{notice}</p>}
         </section>
 
-        {(selectedUser || selectedCoach) && <div className="fixed inset-0 z-[90] flex items-center justify-center bg-[#111210]/45 p-4" onMouseDown={(e) => { if (e.target === e.currentTarget) closeDetails() }}>
+        {(selectedUser || selectedCoach || isDetailsLoading) && <div className="fixed inset-0 z-[90] flex items-center justify-center bg-[#111210]/45 p-4" onMouseDown={(e) => { if (e.target === e.currentTarget) closeDetails() }}>
           <section role="dialog" aria-modal="true" className="max-h-[85vh] w-full max-w-[620px] overflow-y-auto rounded-[22px] border border-[#e1e1da] bg-[#fbfbf9] p-6 shadow-2xl sm:p-8">
-            <div className="flex items-start justify-between gap-4"><div><p className={eyebrow}>{t(selectedUser ? 'ui.Account details' : 'ui.Coach application')}</p><h2 className="mt-2 text-[22px] font-bold text-[#20211d]">{selectedUser?.display_name || selectedCoach?.display_name}</h2></div><button onClick={closeDetails} className="rounded-full border border-[#e2e3dc] px-3 py-2 text-[10px] font-bold text-[#77786f]">{t('ui.Close')}</button></div>
-            {selectedUser && <div className="mt-6 grid gap-3 sm:grid-cols-2">{[['Email', selectedUser.email], ['Phone', selectedUser.phone || t('ui.Not provided')], ['Role', selectedUser.role], ['Status', selectedUser.status], ['User ID', selectedUser.user_id], ['Joined', dateLabel(selectedUser.created_at, i18n.language)]].map(([k, v]) => <div key={k} className="rounded-xl border border-[#e8e8e1] bg-white p-4"><p className={eyebrow}>{t('ui.' + k)}</p><p className="mt-2 break-all text-[11px] font-semibold text-[#34352f]">{k === 'Role' || k === 'Status' ? t('ui.' + v) : v}</p></div>)}</div>}
-            {selectedCoach && <div className="mt-6 space-y-4"><div className="flex items-center gap-2"><Status value={selectedCoach.status || 'PENDING'} /><span className="text-[10px] text-[#85867d]">{t('ui.{{count}} years experience', { count: formatNumber(selectedCoach.experience_years, i18n.language) })}</span></div><div className="rounded-xl border border-[#e8e8e1] bg-white p-4"><p className={eyebrow}>{t("ui.Professional headline")}</p><p className="mt-2 text-[12px] font-semibold text-[#34352f]">{selectedCoach.headline || '—'}</p><p className={eyebrow + ' mt-5'}>{t("ui.Biography")}</p><p className="mt-2 whitespace-pre-wrap text-[11px] leading-6 text-[#66675f]">{selectedCoach.bio}</p><p className={eyebrow + ' mt-5'}>{t("ui.Specialties")}</p><div className="mt-2 flex flex-wrap gap-2">{selectedCoach.specialties.map((s) => <span key={s} className="rounded-full bg-[#f0f1eb] px-3 py-1.5 text-[9px] text-[#65665e]">{s}</span>)}</div><p className={eyebrow + ' mt-5'}>{t("ui.Certifications")}</p>{(selectedCoach.certifications || []).map((c) => <p key={c.title} className="mt-2 text-[10px] text-[#55564f]">{c.title}{c.issuer ? ' · ' + c.issuer : ''}{c.year ? ' · ' + c.year : ''}</p>)}{selectedCoach.rejection_reason && <p className="mt-4 rounded-lg bg-[#fff0ec] p-3 text-[10px] text-[#a55343]">{t('ui.Rejection reason:')} {selectedCoach.rejection_reason}</p>}</div>
+            <div className="flex items-start justify-between gap-4"><div><p className={eyebrow}>{t(selectedUser ? 'ui.Account details' : 'ui.Coach application')}</p><h2 className="mt-2 text-[22px] font-bold text-[#20211d]">{isDetailsLoading ? <Spinner size="sm" /> : selectedUser?.display_name || selectedCoach?.display_name}</h2></div><button onClick={closeDetails} className="rounded-full border border-[#e2e3dc] px-3 py-2 text-[10px] font-bold text-[#77786f]">{t('ui.Close')}</button></div>
+            {isDetailsLoading && <AdminDetailsSkeleton />}
+            {!isDetailsLoading && selectedUser && <div className="mt-6 grid gap-3 sm:grid-cols-2">{[['Email', selectedUser.email], ['Phone', selectedUser.phone || t('ui.Not provided')], ['Role', selectedUser.role], ['Status', selectedUser.status], ['User ID', selectedUser.user_id], ['Joined', dateLabel(selectedUser.created_at, i18n.language)]].map(([k, v]) => <div key={k} className="rounded-xl border border-[#e8e8e1] bg-white p-4"><p className={eyebrow}>{t('ui.' + k)}</p><p className="mt-2 break-all text-[11px] font-semibold text-[#34352f]">{k === 'Role' || k === 'Status' ? t('ui.' + v) : v}</p></div>)}</div>}
+            {!isDetailsLoading && selectedCoach && <div className="mt-6 space-y-4"><div className="flex items-center gap-2"><Status value={selectedCoach.status || 'PENDING'} /><span className="text-[10px] text-[#85867d]">{t('ui.{{count}} years experience', { count: formatNumber(selectedCoach.experience_years, i18n.language) })}</span></div><div className="rounded-xl border border-[#e8e8e1] bg-white p-4"><p className={eyebrow}>{t("ui.Professional headline")}</p><p className="mt-2 text-[12px] font-semibold text-[#34352f]">{selectedCoach.headline || '—'}</p><p className={eyebrow + ' mt-5'}>{t("ui.Biography")}</p><p className="mt-2 whitespace-pre-wrap text-[11px] leading-6 text-[#66675f]">{selectedCoach.bio}</p><p className={eyebrow + ' mt-5'}>{t("ui.Specialties")}</p><div className="mt-2 flex flex-wrap gap-2">{selectedCoach.specialties.map((s) => <span key={s} className="rounded-full bg-[#f0f1eb] px-3 py-1.5 text-[9px] text-[#65665e]">{s}</span>)}</div><p className={eyebrow + ' mt-5'}>{t("ui.Certifications")}</p>{(selectedCoach.certifications || []).map((c) => <p key={c.title} className="mt-2 text-[10px] text-[#55564f]">{c.title}{c.issuer ? ' · ' + c.issuer : ''}{c.year ? ' · ' + c.year : ''}</p>)}{selectedCoach.rejection_reason && <p className="mt-4 rounded-lg bg-[#fff0ec] p-3 text-[10px] text-[#a55343]">{t('ui.Rejection reason:')} {selectedCoach.rejection_reason}</p>}</div>
               {selectedCoach.status === 'PENDING' && <div className="flex gap-2"><button disabled={busy} onClick={() => void reviewCoach(selectedCoach, 'approve')} className="h-10 flex-1 rounded-full bg-[#c7f36b] text-[10px] font-bold text-[#171914]">{t('ui.Approve')}</button><button disabled={busy} onClick={() => void reviewCoach(selectedCoach, 'reject')} className="h-10 flex-1 rounded-full border border-[#e5d3cd] text-[10px] font-bold text-[#a55343]">{t('ui.Reject')}</button></div>}</div>}
           </section>
         </div>}
