@@ -677,6 +677,8 @@ const resources = {
         "Add exercises": "Add exercises",
       
         "Coach application": "Coach application",
+      
+        "Progress": "Progress",
       }
     }
   },
@@ -1354,6 +1356,8 @@ const resources = {
         "Add exercises": "افزودن حرکت",
       
         "Coach application": "درخواست مربی‌گری",
+      
+        "Progress": "پیشرفت",
       }
     }
   }
