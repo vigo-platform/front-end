@@ -6,6 +6,7 @@ import { makePreviewPage, previewAdminUsers, previewCoachApplications } from '..
 import type { AdminCoachApplication, AdminPage, AdminUser, CoachApplicationStatus } from '../types/admin.types'
 import type { UserRole, UserStatus } from '../../user/types/user.types'
 import { useTranslation } from 'react-i18next'
+import LanguageSwitcher from '../../../shared/components/LanguageSwitcher'
 
 type Tab = 'users' | 'coaches'
 const field = 'mt-2 h-11 w-full rounded-xl border border-[#e2e3dc] bg-[#fbfbf9] px-3.5 text-[11px] text-[#24251f] outline-none focus:border-[#a8c76d] focus:bg-white'
