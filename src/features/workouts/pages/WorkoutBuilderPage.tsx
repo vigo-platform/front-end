@@ -95,7 +95,7 @@ function WorkoutBuilderPage() {
             </div>
             <Link
               to={coachPath + '/exercises'}
-              className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-surface px-5 text-sm font-semibold transition hover:bg-surface-muted"
+              className="inline-flex h-11 items-center justify-center rounded-full border border-border-default bg-surface px-5 text-sm font-semibold transition hover:bg-surface-muted"
             >
               {t("ui.Browse exercise library")}
             </Link>
@@ -104,7 +104,7 @@ function WorkoutBuilderPage() {
 
         <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
           <section className="space-y-5">
-            <div className="rounded-2xl border border-border bg-surface p-5 sm:p-6">
+            <div className="rounded-2xl border border-border-default bg-surface p-5 sm:p-6">
               <h3 className="font-semibold">{t("ui.Workout details")}</h3>
               <label className="mt-5 block">
                 <span className="mb-2 block text-sm font-medium">{t("ui.Workout title")}</span>
@@ -113,7 +113,7 @@ function WorkoutBuilderPage() {
                   onChange={(event) => updateDraft({ title: event.target.value })}
                   maxLength={100}
                   placeholder={t("ui.e.g. Upper body strength")}
-                  className="h-12 w-full rounded-xl border border-border px-4 text-sm outline-none focus:border-brand-hover"
+                  className="h-12 w-full rounded-xl border border-border-default px-4 text-sm outline-none focus:border-brand-hover"
                 />
               </label>
               <label className="mt-4 block">
@@ -126,12 +126,12 @@ function WorkoutBuilderPage() {
                   rows={3}
                   maxLength={500}
                   placeholder={t("ui.Add a short note about this workout")}
-                  className="w-full resize-y rounded-xl border border-border px-4 py-3 text-sm outline-none focus:border-brand-hover"
+                  className="w-full resize-y rounded-xl border border-border-default px-4 py-3 text-sm outline-none focus:border-brand-hover"
                 />
               </label>
             </div>
 
-            <div className="rounded-2xl border border-border bg-surface p-5 sm:p-6">
+            <div className="rounded-2xl border border-border-default bg-surface p-5 sm:p-6">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <h3 className="font-semibold">{t("ui.Selected exercises")}</h3>
@@ -148,7 +148,7 @@ function WorkoutBuilderPage() {
               </div>
 
               {selectedExercises.length === 0 ? (
-                <div className="mt-5 rounded-xl border border-dashed border-border px-5 py-10 text-center">
+                <div className="mt-5 rounded-xl border border-dashed border-border-default px-5 py-10 text-center">
                   <p className="font-medium">{t("ui.Your workout is empty")}</p>
                   <p className="mt-2 text-sm text-fg-secondary">
                     {t("ui.Choose exercises from the library to start building.")}
@@ -165,7 +165,7 @@ function WorkoutBuilderPage() {
                   {selectedExercises.map((item, index) => (
                     <article
                       key={item.exercise_id}
-                      className="rounded-xl border border-border-default p-4"
+                      className="rounded-xl border border-border-default-default p-4"
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex min-w-0 items-start gap-3">
@@ -212,7 +212,7 @@ function WorkoutBuilderPage() {
                                   Number(event.target.value),
                                 )
                               }
-                              className="h-10 w-full rounded-lg border border-border px-3 text-sm outline-none focus:border-brand-hover"
+                              className="h-10 w-full rounded-lg border border-border-default px-3 text-sm outline-none focus:border-brand-hover"
                             />
                           </label>
                         ))}
@@ -225,9 +225,9 @@ function WorkoutBuilderPage() {
           </section>
 
           <aside className="space-y-4 lg:sticky lg:top-6">
-            <div className="rounded-2xl border border-border bg-surface p-5">
+            <div className="rounded-2xl border border-border-default bg-surface p-5">
               <h3 className="font-semibold">{t("ui.Workout summary")}</h3>
-              <div className="mt-5 flex items-center justify-between border-b border-border-default pb-3 text-sm">
+              <div className="mt-5 flex items-center justify-between border-b border-border-default-default pb-3 text-sm">
                 <span className="text-fg-secondary">{t("ui.Exercises")}</span>
                 <span className="font-semibold">{draft.exercises.length}</span>
               </div>
@@ -251,7 +251,7 @@ function WorkoutBuilderPage() {
               )}
             </div>
 
-            <div className="rounded-2xl border border-border-default bg-surface-muted p-5">
+            <div className="rounded-2xl border border-border-default-default bg-surface-muted p-5">
               <p className="text-sm font-semibold">{t("ui.Publishing is not connected yet")}</p>
               <p className="mt-2 text-xs leading-5 text-fg-secondary">
                 {t('ui.The current repository does not include a Workout API contract. This draft is saved locally and cannot yet be published or assigned to an athlete.')}
