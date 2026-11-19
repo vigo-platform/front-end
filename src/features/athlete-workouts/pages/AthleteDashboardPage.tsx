@@ -86,12 +86,12 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
         <section className="grid gap-3 sm:grid-cols-3">
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Available coaches")}</p>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingCoaches ? <Skeleton className="mt-4 h-9 w-20" /> : formatNumber(totalCoaches, i18n.language)}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingCoaches ? <Skeleton className="h-9 w-20" /> : formatNumber(totalCoaches, i18n.language)}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Approved public profiles")}</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Specialties shown")}</p>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingCoaches ? <Skeleton className="mt-4 h-9 w-20" /> : formatNumber(uniqueSpecialties, i18n.language)}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingCoaches ? <Skeleton className="h-9 w-20" /> : formatNumber(uniqueSpecialties, i18n.language)}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Across the coaches loaded")}</p>
           </article>
           <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
