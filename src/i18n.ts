@@ -680,6 +680,12 @@ const resources = {
       
         "Coach application": "Coach application",
       
+        "Light": "Light",
+        "Dark": "Dark",
+        "System": "System",
+        "Theme selection": "Theme selection",
+        "Language selection": "Language selection",
+        "Preview data · Not connected to API": "Preview data · Not connected to API",
         "Progress": "Progress",
       }
     }
@@ -1361,6 +1367,12 @@ const resources = {
       
         "Coach application": "درخواست مربی‌گری",
       
+        "Light": "روشن",
+        "Dark": "تیره",
+        "System": "سیستم",
+        "Theme selection": "انتخاب پوسته",
+        "Language selection": "انتخاب زبان",
+        "Preview data · Not connected to API": "داده‌های پیش‌نمایش · متصل به API نیست",
         "Progress": "پیشرفت",
       }
     }
