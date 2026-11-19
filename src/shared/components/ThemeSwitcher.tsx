@@ -6,19 +6,21 @@ const options: ThemePreference[] = ['light', 'dark', 'system']
 
 function ThemeSwitcher() {
   const { theme, setTheme } = useTheme()
-  const { i18n } = useTranslation()
-  const isPersian = i18n.resolvedLanguage?.startsWith('fa')
-  const labels = isPersian
-    ? { light: 'روشن', dark: 'تیره', system: 'سیستم', aria: 'انتخاب پوسته' }
-    : { light: 'Light', dark: 'Dark', system: 'System', aria: 'Theme selection' }
+  const { t } = useTranslation()
+  const labels: Record<ThemePreference, string> = {
+    light: t('ui.Light'),
+    dark: t('ui.Dark'),
+    system: t('ui.System'),
+  }
+  const ariaLabel = t('ui.Theme selection')
 
   return (
     <label className="inline-flex shrink-0 items-center">
-      <span className="sr-only">{labels.aria}</span>
+      <span className="sr-only">{ariaLabel}</span>
       <select
         value={theme}
         onChange={(event) => setTheme(event.target.value as ThemePreference)}
-        aria-label={labels.aria}
+        aria-label={ariaLabel}
         className="h-9 max-w-[104px] rounded-lg border border-border-default bg-surface px-2 text-[11px] font-semibold text-fg outline-none transition focus:border-brand"
       >
         {options.map((option) => (
