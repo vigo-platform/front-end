@@ -28,24 +28,24 @@ function CoachWorkoutsPage() {
           </div>
           <Link
             to={coachPath + '/workouts/new'}
-            className="inline-flex h-11 items-center justify-center rounded-full bg-ink px-5 text-sm font-semibold text-white transition hover:bg-sidebar-hover"
+            className="inline-flex h-11 items-center justify-center rounded-full bg-fg px-5 text-sm font-semibold text-fg-inverse transition hover:bg-sidebar-hover"
           >
             {t("ui.Create workout")}
           </Link>
         </section>
 
         {hasSavedDraft ? (
-          <article className="rounded-2xl border border-border bg-surface p-5 sm:p-6">
+          <article className="rounded-2xl border border-border-default bg-surface p-5 sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <span className="rounded-full bg-surface-muted px-3 py-1 text-xs font-semibold text-fg-secondary">
                 {t("ui.Draft")}
               </span>
               <span className="text-xs text-fg-secondary">
-                Updated {new Date(draft.updated_at as string).toLocaleString()}
+                {t('ui.Updated')} {new Date(draft.updated_at as string).toLocaleString()}
               </span>
             </div>
             <h3 className="mt-5 text-xl font-semibold">
-              {draft.title || 'Untitled workout'}
+              {draft.title || t('ui.Untitled workout')}
             </h3>
             {draft.description && (
               <p className="mt-2 text-sm leading-6 text-fg-secondary">
@@ -53,20 +53,20 @@ function CoachWorkoutsPage() {
               </p>
             )}
             <div className="mt-5 flex flex-wrap gap-4 text-xs text-fg-secondary">
-              <span>{draft.exercises.length} exercises</span>
+              <span>{t('ui.{{count}} exercises', { count: draft.exercises.length })}</span>
               <span>
-                {draft.exercises.reduce((total, item) => total + item.sets, 0)} total sets
+                {t('ui.{{count}} total sets', { count: draft.exercises.reduce((total, item) => total + item.sets, 0) })}
               </span>
             </div>
             <Link
               to={coachPath + '/workouts/new'}
               className="mt-6 inline-flex text-sm font-semibold text-ink hover:text-success-fg"
             >
-              Continue editing →
+              {t('ui.Continue editing')} →
             </Link>
           </article>
         ) : (
-          <div className="rounded-2xl border border-dashed border-border bg-surface px-6 py-14 text-center">
+          <div className="rounded-2xl border border-dashed border-border-default bg-surface px-6 py-14 text-center">
             <h3 className="font-semibold">{t("ui.No saved workouts yet")}</h3>
             <p className="mt-2 text-sm text-fg-secondary">
               {t("ui.Create a workout and save it as a draft to see it here.")}
@@ -81,9 +81,7 @@ function CoachWorkoutsPage() {
         )}
 
         <p className="rounded-xl border border-border-default bg-surface-muted p-4 text-xs leading-5 text-fg-secondary">
-          Drafts are stored in this browser only. Publishing and sharing
-          workouts with athletes require the backend Workout API, which is not
-          included in the current contracts.
+          {t('ui.Drafts are stored in this browser only. Publishing and sharing workouts with athletes require the backend Workout API, which is not included in the current contracts.')}
         </p>
       </div>
     </AppShell>
