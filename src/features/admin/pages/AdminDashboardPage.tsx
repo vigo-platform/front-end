@@ -164,6 +164,7 @@ function AdminDashboardPage() {
   return (
     <AppShell title={t('ui.Admin overview')}>
       <div className="mx-auto w-full max-w-[1320px] space-y-7">
+        <div className="flex justify-end"><LanguageSwitcher /></div>
         <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div><p className="text-[9px] font-bold uppercase tracking-[2px] text-[#82975e]">{t("ui.Administration")}</p><h1 className="mt-3 text-[34px] font-bold leading-tight tracking-[-1.5px] text-[#171815] sm:text-[42px]">{t('ui.Good to see you, {{name}}.', { name: (user?.display_name || 'Admin').split(/\s+/)[0] })}</h1><p className="mt-2 text-[12px] leading-6 text-[#77786f]">{t("ui.Manage platform accounts and review coach applications.")}</p></div>
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[#dce8c8] bg-[#f2f8e8] px-3.5 py-2 text-[9px] font-bold uppercase tracking-[1px] text-[#526a2e]"><span className="h-1.5 w-1.5 rounded-full bg-[#9bcf43]" />{t("ui.Administrator")}</span>
