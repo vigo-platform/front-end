@@ -4,6 +4,7 @@ import { useAuth } from '../../auth/context/auth-context'
 import { previewCoachPlans, previewCoachRelations } from '../../auth/data/dashboard-preview'
 import { loadWorkoutDraft } from '../services/workout-draft.service'
 import { useTranslation } from 'react-i18next'
+import LanguageSwitcher from '../../../shared/components/LanguageSwitcher'
 
 interface CoachDashboardPageProps {
   isPreview?: boolean
