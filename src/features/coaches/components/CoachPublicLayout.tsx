@@ -44,7 +44,7 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
                 <Link to="/login" className="text-xs font-semibold text-muted transition hover:text-ink">
                   {t("ui.Log in")}
                 </Link>
-                <Link to="/register" className="rounded-full bg-ink px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-[#30352a]">
+                <Link to="/register" className="rounded-full bg-fg px-4 py-2.5 text-xs font-semibold text-fg-inverse transition hover:bg-fg/90">
                   {t("ui.Get started")}
                 </Link>
               </>
