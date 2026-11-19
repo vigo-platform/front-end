@@ -23,7 +23,7 @@ function OtpChannelSelector({
         {t('ui.Continue with')}
       </span>
 
-      <div className="grid grid-cols-2 gap-2 rounded-lg bg-soft-gray p-1">
+      <div className="grid grid-cols-2 gap-2 rounded-lg bg-surface-muted p-1">
         {channels.map((channel) => {
           const isSelected = value === channel
 
