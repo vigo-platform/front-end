@@ -57,7 +57,7 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
         if (active) setIsLoadingCoach(false)
       })
     return () => { active = false }
-  }, [accessToken, isCoach, previewMode])
+  }, [accessToken, isCoach, previewMode, t])
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
