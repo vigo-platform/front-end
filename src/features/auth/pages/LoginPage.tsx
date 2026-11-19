@@ -9,6 +9,7 @@ import type { OtpChannel } from '../types/auth-config.types'
 import PasswordLoginForm from '../components/PasswordLoginForm'
 import { useAuth } from '../context/auth-context'
 import { useTranslation } from 'react-i18next'
+import Spinner from '../../../shared/components/feedback/Spinner'
 
 type LoginStep = 'IDENTIFIER' | 'VERIFY' | 'NEW_PASSWORD'
 
@@ -230,7 +231,7 @@ function LoginPage() {
                 disabled={isLoading}
                 className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {isLoading ? t('ui.Verifying...') : t('ui.Verify')}
+                {isLoading && <Spinner size="sm" />}{t('ui.Verify')}
               </button>
 
               <button
@@ -274,7 +275,7 @@ function LoginPage() {
               </p>
             )}
             <button type="submit" disabled={isLoading} className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">
-              {isLoading ? t('ui.Updating...') : t('ui.Update password')}
+              {isLoading && <Spinner size="sm" />}{t('ui.Update password')}
             </button>
           </form>
         </>
