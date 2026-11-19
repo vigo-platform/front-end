@@ -10,8 +10,8 @@ import { Button, Input } from '../../../shared/components/ui'
 
 type ResetStep = 'IDENTIFIER' | 'VERIFY' | 'NEW_PASSWORD' | 'SUCCESS'
 const channels: OtpChannel[] = ['EMAIL', 'PHONE']
-const inputClassName = 'h-11 w-full rounded-md border border-border bg-surface px-3 text-[13px] text-ink outline-none transition placeholder:text-fg-muted focus:border-ink'
-const labelClassName = 'text-[11px] font-medium text-ink'
+const inputClassName = 'h-11 w-full rounded-md border border-border bg-surface px-3 text-[13px] text-fg outline-none transition placeholder:text-fg-muted focus:border-fg'
+const labelClassName = 'text-[11px] font-medium text-fg'
 
 function ForgotPasswordPage() {
   const { t } = useTranslation()
@@ -116,38 +116,38 @@ function ForgotPasswordPage() {
         {step === 'VERIFY' && (
           <>
             <div className="mb-6">
-              <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">{t('ui.Verify your {{channel}}', { channel: t(isEmail ? 'ui.Email' : 'ui.Phone') })}</h1>
+              <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-fg">{t('ui.Verify your {{channel}}', { channel: t(isEmail ? 'ui.Email' : 'ui.Phone') })}</h1>
               <p className="text-[13px] leading-relaxed text-fg-secondary">{t('ui.Enter the verification code sent to {{identifier}}.', { identifier })}</p>
             </div>
             <form onSubmit={verifyCode} className="flex flex-col gap-5">
               <Input id="reset-otp" label={t("ui.Verification code")} labelClassName={labelClassName} type="text" inputMode="numeric" autoComplete="one-time-code" placeholder={t("ui.Enter code")} value={otp} onChange={(event) => setOtp(event.target.value)} minLength={6} maxLength={6} pattern="[0-9]{6}" required className={inputClassName} />
               {errorMessage && <p role="alert" className="rounded-md bg-danger-surface px-3 py-2 text-[12px] text-danger-fg">{errorMessage}</p>}
               <Button type="submit" loading={isLoading} className="h-11 w-full text-[13px]">{t('ui.Verify code')}</Button>
-              <button type="button" onClick={goBack} className="h-8 text-[11px] text-ink hover:underline">{t("ui.Back")}</button>
+              <button type="button" onClick={goBack} className="h-8 text-[11px] text-fg hover:underline">{t("ui.Back")}</button>
             </form>
           </>
         )}
         {step === 'NEW_PASSWORD' && (
           <>
             <div className="mb-6">
-              <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">{t("ui.Create a new password")}</h1>
+              <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-fg">{t("ui.Create a new password")}</h1>
               <p className="text-[13px] leading-relaxed text-fg-secondary">{t("ui.Choose a new password for your Vigo account.")}</p>
             </div>
             <form onSubmit={resetPassword} className="flex flex-col gap-4">
               <div className="relative">
                 <Input id="new-password" label={t("ui.New password")} labelClassName={labelClassName} type={showPassword ? 'text' : 'password'} autoComplete="new-password" placeholder={t("ui.Create a password")} value={password} onChange={(event) => setPassword(event.target.value)} minLength={8} maxLength={72} required className={`${inputClassName} pe-14`} />
-                <button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? t('ui.Hide password') : t('ui.Show password')} className="absolute bottom-0 end-0 flex h-11 w-12 items-center justify-center text-[11px] text-fg-secondary hover:text-ink">{showPassword ? t('ui.Hide') : t('ui.Show')}</button>
+                <button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? t('ui.Hide password') : t('ui.Show password')} className="absolute bottom-0 end-0 flex h-11 w-12 items-center justify-center text-[11px] text-fg-secondary hover:text-fg">{showPassword ? t('ui.Hide') : t('ui.Show')}</button>
               </div>
               <Input id="confirm-password" label={t("ui.Confirm password")} labelClassName={labelClassName} type="password" autoComplete="new-password" placeholder={t("ui.Enter your password again")} value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} minLength={8} maxLength={72} required className={inputClassName} />
               {errorMessage && <p role="alert" className="rounded-md bg-danger-surface px-3 py-2 text-[12px] text-danger-fg">{errorMessage}</p>}
               <Button type="submit" loading={isLoading} className="mt-1 h-11 w-full text-[13px]">{t('ui.Reset password')}</Button>
-              <button type="button" onClick={goBack} className="h-8 text-[11px] text-ink hover:underline">{t("ui.Back")}</button>
+              <button type="button" onClick={goBack} className="h-8 text-[11px] text-fg hover:underline">{t("ui.Back")}</button>
             </form>
           </>
         )}
         {step === 'SUCCESS' && (
           <div>
-            <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-ink">{t("ui.Password updated")}</h1>
+            <h1 className="mb-2 text-[25px] leading-tight font-bold tracking-[-0.5px] text-fg">{t("ui.Password updated")}</h1>
             <p className="mb-5 text-[12px] leading-relaxed text-fg-secondary">{t("ui.Your password has been changed. Log in with your new password to continue.")}</p>
             <Button type="button" onClick={() => navigate('/login')} className="h-11 w-full text-[13px]">{t("ui.Log in")}</Button>
           </div>
