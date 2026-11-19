@@ -1,6 +1,5 @@
 
 import type { ReactNode } from 'react'
-import LanguageSwitcher from '../../../shared/components/LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
 
 interface AuthLayoutProps {
@@ -22,7 +21,6 @@ function AuthLayout({ children }: AuthLayoutProps) {
             Vigo
             <span className="size-[7px] rounded-full bg-accent" />
           </a>
-          <LanguageSwitcher />
         </header>
 
         {/* Form Content */}
@@ -79,7 +77,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
             <i className="h-px w-8 bg-border" />
             <strong className="font-medium text-ink">{t("ui.Train")}</strong>
             <i className="h-px w-8 bg-border" />
-            <span>Progress</span>
+            <span>{t('ui.Progress')}</span>
           </div>
         </div>
 
