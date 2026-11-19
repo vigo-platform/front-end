@@ -19,8 +19,8 @@ function OtpChannelSelector({
 
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-[11px] font-medium text-ink">
-        {t("ui.{t('ui.Continue with')}")}
+      <span className="text-[11px] font-medium text-fg">
+        {t('ui.Continue with')}
       </span>
 
       <div className="grid grid-cols-2 gap-2 rounded-lg bg-soft-gray p-1">
@@ -35,8 +35,8 @@ function OtpChannelSelector({
               aria-pressed={isSelected}
               className={`h-9 rounded-md text-[12px] font-medium transition ${
                 isSelected
-                  ? 'bg-surface text-ink shadow-sm'
-                  : 'text-fg-secondary hover:text-ink'
+                  ? 'bg-surface text-fg shadow-sm'
+                  : 'text-fg-secondary hover:text-fg'
               }`}
             >
               {channel === 'EMAIL' ? t('ui.Email') : t('ui.Phone')}
