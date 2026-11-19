@@ -50,7 +50,7 @@ function CoachDirectoryPage() {
     return () => {
       isActive = false
     }
-  }, [])
+  }, [t])
 
   async function loadPage(params: CoachSearchParams) {
     setIsLoading(true)
