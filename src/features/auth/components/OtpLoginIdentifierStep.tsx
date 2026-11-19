@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import OtpChannelSelector from './OtpChannelSelector'
 import type { OtpChannel } from '../types/auth-config.types'
 import { useTranslation } from 'react-i18next'
-import Spinner from '../../../shared/components/feedback/Spinner'
 import { AuthOptionsSkeleton } from '../../../shared/components/feedback/LoadingStates'
+import { Button, Input } from '../../../shared/components/ui'
 
 interface OtpLoginIdentifierStepProps {
   channels: OtpChannel[]
@@ -74,22 +74,19 @@ function OtpLoginIdentifierStep({
             onChange={onChannelChange}
           />
 
-          <div className="flex flex-col gap-2">
-            <label htmlFor="identifier" className={labelClassName}>
-              {t(isEmail ? 'ui.Email address' : 'ui.Phone number')}
-            </label>
-            <input
-              id="identifier"
-              type={isEmail ? 'email' : 'tel'}
-              inputMode={isEmail ? 'email' : 'tel'}
-              autoComplete={isEmail ? 'email' : 'tel'}
-              placeholder={isEmail ? 'you@example.com' : t('ui.Enter your phone number')}
-              value={identifier}
-              onChange={(event) => onIdentifierChange(event.target.value)}
-              required
-              className={inputClassName}
-            />
-          </div>
+          <Input
+            id="identifier"
+            label={t(isEmail ? 'ui.Email address' : 'ui.Phone number')}
+            labelClassName={labelClassName}
+            type={isEmail ? 'email' : 'tel'}
+            inputMode={isEmail ? 'email' : 'tel'}
+            autoComplete={isEmail ? 'email' : 'tel'}
+            placeholder={isEmail ? 'you@example.com' : t('ui.Enter your phone number')}
+            value={identifier}
+            onChange={(event) => onIdentifierChange(event.target.value)}
+            required
+            className={inputClassName}
+          />
 
           <p className="-mt-2 text-[12px] leading-relaxed text-[#62625c]">
             {t('ui.We\'ll send a verification code to your {{channel}}.', { channel: t(isEmail ? 'ui.Email address' : 'ui.Phone number') })}
@@ -110,13 +107,9 @@ function OtpLoginIdentifierStep({
             </p>
           )}
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isLoading && <Spinner size="sm" />}{'Continue'}
-          </button>
+          <Button type="submit" loading={isLoading} size="md" className="h-11 w-full text-[13px]">
+            {'Continue'}
+          </Button>
         </form>
       )}
 
