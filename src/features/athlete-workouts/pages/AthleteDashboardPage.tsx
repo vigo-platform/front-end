@@ -179,9 +179,9 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
             <div>
               <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-success-fg">{t("ui.Training activity")}</p>
               <h2 className="mt-3 text-[21px] font-bold tracking-[-0.7px] text-fg">{t("ui.Workout tracking is coming with the backend API.")}</h2>
-              <p className="mt-2 text-[11px] leading-5 text-[#73786a]">{t("ui.Assigned workouts and result submission are not exposed by the current backend yet. This dashboard does not show demo workouts.")}</p>
+              <p className="mt-2 text-[11px] leading-5 text-fg-muted">{t("ui.Assigned workouts and result submission are not exposed by the current backend yet. This dashboard does not show demo workouts.")}</p>
             </div>
-            <Link to={isPreview ? '/_preview/athlete/workouts' : '/athlete/workouts'} className="mt-6 inline-flex w-fit rounded-full border border-[#d7dfcb] bg-surface/70 px-3 py-2 text-[10px] font-bold text-success-fg transition hover:bg-surface">{t('ui.Workout API status →')}</Link>
+            <Link to={isPreview ? '/_preview/athlete/workouts' : '/athlete/workouts'} className="mt-6 inline-flex w-fit rounded-full border border-success-border bg-surface/70 px-3 py-2 text-[10px] font-bold text-success-fg transition hover:bg-surface">{t('ui.Workout API status →')}</Link>
           </article>
         </section>
       </div>
