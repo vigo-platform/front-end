@@ -165,7 +165,7 @@ function WorkoutBuilderPage() {
                   {selectedExercises.map((item, index) => (
                     <article
                       key={item.exercise_id}
-                      className="rounded-xl border border-border-default-default p-4"
+                      className="rounded-xl border border-border-default p-4"
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex min-w-0 items-start gap-3">
@@ -227,7 +227,7 @@ function WorkoutBuilderPage() {
           <aside className="space-y-4 lg:sticky lg:top-6">
             <div className="rounded-2xl border border-border-default bg-surface p-5">
               <h3 className="font-semibold">{t("ui.Workout summary")}</h3>
-              <div className="mt-5 flex items-center justify-between border-b border-border-default-default pb-3 text-sm">
+              <div className="mt-5 flex items-center justify-between border-b border-border-default pb-3 text-sm">
                 <span className="text-fg-secondary">{t("ui.Exercises")}</span>
                 <span className="font-semibold">{draft.exercises.length}</span>
               </div>
@@ -251,7 +251,7 @@ function WorkoutBuilderPage() {
               )}
             </div>
 
-            <div className="rounded-2xl border border-border-default-default bg-surface-muted p-5">
+            <div className="rounded-2xl border border-border-default bg-surface-muted p-5">
               <p className="text-sm font-semibold">{t("ui.Publishing is not connected yet")}</p>
               <p className="mt-2 text-xs leading-5 text-fg-secondary">
                 {t('ui.The current repository does not include a Workout API contract. This draft is saved locally and cannot yet be published or assigned to an athlete.')}
