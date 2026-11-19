@@ -8,15 +8,15 @@ import { userService } from '../services/user.service'
 import type { Gender, UpdateProfileRequest } from '../types/user.types'
 import { useTranslation } from 'react-i18next'
 import { ProfileSectionSkeleton } from '../../../shared/components/feedback/LoadingStates'
-import LoadingButton from '../../../shared/components/feedback/LoadingButton'
+import { Button } from '../../../shared/components/ui'
 
 interface ProfilePageProps {
   isPreview?: boolean
   previewCoachProfile?: CoachProfile
 }
 
-const fieldClass = 'mt-2 w-full rounded-xl border border-[#e2e3dc] bg-[#fbfbf9] px-4 py-3 text-[12px] text-[#24251f] outline-none transition placeholder:text-[#a1a298] focus:border-[#a8c76d] focus:bg-white focus:ring-2 focus:ring-[#c7f36b]/20'
-const labelClass = 'text-[10px] font-semibold uppercase tracking-[1px] text-[#77796f]'
+const fieldClass = 'mt-2 w-full rounded-xl border border-border-default bg-surface-subtle px-4 py-3 text-[12px] text-fg outline-none transition placeholder:text-fg-muted focus:border-brand focus:bg-surface focus:ring-2 focus:ring-focus-ring'
+const labelClass = 'text-[10px] font-semibold uppercase tracking-[1px] text-fg-secondary'
 
 function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProps) {
   const { t } = useTranslation()
@@ -153,22 +153,22 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
       <div className="mx-auto w-full max-w-[1040px] space-y-7">
         <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <p className="text-[9px] font-bold uppercase tracking-[2px] text-[#82975e]">{t("ui.Account settings")}</p>
-            <h1 className="mt-3 text-[34px] font-bold leading-tight tracking-[-1.4px] text-[#171815] sm:text-[40px]">{t("ui.Your profile")}</h1>
-            <p className="mt-2 max-w-xl text-[12px] leading-6 text-[#77786f]">{t("ui.Keep your account details up to date. Your verified contact information is managed separately.")}</p>
+            <p className="text-[9px] font-bold uppercase tracking-[2px] text-fg-secondary">{t("ui.Account settings")}</p>
+            <h1 className="mt-3 text-[34px] font-bold leading-tight tracking-[-1.4px] text-fg sm:text-[40px]">{t("ui.Your profile")}</h1>
+            <p className="mt-2 max-w-xl text-[12px] leading-6 text-fg-secondary">{t("ui.Keep your account details up to date. Your verified contact information is managed separately.")}</p>
           </div>
-          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[#e2e2db] bg-white px-3.5 py-2 text-[9px] font-bold uppercase tracking-[1px] text-[#77786f]">
+          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-border-default bg-surface px-3.5 py-2 text-[9px] font-bold uppercase tracking-[1px] text-fg-secondary">
             <span className="h-1.5 w-1.5 rounded-full bg-[#9bcf43]" />{t('ui.' + (user?.role ?? 'Member'))} {t('ui.account')}
           </span>
         </header>
 
         <form onSubmit={handleSubmit} className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_300px]">
           <div className="space-y-5">
-            <section className="rounded-[20px] border border-[#e1e1da] bg-white p-6 sm:p-8">
-              <div className="border-b border-[#edede8] pb-5">
-                <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#82975e]">{t("ui.Personal information")}</p>
-                <h2 className="mt-2 text-[19px] font-bold tracking-[-0.5px] text-[#20211d]">{t("ui.Basic details")}</h2>
-                <p className="mt-1 text-[11px] text-[#85867d]">{t("ui.These fields are shared across your Vigo account.")}</p>
+            <section className="rounded-[20px] border border-border-default bg-surface p-6 sm:p-8">
+              <div className="border-b border-border-default pb-5">
+                <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-fg-secondary">{t("ui.Personal information")}</p>
+                <h2 className="mt-2 text-[19px] font-bold tracking-[-0.5px] text-fg">{t("ui.Basic details")}</h2>
+                <p className="mt-1 text-[11px] text-fg-muted">{t("ui.These fields are shared across your Vigo account.")}</p>
               </div>
               <div className="mt-6 grid gap-5 sm:grid-cols-2">
                 <label className="sm:col-span-2">
@@ -177,13 +177,13 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
                 </label>
                 <label>
                   <span className={labelClass}>{t("ui.Email address")}</span>
-                  <input className={fieldClass + ' cursor-not-allowed bg-[#f3f3ef] text-[#92938a]'} value={user?.email ?? ''} readOnly />
-                  <span className="mt-1.5 block text-[10px] text-[#92938a]">{t("ui.Email is managed by Authentication.")}</span>
+                  <input className={fieldClass + ' cursor-not-allowed bg-surface-muted text-fg-muted'} value={user?.email ?? ''} readOnly />
+                  <span className="mt-1.5 block text-[10px] text-fg-muted">{t("ui.Email is managed by Authentication.")}</span>
                 </label>
                 <label>
                   <span className={labelClass}>{t("ui.Phone number")}</span>
-                  <input className={fieldClass + ' cursor-not-allowed bg-[#f3f3ef] text-[#92938a]'} value={user?.phone ?? 'Not provided'} readOnly />
-                  <span className="mt-1.5 block text-[10px] text-[#92938a]">{t("ui.Verified phone number cannot be changed here.")}</span>
+                  <input className={fieldClass + ' cursor-not-allowed bg-surface-muted text-fg-muted'} value={user?.phone ?? 'Not provided'} readOnly />
+                  <span className="mt-1.5 block text-[10px] text-fg-muted">{t("ui.Verified phone number cannot be changed here.")}</span>
                 </label>
                 <label>
                   <span className={labelClass}>{t("ui.Date of birth")}</span>
@@ -202,11 +202,11 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
             </section>
 
             {isCoach && (
-              <section className="rounded-[20px] border border-[#e1e1da] bg-white p-6 sm:p-8">
-                <div className="border-b border-[#edede8] pb-5">
-                  <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#82975e]">{t("ui.Coach profile")}</p>
-                  <h2 className="mt-2 text-[19px] font-bold tracking-[-0.5px] text-[#20211d]">{t("ui.Your coaching identity")}</h2>
-                  <p className="mt-1 text-[11px] text-[#85867d]">{t("ui.This information is used on your public coach profile.")}</p>
+              <section className="rounded-[20px] border border-border-default bg-surface p-6 sm:p-8">
+                <div className="border-b border-border-default pb-5">
+                  <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-fg-secondary">{t("ui.Coach profile")}</p>
+                  <h2 className="mt-2 text-[19px] font-bold tracking-[-0.5px] text-fg">{t("ui.Your coaching identity")}</h2>
+                  <p className="mt-1 text-[11px] text-fg-muted">{t("ui.This information is used on your public coach profile.")}</p>
                 </div>
                 {isLoadingCoach ? (
                   <ProfileSectionSkeleton />
@@ -219,12 +219,12 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
                     <label>
                       <span className={labelClass}>{t("ui.Biography")}</span>
                       <textarea className={fieldClass + ' min-h-[140px] resize-y'} value={bio} onChange={(event) => setBio(event.target.value)} minLength={20} maxLength={3000} required placeholder={t("ui.Tell athletes about your coaching approach and experience…")} />
-                      <span className="mt-1.5 block text-right text-[10px] text-[#92938a]">{bio.length}/3000</span>
+                      <span className="mt-1.5 block text-right text-[10px] text-fg-muted">{bio.length}/3000</span>
                     </label>
                     <label>
                       <span className={labelClass}>{t("ui.Specialties")}</span>
                       <input className={fieldClass} value={specialties} onChange={(event) => setSpecialties(event.target.value)} required placeholder={t("ui.Strength, Mobility, Conditioning")} />
-                      <span className="mt-1.5 block text-[10px] text-[#92938a]">{t("ui.Separate specialties with commas (up to 10).")}</span>
+                      <span className="mt-1.5 block text-[10px] text-fg-muted">{t("ui.Separate specialties with commas (up to 10).")}</span>
                     </label>
                     <div className="grid gap-5 sm:grid-cols-2">
                       <label>
@@ -234,15 +234,15 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
                       <label>
                         <span className={labelClass}>{t("ui.Instagram username")}</span>
                         <div className="relative">
-                          <span className="absolute start-4 top-1/2 -translate-y-1/2 text-[12px] text-[#92938a]">@</span>
+                          <span className="absolute start-4 top-1/2 -translate-y-1/2 text-[12px] text-fg-muted">@</span>
                           <input className={fieldClass + ' ps-8'} value={instagram} onChange={(event) => setInstagram(event.target.value.replace(/^@/, ''))} maxLength={30} placeholder="your.profile" />
                         </div>
                       </label>
                     </div>
                     {coachProfile?.status && (
-                      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[#f5f6f1] px-4 py-3">
-                        <span className="text-[10px] font-semibold uppercase tracking-[1px] text-[#77796f]">{t("ui.Profile review status")}</span>
-                        <span className="rounded-full bg-white px-3 py-1.5 text-[9px] font-bold uppercase text-[#526a2e]">{t('ui.' + coachProfile.status)}</span>
+                      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-surface-muted px-4 py-3">
+                        <span className="text-[10px] font-semibold uppercase tracking-[1px] text-fg-secondary">{t("ui.Profile review status")}</span>
+                        <span className="rounded-full bg-surface px-3 py-1.5 text-[9px] font-bold uppercase text-success-fg">{t('ui.' + coachProfile.status)}</span>
                       </div>
                     )}
                   </div>
@@ -252,22 +252,22 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
           </div>
 
           <aside className="flex flex-col gap-4">
-            <section className="rounded-[20px] border border-[#e1e1da] bg-[#171916] p-6 text-white">
-              <span className="inline-flex rounded-full bg-white/10 px-3 py-1.5 text-[8px] font-bold uppercase tracking-[1.2px] text-[#d8e9bc]">{t("ui.Profile visibility")}</span>
+            <section className="rounded-[20px] border border-border-default bg-sidebar p-6 text-fg-inverse">
+              <span className="inline-flex rounded-full bg-surface/10 px-3 py-1.5 text-[8px] font-bold uppercase tracking-[1.2px] text-sidebar-active">{t("ui.Profile visibility")}</span>
               <h2 className="mt-5 text-[20px] font-bold leading-tight tracking-[-0.6px]">{isCoach ? 'Make your profile count.' : 'Your account, up to date.'}</h2>
-              <p className="mt-2 text-[11px] leading-5 text-white/60">{isCoach ? 'Your headline, bio, and specialties help athletes understand your coaching approach.' : 'Your personal details help keep your Vigo account accurate.'}</p>
+              <p className="mt-2 text-[11px] leading-5 text-fg-inverse/60">{isCoach ? 'Your headline, bio, and specialties help athletes understand your coaching approach.' : 'Your personal details help keep your Vigo account accurate.'}</p>
             </section>
-            <section className="rounded-[20px] border border-[#e1e1da] bg-white p-5">
+            <section className="rounded-[20px] border border-border-default bg-surface p-5">
               <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Account status")}</p>
-              <p className="mt-3 text-[15px] font-bold text-[#20211d]">{t('ui.' + (user?.status ?? 'Unavailable'))}</p>
-              <p className="mt-1 text-[10px] text-[#85867d]">{t('ui.Your role:')} {user?.role ? t('ui.' + user.role) : '—'}</p>
+              <p className="mt-3 text-[15px] font-bold text-fg">{t('ui.' + (user?.status ?? 'Unavailable'))}</p>
+              <p className="mt-1 text-[10px] text-fg-muted">{t('ui.Your role:')} {user?.role ? t('ui.' + user.role) : '—'}</p>
             </section>
-            {error && <p role="alert" className="rounded-xl border border-[#f0d2cb] bg-[#fff6f3] px-4 py-3 text-[11px] leading-5 text-[#a34d3d]">{error}</p>}
-            {success && <p role="status" className="rounded-xl border border-[#dce8c8] bg-[#f2f8e8] px-4 py-3 text-[11px] leading-5 text-[#526a2e]">{success}</p>}
-            <LoadingButton type="submit" loading={isSaving} disabled={isLoadingCoach} className="h-12 rounded-full bg-[#c7f36b] px-5 text-[11px] font-bold text-[#171914] transition hover:bg-[#d4fa83]">
+            {error && <p role="alert" className="rounded-xl border border-danger-border bg-danger-surface px-4 py-3 text-[11px] leading-5 text-danger-fg">{error}</p>}
+            {success && <p role="status" className="rounded-xl border border-success-border bg-success-surface px-4 py-3 text-[11px] leading-5 text-success-fg">{success}</p>}
+            <Button type="submit" loading={isSaving} disabled={isLoadingCoach} className="h-12 rounded-full bg-brand px-5 text-[11px] font-bold text-on-brand transition hover:bg-brand-hover">
               Save changes <span aria-hidden="true">→</span>
-            </LoadingButton>
-            <p className="text-center text-[9px] leading-4 text-[#92938a]">{t("ui.Only fields supported by your current API contracts are editable here.")}</p>
+            </Button>
+            <p className="text-center text-[9px] leading-4 text-fg-muted">{t("ui.Only fields supported by your current API contracts are editable here.")}</p>
           </aside>
         </form>
       </div>

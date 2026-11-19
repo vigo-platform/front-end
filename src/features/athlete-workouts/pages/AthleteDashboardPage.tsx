@@ -64,71 +64,71 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
         <div className="flex justify-end"><LanguageSwitcher /></div>
         <section className="flex flex-col justify-between gap-5 xl:flex-row xl:items-end">
           <div>
-            <p className="text-[9px] font-bold uppercase tracking-[2px] text-[#82975e]">{t("ui.Athlete space")}</p>
-            <h1 className="mt-3 text-[32px] font-bold leading-[1.08] tracking-[-1.5px] text-[#171815] sm:text-[42px]">
+            <p className="text-[9px] font-bold uppercase tracking-[2px] text-fg-secondary">{t("ui.Athlete space")}</p>
+            <h1 className="mt-3 text-[32px] font-bold leading-[1.08] tracking-[-1.5px] text-fg sm:text-[42px]">
               {t('ui.Good morning, {{name}}.', { name: firstName })}
             </h1>
-            <p className="mt-2 text-[13px] leading-6 text-[#77786f]">
+            <p className="mt-2 text-[13px] leading-6 text-fg-secondary">
               {t('ui.Explore verified coaches and manage your Vigo account.')}
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#dce8c8] bg-[#f2f8e8] px-3.5 py-2 text-[9px] font-bold uppercase tracking-[1px] text-[#526a2e]">
+            <span className="inline-flex items-center gap-2 rounded-full border border-success-border bg-success-surface px-3.5 py-2 text-[9px] font-bold uppercase tracking-[1px] text-success-fg">
               <span className="h-1.5 w-1.5 rounded-full bg-[#9bcf43]" />
               {t('ui.' + (user?.status || 'Status unavailable'))}
             </span>
-            <span className="rounded-full border border-[#e2e2db] bg-white px-3.5 py-2 text-[9px] font-semibold uppercase tracking-[1px] text-[#77786f]">
+            <span className="rounded-full border border-border-default bg-surface px-3.5 py-2 text-[9px] font-semibold uppercase tracking-[1px] text-fg-secondary">
               {t('ui.Member since')} {formatDate(user?.created_at, i18n.language)}
             </span>
           </div>
         </section>
 
         <section className="grid gap-3 sm:grid-cols-3">
-          <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
+          <article className="rounded-[18px] border border-border-default bg-surface p-5 sm:p-6">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Available coaches")}</p>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingCoaches ? <Skeleton className="h-9 w-20" /> : formatNumber(totalCoaches, i18n.language)}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-fg">{isLoadingCoaches ? <Skeleton className="h-9 w-20" /> : formatNumber(totalCoaches, i18n.language)}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Approved public profiles")}</p>
           </article>
-          <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
+          <article className="rounded-[18px] border border-border-default bg-surface p-5 sm:p-6">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Specialties shown")}</p>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-[#20211d]">{isLoadingCoaches ? <Skeleton className="h-9 w-20" /> : formatNumber(uniqueSpecialties, i18n.language)}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-fg">{isLoadingCoaches ? <Skeleton className="h-9 w-20" /> : formatNumber(uniqueSpecialties, i18n.language)}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Across the coaches loaded")}</p>
           </article>
-          <article className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
+          <article className="rounded-[18px] border border-border-default bg-surface p-5 sm:p-6">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">{t("ui.Account type")}</p>
-            <p className="mt-4 text-[25px] font-bold tracking-[-0.8px] text-[#20211d]">{t("ui.Athlete")}</p>
+            <p className="mt-4 text-[25px] font-bold tracking-[-0.8px] text-fg">{t("ui.Athlete")}</p>
             <p className="mt-1 text-[10px] text-[#898a81]">{t("ui.Your current Vigo role")}</p>
           </article>
         </section>
 
-        <section className="relative flex min-h-[250px] flex-col justify-between overflow-hidden rounded-[22px] bg-[#171916] p-7 text-white sm:p-9">
+        <section className="relative flex min-h-[250px] flex-col justify-between overflow-hidden rounded-[22px] bg-sidebar p-7 text-fg-inverse sm:p-9">
           <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-24 h-[330px] w-[330px] rounded-full border-[48px] border-white/[0.04]" />
           <div className="relative max-w-xl">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[1.2px] text-[#d8e9bc]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#c7f36b]" />
+            <span className="inline-flex items-center gap-2 rounded-full bg-surface/10 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[1.2px] text-sidebar-active">
+              <span className="h-1.5 w-1.5 rounded-full bg-brand" />
               {t("ui.Your next step")}
             </span>
             <h2 className="mt-6 max-w-lg text-[29px] font-bold leading-[1.12] tracking-[-1.1px] sm:text-[36px]">
               {t("ui.Find the coach who moves you forward.")}
             </h2>
-            <p className="mt-3 max-w-md text-[12px] leading-6 text-white/60">
+            <p className="mt-3 max-w-md text-[12px] leading-6 text-fg-inverse/60">
               {t("ui.Browse approved coach profiles and compare their experience and specialties.")}
             </p>
           </div>
-          <Link to="/coaches" className="relative mt-8 inline-flex h-11 w-fit items-center gap-3 rounded-full bg-[#c7f36b] px-5 text-[11px] font-bold text-[#171914] transition hover:bg-[#d4fa83]">
+          <Link to="/coaches" className="relative mt-8 inline-flex h-11 w-fit items-center gap-3 rounded-full bg-brand px-5 text-[11px] font-bold text-on-brand transition hover:bg-brand-hover">
             {t("ui.Explore coaches")} <span aria-hidden="true">→</span>
           </Link>
-          <span aria-hidden="true" className="pointer-events-none absolute bottom-0 right-8 text-[150px] font-black leading-none tracking-[-16px] text-white/[0.045]">V</span>
+          <span aria-hidden="true" className="pointer-events-none absolute bottom-0 right-8 text-[150px] font-black leading-none tracking-[-16px] text-fg-inverse/[0.045]">V</span>
         </section>
 
         <section>
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
               <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">{t("ui.Marketplace")}</p>
-              <h2 className="mt-2 text-[22px] font-bold tracking-[-0.8px] text-[#20211d]">{t("ui.Discover coaches")}</h2>
-              <p className="mt-1 text-[12px] text-[#77786f]">{t("ui.Approved coaches currently available on Vigo.")}</p>
+              <h2 className="mt-2 text-[22px] font-bold tracking-[-0.8px] text-fg">{t("ui.Discover coaches")}</h2>
+              <p className="mt-1 text-[12px] text-fg-secondary">{t("ui.Approved coaches currently available on Vigo.")}</p>
             </div>
-            <Link to="/coaches" className="text-[10px] font-bold text-[#526a2e] hover:underline">{t('ui.View all coaches →')}</Link>
+            <Link to="/coaches" className="text-[10px] font-bold text-success-fg hover:underline">{t('ui.View all coaches →')}</Link>
           </div>
 
           {coachError ? (
@@ -141,17 +141,17 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
           ) : coaches.length > 0 ? (
             <div className="mt-4 grid gap-3 md:grid-cols-3">
               {coaches.map((coach) => (
-                <article key={coach.coach_id} className="rounded-[18px] border border-[#e1e1da] bg-white p-5 sm:p-6">
-                  <p className="text-[9px] font-bold uppercase tracking-[1px] text-[#82975e]">{t("ui.Verified coach")}</p>
-                  <h3 className="mt-2 text-[16px] font-bold tracking-[-0.4px] text-[#20211d]">{coach.display_name}</h3>
-                  {coach.headline && <p className="mt-1 text-[11px] text-[#77786f]">{coach.headline}</p>}
-                  <p className="mt-3 text-[10px] text-[#77786f]">{formatNumber(coach.experience_years, i18n.language)} {t('ui.years of experience')}</p>
+                <article key={coach.coach_id} className="rounded-[18px] border border-border-default bg-surface p-5 sm:p-6">
+                  <p className="text-[9px] font-bold uppercase tracking-[1px] text-fg-secondary">{t("ui.Verified coach")}</p>
+                  <h3 className="mt-2 text-[16px] font-bold tracking-[-0.4px] text-fg">{coach.display_name}</h3>
+                  {coach.headline && <p className="mt-1 text-[11px] text-fg-secondary">{coach.headline}</p>}
+                  <p className="mt-3 text-[10px] text-fg-secondary">{formatNumber(coach.experience_years, i18n.language)} {t('ui.years of experience')}</p>
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {(coach.specialties ?? []).slice(0, 3).map((specialty) => (
                       <span key={specialty} className="rounded-full bg-[#f0f3e9] px-2.5 py-1 text-[9px] text-[#60783a]">{specialty}</span>
                     ))}
                   </div>
-                  <Link to={'/coaches/' + coach.coach_id} className="mt-5 inline-flex text-[10px] font-bold text-[#526a2e] hover:underline">
+                  <Link to={'/coaches/' + coach.coach_id} className="mt-5 inline-flex text-[10px] font-bold text-success-fg hover:underline">
                     {t('ui.View profile →')}
                   </Link>
                 </article>
@@ -165,23 +165,23 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
         </section>
 
         <section className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-          <article className="rounded-[20px] border border-[#e1e1da] bg-white p-6 sm:p-7">
+          <article className="rounded-[20px] border border-border-default bg-surface p-6 sm:p-7">
             <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#888980]">{t("ui.Account details")}</p>
             <h2 className="mt-2 text-[18px] font-bold tracking-[-0.5px]">{t("ui.Your information")}</h2>
             <dl className="mt-5 grid gap-4 sm:grid-cols-2">
-              <div className="min-w-0"><dt className="text-[10px] text-[#92938a]">{t("ui.Full name")}</dt><dd className="mt-1 truncate text-[12px] font-semibold text-[#34352f]">{user?.display_name || '—'}</dd></div>
-              <div className="min-w-0"><dt className="text-[10px] text-[#92938a]">{t("ui.Email address")}</dt><dd className="mt-1 break-all text-[12px] font-semibold text-[#34352f]">{user?.email || '—'}</dd></div>
-              <div className="min-w-0"><dt className="text-[10px] text-[#92938a]">{t("ui.Phone")}</dt><dd className="mt-1 text-[12px] font-semibold text-[#34352f]">{user?.phone || 'Not provided'}</dd></div>
-              <div className="min-w-0"><dt className="text-[10px] text-[#92938a]">{t("ui.Account status")}</dt><dd className="mt-1 text-[12px] font-semibold text-[#34352f]">{user?.status || '—'}</dd></div>
+              <div className="min-w-0"><dt className="text-[10px] text-fg-muted">{t("ui.Full name")}</dt><dd className="mt-1 truncate text-[12px] font-semibold text-[#34352f]">{user?.display_name || '—'}</dd></div>
+              <div className="min-w-0"><dt className="text-[10px] text-fg-muted">{t("ui.Email address")}</dt><dd className="mt-1 break-all text-[12px] font-semibold text-[#34352f]">{user?.email || '—'}</dd></div>
+              <div className="min-w-0"><dt className="text-[10px] text-fg-muted">{t("ui.Phone")}</dt><dd className="mt-1 text-[12px] font-semibold text-[#34352f]">{user?.phone || 'Not provided'}</dd></div>
+              <div className="min-w-0"><dt className="text-[10px] text-fg-muted">{t("ui.Account status")}</dt><dd className="mt-1 text-[12px] font-semibold text-[#34352f]">{user?.status || '—'}</dd></div>
             </dl>
           </article>
-          <article className="flex flex-col justify-between rounded-[20px] border border-[#e1e1da] bg-[#eff2e9] p-6 sm:p-7">
+          <article className="flex flex-col justify-between rounded-[20px] border border-border-default bg-[#eff2e9] p-6 sm:p-7">
             <div>
               <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#71864c]">{t("ui.Training activity")}</p>
               <h2 className="mt-3 text-[21px] font-bold tracking-[-0.7px] text-[#20231b]">{t("ui.Workout tracking is coming with the backend API.")}</h2>
               <p className="mt-2 text-[11px] leading-5 text-[#73786a]">{t("ui.Assigned workouts and result submission are not exposed by the current backend yet. This dashboard does not show demo workouts.")}</p>
             </div>
-            <Link to={isPreview ? '/_preview/athlete/workouts' : '/athlete/workouts'} className="mt-6 inline-flex w-fit rounded-full border border-[#d7dfcb] bg-white/70 px-3 py-2 text-[10px] font-bold text-[#526a2e] transition hover:bg-white">{t('ui.Workout API status →')}</Link>
+            <Link to={isPreview ? '/_preview/athlete/workouts' : '/athlete/workouts'} className="mt-6 inline-flex w-fit rounded-full border border-[#d7dfcb] bg-surface/70 px-3 py-2 text-[10px] font-bold text-success-fg transition hover:bg-surface">{t('ui.Workout API status →')}</Link>
           </article>
         </section>
       </div>
