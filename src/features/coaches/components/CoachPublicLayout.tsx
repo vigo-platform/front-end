@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../auth/context/auth-context'
-import LanguageSwitcher from '../../../shared/components/LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
 
 interface CoachPublicLayoutProps {
@@ -47,7 +46,6 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
                 </Link>
               </>
             )}
-            <LanguageSwitcher />
           </nav>
         </div>
       </header>
