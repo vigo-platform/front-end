@@ -104,20 +104,20 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
               <div className="mt-5 divide-y divide-[#edede8]">
                 {activeAthletes.map((relation) => (
                   <div key={relation.relation_id} className="flex items-center gap-3 py-4 first:pt-0 last:pb-0">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#eff2e9] text-[11px] font-bold text-[#60783a]">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface-muted text-[11px] font-bold text-success-fg">
                       {relation.athlete_name.split(/\s+/).map((part: string) => part[0]).slice(0, 2).join('')}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-[12px] font-bold text-[#34352f]">{relation.athlete_name}</p>
+                      <p className="truncate text-[12px] font-bold text-fg">{relation.athlete_name}</p>
                       <p className="mt-1 truncate text-[10px] text-fg-muted">{relation.plan_title}</p>
                     </div>
-                    <span className="rounded-full bg-surface-muted px-2.5 py-1 text-[8px] font-bold uppercase tracking-[0.8px] text-[#60783a]">{t('ui.ACTIVE')}</span>
+                    <span className="rounded-full bg-surface-muted px-2.5 py-1 text-[8px] font-bold uppercase tracking-[0.8px] text-success-fg">{t('ui.ACTIVE')}</span>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="mt-5 rounded-xl border border-dashed border-[#d9dacf] bg-[#fbfbf8] px-5 py-7 text-center">
-                <p className="text-[12px] font-semibold text-[#34352f]">{t("ui.Athlete relationships will appear here")}</p>
+              <div className="mt-5 rounded-xl border border-dashed border-border-default bg-surface-subtle px-5 py-7 text-center">
+                <p className="text-[12px] font-semibold text-fg">{t("ui.Athlete relationships will appear here")}</p>
                 <p className="mt-1 text-[10px] text-fg-muted">{t("ui.The current backend does not expose coach–athlete relationship endpoints.")}</p>
               </div>
             )}
@@ -134,10 +134,10 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
             {preview ? (
               <div className="mt-5 space-y-3">
                 {activePlans.map((plan) => (
-                  <div key={plan.plan_id} className="rounded-xl bg-[#f7f8f3] p-4">
+                  <div key={plan.plan_id} className="rounded-xl bg-surface-subtle p-4">
                     <div className="flex items-start justify-between gap-3">
-                      <h3 className="text-[12px] font-bold text-[#34352f]">{plan.title}</h3>
-                      <span className="rounded-full bg-surface px-2 py-1 text-[8px] font-bold uppercase text-[#60783a]">{t('ui.' + plan.status)}</span>
+                      <h3 className="text-[12px] font-bold text-fg">{plan.title}</h3>
+                      <span className="rounded-full bg-surface px-2 py-1 text-[8px] font-bold uppercase text-success-fg">{t('ui.' + plan.status)}</span>
                     </div>
                     <p className="mt-1 text-[10px] leading-5 text-fg-muted">{plan.description}</p>
                     <p className="mt-3 text-[10px] font-semibold text-success-fg">{formatNumber(plan.duration_days, i18n.language)} {t('ui.days')} · {new Intl.NumberFormat(i18n.language === 'fa' ? 'fa-IR' : 'en-US').format(plan.price)} {i18n.language === 'fa' ? 'تومان' : 'Toman'}</p>
@@ -145,8 +145,8 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
                 ))}
               </div>
             ) : (
-              <div className="mt-5 rounded-xl border border-dashed border-[#d9dacf] bg-[#fbfbf8] px-5 py-7 text-center">
-                <p className="text-[12px] font-semibold text-[#34352f]">{t("ui.Your published plans will appear here")}</p>
+              <div className="mt-5 rounded-xl border border-dashed border-border-default bg-surface-subtle px-5 py-7 text-center">
+                <p className="text-[12px] font-semibold text-fg">{t("ui.Your published plans will appear here")}</p>
                 <p className="mt-1 text-[10px] text-fg-muted">{t("ui.The current backend does not expose coach plan endpoints.")}</p>
               </div>
             )}
@@ -180,14 +180,14 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
           </div>
         </section>
 
-        <section className="rounded-[20px] border border-border-default bg-[#eff2e9] p-6 sm:p-7">
+        <section className="rounded-[20px] border border-border-default bg-surface-muted p-6 sm:p-7">
           <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-center">
             <div>
-              <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#71864c]">{t('ui.Account')}</p>
-              <h2 className="mt-2 text-[17px] font-bold text-[#20231b]">{user?.display_name || t('ui.Coach profile')}</h2>
+              <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-success-fg">{t('ui.Account')}</p>
+              <h2 className="mt-2 text-[17px] font-bold text-fg">{user?.display_name || t('ui.Coach profile')}</h2>
               <p className="mt-1 text-[11px] text-[#73786a]">{user?.email || t('ui.Email not available')} · {user?.phone || t('ui.No phone number')}</p>
             </div>
-            <span className="inline-flex w-fit rounded-full border border-[#d7dfcb] bg-surface/70 px-3 py-1.5 text-[8px] font-bold uppercase tracking-[1px] text-[#71864c]">{t('ui.' + (user?.status || 'Status unavailable'))}</span>
+            <span className="inline-flex w-fit rounded-full border border-[#d7dfcb] bg-surface/70 px-3 py-1.5 text-[8px] font-bold uppercase tracking-[1px] text-success-fg">{t('ui.' + (user?.status || 'Status unavailable'))}</span>
           </div>
         </section>
       </div>

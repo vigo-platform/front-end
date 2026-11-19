@@ -175,7 +175,7 @@ function CoachDirectoryPage() {
         {error && (
           <section role="alert" className="rounded-2xl border border-danger-border bg-danger-surface p-5">
             <p className="text-sm font-semibold text-danger-fg">{t("ui.Could not load coaches")}</p>
-            <p className="mt-1 text-sm text-red-700">{error}</p>
+            <p className="mt-1 text-sm text-danger-fg">{error}</p>
             <button
               type="button"
               onClick={() => changePage(page?.page ?? 0)}
@@ -212,7 +212,7 @@ function CoachDirectoryPage() {
                       {avatarUrl ? (
                         <img src={avatarUrl} alt="" className="h-14 w-14 shrink-0 rounded-2xl object-cover" />
                       ) : (
-                        <div aria-hidden="true" className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#eff5e5] text-xl font-bold text-[#607b38]">
+                        <div aria-hidden="true" className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-surface-muted text-xl font-bold text-[#607b38]">
                           {coach.display_name.charAt(0).toUpperCase()}
                         </div>
                       )}
@@ -228,7 +228,7 @@ function CoachDirectoryPage() {
 
                     <div className="mt-4 flex flex-wrap gap-2">
                       {coach.specialties.slice(0, 3).map((item) => (
-                        <span key={item} className="rounded-full bg-[#f0f5e8] px-3 py-1 text-[11px] font-semibold text-[#607b38]">
+                        <span key={item} className="rounded-full bg-surface-muted px-3 py-1 text-[11px] font-semibold text-[#607b38]">
                           {item}
                         </span>
                       ))}
