@@ -183,8 +183,8 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
           <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-center">
             <div>
               <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#71864c]">{t('ui.Account')}</p>
-              <h2 className="mt-2 text-[17px] font-bold text-[#20231b]">{user?.display_name || 'Coach profile'}</h2>
-              <p className="mt-1 text-[11px] text-[#73786a]">{user?.email || 'Email not available'} · {user?.phone || 'No phone number'}</p>
+              <h2 className="mt-2 text-[17px] font-bold text-[#20231b]">{user?.display_name || t('ui.Coach profile')}</h2>
+              <p className="mt-1 text-[11px] text-[#73786a]">{user?.email || t('ui.Email not available')} · {user?.phone || t('ui.No phone number')}</p>
             </div>
             <span className="inline-flex w-fit rounded-full border border-[#d7dfcb] bg-white/70 px-3 py-1.5 text-[8px] font-bold uppercase tracking-[1px] text-[#71864c]">{t('ui.' + (user?.status || 'Status unavailable'))}</span>
           </div>
