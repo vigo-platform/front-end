@@ -83,7 +83,7 @@ function Sidebar() {
           {user?.avatar_url ? (
             <img src={user.avatar_url} alt="" className="h-9 w-9 shrink-0 rounded-full object-cover" />
           ) : (
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sidebar-fg/15 text-[10px] font-bold text-white">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sidebar-fg/15 text-[10px] font-bold text-sidebar-fg">
               {initials || 'V'}
             </span>
           )}
