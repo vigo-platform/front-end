@@ -26,7 +26,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .skeleton-shimmer::after {
+  .skeleton-shimmer::after,
+  .animate-spin {
     animation: none;
   }
 }
