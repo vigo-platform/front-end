@@ -139,6 +139,39 @@ export interface CoachPlanFormOptions {
   features: CoachPlanFeatureLabel[]
 }
 
+export interface CoachPlanFieldValueInput {
+  fieldId: number
+  value: unknown
+}
+
+export interface CoachPlanCreateRequest {
+  title: string
+  summary?: string | null
+  description?: string | null
+  price: number
+  durationDays: number
+  firstDeliveryDays?: number | null
+  includes: string[]
+  featureIds: number[]
+  fieldValues: CoachPlanFieldValueInput[]
+}
+
+export interface CoachPlanPatchRequest {
+  title?: string
+  summary?: string | null
+  description?: string | null
+  price?: number
+  compareAtPrice?: number | null
+  durationDays?: number
+  firstDeliveryDays?: number | null
+  includes?: Array<{ code: string }>
+  features?: Array<{
+    featureId: number
+    fields: CoachPlanFieldValueInput[] | null
+  }>
+  fields?: CoachPlanFieldValueInput[]
+}
+
 export interface CoachOwnedPlanSummary extends CoachPublicPlanSummary {
   is_active: boolean
   is_archived: boolean
