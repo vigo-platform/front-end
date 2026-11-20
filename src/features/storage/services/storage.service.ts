@@ -1,6 +1,8 @@
 import { apiDownload, apiRequest } from '../../../shared/api/client'
 import type {
+  AssetAccessEntry,
   AssetAccessGrant,
+  FileCategory,
   AssetDownloadUrl,
   FileListFilters,
   StorageAsset,
@@ -35,7 +37,7 @@ export const storageService = {
   async uploadProgramFile(
     accessToken: string,
     file: File,
-    details: { athlete_id: string; category: string; title: string; description?: string },
+    details: { athlete_id: string; category: FileCategory; title: string; description?: string },
   ) {
     const body = uploadForm(file, details)
     return (await apiRequest<StoredFile>('/api/v1/files', {
@@ -124,7 +126,7 @@ export const storageService = {
   },
 
   async listAssetAccess(accessToken: string, assetId: string) {
-    return (await apiRequest<AssetAccessGrant[]>(
+    return (await apiRequest<AssetAccessEntry[]>(
       `/api/v1/assets/${encodeURIComponent(assetId)}/access`,
       auth(accessToken),
     )).data
