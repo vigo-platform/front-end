@@ -6,6 +6,7 @@ import { makePreviewPage, previewAdminUsers, previewCoachApplications } from '..
 import type { AdminCoachApplication, AdminPage, AdminUser, CoachApplicationStatus } from '../types/admin.types'
 import type { UserRole, UserStatus } from '../../user/types/user.types'
 import { useTranslation } from 'react-i18next'
+import { getUserErrorMessage } from '../../../shared/api/user-error'
 import { AdminApplicationGridSkeleton, AdminDetailsSkeleton, TableRowsSkeleton } from '../../../shared/components/feedback/LoadingStates'
 import Spinner from '../../../shared/components/feedback/Spinner'
 
@@ -64,7 +65,7 @@ function AdminDashboardPage() {
     let active = true
     adminService.listCoachApplications(accessToken, { page: 0, size: 1, status: 'PENDING' })
       .then((data) => { if (active) setPendingCount(data.total_elements) })
-      .catch((e: unknown) => { if (active) setError(e instanceof Error ? e.message : t('ui.Could not load pending application count.')) })
+      .catch((e: unknown) => { if (active) setError(getUserErrorMessage(e, t, 'errors.loadApplications')) })
     return () => { active = false }
   }, [accessToken, preview, t])
 
@@ -80,7 +81,7 @@ function AdminDashboardPage() {
         const data = await adminService.listUsers(accessToken, { page: userPage, size: 10, role, status, q })
         if (active) setUsers(data)
       } catch (e) {
-        if (active) setError(e instanceof Error ? e.message : t('ui.Could not load users.'))
+        if (active) setError(getUserErrorMessage(e, t, 'errors.loadUsers'))
       } finally {
         if (active) setLoading(false)
       }
@@ -101,7 +102,7 @@ function AdminDashboardPage() {
         const data = await adminService.listCoachApplications(accessToken, { page: coachPage, size: 10, status: coachStatus })
         if (active) setCoaches(data)
       } catch (e) {
-        if (active) setError(e instanceof Error ? e.message : t('ui.Could not load applications.'))
+        if (active) setError(getUserErrorMessage(e, t, 'errors.loadApplications'))
       } finally {
         if (active) setLoading(false)
       }
@@ -115,7 +116,7 @@ function AdminDashboardPage() {
     if (preview || !accessToken) { setSelectedUser(item); return }
     setIsDetailsLoading(true)
     try { setSelectedUser(await adminService.getUser(accessToken, item.user_id)) }
-    catch (e) { setError(e instanceof Error ? e.message : t('ui.Could not load user details.')) }
+    catch (e) { setError(getUserErrorMessage(e, t, 'errors.loadDetails')) }
     finally { setIsDetailsLoading(false) }
   }
   async function showCoach(item: AdminCoachApplication) {
@@ -123,7 +124,7 @@ function AdminDashboardPage() {
     if (preview || !accessToken) { setSelectedCoach(item); return }
     setIsDetailsLoading(true)
     try { setSelectedCoach(await adminService.getCoachApplication(accessToken, item.coach_id)) }
-    catch (e) { setError(e instanceof Error ? e.message : t('ui.Could not load application details.')) }
+    catch (e) { setError(getUserErrorMessage(e, t, 'errors.loadDetails')) }
     finally { setIsDetailsLoading(false) }
   }
   async function toggleUser(item: AdminUser) {
@@ -137,7 +138,7 @@ function AdminDashboardPage() {
       setPreviewUsers((current) => current.map((entry) => entry.user_id === updated.user_id ? updated : entry))
       setUsers((current) => ({ ...current, content: current.content.map((entry) => entry.user_id === updated.user_id ? updated : entry) }))
       setSelectedUser(updated); setNotice(t('ui.Account status changed to {{status}}.', { status: t('ui.' + next) }))
-    } catch (e) { setError(e instanceof Error ? e.message : t('ui.Could not update account.')) }
+    } catch (e) { setError(getUserErrorMessage(e, t, 'errors.updateAccount')) }
     finally { setBusyAction(null) }
   }
   async function reviewCoach(item: AdminCoachApplication, action: 'approve' | 'reject') {
@@ -157,7 +158,7 @@ function AdminDashboardPage() {
       setPreviewCoaches((current) => current.map((entry) => entry.coach_id === updated.coach_id ? updated : entry))
       setCoaches((current) => ({ ...current, content: current.content.map((entry) => entry.coach_id === updated.coach_id ? updated : entry) }))
       setSelectedCoach(updated); setNotice(t('ui.Application {{action}}.', { action: t(action === 'approve' ? 'ui.Approved' : 'ui.Rejected') }))
-    } catch (e) { setError(e instanceof Error ? e.message : t('ui.Could not review application.')) }
+    } catch (e) { setError(getUserErrorMessage(e, t, 'errors.reviewApplication')) }
     finally { setBusyAction(null) }
   }
 
