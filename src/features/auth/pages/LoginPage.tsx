@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import AuthLayout from '../components/AuthLayout'
 import OtpLoginIdentifierStep from '../components/OtpLoginIdentifierStep'
 import { authService } from '../services/auth.service'
-import { ApiError } from '../../../shared/api/client'
+import { getUserErrorMessage } from '../../../shared/api/user-error'
 import { useAuthConfig } from '../hooks/useAuthConfig'
 import type { OtpChannel } from '../types/auth-config.types'
 import PasswordLoginForm from '../components/PasswordLoginForm'
@@ -40,11 +40,7 @@ function LoginPage() {
     : availableChannels[0] ?? 'EMAIL'
 
   function handleError(error: unknown) {
-    if (error instanceof ApiError) {
-      setErrorMessage(error.message)
-    } else {
-      setErrorMessage(t("ui.Unable to connect to the server. Please try again."))
-    }
+    setErrorMessage(getUserErrorMessage(error, t, 'errors.login'))
   }
 
   async function handleRequestOtp(event: FormEvent<HTMLFormElement>) {
