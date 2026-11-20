@@ -24,23 +24,40 @@ export interface CoachProfile extends CoachProfileRequest {
   updated_at?: string
 }
 
-export interface CoachPage {
+export interface CoachDirectoryItem {
+  coachId: number
+  displayName: string
+  headline: string | null
+  bio: string
+  specialties: string[]
+  experienceYears: number
+  certifications: Array<{
+    title: string
+    issuer?: string
+    year?: number
+  }>
+  instagramHandle: string | null
+  resultImageUrls: string[]
+  avatarUrl: string | null
+  minPlanPrice: number | null
+  has_active_plan: boolean
+  price: number | null
+  compare_at_price: number | null
+  currency: string | null
+  activeAthletesCount: number
+  createdAt: string
+  updatedAt: string
+}
+
+export interface CoachDirectoryPage {
   page: number
   size: number
-  total_elements: number
-  total_pages: number
-  content: CoachProfile[]
+  totalElements: number
+  totalPages: number
+  content: CoachDirectoryItem[]
 }
 
-export type CoachSort = 'newest' | 'price_asc' | 'price_desc' | 'experience'
-
-export interface CoachSearchParams {
+export interface CoachDirectoryQuery {
   page?: number
   size?: number
-  q?: string
-  specialty?: string
-  min_price?: number
-  max_price?: number
-  sort?: CoachSort
 }
-
