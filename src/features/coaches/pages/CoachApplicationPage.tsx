@@ -23,7 +23,7 @@ function toE164Phone(value: string, dialCode: string): string | null {
   if (!trimmed) return null
 
   const hasInternationalPrefix = trimmed.startsWith('+') || trimmed.startsWith('00')
-  let digits = trimmed.replace(/\\D/g, '')
+  let digits = trimmed.replace(/\D/g, '')
 
   if (digits.startsWith('00')) digits = digits.slice(2)
 
