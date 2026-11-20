@@ -30,11 +30,15 @@ function PlanMarketplacePage() {
 
   useEffect(() => {
     let active = true
-    setLoading(true)
-    setError('')
-    planCatalogService.getPublicPlans({ page: pageNumber, size: PAGE_SIZE })
+    Promise.resolve()
+      .then(() => {
+        if (!active) return undefined
+        setLoading(true)
+        setError('')
+        return planCatalogService.getPublicPlans({ page: pageNumber, size: PAGE_SIZE })
+      })
       .then((response) => {
-        if (active) setResult(response)
+        if (active && response) setResult(response)
       })
       .catch(() => {
         if (active) setError(t('planMarketplace.loadError'))

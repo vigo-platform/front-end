@@ -56,7 +56,7 @@ function formatDate(value?: string | null, locale = 'en') {
 function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
   const { t, i18n } = useTranslation()
   const { user, accessToken, isPreview: previewContext } = useAuth()
-  const preview = isPreview || previewContext
+  const preview = Boolean(isPreview || previewContext)
   const coachPath = preview ? '/_preview/coach' : '/coach'
   const firstName = user?.display_name?.trim().split(/\s+/)[0] || t('ui.Coach')
   const draft = loadWorkoutDraft()
@@ -107,7 +107,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
         currency: 'IRR',
         durationDays: plan.duration_days,
         isActive: plan.status === 'ACTIVE',
-        isArchived: plan.status === 'ARCHIVED',
+        isArchived: false,
         features: [],
         includes: [...plan.includes],
       }))

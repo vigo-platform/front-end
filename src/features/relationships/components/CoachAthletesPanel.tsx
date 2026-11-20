@@ -36,18 +36,23 @@ function CoachAthletesPanel({ accessToken, preview, onTotalChange }: CoachAthlet
   useEffect(() => {
     if (preview || !accessToken) return
     let active = true
-    setLoading(true)
-    setError('')
-    relationshipService.getMyAthletes(accessToken, {
-      page: pageNumber,
-      size: 5,
-      ...(status === 'ALL' ? {} : { status }),
-    }).then((result) => {
-      if (active) {
-        setPage(result)
-        onTotalChange?.(result.total_elements)
-      }
-    }).catch(() => {
+    Promise.resolve()
+      .then(() => {
+        if (!active) return undefined
+        setLoading(true)
+        setError('')
+        return relationshipService.getMyAthletes(accessToken, {
+          page: pageNumber,
+          size: 5,
+          ...(status === 'ALL' ? {} : { status }),
+        })
+      })
+      .then((result) => {
+        if (active && result) {
+          setPage(result)
+          onTotalChange?.(result.total_elements)
+        }
+      }).catch(() => {
       if (active) {
         setPage(null)
         setError(t('relationships.loadError'))

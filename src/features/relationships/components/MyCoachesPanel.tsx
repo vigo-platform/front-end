@@ -34,10 +34,14 @@ function MyCoachesPanel({ accessToken, preview }: MyCoachesPanelProps) {
   useEffect(() => {
     if (preview || !accessToken) return
     let active = true
-    setLoading(true)
-    setError('')
-    relationshipService.getMyCoaches(accessToken, status === 'ALL' ? undefined : status)
-      .then((result) => { if (active) setRelations(result) })
+    Promise.resolve()
+      .then(() => {
+        if (!active) return undefined
+        setLoading(true)
+        setError('')
+        return relationshipService.getMyCoaches(accessToken, status === 'ALL' ? undefined : status)
+      })
+      .then((result) => { if (active && result) setRelations(result) })
       .catch(() => {
         if (active) {
           setRelations([])
