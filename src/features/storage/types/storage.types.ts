@@ -77,3 +77,9 @@ export interface AssetAccessGrant {
   granted: string
   permission: 'READ' | 'READ_WRITE'
 }
+
+export interface AssetAccessEntry {
+  user_id: string
+  permission: 'READ' | 'READ_WRITE'
+  created_at: string
+}
