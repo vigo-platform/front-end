@@ -35,6 +35,7 @@ interface DashboardPlan {
   summary: string | null
   description: string | null
   price: number
+  compareAtPrice: number | null
   currency: string
   durationDays: number
   isActive: boolean
@@ -100,6 +101,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
         summary: null,
         description: plan.description,
         price: plan.price,
+        compareAtPrice: null,
         currency: 'IRR',
         durationDays: plan.duration_days,
         isActive: plan.status === 'ACTIVE',
@@ -113,6 +115,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
         summary: plan.summary,
         description: plan.description,
         price: plan.price,
+        compareAtPrice: plan.compareAtPrice,
         currency: plan.currency,
         durationDays: plan.durationDays,
         isActive: plan.isActive,
@@ -273,6 +276,11 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
                       </div>
                       <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] font-semibold text-fg-secondary">
                         <span>{formatCurrency(plan.price, plan.currency, i18n.language)}</span>
+                        {plan.compareAtPrice != null && plan.compareAtPrice > plan.price && (
+                          <span className="text-fg-muted line-through">
+                            {formatCurrency(plan.compareAtPrice, plan.currency, i18n.language)}
+                          </span>
+                        )}
                         <span aria-hidden="true">·</span>
                         <span>{t('ui.{{count}} days', { count: formatNumber(plan.durationDays, i18n.language) })}</span>
                         {plan.createdAt && (
