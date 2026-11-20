@@ -105,7 +105,7 @@ function RegisterIdentifierStep({
           )}
 
           <Button type="submit" loading={isLoading} className="h-10 w-full text-[13px]">
-            Continue
+            {t('ui.Continue')}
           </Button>
         </form>
       )}
