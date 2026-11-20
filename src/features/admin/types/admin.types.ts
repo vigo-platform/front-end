@@ -1,79 +1,97 @@
-export type FileCategory = 'WORKOUT' | 'DIET' | 'SUPPLEMENT' | 'OTHER'
-export type AssetVisibility = 'PUBLIC' | 'PRIVATE'
-export type AssetStatus = 'ACTIVE' | 'DELETED'
+import type { UserProfile, UserRole, UserStatus } from '../../user/types/user.types'
 
-export interface StoredFileVersion {
-  version: number
-  original_name: string
-  content_type: string
-  size_bytes: number
-  checksum_sha256?: string
-  change_note?: string | null
-  uploaded_by?: string
-  uploaded_at: string
-}
+export type CoachApplicationStatus = 'PENDING' | 'APPROVED' | 'REJECTED'
+export interface AdminPage<T> { page: number; size: number; total_elements: number; total_pages: number; content: T[] }
+export interface AdminUserFilters { page?: number; size?: number; role?: UserRole | ''; status?: UserStatus | ''; q?: string }
+export interface AdminCoachFilters { page?: number; size?: number; status?: CoachApplicationStatus | '' }
+export interface AdminUserStatusRequest { status: UserStatus; reason?: string }
 
-export interface StoredFile {
-  file_id: string
+export interface AdminCoachApplication {
   coach_id: string
-  athlete_id: string
-  category: FileCategory
-  title: string
-  description?: string | null
-  latest_version: number
-  content_type?: string
-  size_bytes?: number
-  created_at: string
-  updated_at: string
+  display_name: string
+  headline?: string
+  bio: string
+  specialties: string[]
+  experience_years: number
+  certifications?: Array<{
+    title: string
+    issuer?: string
+    year?: number
+    category?: 'UNIVERSITY' | 'FEDERATION' | 'SKILL'
+    field_of_study?: string | null
+    degree?: string | null
+    file_id?: string
+  }>
+  instagram_handle?: string | null
+  result_image_urls?: string[]
+  avatar_url?: string | null
+  status?: CoachApplicationStatus
+  rejection_reason?: string | null
+  min_plan_price?: number | null
+  active_athletes_count?: number
+  created_at?: string
+  updated_at?: string
+  email?: string
+  phone?: string | null
+  first_name?: string
+  last_name?: string
+  profile_image_file_id?: string | null
+  invitation_expires_at?: string | null
+  certificates?: Array<{
+    certificate_id?: number
+    category?: 'UNIVERSITY' | 'FEDERATION' | 'SKILL'
+    title: string
+    issuer?: string | null
+    field_of_study?: string | null
+    degree?: string | null
+    file_id?: string
+  }>
+  experiences?: Array<{
+    experience_id?: number
+    title: string
+    organization?: string | null
+    description?: string | null
+    duration_months?: number | null
+  }>
 }
+export type AdminUser = UserProfile
 
-export interface StoredFileDetail extends StoredFile {
-  versions: StoredFileVersion[]
-}
+export type PublicCoachApplicationStatus = 'PENDING' | 'APPROVED' | 'REJECTED'
 
-export interface StoredFilePage {
-  page: number
-  size: number
-  total_elements: number
-  total_pages: number
-  content: StoredFile[]
-}
-
-export interface FileListFilters {
-  athlete_id?: string
-  coach_id?: string
-  category?: FileCategory
-  page?: number
-  size?: number
-}
-
-export interface UpdateStoredFileRequest {
-  title?: string
-  description?: string | null
-  category?: FileCategory
-}
-
-export interface StorageAsset {
-  asset_id: string
-  owner_user_id: string
-  original_filename: string
-  content_type: string
-  size_bytes: number
-  visibility: AssetVisibility
-  status: AssetStatus
-  public_url?: string | null
-  created_at: string
-  updated_at: string
-}
-
-export interface AssetDownloadUrl {
-  url: string
-  mode: 'PRESIGNED' | 'STREAM'
-  expires_at: string
-}
-
-export interface AssetAccessGrant {
-  asset_id: string
-  granted: string
-  permission: 'READ' | 'READ_WRITE'
+export interface AdminPublicCoachApplication {
+  applicationId: string
+  fullName: string
+  firstName?: string
+  lastName?: string
+  email: string
+  phone?: string | null
+  profileImageFileId?: string | null
+  certificates: Array<{
+    certificateId?: number
+    category: 'UNIVERSITY' | 'FEDERATION' | 'SKILL'
+    title: string
+    issuer?: string | null
+    fieldOfStudy?: string | null
+    degree?: string | null
+    fileId: string
+  }>
+  experiences: Array<{
+    experienceId?: number
+    title: string
+    organization?: string | null
+    description?: string | null
+    durationMonths?: number | null
+  }>
+  headline?: string | null
+  bio: string
+  specialties: string[]
+  experienceYears: number
+  instagramHandle?: string | null
+  locale?: 'fa' | 'en'
+  status: PublicCoachApplicationStatus
+  rejectionReason?: string | null
+  reviewedAt?: string | null
+  invitationExpiresAt?: string | null
+  createdAt: string
+  updatedAt: string
 }
