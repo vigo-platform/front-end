@@ -19,11 +19,10 @@ function AuthLayout({ children }: AuthLayoutProps) {
         </header>
 
         <div className="my-auto flex w-full justify-center py-8 sm:py-12">
-          <div className="relative w-full max-w-[460px] overflow-hidden rounded-[24px] border border-brand/15 bg-surface p-5 shadow-[0_20px_60px_rgba(0,0,0,0.07)] ring-1 ring-black/[0.02] sm:p-8 lg:p-9">
-            <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand/30 via-brand to-brand/30" />
+          <div className="relative w-full max-w-[460px] overflow-hidden rounded-[24px] border border-border-default bg-surface p-5 shadow-[0_18px_52px_color-mix(in_srgb,var(--foreground)_9%,transparent)] sm:p-8 lg:p-9">
             <div className="mb-6 flex items-center gap-2 text-[10px] font-semibold tracking-[0.14em] text-fg-muted">
               <span className="size-1.5 rounded-full bg-brand" />
-              VIGO ACCOUNT
+              {t("auth.accountLabel")}
             </div>
             {children}
           </div>
