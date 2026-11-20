@@ -7,16 +7,18 @@ export class ApiError extends Error {
   code: string
   status: number
   data: unknown
+  serverMessage: string | null
 
   constructor(
-    message: string,
+    serverMessage: string | null,
     code: string,
     status: number,
     data: unknown,
   ) {
-    super(message)
+    super(`API request failed (${status})`)
 
     this.name = 'ApiError'
+    this.serverMessage = serverMessage
     this.code = code
     this.status = status
     this.data = data
@@ -58,7 +60,7 @@ export async function apiRequest<T>(
       : error?.message ?? error?.messageFa ?? error?.message_fa
 
     throw new ApiError(
-      localizedMessage ?? 'Something went wrong.',
+      localizedMessage ?? null,
       error?.code ?? 'UNKNOWN_ERROR',
       response.status,
       error?.data ?? null,
