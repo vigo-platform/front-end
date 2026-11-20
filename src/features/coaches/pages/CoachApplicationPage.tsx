@@ -7,6 +7,36 @@ import { getUserErrorMessage } from '../../../shared/api/user-error'
 import { Button, Input } from '../../../shared/components/ui'
 import { useAuth } from '../../auth/context/auth-context'
 
+const PHONE_COUNTRIES = [
+  { dialCode: '+98', nameEn: 'Iran', nameFa: 'ایران' },
+  { dialCode: '+93', nameEn: 'Afghanistan', nameFa: 'افغانستان' },
+  { dialCode: '+374', nameEn: 'Armenia', nameFa: 'ارمنستان' },
+  { dialCode: '+994', nameEn: 'Azerbaijan', nameFa: 'آذربایجان' },
+  { dialCode: '+964', nameEn: 'Iraq', nameFa: 'عراق' },
+  { dialCode: '+92', nameEn: 'Pakistan', nameFa: 'پاکستان' },
+  { dialCode: '+90', nameEn: 'Turkey', nameFa: 'ترکیه' },
+  { dialCode: '+993', nameEn: 'Turkmenistan', nameFa: 'ترکمنستان' },
+] as const
+
+function toE164Phone(value: string, dialCode: string): string | null {
+  const trimmed = value.trim()
+  if (!trimmed) return null
+
+  const hasInternationalPrefix = trimmed.startsWith('+') || trimmed.startsWith('00')
+  let digits = trimmed.replace(/\\D/g, '')
+
+  if (digits.startsWith('00')) digits = digits.slice(2)
+
+  const countryCode = dialCode.slice(1)
+  if (hasInternationalPrefix && digits.startsWith(countryCode)) {
+    digits = digits.slice(countryCode.length)
+  } else if (!hasInternationalPrefix) {
+    digits = digits.replace(/^0+/, '')
+  }
+
+  return digits ? `+${countryCode}${digits}` : null
+}
+
 function CoachApplicationPage() {
   const { t, i18n } = useTranslation()
   const { isAuthenticated } = useAuth()
@@ -14,6 +44,8 @@ function CoachApplicationPage() {
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+  const [phoneCountryCode, setPhoneCountryCode] = useState('+98')
+  const isPersian = i18n.resolvedLanguage?.startsWith('fa') ?? false
   const [headline, setHeadline] = useState('')
   const [bio, setBio] = useState('')
   const [specialties, setSpecialties] = useState('')
@@ -52,7 +84,7 @@ function CoachApplicationPage() {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         email: email.trim(),
-        phone: phone.trim() || null,
+        phone: toE164Phone(phone, phoneCountryCode),
         headline: headline.trim() || null,
         bio: bio.trim(),
         specialties: parsedSpecialties,
@@ -107,7 +139,36 @@ function CoachApplicationPage() {
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <Input id="email" type="email" label={t('ui.Email address') + ' *'} labelClassName={labelClassName} autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} required maxLength={254} className={inputClassName} />
-                  <Input id="phone" type="tel" label={t('ui.Phone number')} labelClassName={labelClassName} autoComplete="tel" value={phone} onChange={(event) => setPhone(event.target.value)} maxLength={30} className={inputClassName} />
+                  <div className="flex flex-col gap-2">
+                    <label htmlFor="phoneCountry" className={labelClassName}>{isPersian ? 'کشور' : 'Country'}</label>
+                    <div className="grid grid-cols-[minmax(7.5rem,0.9fr)_minmax(0,1.3fr)] gap-2">
+                      <select
+                        id="phoneCountry"
+                        value={phoneCountryCode}
+                        onChange={(event) => setPhoneCountryCode(event.target.value)}
+                        className={inputClassName}
+                      >
+                        {PHONE_COUNTRIES.map((country) => (
+                          <option key={country.dialCode} value={country.dialCode}>
+                            {isPersian ? country.nameFa : country.nameEn} ({country.dialCode})
+                          </option>
+                        ))}
+                      </select>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        label={t('ui.Phone number')}
+                        labelClassName={labelClassName}
+                        autoComplete="tel-national"
+                        inputMode="tel"
+                        value={phone}
+                        onChange={(event) => setPhone(event.target.value)}
+                        maxLength={30}
+                        placeholder={isPersian ? 'مثلاً 09121234567' : 'e.g. 09121234567'}
+                        className={inputClassName}
+                      />
+                    </div>
+                  </div>
                 </div>
                 <Input id="headline" label={t('ui.Professional headline')} labelClassName={labelClassName} value={headline} onChange={(event) => setHeadline(event.target.value)} maxLength={120} placeholder={t('ui.e.g. Strength and conditioning coach')} className={inputClassName} />
                 <div className="flex flex-col gap-2">
