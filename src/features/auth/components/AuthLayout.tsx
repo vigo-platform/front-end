@@ -1,7 +1,7 @@
 
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import ThemeSwitcher from '../../../shared/components/ThemeSwitcher'
+
 
 interface AuthLayoutProps {
   children: ReactNode
@@ -15,14 +15,9 @@ function AuthLayout({ children }: AuthLayoutProps) {
       <section className="relative flex min-h-[calc(100vh-24px)] flex-col bg-surface px-6 py-8 sm:px-11">
         {/* Logo */}
         <header className="flex items-center justify-between gap-4">
-          <a
-            href="/login"
-            className="inline-flex items-center gap-2 text-2xl font-bold text-fg no-underline"
-          >
-            Vigo
-            <span className="size-[7px] rounded-full bg-brand" />
+          <a href="/login" aria-label="Vigo" className="inline-flex items-center">
+            <img src="/vigo-logo.svg" alt="Vigo" className="h-9 w-auto max-w-[112px] object-contain dark:invert" />
           </a>
-          <ThemeSwitcher />
         </header>
 
         {/* Form Content */}
@@ -69,7 +64,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
           <span className="absolute bottom-[29%] right-[5%] size-2 rounded-full bg-fg" />
 
           {/* Center */}
-          <div className="absolute left-1/2 top-1/2 flex size-[118px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-brand text-[52px] font-bold text-fg">
+          <div className="absolute left-1/2 top-1/2 flex size-[118px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-brand text-[52px] font-bold text-on-brand">
             V
           </div>
 
