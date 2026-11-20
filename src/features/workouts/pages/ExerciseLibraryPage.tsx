@@ -162,7 +162,7 @@ function ExerciseLibraryPage() {
                           : 'rounded-full bg-fg px-4 py-2 text-xs font-semibold text-fg-inverse transition hover:bg-sidebar-hover'
                       }
                     >
-                      {isSelected ? 'Remove' : 'Add to workout'}
+                      {isSelected ? t('ui.Remove') : t('ui.Add to workout')}
                     </button>
                   </div>
                 </article>
