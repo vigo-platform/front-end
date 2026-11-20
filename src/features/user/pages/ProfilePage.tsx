@@ -6,16 +6,21 @@ import { previewCoachProfile as defaultPreviewCoachProfile } from '../../auth/da
 import type { CoachProfile, CoachProfileRequest } from '../../coaches/types/coach.types'
 import { userService } from '../services/user.service'
 import type { Gender, UpdateProfileRequest } from '../types/user.types'
+import { useTranslation } from 'react-i18next'
+import { ProfileSectionSkeleton } from '../../../shared/components/feedback/LoadingStates'
+import { Button } from '../../../shared/components/ui'
+import { getUserErrorMessage } from '../../../shared/api/user-error'
 
 interface ProfilePageProps {
   isPreview?: boolean
   previewCoachProfile?: CoachProfile
 }
 
-const fieldClass = 'mt-2 w-full rounded-xl border border-[#e2e3dc] bg-[#fbfbf9] px-4 py-3 text-[12px] text-[#24251f] outline-none transition placeholder:text-[#a1a298] focus:border-[#a8c76d] focus:bg-white focus:ring-2 focus:ring-[#c7f36b]/20'
-const labelClass = 'text-[10px] font-semibold uppercase tracking-[1px] text-[#77796f]'
+const fieldClass = 'mt-2 w-full rounded-xl border border-border-default bg-surface-subtle px-4 py-3 text-[12px] text-fg outline-none transition placeholder:text-fg-muted focus:border-brand focus:bg-surface focus:ring-2 focus:ring-focus-ring'
+const labelClass = 'text-[10px] font-semibold uppercase tracking-[1px] text-fg-secondary'
 
 function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProps) {
+  const { t } = useTranslation()
   const { accessToken, user, updateUser, isPreview: previewContext } = useAuth()
   const previewMode = isPreview || Boolean(previewContext)
   const initialCoachProfile = previewCoachProfile ?? (previewMode ? defaultPreviewCoachProfile : null)
@@ -49,13 +54,13 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
       })
       .catch((requestError: unknown) => {
         if (!active) return
-        setError(requestError instanceof Error ? requestError.message : 'Could not load your coach profile.')
+        setError(getUserErrorMessage(requestError, t, 'errors.loadProfile'))
       })
       .finally(() => {
         if (active) setIsLoadingCoach(false)
       })
     return () => { active = false }
-  }, [accessToken, isCoach, previewMode])
+  }, [accessToken, isCoach, previewMode, t])
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -64,26 +69,26 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
 
     const normalizedName = displayName.trim()
     if (normalizedName.length < 2 || normalizedName.length > 60) {
-      setError('Your name must contain between 2 and 60 characters.')
+      setError(t("ui.Your name must contain between 2 and 60 characters."))
       return
     }
 
     const coachSpecialties = specialties.split(',').map((item) => item.trim()).filter(Boolean)
     if (isCoach) {
       if (bio.trim().length < 20 || bio.trim().length > 3000) {
-        setError('Your coach bio must contain between 20 and 3000 characters.')
+        setError(t("ui.Your coach bio must contain between 20 and 3000 characters."))
         return
       }
       if (coachSpecialties.length < 1 || coachSpecialties.length > 10) {
-        setError('Enter between 1 and 10 specialties, separated by commas.')
+        setError(t("ui.Enter between 1 and 10 specialties, separated by commas."))
         return
       }
       if (!Number.isInteger(Number(experienceYears)) || Number(experienceYears) < 0 || Number(experienceYears) > 60) {
-        setError('Experience must be a whole number between 0 and 60.')
+        setError(t("ui.Experience must be a whole number between 0 and 60."))
         return
       }
       if (instagram && !/^[A-Za-z0-9._]{1,30}$/.test(instagram)) {
-        setError('Enter an Instagram username without the @ symbol.')
+        setError(t("ui.Enter an Instagram username without the @ symbol."))
         return
       }
     }
@@ -136,109 +141,109 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
           setCoachProfile(updatedCoach)
         }
       }
-      setSuccess('Your profile has been updated.')
+      setSuccess(t("ui.Your profile has been updated."))
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : 'Could not save your profile. Please try again.')
+      setError(getUserErrorMessage(requestError, t, 'errors.saveProfile'))
     } finally {
       setIsSaving(false)
     }
   }
 
   return (
-    <AppShell title="My profile">
+    <AppShell title={t("ui.My profile")}>
       <div className="mx-auto w-full max-w-[1040px] space-y-7">
         <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <p className="text-[9px] font-bold uppercase tracking-[2px] text-[#82975e]">Account settings</p>
-            <h1 className="mt-3 text-[34px] font-bold leading-tight tracking-[-1.4px] text-[#171815] sm:text-[40px]">Your profile</h1>
-            <p className="mt-2 max-w-xl text-[12px] leading-6 text-[#77786f]">Keep your account details up to date. Your verified contact information is managed separately.</p>
+            <p className="text-[9px] font-bold uppercase tracking-[2px] text-fg-secondary">{t("ui.Account settings")}</p>
+            <h1 className="mt-3 text-[34px] font-bold leading-tight tracking-[-1.4px] text-fg sm:text-[40px]">{t("ui.Your profile")}</h1>
+            <p className="mt-2 max-w-xl text-[12px] leading-6 text-fg-secondary">{t("ui.Keep your account details up to date. Your verified contact information is managed separately.")}</p>
           </div>
-          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[#e2e2db] bg-white px-3.5 py-2 text-[9px] font-bold uppercase tracking-[1px] text-[#77786f]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#9bcf43]" />{user?.role ?? 'Member'} account
+          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-border-default bg-surface px-3.5 py-2 text-[9px] font-bold uppercase tracking-[1px] text-fg-secondary">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand-hover" />{t('ui.' + (user?.role ?? 'Member'))} {t('ui.account')}
           </span>
         </header>
 
         <form onSubmit={handleSubmit} className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_300px]">
           <div className="space-y-5">
-            <section className="rounded-[20px] border border-[#e1e1da] bg-white p-6 sm:p-8">
-              <div className="border-b border-[#edede8] pb-5">
-                <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#82975e]">Personal information</p>
-                <h2 className="mt-2 text-[19px] font-bold tracking-[-0.5px] text-[#20211d]">Basic details</h2>
-                <p className="mt-1 text-[11px] text-[#85867d]">These fields are shared across your Vigo account.</p>
+            <section className="rounded-[20px] border border-border-default bg-surface p-6 sm:p-8">
+              <div className="border-b border-border-default pb-5">
+                <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-fg-secondary">{t("ui.Personal information")}</p>
+                <h2 className="mt-2 text-[19px] font-bold tracking-[-0.5px] text-fg">{t("ui.Basic details")}</h2>
+                <p className="mt-1 text-[11px] text-fg-muted">{t("ui.These fields are shared across your Vigo account.")}</p>
               </div>
               <div className="mt-6 grid gap-5 sm:grid-cols-2">
                 <label className="sm:col-span-2">
-                  <span className={labelClass}>Full name</span>
+                  <span className={labelClass}>{t("ui.Full name")}</span>
                   <input className={fieldClass} value={displayName} onChange={(event) => setDisplayName(event.target.value)} minLength={2} maxLength={60} required />
                 </label>
                 <label>
-                  <span className={labelClass}>Email address</span>
-                  <input className={fieldClass + ' cursor-not-allowed bg-[#f3f3ef] text-[#92938a]'} value={user?.email ?? ''} readOnly />
-                  <span className="mt-1.5 block text-[10px] text-[#92938a]">Email is managed by Authentication.</span>
+                  <span className={labelClass}>{t("ui.Email address")}</span>
+                  <input className={fieldClass + ' cursor-not-allowed bg-surface-muted text-fg-muted'} value={user?.email ?? ''} readOnly />
+                  <span className="mt-1.5 block text-[10px] text-fg-muted">{t("ui.Email is managed by Authentication.")}</span>
                 </label>
                 <label>
-                  <span className={labelClass}>Phone number</span>
-                  <input className={fieldClass + ' cursor-not-allowed bg-[#f3f3ef] text-[#92938a]'} value={user?.phone ?? 'Not provided'} readOnly />
-                  <span className="mt-1.5 block text-[10px] text-[#92938a]">Verified phone number cannot be changed here.</span>
+                  <span className={labelClass}>{t("ui.Phone number")}</span>
+                  <input className={fieldClass + ' cursor-not-allowed bg-surface-muted text-fg-muted'} value={user?.phone ?? 'Not provided'} readOnly />
+                  <span className="mt-1.5 block text-[10px] text-fg-muted">{t("ui.Verified phone number cannot be changed here.")}</span>
                 </label>
                 <label>
-                  <span className={labelClass}>Date of birth</span>
+                  <span className={labelClass}>{t("ui.Date of birth")}</span>
                   <input className={fieldClass} type="date" value={birthDate} onChange={(event) => setBirthDate(event.target.value)} />
                 </label>
                 <label>
-                  <span className={labelClass}>Gender</span>
+                  <span className={labelClass}>{t("ui.Gender")}</span>
                   <select className={fieldClass} value={gender} onChange={(event) => setGender(event.target.value as Gender | '')}>
-                    <option value="">Prefer not to say</option>
-                    <option value="FEMALE">Female</option>
-                    <option value="MALE">Male</option>
-                    <option value="OTHER">Other</option>
+                    <option value="">{t("ui.Prefer not to say")}</option>
+                    <option value="FEMALE">{t("ui.Female")}</option>
+                    <option value="MALE">{t("ui.Male")}</option>
+                    <option value="OTHER">{t("ui.Other")}</option>
                   </select>
                 </label>
               </div>
             </section>
 
             {isCoach && (
-              <section className="rounded-[20px] border border-[#e1e1da] bg-white p-6 sm:p-8">
-                <div className="border-b border-[#edede8] pb-5">
-                  <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-[#82975e]">Coach profile</p>
-                  <h2 className="mt-2 text-[19px] font-bold tracking-[-0.5px] text-[#20211d]">Your coaching identity</h2>
-                  <p className="mt-1 text-[11px] text-[#85867d]">This information is used on your public coach profile.</p>
+              <section className="rounded-[20px] border border-border-default bg-surface p-6 sm:p-8">
+                <div className="border-b border-border-default pb-5">
+                  <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-fg-secondary">{t("ui.Coach profile")}</p>
+                  <h2 className="mt-2 text-[19px] font-bold tracking-[-0.5px] text-fg">{t("ui.Your coaching identity")}</h2>
+                  <p className="mt-1 text-[11px] text-fg-muted">{t("ui.This information is used on your public coach profile.")}</p>
                 </div>
                 {isLoadingCoach ? (
-                  <p className="py-8 text-[12px] text-[#85867d]">Loading coach profile…</p>
+                  <ProfileSectionSkeleton />
                 ) : (
                   <div className="mt-6 grid gap-5">
                     <label>
-                      <span className={labelClass}>Professional headline</span>
-                      <input className={fieldClass} value={headline} onChange={(event) => setHeadline(event.target.value)} maxLength={120} placeholder="e.g. Strength and conditioning coach" />
+                      <span className={labelClass}>{t("ui.Professional headline")}</span>
+                      <input className={fieldClass} value={headline} onChange={(event) => setHeadline(event.target.value)} maxLength={120} placeholder={t("ui.e.g. Strength and conditioning coach")} />
                     </label>
                     <label>
-                      <span className={labelClass}>Biography</span>
-                      <textarea className={fieldClass + ' min-h-[140px] resize-y'} value={bio} onChange={(event) => setBio(event.target.value)} minLength={20} maxLength={3000} required placeholder="Tell athletes about your coaching approach and experience…" />
-                      <span className="mt-1.5 block text-right text-[10px] text-[#92938a]">{bio.length}/3000</span>
+                      <span className={labelClass}>{t("ui.Biography")}</span>
+                      <textarea className={fieldClass + ' min-h-[140px] resize-y'} value={bio} onChange={(event) => setBio(event.target.value)} minLength={20} maxLength={3000} required placeholder={t("ui.Tell athletes about your coaching approach and experience…")} />
+                      <span className="mt-1.5 block text-right text-[10px] text-fg-muted">{bio.length}/3000</span>
                     </label>
                     <label>
-                      <span className={labelClass}>Specialties</span>
-                      <input className={fieldClass} value={specialties} onChange={(event) => setSpecialties(event.target.value)} required placeholder="Strength, Mobility, Conditioning" />
-                      <span className="mt-1.5 block text-[10px] text-[#92938a]">Separate specialties with commas (up to 10).</span>
+                      <span className={labelClass}>{t("ui.Specialties")}</span>
+                      <input className={fieldClass} value={specialties} onChange={(event) => setSpecialties(event.target.value)} required placeholder={t("ui.Strength, Mobility, Conditioning")} />
+                      <span className="mt-1.5 block text-[10px] text-fg-muted">{t("ui.Separate specialties with commas (up to 10).")}</span>
                     </label>
                     <div className="grid gap-5 sm:grid-cols-2">
                       <label>
-                        <span className={labelClass}>Years of experience</span>
+                        <span className={labelClass}>{t("ui.Years of experience")}</span>
                         <input className={fieldClass} type="number" min={0} max={60} step={1} value={experienceYears} onChange={(event) => setExperienceYears(event.target.value)} required />
                       </label>
                       <label>
-                        <span className={labelClass}>Instagram username</span>
+                        <span className={labelClass}>{t("ui.Instagram username")}</span>
                         <div className="relative">
-                          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[12px] text-[#92938a]">@</span>
-                          <input className={fieldClass + ' pl-8'} value={instagram} onChange={(event) => setInstagram(event.target.value.replace(/^@/, ''))} maxLength={30} placeholder="your.profile" />
+                          <span className="absolute start-4 top-1/2 -translate-y-1/2 text-[12px] text-fg-muted">@</span>
+                          <input className={fieldClass + ' ps-8'} value={instagram} onChange={(event) => setInstagram(event.target.value.replace(/^@/, ''))} maxLength={30} placeholder="your.profile" />
                         </div>
                       </label>
                     </div>
                     {coachProfile?.status && (
-                      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[#f5f6f1] px-4 py-3">
-                        <span className="text-[10px] font-semibold uppercase tracking-[1px] text-[#77796f]">Profile review status</span>
-                        <span className="rounded-full bg-white px-3 py-1.5 text-[9px] font-bold uppercase text-[#526a2e]">{coachProfile.status}</span>
+                      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-surface-muted px-4 py-3">
+                        <span className="text-[10px] font-semibold uppercase tracking-[1px] text-fg-secondary">{t("ui.Profile review status")}</span>
+                        <span className="rounded-full bg-surface px-3 py-1.5 text-[9px] font-bold uppercase text-success-fg">{t('ui.' + coachProfile.status)}</span>
                       </div>
                     )}
                   </div>
@@ -248,22 +253,22 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
           </div>
 
           <aside className="flex flex-col gap-4">
-            <section className="rounded-[20px] border border-[#e1e1da] bg-[#171916] p-6 text-white">
-              <span className="inline-flex rounded-full bg-white/10 px-3 py-1.5 text-[8px] font-bold uppercase tracking-[1.2px] text-[#d8e9bc]">Profile visibility</span>
-              <h2 className="mt-5 text-[20px] font-bold leading-tight tracking-[-0.6px]">{isCoach ? 'Make your profile count.' : 'Your account, up to date.'}</h2>
-              <p className="mt-2 text-[11px] leading-5 text-white/60">{isCoach ? 'Your headline, bio, and specialties help athletes understand your coaching approach.' : 'Your personal details help keep your Vigo account accurate.'}</p>
+            <section className="rounded-[20px] border border-border-default bg-sidebar p-6 text-sidebar-fg">
+              <span className="inline-flex rounded-full bg-surface/10 px-3 py-1.5 text-[8px] font-bold uppercase tracking-[1.2px] text-sidebar-active">{t("ui.Profile visibility")}</span>
+              <h2 className="mt-5 text-[20px] font-bold leading-tight tracking-[-0.6px]">{isCoach ? t('ui.Make your profile count.') : t('ui.Your account, up to date.')}</h2>
+              <p className="mt-2 text-[11px] leading-5 text-sidebar-fg/60">{isCoach ? t('ui.Your headline, bio, and specialties help athletes understand your coaching approach.') : t('ui.Your personal details help keep your Vigo account accurate.')}</p>
             </section>
-            <section className="rounded-[20px] border border-[#e1e1da] bg-white p-5">
-              <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-[#888980]">Account status</p>
-              <p className="mt-3 text-[15px] font-bold text-[#20211d]">{user?.status ?? 'Unavailable'}</p>
-              <p className="mt-1 text-[10px] text-[#85867d]">Your role: {user?.role ?? '—'}</p>
+            <section className="rounded-[20px] border border-border-default bg-surface p-5">
+              <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-fg-muted">{t("ui.Account status")}</p>
+              <p className="mt-3 text-[15px] font-bold text-fg">{t('ui.' + (user?.status ?? 'Unavailable'))}</p>
+              <p className="mt-1 text-[10px] text-fg-muted">{t('ui.Your role:')} {user?.role ? t('ui.' + user.role) : '—'}</p>
             </section>
-            {error && <p role="alert" className="rounded-xl border border-[#f0d2cb] bg-[#fff6f3] px-4 py-3 text-[11px] leading-5 text-[#a34d3d]">{error}</p>}
-            {success && <p role="status" className="rounded-xl border border-[#dce8c8] bg-[#f2f8e8] px-4 py-3 text-[11px] leading-5 text-[#526a2e]">{success}</p>}
-            <button type="submit" disabled={isSaving || isLoadingCoach} className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#c7f36b] px-5 text-[11px] font-bold text-[#171914] transition hover:bg-[#d4fa83] disabled:cursor-not-allowed disabled:opacity-60">
-              {isSaving ? 'Saving changes…' : 'Save changes'} <span aria-hidden="true">→</span>
-            </button>
-            <p className="text-center text-[9px] leading-4 text-[#92938a]">Only fields supported by your current API contracts are editable here.</p>
+            {error && <p role="alert" className="rounded-xl border border-danger-border bg-danger-surface px-4 py-3 text-[11px] leading-5 text-danger-fg">{error}</p>}
+            {success && <p role="status" className="rounded-xl border border-success-border bg-success-surface px-4 py-3 text-[11px] leading-5 text-success-fg">{success}</p>}
+            <Button type="submit" loading={isSaving} disabled={isLoadingCoach} className="h-12 rounded-full bg-brand px-5 text-[11px] font-bold text-on-brand transition hover:bg-brand-hover">
+              {t('ui.Save changes')} <span aria-hidden="true">→</span>
+            </Button>
+            <p className="text-center text-[9px] leading-4 text-fg-muted">{t("ui.Only fields supported by your current API contracts are editable here.")}</p>
           </aside>
         </form>
       </div>

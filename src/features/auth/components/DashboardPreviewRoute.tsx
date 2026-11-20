@@ -31,7 +31,7 @@ function DashboardPreviewRoute({ role }: DashboardPreviewRouteProps) {
 
   return (
     <AuthContext.Provider value={previewAuth}>
-      <div className="fixed bottom-4 right-4 z-[100] rounded-full border border-[#dce8c8] bg-[#f2f8e8] px-3 py-1.5 text-[9px] font-bold uppercase tracking-[1px] text-[#526a2e] shadow-sm">
+      <div className="fixed bottom-4 right-4 z-[100] rounded-full border border-success-border bg-success-surface px-3 py-1.5 text-[9px] font-bold uppercase tracking-[1px] text-success-fg shadow-sm">
         Preview data · Not connected to API
       </div>
       {dashboard}

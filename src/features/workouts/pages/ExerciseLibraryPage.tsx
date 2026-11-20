@@ -5,6 +5,7 @@ import { useAuth } from '../../auth/context/auth-context'
 import { exerciseLibrary } from '../data/exercises'
 import { loadWorkoutDraft, saveWorkoutDraft } from '../services/workout-draft.service'
 import type { ExerciseCategory } from '../types/workout.types'
+import { useTranslation } from 'react-i18next'
 
 type CategoryFilter = 'ALL' | ExerciseCategory
 
@@ -17,6 +18,7 @@ const categoryLabels: Record<CategoryFilter, string> = {
 }
 
 function ExerciseLibraryPage() {
+  const { t } = useTranslation()
   const { isPreview } = useAuth()
   const coachPath = isPreview ? '/_preview/coach' : '/coach'
   const [search, setSearch] = useState('')
@@ -36,13 +38,17 @@ function ExerciseLibraryPage() {
         exercise.muscle_group,
         exercise.equipment,
         exercise.description,
+        t('ui.exercise.' + exercise.id + '.name'),
+        t('ui.exercise.' + exercise.id + '.muscle_group'),
+        t('ui.exercise.' + exercise.id + '.equipment'),
+        t('ui.exercise.' + exercise.id + '.description'),
       ]
         .join(' ')
         .toLowerCase()
 
       return matchesCategory && searchableText.includes(normalizedSearch)
     })
-  }, [category, search])
+  }, [category, search, t])
 
   function toggleExercise(exerciseId: string) {
     const draft = loadWorkoutDraft()
@@ -62,55 +68,54 @@ function ExerciseLibraryPage() {
   }
 
   return (
-    <AppShell title="Exercise library">
+    <AppShell title={t("ui.Exercise library")}>
       <div className="mx-auto w-full max-w-6xl space-y-7">
         <section className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <Link to={coachPath} className="text-sm font-medium text-muted hover:text-ink">
-              ← Coach workspace
+            <Link to={coachPath} className="text-sm font-medium text-fg-secondary hover:text-fg">
+              {t("ui.← Coach workspace")}
             </Link>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight">
-              Exercise library
+              {t("ui.Exercise library")}
             </h2>
-            <p className="mt-2 text-sm text-muted">
-              Find movements and add them to your current workout draft.
+            <p className="mt-2 text-sm text-fg-secondary">
+              {t("ui.Find movements and add them to your current workout draft.")}
             </p>
           </div>
           <Link
             to={coachPath + '/workouts/new'}
-            className="inline-flex h-11 items-center justify-center rounded-full bg-ink px-5 text-sm font-semibold text-white transition hover:bg-[#30352a]"
+            className="inline-flex h-11 items-center justify-center rounded-full bg-fg px-5 text-sm font-semibold text-fg-inverse transition hover:bg-sidebar-hover"
           >
-            Open workout builder ({selectedIds.length})
+            {t('ui.Open workout builder')} ({selectedIds.length})
           </Link>
         </section>
 
-        <section className="rounded-2xl border border-[#e5e8dc] bg-[#f0f5e8] px-4 py-3 text-xs leading-5 text-[#5d6651]">
-          Sample exercise catalog for frontend development. It is not yet
-          connected to the backend exercise service.
+        <section className="rounded-2xl border border-border-default bg-surface-muted px-4 py-3 text-xs leading-5 text-fg-secondary">
+          {t('ui.Sample exercise catalog for frontend development. It is not yet connected to the backend exercise service.')}
         </section>
 
         <section className="flex flex-col gap-3 sm:flex-row">
           <label className="flex-1">
-            <span className="sr-only">Search exercises</span>
+            <span className="sr-only">{t("ui.Search exercises")}</span>
             <input
               value={search}
               onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search by exercise, muscle group, or equipment"
-              className="h-12 w-full rounded-xl border border-border bg-white px-4 text-sm outline-none transition focus:border-[#8da85d]"
+              placeholder={t("ui.Search by exercise, muscle group, or equipment")}
+              className="h-12 w-full rounded-xl border border-border-default bg-surface px-4 text-sm outline-none transition focus:border-brand-hover"
             />
           </label>
           <label>
-            <span className="sr-only">Filter by category</span>
+            <span className="sr-only">{t("ui.Filter by category")}</span>
             <select
               value={category}
               onChange={(event) =>
                 setCategory(event.target.value as CategoryFilter)
               }
-              className="h-12 w-full rounded-xl border border-border bg-white px-4 text-sm outline-none focus:border-[#8da85d] sm:min-w-48"
+              className="h-12 w-full rounded-xl border border-border-default bg-surface px-4 text-sm outline-none focus:border-brand-hover sm:min-w-48"
             >
               {Object.entries(categoryLabels).map(([value, label]) => (
                 <option key={value} value={value}>
-                  {label}
+                  {t('ui.' + label)}
                 </option>
               ))}
             </select>
@@ -118,10 +123,10 @@ function ExerciseLibraryPage() {
         </section>
 
         {filteredExercises.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-border bg-white px-6 py-14 text-center">
-            <h3 className="font-semibold">No exercises found</h3>
-            <p className="mt-2 text-sm text-muted">
-              Try another search term or category.
+          <div className="rounded-2xl border border-dashed border-border-default bg-surface px-6 py-14 text-center">
+            <h3 className="font-semibold">{t("ui.No exercises found")}</h3>
+            <p className="mt-2 text-sm text-fg-secondary">
+              {t("ui.Try another search term or category.")}
             </p>
           </div>
         ) : (
@@ -132,32 +137,32 @@ function ExerciseLibraryPage() {
               return (
                 <article
                   key={exercise.id}
-                  className="flex min-h-56 flex-col rounded-2xl border border-border bg-white p-5"
+                  className="flex min-h-56 flex-col rounded-2xl border border-border-default bg-surface p-5"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <span className="rounded-full bg-[#f0f5e8] px-3 py-1 text-[11px] font-semibold text-[#607b38]">
-                      {categoryLabels[exercise.category]}
+                    <span className="rounded-full bg-surface-muted px-3 py-1 text-[11px] font-semibold text-fg-secondary">
+                      {t('ui.' + categoryLabels[exercise.category])}
                     </span>
-                    <span className="text-xs text-muted">{exercise.equipment}</span>
+                    <span className="text-xs text-fg-secondary">{t('ui.exercise.' + exercise.id + '.equipment')}</span>
                   </div>
-                  <h3 className="mt-5 text-lg font-semibold">{exercise.name}</h3>
-                  <p className="mt-2 text-sm leading-6 text-muted">
-                    {exercise.description}
+                  <h3 className="mt-5 text-lg font-semibold">{t('ui.exercise.' + exercise.id + '.name')}</h3>
+                  <p className="mt-2 text-sm leading-6 text-fg-secondary">
+                    {t('ui.exercise.' + exercise.id + '.description')}
                   </p>
                   <div className="mt-auto flex items-center justify-between gap-3 pt-6">
-                    <span className="text-xs font-medium text-muted">
-                      {exercise.muscle_group}
+                    <span className="text-xs font-medium text-fg-secondary">
+                      {t('ui.exercise.' + exercise.id + '.muscle_group')}
                     </span>
                     <button
                       type="button"
                       onClick={() => toggleExercise(exercise.id)}
                       className={
                         isSelected
-                          ? 'rounded-full border border-[#d8e4c5] bg-[#f0f5e8] px-4 py-2 text-xs font-semibold text-[#607b38]'
-                          : 'rounded-full bg-ink px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#30352a]'
+                          ? 'rounded-full border border-success-border bg-surface-muted px-4 py-2 text-xs font-semibold text-fg-secondary'
+                          : 'rounded-full bg-fg px-4 py-2 text-xs font-semibold text-fg-inverse transition hover:bg-sidebar-hover'
                       }
                     >
-                      {isSelected ? 'Remove' : 'Add to workout'}
+                      {isSelected ? t('ui.Remove') : t('ui.Add to workout')}
                     </button>
                   </div>
                 </article>

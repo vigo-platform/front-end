@@ -2,6 +2,9 @@ import type { FormEventHandler } from 'react'
 import { Link } from 'react-router-dom'
 import OtpChannelSelector from './OtpChannelSelector'
 import type { OtpChannel } from '../types/auth-config.types'
+import { useTranslation } from 'react-i18next'
+import { AuthOptionsSkeleton } from '../../../shared/components/feedback/LoadingStates'
+import { Button, Input } from '../../../shared/components/ui'
 
 interface OtpLoginIdentifierStepProps {
   channels: OtpChannel[]
@@ -36,33 +39,32 @@ function OtpLoginIdentifierStep({
   onSubmit,
   onUsePassword,
 }: OtpLoginIdentifierStepProps) {
+  const { t } = useTranslation()
   const isEmail = activeChannel === 'EMAIL'
 
   return (
     <>
       <div className="mb-7">
-        <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
-          Welcome back
+        <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-fg">
+          {t("ui.Welcome back")}
         </h1>
-        <p className="text-[13px] leading-[1.6] text-[#55554f]">
-          Log in to your Vigo workspace and pick up where you left off.
+        <p className="text-[13px] leading-[1.6] text-fg-secondary">
+          {t("ui.Log in to your Vigo workspace and pick up where you left off.")}
         </p>
       </div>
 
       {isConfigLoading ? (
-        <p className="text-[12px] text-[#77776f]">
-          Loading login options...
-        </p>
+        <AuthOptionsSkeleton />
       ) : isLoginDisabled ? (
-        <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
+        <p role="status" className="rounded-md bg-surface-muted px-3 py-3 text-[12px] text-fg-secondary">
           {configError || 'Login is currently disabled. Please try again later.'}
         </p>
       ) : channels.length === 0 ? (
         <p
           role="status"
-          className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] leading-relaxed text-[#55554f]"
+          className="rounded-md bg-surface-muted px-3 py-3 text-[12px] leading-relaxed text-fg-secondary"
         >
-          Login is currently unavailable. Please try again later.
+          {t("ui.Login is currently unavailable. Please try again later.")}
         </p>
       ) : (
         <form onSubmit={onSubmit} className="flex flex-col gap-5">
@@ -72,26 +74,22 @@ function OtpLoginIdentifierStep({
             onChange={onChannelChange}
           />
 
-          <div className="flex flex-col gap-2">
-            <label htmlFor="identifier" className={labelClassName}>
-              {isEmail ? 'Email address' : 'Phone number'}
-            </label>
-            <input
-              id="identifier"
-              type={isEmail ? 'email' : 'tel'}
-              inputMode={isEmail ? 'email' : 'tel'}
-              autoComplete={isEmail ? 'email' : 'tel'}
-              placeholder={isEmail ? 'you@example.com' : 'Enter your phone number'}
-              value={identifier}
-              onChange={(event) => onIdentifierChange(event.target.value)}
-              required
-              className={inputClassName}
-            />
-          </div>
+          <Input
+            id="identifier"
+            label={t(isEmail ? 'ui.Email address' : 'ui.Phone number')}
+            labelClassName={labelClassName}
+            type={isEmail ? 'email' : 'tel'}
+            inputMode={isEmail ? 'email' : 'tel'}
+            autoComplete={isEmail ? 'email' : 'tel'}
+            placeholder={isEmail ? 'you@example.com' : t('ui.Enter your phone number')}
+            value={identifier}
+            onChange={(event) => onIdentifierChange(event.target.value)}
+            required
+            className={inputClassName}
+          />
 
-          <p className="-mt-2 text-[12px] leading-relaxed text-[#62625c]">
-            We'll send a verification code to your{' '}
-            {isEmail ? 'email address' : 'phone number'}.
+          <p className="-mt-2 text-[12px] leading-relaxed text-fg-secondary">
+            {t('ui.We\'ll send a verification code to your {{channel}}.', { channel: t(isEmail ? 'ui.Email address' : 'ui.Phone number') })}
           </p>
 
           {configError && (
@@ -109,13 +107,9 @@ function OtpLoginIdentifierStep({
             </p>
           )}
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isLoading ? 'Please wait...' : 'Continue'}
-          </button>
+          <Button type="submit" loading={isLoading} size="md" className="h-11 w-full text-[13px]">
+            {t('ui.Continue')}
+          </Button>
         </form>
       )}
 
@@ -123,24 +117,24 @@ function OtpLoginIdentifierStep({
         <button
           type="button"
           onClick={onUsePassword}
-          className="text-[11px] font-medium text-ink hover:underline"
+          className="text-[11px] font-medium text-fg hover:underline"
         >
-          Log in with password instead
+          {t("ui.Log in with password instead")}
         </button>
       </div>
       <div className="mt-2 text-center">
-        <Link to="/forgot-password" className="text-[11px] font-medium text-ink hover:underline">
-          Forgot password?
+        <Link to="/forgot-password" className="text-[11px] font-medium text-fg hover:underline">
+          {t("ui.Forgot password?")}
         </Link>
       </div>
 
-      <p className="mt-7 text-center text-[11px] text-[#33332f]">
-        New to Vigo?{' '}
+      <p className="mt-7 text-center text-[11px] text-fg">
+        {t('ui.New to Vigo?')}{' '}
         <Link
           to="/register"
-          className="ml-1 font-medium text-ink no-underline hover:underline"
+          className="ms-1 font-medium text-fg no-underline hover:underline"
         >
-          Create an account
+          {t("ui.Create an account")}
         </Link>
       </p>
     </>

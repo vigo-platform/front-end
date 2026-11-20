@@ -28,22 +28,22 @@ function TopBar({ title }: TopBarProps) {
         : t('workspace.account')
 
   return (
-    <header className="flex min-h-[72px] shrink-0 items-center justify-between gap-4 border-b border-[#e8e8e1] bg-[#fbfbf9] px-5 py-3 sm:px-8 lg:px-10">
+    <header className="flex min-h-[72px] shrink-0 items-center justify-between gap-4 border-b border-border-default bg-surface-subtle px-5 py-3 sm:px-8 lg:px-10">
       <div className="min-w-0">
-        <p className="text-[9px] font-medium uppercase tracking-[1.5px] text-[#96968e]">
-          {t('workspace.title')} <span className="px-1.5 text-[#c5c5bc]">/</span> {t(title)}
+        <p className="text-[9px] font-medium uppercase tracking-[1.5px] text-fg-muted">
+          {t('workspace.title')} <span className="px-1.5 text-fg-muted">/</span> {t(title)}
         </p>
       </div>
 
       <div className="flex items-center gap-3">
         <div className="hidden text-right sm:block">
-          <p className="max-w-40 truncate text-[10px] font-semibold text-[#292a25]">{displayName}</p>
-          <p className="mt-0.5 text-[9px] text-[#92928a]">{roleLabel}</p>
+          <p className="max-w-40 truncate text-[10px] font-semibold text-fg">{displayName}</p>
+          <p className="mt-0.5 text-[9px] text-fg-muted">{roleLabel}</p>
         </div>
         {user?.avatar_url ? (
-          <img src={user.avatar_url} alt="" className="h-8 w-8 rounded-full border border-[#e6e6df] object-cover" />
+          <img src={user.avatar_url} alt="" className="h-8 w-8 rounded-full border border-border-default object-cover" />
         ) : (
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#e9e9e2] text-[9px] font-bold text-[#44453e]">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-muted text-[9px] font-bold text-fg-secondary">
             {initials || 'V'}
           </span>
         )}

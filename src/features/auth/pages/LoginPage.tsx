@@ -3,15 +3,18 @@ import { useNavigate } from 'react-router-dom'
 import AuthLayout from '../components/AuthLayout'
 import OtpLoginIdentifierStep from '../components/OtpLoginIdentifierStep'
 import { authService } from '../services/auth.service'
-import { ApiError } from '../../../shared/api/client'
+import { getUserErrorMessage } from '../../../shared/api/user-error'
 import { useAuthConfig } from '../hooks/useAuthConfig'
 import type { OtpChannel } from '../types/auth-config.types'
 import PasswordLoginForm from '../components/PasswordLoginForm'
 import { useAuth } from '../context/auth-context'
+import { useTranslation } from 'react-i18next'
+import { Button, Input } from '../../../shared/components/ui'
 
 type LoginStep = 'IDENTIFIER' | 'VERIFY' | 'NEW_PASSWORD'
 
 function LoginPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { signIn } = useAuth()
 
@@ -37,11 +40,7 @@ function LoginPage() {
     : availableChannels[0] ?? 'EMAIL'
 
   function handleError(error: unknown) {
-    if (error instanceof ApiError) {
-      setErrorMessage(error.message)
-    } else {
-      setErrorMessage('Unable to connect to the server. Please try again.')
-    }
+    setErrorMessage(getUserErrorMessage(error, t, 'errors.login'))
   }
 
   async function handleRequestOtp(event: FormEvent<HTMLFormElement>) {
@@ -95,7 +94,7 @@ function LoginPage() {
         return
       }
 
-      setErrorMessage('Verification is not complete. Please try again.')
+      setErrorMessage(t("ui.Verification is not complete. Please try again."))
     } catch (error) {
       handleError(error)
     } finally {
@@ -107,7 +106,7 @@ function LoginPage() {
     event.preventDefault()
     setErrorMessage('')
     if (newPassword.trim().length === 0) {
-      setErrorMessage('Password cannot contain only whitespace.')
+      setErrorMessage(t("ui.Password cannot contain only whitespace."))
       return
     }
 
@@ -126,7 +125,7 @@ function LoginPage() {
 
       navigate('/login', {
         replace: true,
-        state: { message: 'Your password was updated. Please sign in.' },
+        state: { message: t('ui.Your password was updated. Please sign in.') },
       })
     } catch (error) {
       handleError(error)
@@ -142,9 +141,9 @@ function LoginPage() {
   }
 
   const inputClassName =
-    'h-11 w-full rounded-md border border-border bg-white px-3 text-[13px] text-ink outline-none transition placeholder:text-[#999991] focus:border-ink'
+    'h-11 w-full rounded-md border border-border-default bg-surface px-3 text-[13px] text-fg outline-none transition placeholder:text-fg-muted focus:border-fg'
 
-  const labelClassName = 'text-[11px] font-medium text-ink'
+  const labelClassName = 'text-[11px] font-medium text-fg'
 
   const isEmail = activeChannel === 'EMAIL'
 
@@ -181,13 +180,12 @@ function LoginPage() {
         {step === 'VERIFY' && (
           <>
             <div className="mb-6">
-              <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
-                Verify your {isEmail ? 'email' : 'phone'}
+              <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-fg">
+                {t('ui.Verify your {{channel}}', { channel: t(isEmail ? 'ui.Email' : 'ui.Phone') })}
               </h1>
 
-              <p className="text-[13px] leading-relaxed text-[#55554f]">
-                Enter the verification code sent to your{' '}
-                {isEmail ? 'email address' : 'phone number'}.
+              <p className="text-[13px] leading-relaxed text-fg-secondary">
+                {t('ui.Enter the verification code sent to your {{channel}}.', { channel: t(isEmail ? 'ui.Email address' : 'ui.Phone number') })}
               </p>
             </div>
 
@@ -195,49 +193,25 @@ function LoginPage() {
               onSubmit={handleVerifyOtp}
               className="flex flex-col gap-5"
             >
-              <div className="flex flex-col gap-2">
-                <label htmlFor="otp" className={labelClassName}>
-                  Verification code
-                </label>
-
-                <input
-                  id="otp"
-                  type="text"
-                  inputMode="numeric"
-                  autoComplete="one-time-code"
-                  placeholder="Enter code"
-                  value={otp}
-                  onChange={(event) => setOtp(event.target.value)}
-                  minLength={5}
-                  maxLength={6}
-                  required
-                  className={inputClassName}
-                />
-              </div>
+              <Input id="otp" label={t("ui.Verification code")} labelClassName={labelClassName} type="text" inputMode="numeric" autoComplete="one-time-code" placeholder={t("ui.Enter code")} value={otp} onChange={(event) => setOtp(event.target.value)} minLength={5} maxLength={6} required className={inputClassName} />
 
               {errorMessage && (
                 <p
                   role="alert"
-                  className="rounded-md bg-red-50 px-3 py-2 text-[12px] leading-relaxed text-red-700"
+                  className="rounded-md bg-danger-surface px-3 py-2 text-[12px] leading-relaxed text-danger-fg"
                 >
                   {errorMessage}
                 </p>
               )}
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {isLoading ? 'Verifying...' : 'Verify'}
-              </button>
+              <Button type="submit" loading={isLoading} size="md" className="h-11 w-full text-[13px]">{t('ui.Verify')}</Button>
 
               <button
                 type="button"
                 onClick={goBack}
-                className="h-8 text-[11px] text-ink hover:underline"
+                className="h-8 text-[11px] text-fg hover:underline"
               >
-                Back
+                {t("ui.Back")}
               </button>
             </form>
           </>
@@ -245,36 +219,21 @@ function LoginPage() {
       {step === 'NEW_PASSWORD' && (
         <>
           <div className="mb-6">
-            <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
-              Update your password
+            <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-fg">
+              {t("ui.Update your password")}
             </h1>
-            <p className="text-[13px] leading-relaxed text-[#55554f]">
-              Your current password has expired. Choose a new password to continue.
+            <p className="text-[13px] leading-relaxed text-fg-secondary">
+              {t("ui.Your current password has expired. Choose a new password to continue.")}
             </p>
           </div>
           <form onSubmit={handleExpiredPasswordSubmit} className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <label htmlFor="login-new-password" className={labelClassName}>New password</label>
-              <input
-                id="login-new-password"
-                type="password"
-                autoComplete="new-password"
-                value={newPassword}
-                onChange={(event) => setNewPassword(event.target.value)}
-                minLength={8}
-                maxLength={72}
-                required
-                className={inputClassName}
-              />
-            </div>
+            <Input id="login-new-password" label={t("ui.New password")} labelClassName={labelClassName} type="password" autoComplete="new-password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} minLength={8} maxLength={72} required className={inputClassName} />
             {errorMessage && (
-              <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">
+              <p role="alert" className="rounded-md bg-danger-surface px-3 py-2 text-[12px] text-danger-fg">
                 {errorMessage}
               </p>
             )}
-            <button type="submit" disabled={isLoading} className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60">
-              {isLoading ? 'Updating...' : 'Update password'}
-            </button>
+            <Button type="submit" loading={isLoading} size="md" className="h-11 w-full text-[13px]">{t('ui.Update password')}</Button>
           </form>
         </>
       )}

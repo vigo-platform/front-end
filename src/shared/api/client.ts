@@ -1,4 +1,5 @@
 import type { ApiErrorPayload, ApiResponse } from './types'
+import i18n from '../../i18n'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? ''
 
@@ -6,16 +7,18 @@ export class ApiError extends Error {
   code: string
   status: number
   data: unknown
+  serverMessage: string | null
 
   constructor(
-    message: string,
+    serverMessage: string | null,
     code: string,
     status: number,
     data: unknown,
   ) {
-    super(message)
+    super(`API request failed (${status})`)
 
     this.name = 'ApiError'
+    this.serverMessage = serverMessage
     this.code = code
     this.status = status
     this.data = data
@@ -31,6 +34,7 @@ export async function apiRequest<T>(
   options: RequestOptions = {},
 ): Promise<ApiResponse<T>> {
   const headers = new Headers(options.headers)
+  headers.set('Accept-Language', i18n.resolvedLanguage ?? 'en')
 
   if (options.body !== undefined) {
     headers.set('Content-Type', 'application/json')
@@ -50,8 +54,13 @@ export async function apiRequest<T>(
   if (!response.ok) {
     const error = payload as ApiErrorPayload | null
 
+    const isPersian = i18n.resolvedLanguage?.startsWith('fa') ?? false
+    const localizedMessage = isPersian
+      ? error?.messageFa ?? error?.message_fa ?? error?.message
+      : error?.message ?? error?.messageFa ?? error?.message_fa
+
     throw new ApiError(
-      error?.message ?? error?.message_fa ?? error?.messageFa ?? 'Something went wrong.',
+      localizedMessage ?? null,
       error?.code ?? 'UNKNOWN_ERROR',
       response.status,
       error?.data ?? null,

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import type { PrescribedExercise } from '../types/athlete-workout.types'
 
 export interface WorkoutSetInput {
@@ -22,26 +23,27 @@ function WorkoutExerciseCard({
   inputs,
   onInputChange,
 }: WorkoutExerciseCardProps) {
+  const { t } = useTranslation()
   return (
-    <section className="rounded-2xl border border-border bg-white p-5 sm:p-6">
+    <section className="rounded-2xl border border-border-default bg-surface p-5 sm:p-6">
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-start gap-3">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#f0f5e8] text-xs font-bold text-[#607b38]">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-surface-muted text-xs font-bold text-success-fg">
             {String(exerciseIndex + 1).padStart(2, '0')}
           </span>
           <div className="min-w-0">
             <h3 className="font-semibold">{exercise.name}</h3>
-            <p className="mt-1 text-xs text-muted">
+            <p className="mt-1 text-xs text-fg-muted">
               {exercise.muscle_group} · {exercise.equipment}
             </p>
           </div>
         </div>
-        <span className="shrink-0 text-xs text-muted">
+        <span className="shrink-0 text-xs text-fg-muted">
           {exercise.sets} × {exercise.reps}
         </span>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-3 text-xs text-muted">
+      <div className="mt-4 flex flex-wrap gap-3 text-xs text-fg-muted">
         <span>Target: {exercise.reps} reps per set</span>
         <span>Rest: {exercise.rest_seconds}s</span>
       </div>
@@ -56,11 +58,11 @@ function WorkoutExerciseCard({
               key={key}
               className="grid grid-cols-[40px_minmax(0,1fr)_minmax(0,1fr)] items-end gap-2 sm:grid-cols-[48px_minmax(0,1fr)_minmax(0,1fr)] sm:gap-3"
             >
-              <span className="pb-3 text-xs font-semibold text-muted">
+              <span className="pb-3 text-xs font-semibold text-fg-muted">
                 Set {setNumber}
               </span>
               <label className="min-w-0">
-                <span className="mb-1.5 block text-xs text-muted">
+                <span className="mb-1.5 block text-xs text-fg-muted">
                   Completed reps
                 </span>
                 <input
@@ -75,11 +77,11 @@ function WorkoutExerciseCard({
                     onInputChange(key, 'actual_reps', event.target.value)
                   }
                   placeholder={String(exercise.reps)}
-                  className="h-11 w-full rounded-xl border border-border px-3 text-sm outline-none focus:border-[#8da85d]"
+                  className="h-11 w-full rounded-xl border border-border-default px-3 text-sm outline-none focus:border-brand-hover"
                 />
               </label>
               <label className="min-w-0">
-                <span className="mb-1.5 block text-xs text-muted">
+                <span className="mb-1.5 block text-xs text-fg-muted">
                   Weight (kg)
                 </span>
                 <input
@@ -92,8 +94,8 @@ function WorkoutExerciseCard({
                   onChange={(event) =>
                     onInputChange(key, 'weight_kg', event.target.value)
                   }
-                  placeholder="Optional"
-                  className="h-11 w-full rounded-xl border border-border px-3 text-sm outline-none focus:border-[#8da85d]"
+                  placeholder={t('ui.Optional')}
+                  className="h-11 w-full rounded-xl border border-border-default px-3 text-sm outline-none focus:border-brand-hover"
                 />
               </label>
             </div>

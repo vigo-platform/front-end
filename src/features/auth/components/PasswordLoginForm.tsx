@@ -1,8 +1,11 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ApiError } from '../../../shared/api/client'
+import { getUserErrorMessage } from '../../../shared/api/user-error'
 import { useAuth } from '../context/auth-context'
 import { authService } from '../services/auth.service'
+import { useTranslation } from 'react-i18next'
+import { Button, Input } from '../../../shared/components/ui'
+import { AuthOptionsSkeleton } from '../../../shared/components/feedback/LoadingStates'
 
 type Step = 'CREDENTIALS' | 'VERIFY' | 'NEW_PASSWORD'
 
@@ -14,8 +17,8 @@ interface PasswordLoginFormProps {
 }
 
 const inputClassName =
-  'h-11 w-full rounded-md border border-border bg-white px-3 text-[13px] text-ink outline-none transition placeholder:text-[#999991] focus:border-ink'
-const labelClassName = 'text-[11px] font-medium text-ink'
+  'h-11 w-full rounded-md border border-border-default bg-surface px-3 text-[13px] text-fg outline-none transition placeholder:text-fg-muted focus:border-ink'
+const labelClassName = 'text-[11px] font-medium text-fg'
 
 function PasswordLoginForm({
   isConfigLoading,
@@ -23,6 +26,7 @@ function PasswordLoginForm({
   configError,
   onUseOtp,
 }: PasswordLoginFormProps) {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { signIn } = useAuth()
   const [identifier, setIdentifier] = useState('')
@@ -36,11 +40,7 @@ function PasswordLoginForm({
   const [errorMessage, setErrorMessage] = useState('')
 
   function handleError(error: unknown) {
-    setErrorMessage(
-      error instanceof ApiError
-        ? error.message
-        : 'Unable to connect to the server. Please try again.',
-    )
+    setErrorMessage(getUserErrorMessage(error, t, 'errors.login'))
   }
 
   async function handleCredentials(event: FormEvent<HTMLFormElement>) {
@@ -74,7 +74,7 @@ function PasswordLoginForm({
         return
       }
 
-      setErrorMessage('The server returned an unsupported login response.')
+      setErrorMessage(t("ui.The server returned an unsupported login response."))
     } catch (error) {
       handleError(error)
     } finally {
@@ -104,7 +104,7 @@ function PasswordLoginForm({
         return
       }
 
-      setErrorMessage('The server returned an unsupported verification response.')
+      setErrorMessage(t("ui.The server returned an unsupported verification response."))
     } catch (error) {
       handleError(error)
     } finally {
@@ -116,7 +116,7 @@ function PasswordLoginForm({
     event.preventDefault()
     setErrorMessage('')
     if (newPassword.trim().length === 0) {
-      setErrorMessage('Password cannot contain only whitespace.')
+      setErrorMessage(t("ui.Password cannot contain only whitespace."))
       return
     }
 
@@ -135,7 +135,7 @@ function PasswordLoginForm({
 
       navigate('/login', {
         replace: true,
-        state: { message: 'Your password was updated. Please sign in.' },
+        state: { message: t('ui.Your password was updated. Please sign in.') },
       })
     } catch (error) {
       handleError(error)
@@ -147,153 +147,76 @@ function PasswordLoginForm({
   return (
     <div className="w-full">
       <div className="mb-7">
-        <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-ink">
+        <h1 className="mb-2 text-[26px] leading-tight font-bold tracking-[-0.5px] text-fg">
           {step === 'CREDENTIALS'
-            ? 'Log in with your password'
+            ? t('ui.Log in with your password')
             : step === 'VERIFY'
-              ? 'Verify your identity'
-              : 'Update your password'}
+              ? t('ui.Verify your identity')
+              : t('ui.Update your password')}
         </h1>
-        <p className="text-[13px] leading-[1.6] text-[#55554f]">
+        <p className="text-[13px] leading-[1.6] text-fg-secondary">
           {step === 'CREDENTIALS'
-            ? 'Enter your email or phone number and password.'
+            ? t('ui.Enter your email or phone number and password.')
             : step === 'VERIFY'
-              ? 'Enter the six-digit verification code.'
-              : 'Your password has expired. Choose a new password to continue.'}
+              ? t('ui.Enter the six-digit verification code.')
+              : t('ui.Your password has expired. Choose a new password to continue.')}
         </p>
       </div>
 
       {step === 'CREDENTIALS' && (
         isConfigLoading ? (
-          <p className="text-[12px] text-[#77776f]">Loading login options...</p>
+          <AuthOptionsSkeleton />
         ) : isLoginDisabled ? (
-          <p role="status" className="rounded-md bg-[#f3f3ef] px-3 py-3 text-[12px] text-[#55554f]">
-            {configError || 'Login is currently disabled. Please try again later.'}
+          <p role="status" className="rounded-md bg-surface-muted px-3 py-3 text-[12px] text-fg-secondary">
+            {configError || t('ui.Login is currently disabled. Please try again later.')}
           </p>
         ) : (
         <form onSubmit={handleCredentials} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="password-login-identifier" className={labelClassName}>
-              Email or phone number
-            </label>
-            <input
-              id="password-login-identifier"
-              type="text"
-              autoComplete="username"
-              value={identifier}
-              onChange={(event) => setIdentifier(event.target.value)}
-              required
-              className={inputClassName}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="password-login-password" className={labelClassName}>
-              Password
-            </label>
-            <input
-              id="password-login-password"
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              required
-              maxLength={72}
-              className={inputClassName}
-            />
-          </div>
+          <Input id="password-login-identifier" label={t("ui.Email or phone number")} labelClassName={labelClassName} type="text" autoComplete="username" value={identifier} onChange={(event) => setIdentifier(event.target.value)} required className={inputClassName} />
+          <Input id="password-login-password" label={t("ui.Password")} labelClassName={labelClassName} type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} required maxLength={72} className={inputClassName} />
           {errorMessage && (
-            <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">
+            <p role="alert" className="rounded-md bg-danger-surface px-3 py-2 text-[12px] text-danger-fg">
               {errorMessage}
             </p>
           )}
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isLoading ? 'Signing in...' : 'Log in'}
-          </button>
+          <Button type="submit" loading={isLoading} size="md" className="h-11 w-full text-[13px]">{t('ui.Log in')}</Button>
         </form>
         )
       )}
 
       {step === 'VERIFY' && (
         <form onSubmit={handleVerify} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="password-login-otp" className={labelClassName}>
-              Verification code
-            </label>
-            <input
-              id="password-login-otp"
-              type="text"
-              inputMode="numeric"
-              autoComplete="one-time-code"
-              value={otp}
-              onChange={(event) => setOtp(event.target.value)}
-              minLength={6}
-              maxLength={6}
-              pattern="[0-9]{6}"
-              required
-              className={inputClassName}
-            />
-          </div>
+          <Input id="password-login-otp" label={t("ui.Verification code")} labelClassName={labelClassName} type="text" inputMode="numeric" autoComplete="one-time-code" value={otp} onChange={(event) => setOtp(event.target.value)} minLength={6} maxLength={6} pattern="[0-9]{6}" required className={inputClassName} />
           {errorMessage && (
-            <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">
+            <p role="alert" className="rounded-md bg-danger-surface px-3 py-2 text-[12px] text-danger-fg">
               {errorMessage}
             </p>
           )}
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60"
-          >
-            {isLoading ? 'Verifying...' : 'Verify'}
-          </button>
-          <button type="button" onClick={() => setStep('CREDENTIALS')} className="h-8 text-[11px] text-ink hover:underline">
-            Back
+          <Button type="submit" loading={isLoading} size="md" className="h-11 w-full text-[13px]">{t('ui.Verify')}</Button>
+          <button type="button" onClick={() => setStep('CREDENTIALS')} className="h-8 text-[11px] text-fg hover:underline">
+            {t("ui.Back")}
           </button>
         </form>
       )}
 
       {step === 'NEW_PASSWORD' && (
         <form onSubmit={handlePasswordUpdate} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="expired-new-password" className={labelClassName}>
-              New password
-            </label>
-            <input
-              id="expired-new-password"
-              type="password"
-              autoComplete="new-password"
-              value={newPassword}
-              onChange={(event) => setNewPassword(event.target.value)}
-              minLength={8}
-              maxLength={72}
-              required
-              className={inputClassName}
-            />
-          </div>
+          <Input id="expired-new-password" label={t("ui.New password")} labelClassName={labelClassName} type="password" autoComplete="new-password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} minLength={8} maxLength={72} required className={inputClassName} />
           {errorMessage && (
-            <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-700">
+            <p role="alert" className="rounded-md bg-danger-surface px-3 py-2 text-[12px] text-danger-fg">
               {errorMessage}
             </p>
           )}
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="flex h-11 w-full items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-ink transition hover:bg-accent-deep disabled:opacity-60"
-          >
-            {isLoading ? 'Updating...' : 'Update password'}
-          </button>
+          <Button type="submit" loading={isLoading} size="md" className="h-11 w-full text-[13px]">{t('ui.Update password')}</Button>
         </form>
       )}
 
       <div className="mt-5 flex flex-col items-center gap-3 text-center text-[11px]">
-        <button type="button" onClick={onUseOtp} className="font-medium text-ink hover:underline">
-          Use a verification code instead
+        <button type="button" onClick={onUseOtp} className="font-medium text-fg hover:underline">
+          {t("ui.Use a verification code instead")}
         </button>
-        <Link to="/forgot-password" className="font-medium text-ink hover:underline">
-          Forgot password?
+        <Link to="/forgot-password" className="font-medium text-fg hover:underline">
+          {t("ui.Forgot password?")}
         </Link>
       </div>
     </div>

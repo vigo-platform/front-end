@@ -38,14 +38,13 @@ function Sidebar() {
   }
 
   return (
-    <aside className="hidden min-h-screen w-[252px] shrink-0 flex-col bg-[#111210] px-5 py-7 text-white md:sticky md:top-0 md:flex md:h-screen">
-      <Link to={isPreview ? workspacePath : '/'} className="inline-flex w-fit items-center gap-2 px-1 text-[25px] font-bold tracking-[-1.2px]">
-        Vigo
-        <span className="mt-1 h-2 w-2 rounded-full bg-[#c7f36b]" />
+    <aside className="hidden min-h-screen w-[252px] shrink-0 flex-col bg-sidebar px-5 py-7 text-sidebar-fg md:sticky md:top-0 md:flex md:h-screen">
+      <Link to={isPreview ? workspacePath : '/'} aria-label="Vigo home" className="inline-flex w-fit items-center px-1">
+        <img src="/vigo-logo.svg" alt="Vigo" className="h-9 w-auto max-w-[112px] object-contain invert" />
       </Link>
 
-      <div className="mt-8 border-b border-white/10 pb-6">
-        <p className="px-1 text-[9px] font-semibold uppercase tracking-[1.8px] text-white/40">
+      <div className="mt-8 border-b border-sidebar-fg/10 pb-6">
+        <p className="px-1 text-[9px] font-semibold uppercase tracking-[1.8px] text-sidebar-muted">
           {workspaceLabel}
         </p>
       </div>
@@ -60,36 +59,36 @@ function Sidebar() {
               [
                 'group flex min-h-11 items-center gap-3 rounded-xl px-3 text-[12px] font-semibold transition-colors',
                 isActive
-                  ? 'bg-[#c7f36b] text-[#171914]'
-                  : 'text-white/60 hover:bg-white/[0.07] hover:text-white',
+                  ? 'bg-sidebar-active text-on-sidebar-active'
+                  : 'text-sidebar-muted hover:bg-sidebar-fg/[0.07] hover:text-sidebar-fg',
               ].join(' ')
             }
           >
             {({ isActive }) => (
               <>
-                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-white/[0.09] text-[9px] font-bold text-white/55">
+                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-sidebar-fg/[0.09] text-[9px] font-bold text-sidebar-fg/55">
                   {String(index + 1).padStart(2, '0')}
                 </span>
                 <span>{t(item.label)}</span>
-                {isActive && <span className="ms-auto h-1.5 w-1.5 rounded-full bg-[#171914]" />}
+                {isActive && <span className="ms-auto h-1.5 w-1.5 rounded-full bg-on-sidebar-active" />}
               </>
             )}
           </NavLink>
         ))}
       </nav>
 
-      <div className="mt-auto border-t border-white/10 pt-5">
+      <div className="mt-auto border-t border-sidebar-fg/10 pt-5">
         <div className="flex min-w-0 items-center gap-3 px-1">
           {user?.avatar_url ? (
             <img src={user.avatar_url} alt="" className="h-9 w-9 shrink-0 rounded-full object-cover" />
           ) : (
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 text-[10px] font-bold text-white">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sidebar-fg/15 text-[10px] font-bold text-sidebar-fg">
               {initials || 'V'}
             </span>
           )}
           <div className="min-w-0">
-            <p className="truncate text-[11px] font-semibold text-white">{displayName}</p>
-            <p className="mt-0.5 text-[10px] capitalize text-white/40">
+            <p className="truncate text-[11px] font-semibold text-sidebar-fg">{displayName}</p>
+            <p className="mt-0.5 text-[10px] capitalize text-sidebar-muted">
               {user?.role === 'ADMIN' ? t('workspace.administrator') : user?.role === 'COACH' ? t('workspace.coachAccount') : user?.role === 'ATHLETE' ? t('workspace.athleteAccount') : t('workspace.memberRole')}
             </p>
           </div>
@@ -97,7 +96,7 @@ function Sidebar() {
         <button
           type="button"
           onClick={handleLogout}
-          className="mt-5 flex w-full items-center justify-between rounded-lg px-2 py-2 text-start text-[11px] font-medium text-white/45 transition hover:bg-white/[0.06] hover:text-white"
+          className="mt-5 flex w-full items-center justify-between rounded-lg px-2 py-2 text-start text-[11px] font-medium text-sidebar-muted transition hover:bg-sidebar-fg/[0.06] hover:text-sidebar-fg"
         >
           {isPreview ? t('workspace.backToOverview') : t('workspace.signOut')}
           <span aria-hidden="true">↗</span>
