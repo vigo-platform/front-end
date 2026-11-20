@@ -5,7 +5,6 @@ import { useAuth } from '../../auth/context/auth-context'
 import { coachService } from '../../coaches/services/coach.service'
 import type { CoachProfile } from '../../coaches/types/coach.types'
 import { useTranslation } from 'react-i18next'
-import LanguageSwitcher from '../../../shared/components/LanguageSwitcher'
 import Skeleton from '../../../shared/components/feedback/Skeleton'
 import { CoachDirectorySkeleton } from '../../../shared/components/feedback/LoadingStates'
 
@@ -61,7 +60,6 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
   return (
     <AppShell title={t("ui.Overview")}>
       <div className="mx-auto w-full max-w-[1240px] space-y-8">
-        <div className="flex justify-end"><LanguageSwitcher /></div>
         <section className="flex flex-col justify-between gap-5 xl:flex-row xl:items-end">
           <div>
             <p className="text-[9px] font-bold uppercase tracking-[2px] text-fg-secondary">{t("ui.Athlete space")}</p>
