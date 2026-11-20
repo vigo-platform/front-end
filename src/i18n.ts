@@ -89,8 +89,6 @@ const resources = {
         "startingPlanPrice": "Starting plan price",
         "notAvailable": "Not available yet",
         "certifications": "Certifications",
-        "plansUnavailable": "Coaching plans are not available yet",
-        "plansExplanation": "The current User service does not expose plan endpoints. This profile uses only the public coach profile API and does not request placeholder plan data.",
         "years": "years"
       },
       "landing": {
@@ -331,8 +329,10 @@ const resources = {
         "Not available yet": "Not available yet",
         "About": "About",
         "Certifications": "Certifications",
-        "Coaching plans are not available yet": "Coaching plans are not available yet",
-        "The current User service does not expose plan endpoints. This profile uses only the public coach profile API and does not request placeholder plan data.": "The current User service does not expose plan endpoints. This profile uses only the public coach profile API and does not request placeholder plan data.",
+        "Coaching plans": "Coaching plans",
+        "Recommended": "Recommended",
+        "{{count}} days": "{{count}} days",
+        "No active coaching plans are available right now.": "No active coaching plans are available right now.",
         "Coach workspace": "Coach workspace",
         "Athlete space": "Athlete space",
         "Overview": "Overview",
@@ -801,8 +801,6 @@ const resources = {
         "startingPlanPrice": "قیمت شروع برنامه",
         "notAvailable": "هنوز در دسترس نیست",
         "certifications": "گواهینامه‌ها",
-        "plansUnavailable": "برنامه‌های مربی‌گری هنوز در دسترس نیستند",
-        "plansExplanation": "سرویس فعلی کاربر، مسیرهای دریافت برنامه را ارائه نمی‌کند. این پروفایل فقط از API عمومی مربی استفاده می‌کند و داده ساختگی برای برنامه‌ها درخواست نمی‌کند.",
         "years": "سال"
       },
       "landing": {
@@ -1043,8 +1041,10 @@ const resources = {
         "Not available yet": "هنوز در دسترس نیست",
         "About": "درباره",
         "Certifications": "گواهینامه‌ها",
-        "Coaching plans are not available yet": "برنامه‌های مربی‌گری هنوز در دسترس نیستند",
-        "The current User service does not expose plan endpoints. This profile uses only the public coach profile API and does not request placeholder plan data.": "سرویس فعلی کاربر مسیرهای دریافت برنامه را ارائه نمی‌کند. این پروفایل فقط از API عمومی مربی استفاده می‌کند و داده ساختگی برای برنامه‌ها درخواست نمی‌کند.",
+        "Coaching plans": "برنامه‌های مربی‌گری",
+        "Recommended": "پیشنهادی",
+        "{{count}} days": "{{count}} روز",
+        "No active coaching plans are available right now.": "در حال حاضر برنامه مربی‌گری فعالی برای این مربی وجود ندارد.",
         "Coach workspace": "فضای کاری مربی",
         "Athlete space": "فضای ورزشکار",
         "Overview": "نمای کلی",
