@@ -39,9 +39,8 @@ function Sidebar() {
 
   return (
     <aside className="hidden min-h-screen w-[252px] shrink-0 flex-col bg-sidebar px-5 py-7 text-sidebar-fg md:sticky md:top-0 md:flex md:h-screen">
-      <Link to={isPreview ? workspacePath : '/'} className="inline-flex w-fit items-center gap-2 px-1 text-[25px] font-bold tracking-[-1.2px]">
-        Vigo
-        <span className="mt-1 h-2 w-2 rounded-full bg-brand" />
+      <Link to={isPreview ? workspacePath : '/'} aria-label="Vigo home" className="inline-flex w-fit items-center px-1">
+        <img src="/vigo-logo.svg" alt="Vigo" className="h-9 w-auto max-w-[112px] object-contain invert" />
       </Link>
 
       <div className="mt-8 border-b border-sidebar-fg/10 pb-6">
