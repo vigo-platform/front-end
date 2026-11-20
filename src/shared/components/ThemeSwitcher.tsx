@@ -14,7 +14,7 @@ function ThemeSwitcher() {
       title={t(nextTheme === 'dark' ? 'ui.Switch to dark mode' : 'ui.Switch to light mode')}
       className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border-default bg-surface text-fg transition hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
     >
-      {resolvedTheme === 'dark' ? (
+      {resolvedTheme === 'light' ? (
         <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
           <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.7" />
           <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
