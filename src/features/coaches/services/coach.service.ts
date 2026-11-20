@@ -9,18 +9,41 @@ import type {
 
 function normalizeCoachProfile(data: unknown, fallbackCoachId = ''): CoachProfile {
   const raw = (data && typeof data === 'object' ? data : {}) as Record<string, unknown>
+  const pick = (snake: string, camel: string) => raw[snake] ?? raw[camel]
   const stringValue = (snake: string, camel: string, fallback = ''): string =>
-    String(raw[snake] ?? raw[camel] ?? fallback)
+    String(pick(snake, camel) ?? fallback)
   const numberValue = (snake: string, camel: string): number =>
-    Number(raw[snake] ?? raw[camel] ?? 0)
+    Number(pick(snake, camel) ?? 0)
   const nullableNumber = (snake: string, camel: string): number | null => {
-    const value = raw[snake] ?? raw[camel]
+    const value = pick(snake, camel)
     return value == null ? null : Number(value)
   }
   const stringArray = (snake: string, camel: string): string[] => {
-    const value = raw[snake] ?? raw[camel]
+    const value = pick(snake, camel)
     return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : []
   }
+
+  const plans = Array.isArray(raw.plans) ? raw.plans.map((plan) => {
+    const item = (plan && typeof plan === 'object' ? plan : {}) as Record<string, unknown>
+    const features = Array.isArray(item.features) ? item.features : []
+    return {
+      id: Number(item.id ?? 0),
+      title: String(item.title ?? ''),
+      summary: item.summary == null ? null : String(item.summary),
+      price: Number(item.price ?? 0),
+      compare_at_price: item.compare_at_price == null && item.compareAtPrice == null
+        ? null
+        : Number(item.compare_at_price ?? item.compareAtPrice),
+      currency: String(item.currency ?? ''),
+      duration_days: Number(item.duration_days ?? item.durationDays ?? 0),
+      is_recommended: Boolean(item.is_recommended ?? item.isRecommended),
+      display_order: Number(item.display_order ?? item.displayOrder ?? 0),
+      features: features.map((feature) => {
+        const value = (feature && typeof feature === 'object' ? feature : {}) as Record<string, unknown>
+        return { id: Number(value.id ?? 0), code: String(value.code ?? ''), label: String(value.label ?? '') }
+      }),
+    }
+  }) : []
 
   return {
     coach_id: stringValue('coach_id', 'coachId', fallbackCoachId),
@@ -29,14 +52,12 @@ function normalizeCoachProfile(data: unknown, fallbackCoachId = ''): CoachProfil
     bio: stringValue('bio', 'bio'),
     specialties: stringArray('specialties', 'specialties'),
     experience_years: numberValue('experience_years', 'experienceYears'),
-    certifications: Array.isArray(raw.certifications)
-      ? raw.certifications as CoachProfile['certifications']
-      : [],
-    instagram_handle: (raw.instagram_handle ?? raw.instagramHandle ?? null) as string | null,
+    certifications: Array.isArray(raw.certifications) ? raw.certifications as CoachProfile['certifications'] : [],
+    instagram_handle: (pick('instagram_handle', 'instagramHandle') ?? null) as string | null,
     result_image_urls: stringArray('result_image_urls', 'resultImageUrls'),
-    avatar_url: (raw.avatar_url ?? raw.avatarUrl ?? null) as string | null,
+    avatar_url: (pick('avatar_url', 'avatarUrl') ?? null) as string | null,
     status: raw.status as CoachProfile['status'],
-    rejection_reason: (raw.rejection_reason ?? raw.rejectionReason ?? null) as string | null,
+    rejection_reason: (pick('rejection_reason', 'rejectionReason') ?? null) as string | null,
     min_plan_price: nullableNumber('min_plan_price', 'minPlanPrice'),
     active_athletes_count: numberValue('active_athletes_count', 'activeAthletesCount'),
     created_at: stringValue('created_at', 'createdAt') || undefined,
@@ -45,34 +66,20 @@ function normalizeCoachProfile(data: unknown, fallbackCoachId = ''): CoachProfil
     price: nullableNumber('price', 'price'),
     compare_at_price: nullableNumber('compare_at_price', 'compareAtPrice'),
     currency: (raw.currency ?? null) as string | null,
-    plans: Array.isArray(raw.plans)
-      ? raw.plans.map((plan) => {
-          const item = (plan && typeof plan === 'object' ? plan : {}) as Record<string, unknown>
-          const features = Array.isArray(item.features) ? item.features : []
+    plans,
+  }
+}
 
-          return {
-            id: Number(item.id ?? 0),
-            title: String(item.title ?? ''),
-            summary: item.summary == null ? null : String(item.summary),
-            price: Number(item.price ?? 0),
-            compare_at_price: item.compare_at_price == null && item.compareAtPrice == null
-              ? null
-              : Number(item.compare_at_price ?? item.compareAtPrice),
-            currency: String(item.currency ?? ''),
-            duration_days: Number(item.duration_days ?? item.durationDays ?? 0),
-            is_recommended: Boolean(item.is_recommended ?? item.isRecommended),
-            display_order: Number(item.display_order ?? item.displayOrder ?? 0),
-            features: features.map((feature) => {
-              const value = (feature && typeof feature === 'object' ? feature : {}) as Record<string, unknown>
-              return {
-                id: Number(value.id ?? 0),
-                code: String(value.code ?? ''),
-                label: String(value.label ?? ''),
-              }
-            }),
-          }
-        })
-      : [],
+function toCoachProfilePayload(data: CoachProfileRequest) {
+  return {
+    displayName: data.display_name,
+    ...(data.headline !== undefined ? { headline: data.headline } : {}),
+    bio: data.bio,
+    specialties: data.specialties,
+    experienceYears: data.experience_years,
+    ...(data.certifications !== undefined ? { certifications: data.certifications } : {}),
+    ...(data.instagram_handle !== undefined ? { instagramHandle: data.instagram_handle } : {}),
+    ...(data.result_image_urls !== undefined ? { resultImageUrls: data.result_image_urls } : {}),
   }
 }
 
@@ -107,7 +114,7 @@ export const coachService = {
     const response = await apiRequest<unknown>('/api/v1/coaches/me', {
       method: 'PUT',
       headers: { Authorization: `Bearer ${accessToken}` },
-      body: data,
+      body: toCoachProfilePayload(data),
     })
     return normalizeCoachProfile(response.data)
   },
