@@ -26,7 +26,7 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
     <div className="min-h-screen bg-page text-fg">
       <header className="border-b border-border-default bg-surface">
         <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
-          <Link to={homePath} aria-label="Vigo home" className="inline-flex items-center"><img src="/vigo-logo.svg" alt="Vigo" className="h-8 w-auto max-w-[104px] object-contain dark:invert" /></Link>
+          <Link to={homePath} aria-label="Vigo home" className="inline-flex items-center"><img src="/vigo-logo.svg" alt="Vigo" className="h-8 w-auto max-w-[104px] object-contain vigo-logo" /></Link>
           <div className="flex items-center gap-3">
             <nav aria-label={t('navigation.main')} className="flex items-center gap-4">
             {isAuthenticated ? (
