@@ -5,6 +5,7 @@ import { useAuth } from '../../auth/context/auth-context'
 import { coachService } from '../../coaches/services/coach.service'
 import type { CoachProfile } from '../../coaches/types/coach.types'
 import { useTranslation } from 'react-i18next'
+import { getUserErrorMessage } from '../../../shared/api/user-error'
 import Skeleton from '../../../shared/components/feedback/Skeleton'
 import { CoachDirectorySkeleton } from '../../../shared/components/feedback/LoadingStates'
 
@@ -46,7 +47,7 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
         if (!active) return
         setCoaches([])
         setTotalCoaches(0)
-        setCoachError(requestError instanceof Error ? requestError.message : t('ui.Could not load coaches.'))
+        setCoachError(getUserErrorMessage(requestError, t, 'errors.loadCoaches'))
       })
       .finally(() => {
         if (active) setIsLoadingCoaches(false)
