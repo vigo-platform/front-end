@@ -40,7 +40,8 @@ function Button({
       aria-busy={loading || undefined}
       className={[
         'inline-flex items-center justify-center gap-2 rounded-lg font-semibold',
-        'transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring',
+        'transition-[color,background-color,border-color,box-shadow,transform,filter] duration-150 ease-out',
+        'active:scale-[0.98] active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring',
         'disabled:cursor-not-allowed disabled:opacity-60',
         variantClasses[variant],
         sizeClasses[size],
