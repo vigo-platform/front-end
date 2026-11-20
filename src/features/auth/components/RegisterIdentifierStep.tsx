@@ -86,7 +86,7 @@ function RegisterIdentifierStep({
           />
 
           <p className="-mt-1 text-[12px] text-fg-secondary">
-            {isEmail ? t('ui.We\'ll send a verification code to this email address.') : t('ui.We\'ll use this phone number for your registration.')}
+            {isEmail ? t("ui.We'll send a verification code to this email address.") : t('ui.We\'ll use this phone number for your registration.')}
           </p>
 
           {configError && (
@@ -110,11 +110,11 @@ function RegisterIdentifierStep({
         </form>
       )}
 
-      <p className="mt-6 text-center text-[11px] text-fg">
-        Already have an account?{' '}
+      <p className="mt-6 text-center text-[11px] leading-6 text-fg-secondary">
+        {t('ui.Already have an account?')}{' '}
         <Link
           to="/login"
-          className="ms-1 font-medium text-fg no-underline hover:underline"
+          className="ms-1 font-semibold text-fg underline-offset-4 hover:underline"
         >
           {t("ui.Log in")}
         </Link>
