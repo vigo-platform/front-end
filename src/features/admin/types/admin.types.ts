@@ -11,6 +11,17 @@ export interface AdminCoachApplication {
   instagram_handle?: string | null; result_image_urls?: string[]; avatar_url?: string | null
   status?: CoachApplicationStatus; rejection_reason?: string | null; min_plan_price?: number | null
   active_athletes_count?: number; created_at?: string; updated_at?: string
+  email?: string; phone?: string | null; first_name?: string; last_name?: string
+  profile_image_file_id?: string | null; invitation_expires_at?: string | null
+  certificates?: Array<{
+    certificate_id?: number; category?: 'UNIVERSITY' | 'FEDERATION' | 'SKILL'
+    title: string; issuer?: string | null; field_of_study?: string | null
+    degree?: string | null; file_id?: string
+  }>
+  experiences?: Array<{
+    experience_id?: number; title: string; organization?: string | null
+    description?: string | null; duration_months?: number | null
+  }>
 }
 export type AdminUser = UserProfile
 
