@@ -57,8 +57,7 @@ function AppRouter() {
     <Suspense fallback={<RouteLoadingFallback />}>
       <Routes>
         <Route path="/" element={<PublicLandingPage />} />
-        {import.meta.env.DEV && (
-          <>
+        <>
             <Route path="/_preview/athlete" element={<PreviewWorkspaceRoute role="ATHLETE" />}>
               <Route index element={<AthleteDashboardPage isPreview />} />
               <Route path="profile" element={<ProfilePage isPreview />} />
@@ -80,8 +79,7 @@ function AppRouter() {
             </Route>
             <Route path="/_preview/profile/athlete" element={<ProfilePreviewRoute role="ATHLETE" />} />
             <Route path="/_preview/profile/coach" element={<ProfilePreviewRoute role="COACH" />} />
-          </>
-        )}
+        </>
         <Route path="/login" element={<PublicOnly><LoginPage /></PublicOnly>} />
         <Route path="/register" element={<PublicOnly><RegisterPage /></PublicOnly>} />
         <Route path="/forgot-password" element={<PublicOnly><ForgotPasswordPage /></PublicOnly>} />
