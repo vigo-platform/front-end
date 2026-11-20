@@ -99,7 +99,7 @@ function PublicLandingPage() {
             </Link>
             <Link
               to="/register"
-              className="inline-flex h-11 items-center gap-2 rounded-full bg-sidebar px-5 text-[12px] font-semibold text-sidebar-fg transition hover:bg-sidebar-hover"
+              className="inline-flex h-11 items-center gap-2 rounded-full bg-brand px-5 text-[12px] font-semibold text-on-brand transition hover:bg-brand-hover"
             >
               {t("ui.Get started")} <ArrowIcon />
             </Link>
