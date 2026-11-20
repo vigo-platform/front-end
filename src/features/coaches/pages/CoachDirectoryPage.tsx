@@ -25,10 +25,12 @@ function CoachDirectoryPage() {
   const { isPreview } = useAuth()
   const coachesPath = isPreview ? '/_preview/athlete/coaches' : '/coaches'
   const [page, setPage] = useState<CoachDirectoryPage | null>(null)
+  const [requestedPage, setRequestedPage] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
 
   async function loadPage(pageNumber: number) {
+    setRequestedPage(pageNumber)
     setIsLoading(true)
     setError('')
 
@@ -79,7 +81,7 @@ function CoachDirectoryPage() {
             <p className="text-sm font-semibold text-danger-fg">{t('ui.Could not load coaches')}</p>
             <button
               type="button"
-              onClick={() => void loadPage(page?.page ?? 0)}
+              onClick={() => void loadPage(requestedPage)}
               className="mt-3 text-sm font-semibold text-danger-fg underline"
             >
               {t('ui.Try again')}
