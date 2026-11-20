@@ -52,6 +52,21 @@ export const previewCoachRelations = [
   },
 ]
 
+export const previewAthleteRelations = [
+  {
+    relation_id: '00000000-0000-4000-8000-000000000301',
+    coach_id: previewCoach.user_id,
+    coach_name: previewCoach.display_name ?? 'Jordan Davis',
+    athlete_id: previewAthlete.user_id,
+    athlete_name: previewAthlete.display_name ?? 'Alex Morgan',
+    plan_id: '00000000-0000-4000-8000-000000000401',
+    plan_title: 'Strength & Conditioning',
+    starts_at: '2026-10-01T00:00:00Z',
+    ends_at: '2026-12-30T23:59:59Z',
+    status: 'ACTIVE' as const,
+  },
+]
+
 export const previewCoachPlans = [
   {
     plan_id: '00000000-0000-4000-8000-000000000401',

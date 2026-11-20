@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { getUserErrorMessage } from '../../../shared/api/user-error'
 import Skeleton from '../../../shared/components/feedback/Skeleton'
 import { CoachDirectorySkeleton } from '../../../shared/components/feedback/LoadingStates'
+import MyCoachesPanel from '../../relationships/components/MyCoachesPanel'
 
 interface AthleteDashboardPageProps {
   isPreview?: boolean
@@ -26,7 +27,8 @@ function formatDate(value?: string | null, locale = 'en') {
 
 function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) {
   const { t, i18n } = useTranslation()
-  const { user } = useAuth()
+  const { user, accessToken, isPreview: previewContext } = useAuth()
+  const preview = isPreview || previewContext
   const [coaches, setCoaches] = useState<CoachDirectoryItem[]>([])
   const [totalCoaches, setTotalCoaches] = useState(0)
   const [isLoadingCoaches, setIsLoadingCoaches] = useState(true)
@@ -114,11 +116,14 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
               {t("ui.Browse approved coach profiles and compare their experience and specialties.")}
             </p>
           </div>
-          <Link to="/coaches" className="relative mt-8 inline-flex h-11 w-fit items-center gap-3 rounded-full bg-brand px-5 text-[11px] font-bold text-on-brand transition hover:bg-brand-hover">
-            {t("ui.Explore coaches")} <span aria-hidden="true">→</span>
-          </Link>
+          <div className="relative mt-8 flex flex-wrap gap-3">
+            <Link to="/coaches" className="inline-flex h-11 w-fit items-center gap-3 rounded-full bg-brand px-5 text-[11px] font-bold text-on-brand transition hover:bg-brand-hover">{t("ui.Explore coaches")} <span aria-hidden="true">→</span></Link>
+            <Link to="/plans" className="inline-flex h-11 w-fit items-center gap-3 rounded-full border border-sidebar-fg/20 px-5 text-[11px] font-bold text-sidebar-fg transition hover:bg-sidebar-fg/10">{t("planMarketplace.browsePlans")}</Link>
+          </div>
           <span aria-hidden="true" className="pointer-events-none absolute bottom-0 right-8 text-[150px] font-black leading-none tracking-[-16px] text-sidebar-fg/[0.045]">V</span>
         </section>
+
+        <MyCoachesPanel accessToken={accessToken} preview={preview} />
 
         <section>
           <div className="flex flex-wrap items-end justify-between gap-3">

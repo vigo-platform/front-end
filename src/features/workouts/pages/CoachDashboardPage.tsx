@@ -8,6 +8,7 @@ import { planService } from '../../coaches/services/plan.service'
 import type { ManagedCoachPlan } from '../../coaches/types/coach.types'
 import { getUserErrorMessage } from '../../../shared/api/user-error'
 import { useTranslation } from 'react-i18next'
+import CoachAthletesPanel from '../../relationships/components/CoachAthletesPanel'
 
 interface CoachDashboardPageProps {
   isPreview?: boolean
@@ -60,6 +61,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
   const firstName = user?.display_name?.trim().split(/\s+/)[0] || t('ui.Coach')
   const draft = loadWorkoutDraft()
   const activeAthletes = preview ? previewCoachRelations.filter((item) => item.status === 'ACTIVE') : []
+  const [athleteCount, setAthleteCount] = useState<number | null>(preview ? activeAthletes.length : null)
   const [plans, setPlans] = useState<ManagedCoachPlan[]>([])
   const [isLoadingPlans, setIsLoadingPlans] = useState(!preview)
   const [planError, setPlanError] = useState('')
@@ -150,8 +152,8 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
 
         <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <article className="rounded-[18px] border border-border-default bg-surface p-5">
-            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-fg-muted">{t("ui.Active athletes")}</p>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-fg">{preview ? formatNumber(activeAthletes.length, i18n.language) : '—'}</p>
+            <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-fg-muted">{t("ui.Athlete relationships")}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-fg">{athleteCount === null ? '—' : formatNumber(athleteCount, i18n.language)}</p>
             <p className="mt-1 text-[10px] text-fg-muted">{t("ui.Coach relationships")}</p>
           </article>
           <article className="rounded-[18px] border border-border-default bg-surface p-5">
@@ -187,36 +189,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
         </section>
 
         <section className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
-          <article className="rounded-[20px] border border-border-default bg-surface p-6 sm:p-7">
-            <div className="flex items-end justify-between gap-3">
-              <div>
-                <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-fg-muted">{t("ui.Relationships")}</p>
-                <h2 className="mt-2 text-[21px] font-bold tracking-[-0.7px]">{t("ui.Your athletes")}</h2>
-              </div>
-              <span className="text-[9px] font-semibold text-fg-muted">{preview ? activeAthletes.length + ' ' + t('ui.active') : t('ui.Not connected')}</span>
-            </div>
-            {preview ? (
-              <div className="mt-5 divide-y divide-border-default">
-                {activeAthletes.map((relation) => (
-                  <div key={relation.relation_id} className="flex items-center gap-3 py-4 first:pt-0 last:pb-0">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface-muted text-[11px] font-bold text-success-fg">
-                      {relation.athlete_name.split(/\s+/).map((part: string) => part[0]).slice(0, 2).join('')}
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-[12px] font-bold text-fg">{relation.athlete_name}</p>
-                      <p className="mt-1 truncate text-[10px] text-fg-muted">{relation.plan_title}</p>
-                    </div>
-                    <span className="rounded-full bg-surface-muted px-2.5 py-1 text-[8px] font-bold uppercase tracking-[0.8px] text-success-fg">{t('ui.ACTIVE')}</span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="mt-5 rounded-xl border border-dashed border-border-default bg-surface-subtle px-5 py-7 text-center">
-                <p className="text-[12px] font-semibold text-fg">{t("ui.Athlete relationships will appear here")}</p>
-                <p className="mt-1 text-[10px] text-fg-muted">{t("ui.The current backend does not expose coach–athlete relationship endpoints.")}</p>
-              </div>
-            )}
-          </article>
+          <CoachAthletesPanel accessToken={accessToken} preview={preview} onTotalChange={setAthleteCount} />
 
           <article className="rounded-[20px] border border-border-default bg-surface p-6 sm:p-7">
             <div className="flex flex-wrap items-end justify-between gap-3">

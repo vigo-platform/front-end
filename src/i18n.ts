@@ -20,7 +20,8 @@ const resources = {
         "exerciseLibrary": "Exercise Library",
         "workoutBuilder": "Workout Builder",
         "findCoach": "Find a Coach",
-        "files": "Files"
+        "files": "Files",
+        "browsePlans": "Browse Plans"
       },
       "storage": {"title":"Files","subtitle":"Manage training files shared between coaches and athletes.","athleteTitle":"Shared files","athleteSubtitle":"Files your coach has shared with you.","uploadTitle":"Upload a file","athleteId":"Athlete ID","athleteIdHelp":"Enter the athlete UUID. Athlete relationship lookup is not available in the current Bruno collection.","category":"Category","fileTitle":"File title","description":"Description","optionalDescription":"Add a short description (optional)","chooseFile":"Choose file","upload":"Upload file","uploading":"Uploading...","uploadSuccess":"File uploaded successfully.","uploadError":"Could not upload the file.","files":"Files","noFiles":"No files have been shared yet.","loadError":"Could not load files.","refresh":"Refresh","allCategories":"All categories","WORKOUT":"Workout","DIET":"Diet","SUPPLEMENT":"Supplement","OTHER":"Other","details":"File details","versions":"Version history","version":"Version","latest":"Latest","originalName":"Original filename","uploadedAt":"Uploaded","changeNote":"Change note","changeNotePlaceholder":"Describe what changed in this version (optional)","addVersion":"Add new version","addingVersion":"Uploading version...","versionSuccess":"New version uploaded.","versionError":"Could not upload the new version.","download":"Download latest","downloadVersion":"Download version","edit":"Edit details","save":"Save changes","saving":"Saving...","cancel":"Cancel","updateSuccess":"File details updated.","updateError":"Could not update file details.","delete":"Delete file","deleteConfirm":"Delete this file? It will no longer appear in the file list.","deleteSuccess":"File deleted.","deleteError":"Could not delete the file.","noDescription":"No description","size":"Size","contentType":"File type","page":"Page","of":"of","previous":"Previous","next":"Next","fileTooLarge":"The file exceeds the 20 MiB upload limit.","emptyVersions":"No version information is available."},
       "workspace": {
@@ -92,6 +93,46 @@ const resources = {
         "notAvailable": "Not available yet",
         "certifications": "Certifications",
         "years": "years"
+      },
+      "relationships": {
+        "athletes": "athletes",
+        "coaches": "coaches",
+        "filter": "Status",
+        "allStatuses": "All statuses",
+        "refresh": "Refresh",
+        "loadError": "Could not load coach relationships.",
+        "noAthletes": "No athletes found",
+        "noAthletesDescription": "Athlete relationships will appear here when they are available.",
+        "myCoaches": "My coaches",
+        "myCoachesDescription": "Your current and previous coaching relationships.",
+        "noCoaches": "You do not have any coach relationships yet",
+        "noCoachesDescription": "Browse coaches and find a plan that matches your training goals.",
+        "viewCoach": "View coach",
+        "previous": "Previous",
+        "next": "Next",
+        "page": "Page"
+      },
+      "planMarketplace": {
+        "title": "Coaching plans",
+        "eyebrow": "VIGO MARKETPLACE",
+        "description": "Explore active coaching plans and compare what each plan includes before choosing a coach.",
+        "browsePlans": "Browse plans",
+        "availablePlans": "Available coaching plans",
+        "coachingPlan": "Coaching plan",
+        "forDuration": "for {{count}} days",
+        "includes": "What's included",
+        "viewCoach": "View coach",
+        "loading": "Loading available plans...",
+        "loadError": "We could not load the public plans.",
+        "tryAgain": "Try again",
+        "emptyTitle": "No public plans are available yet",
+        "emptyDescription": "Check back later or browse coach profiles to learn more.",
+        "include": {
+          "WORKOUT": "Workout",
+          "DIET": "Diet",
+          "SUPPLEMENT": "Supplement",
+          "CHAT_SUPPORT": "Chat support"
+        }
       },
       "landing": {
         "product": "Product",
@@ -628,6 +669,8 @@ const resources = {
         "Assigned sessions and training results will appear here when the workout backend is available.": "Assigned sessions and training results will appear here when the workout backend is available.",
         "The current Vigo backend does not expose endpoints for assigned workouts, workout details, or submitting execution results. No sample workouts or browser-only results are shown here.": "The current Vigo backend does not expose endpoints for assigned workouts, workout details, or submitting execution results. No sample workouts or browser-only results are shown here.",
         "ACTIVE": "Active",
+        "EXPIRED": "Expired",
+        "Athlete relationships": "Athlete relationships",
         "SUSPENDED": "SUSPENDED",
         "PENDING": "PENDING",
         "APPROVED": "APPROVED",
@@ -761,7 +804,8 @@ const resources = {
         "exerciseLibrary": "کتابخانه حرکات ورزشی",
         "workoutBuilder": "برنامه‌ساز تمرین",
         "findCoach": "پیدا کردن مربی",
-        "files": "فایل‌ها"
+        "files": "فایل‌ها",
+        "browsePlans": "مشاهده برنامه‌ها"
       },
       "storage": {"title":"مدیریت فایل‌ها","subtitle":"مدیریت فایل‌های تمرینی به‌اشتراک‌گذاشته‌شده میان مربی و ورزشکار.","athleteTitle":"فایل‌های اشتراکی","athleteSubtitle":"فایل‌هایی که مربی با شما به اشتراک گذاشته است.","uploadTitle":"بارگذاری فایل","athleteId":"شناسه ورزشکار","athleteIdHelp":"شناسه UUID ورزشکار را وارد کنید. در کالکشن فعلی Bruno امکان دریافت فهرست ارتباطات ورزشکاران وجود ندارد.","category":"دسته‌بندی","fileTitle":"عنوان فایل","description":"توضیحات","optionalDescription":"توضیح کوتاهی بنویسید (اختیاری)","chooseFile":"انتخاب فایل","upload":"بارگذاری فایل","uploading":"در حال بارگذاری...","uploadSuccess":"فایل با موفقیت بارگذاری شد.","uploadError":"بارگذاری فایل انجام نشد.","files":"فایل‌ها","noFiles":"هنوز فایلی با شما به اشتراک گذاشته نشده است.","loadError":"دریافت فهرست فایل‌ها انجام نشد.","refresh":"بارگذاری مجدد","allCategories":"همه دسته‌بندی‌ها","WORKOUT":"تمرین","DIET":"رژیم غذایی","SUPPLEMENT":"مکمل","OTHER":"سایر","details":"جزئیات فایل","versions":"تاریخچه نسخه‌ها","version":"نسخه","latest":"آخرین نسخه","originalName":"نام اصلی فایل","uploadedAt":"زمان بارگذاری","changeNote":"توضیح تغییرات","changeNotePlaceholder":"تغییرات این نسخه را توضیح دهید (اختیاری)","addVersion":"افزودن نسخه جدید","addingVersion":"در حال بارگذاری نسخه...","versionSuccess":"نسخه جدید با موفقیت بارگذاری شد.","versionError":"بارگذاری نسخه جدید انجام نشد.","download":"دانلود آخرین نسخه","downloadVersion":"دانلود نسخه","edit":"ویرایش مشخصات","save":"ذخیره تغییرات","saving":"در حال ذخیره...","cancel":"انصراف","updateSuccess":"مشخصات فایل به‌روزرسانی شد.","updateError":"به‌روزرسانی مشخصات فایل انجام نشد.","delete":"حذف فایل","deleteConfirm":"این فایل حذف شود؟ پس از حذف، در فهرست فایل‌ها نمایش داده نخواهد شد.","deleteSuccess":"فایل حذف شد.","deleteError":"حذف فایل انجام نشد.","noDescription":"بدون توضیحات","size":"حجم","contentType":"نوع فایل","page":"صفحه","of":"از","previous":"قبلی","next":"بعدی","fileTooLarge":"حجم فایل از محدودیت ۲۰ مگابایت بیشتر است.","emptyVersions":"اطلاعاتی از نسخه‌های فایل در دسترس نیست."},
       "workspace": {
@@ -833,6 +877,46 @@ const resources = {
         "notAvailable": "هنوز در دسترس نیست",
         "certifications": "گواهینامه‌ها",
         "years": "سال"
+      },
+      "relationships": {
+        "athletes": "ورزشکار",
+        "coaches": "مربی",
+        "filter": "وضعیت",
+        "allStatuses": "همه وضعیت‌ها",
+        "refresh": "تازه‌سازی",
+        "loadError": "دریافت روابط مربی و ورزشکار ممکن نشد.",
+        "noAthletes": "ورزشکاری پیدا نشد",
+        "noAthletesDescription": "روابط با ورزشکاران در این بخش نمایش داده می‌شود.",
+        "myCoaches": "مربیان من",
+        "myCoachesDescription": "روابط فعلی و قبلی شما با مربیان.",
+        "noCoaches": "هنوز رابطه‌ای با مربی ندارید",
+        "noCoachesDescription": "مربیان را بررسی کنید و برنامه متناسب با هدف تمرینی خود را پیدا کنید.",
+        "viewCoach": "مشاهده مربی",
+        "previous": "قبلی",
+        "next": "بعدی",
+        "page": "صفحه"
+      },
+      "planMarketplace": {
+        "title": "برنامه‌های مربیگری",
+        "eyebrow": "بازار ویگو",
+        "description": "برنامه‌های فعال مربیگری را بررسی کنید و پیش از انتخاب مربی، خدمات هر برنامه را مقایسه کنید.",
+        "browsePlans": "مشاهده برنامه‌ها",
+        "availablePlans": "برنامه‌های موجود",
+        "coachingPlan": "برنامه مربیگری",
+        "forDuration": "برای {{count}} روز",
+        "includes": "موارد شامل برنامه",
+        "viewCoach": "مشاهده مربی",
+        "loading": "در حال دریافت برنامه‌های موجود...",
+        "loadError": "دریافت برنامه‌های عمومی ممکن نشد.",
+        "tryAgain": "تلاش دوباره",
+        "emptyTitle": "هنوز برنامه عمومی‌ای ارائه نشده است",
+        "emptyDescription": "بعداً دوباره بررسی کنید یا برای آشنایی بیشتر، پروفایل مربیان را ببینید.",
+        "include": {
+          "WORKOUT": "تمرین",
+          "DIET": "رژیم غذایی",
+          "SUPPLEMENT": "مکمل",
+          "CHAT_SUPPORT": "پشتیبانی گفتگو"
+        }
       },
       "landing": {
         "product": "محصول",
@@ -1369,6 +1453,8 @@ const resources = {
         "Assigned sessions and training results will appear here when the workout backend is available.": "جلسه‌های اختصاص‌یافته و نتایج تمرین پس از آماده‌شدن بک‌اند تمرین در اینجا نمایش داده می‌شوند.",
         "The current Vigo backend does not expose endpoints for assigned workouts, workout details, or submitting execution results. No sample workouts or browser-only results are shown here.": "بک‌اند فعلی ویگو مسیرهایی برای تمرین‌های اختصاص‌یافته، جزئیات تمرین یا ثبت نتایج اجرا ارائه نمی‌کند. در اینجا تمرین نمونه یا نتیجه ذخیره‌شده در مرورگر نمایش داده نمی‌شود.",
         "ACTIVE": "فعال",
+        "EXPIRED": "منقضی‌شده",
+        "Athlete relationships": "روابط با ورزشکاران",
         "SUSPENDED": "تعلیق‌شده",
         "PENDING": "در انتظار",
         "APPROVED": "تأییدشده",

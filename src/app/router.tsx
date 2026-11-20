@@ -19,6 +19,7 @@ const AthleteWorkoutsPage = lazy(() => import('../features/athlete-workouts/page
 const WorkoutExecutionPage = lazy(() => import('../features/athlete-workouts/pages/WorkoutExecutionPage'))
 const CoachDirectoryPage = lazy(() => import('../features/coaches/pages/CoachDirectoryPage'))
 const CoachProfilePage = lazy(() => import('../features/coaches/pages/CoachProfilePage'))
+const PlanMarketplacePage = lazy(() => import('../features/plans/pages/PlanMarketplacePage'))
 const CoachApplicationPage = lazy(() => import('../features/coaches/pages/CoachApplicationPage'))
 const PublicLandingPage = lazy(() => import('../features/landing/pages/PublicLandingPage'))
 const LoginPage = lazy(() => import('../features/auth/pages/LoginPage'))
@@ -101,6 +102,7 @@ function AppRouter() {
         <Route path="/athlete/files" element={<RequireAuth allowedRoles={["ATHLETE"]}><FileManagementPage /></RequireAuth>} />
         <Route path="/workouts" element={<Navigate to="/athlete/workouts" replace />} />
         <Route path="/workouts/:workoutId" element={<RequireAuth allowedRoles={['ATHLETE']}><WorkoutExecutionPage /></RequireAuth>} />
+        <Route path="/plans" element={<PlanMarketplacePage />} />
         <Route path="/coaches" element={<CoachDirectoryPage />} />
         <Route path="/coaches/:coachId" element={<CoachProfilePage />} />
         <Route path="/coaches/apply" element={<CoachApplicationPage />} />
