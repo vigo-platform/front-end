@@ -309,6 +309,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
                 <p className="mt-1 text-[10px] text-fg-muted">{t("ui.Create your first coaching plan to manage it here.")}</p>
               </div>
             )}
+          </article>
         </section>
 
         <section>
