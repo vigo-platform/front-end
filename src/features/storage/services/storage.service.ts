@@ -1,6 +1,7 @@
 import { apiDownload, apiRequest } from '../../../shared/api/client'
 import type {
   AssetAccessEntry,
+  AssetAccessEntry,
   AssetAccessGrant,
   FileCategory,
   AssetDownloadUrl,
