@@ -29,6 +29,7 @@ function CoachAthletesPanel({ accessToken, preview, onTotalChange }: CoachAthlet
   const [page, setPage] = useState<RelationPage | null>(null)
   const [status, setStatus] = useState<'ALL' | RelationStatus>('ALL')
   const [pageNumber, setPageNumber] = useState(0)
+  const [reloadKey, setReloadKey] = useState(0)
   const [loading, setLoading] = useState(!preview)
   const [error, setError] = useState('')
 
@@ -55,7 +56,7 @@ function CoachAthletesPanel({ accessToken, preview, onTotalChange }: CoachAthlet
       if (active) setLoading(false)
     })
     return () => { active = false }
-  }, [accessToken, onTotalChange, pageNumber, preview, status, t])
+  }, [accessToken, onTotalChange, pageNumber, preview, reloadKey, status, t])
 
   const relations: CoachAthleteRelation[] = useMemo(() => {
     const source = preview ? previewCoachRelations : page?.content ?? []
@@ -88,7 +89,7 @@ function CoachAthletesPanel({ accessToken, preview, onTotalChange }: CoachAthlet
             <option value="EXPIRED">{t('ui.EXPIRED')}</option>
           </select>
         </label>
-        {!preview && <button type="button" onClick={() => setPageNumber(0)} className="text-[10px] font-semibold text-success-fg hover:underline">{t('relationships.refresh')}</button>}
+        {!preview && <button type="button" onClick={() => { setPageNumber(0); setReloadKey((value) => value + 1) }} className="text-[10px] font-semibold text-success-fg hover:underline">{t('relationships.refresh')}</button>}
       </div>
 
       {error ? (
