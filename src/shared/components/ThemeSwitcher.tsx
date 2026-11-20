@@ -1,35 +1,30 @@
 import { useTranslation } from 'react-i18next'
-import { type ThemePreference } from '../theme/ThemeContext'
 import { useTheme } from '../theme/useTheme'
 
-const options: ThemePreference[] = ['light', 'dark', 'system']
-
 function ThemeSwitcher() {
-  const { theme, setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme()
   const { t } = useTranslation()
-  const labels: Record<ThemePreference, string> = {
-    light: t('ui.Light'),
-    dark: t('ui.Dark'),
-    system: t('ui.System'),
-  }
-  const ariaLabel = t('ui.Theme selection')
+  const nextTheme = resolvedTheme === 'dark' ? 'light' : 'dark'
 
   return (
-    <label className="inline-flex shrink-0 items-center">
-      <span className="sr-only">{ariaLabel}</span>
-      <select
-        value={theme}
-        onChange={(event) => setTheme(event.target.value as ThemePreference)}
-        aria-label={ariaLabel}
-        className="h-9 max-w-[104px] rounded-lg border border-border-default bg-surface px-2 text-[11px] font-semibold text-fg outline-none transition focus:border-brand"
-      >
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {labels[option]}
-          </option>
-        ))}
-      </select>
-    </label>
+    <button
+      type="button"
+      onClick={() => setTheme(nextTheme)}
+      aria-label={t(nextTheme === 'dark' ? 'ui.Switch to dark mode' : 'ui.Switch to light mode')}
+      title={t(nextTheme === 'dark' ? 'ui.Switch to dark mode' : 'ui.Switch to light mode')}
+      className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border-default bg-surface text-fg transition hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+    >
+      {resolvedTheme === 'dark' ? (
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.7" />
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+        </svg>
+      ) : (
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
+          <path d="M20.2 15.4A8.5 8.5 0 0 1 8.6 3.8 8.5 8.5 0 1 0 20.2 15.4Z" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )}
+    </button>
   )
 }
 
