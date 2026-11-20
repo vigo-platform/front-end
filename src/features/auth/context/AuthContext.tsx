@@ -40,23 +40,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const loadProfile = useCallback(async (token: string) => {
-    try {
-      const profile = await userService.getMe(token)
-      setUser(profile)
-      return true
-    } catch (error) {
-      if (error instanceof ApiError && error.code === 'PROFILE_NOT_READY') {
-        await new Promise((resolve) => window.setTimeout(resolve, 2000))
-        try {
-          const profile = await userService.getMe(token)
-          setUser(profile)
-          return true
-        } catch {
-          return false
+    // A newly issued session can become available slightly before its profile.
+    // Retry that specific state so a page reload does not briefly lose the signed-in user.
+    for (let attempt = 0; attempt < 4; attempt += 1) {
+      try {
+        const profile = await userService.getMe(token)
+        setUser(profile)
+        return true
+      } catch (error) {
+        if (!(error instanceof ApiError) || error.code !== 'PROFILE_NOT_READY' || attempt === 3) {
+          throw error
         }
+        await new Promise((resolve) => window.setTimeout(resolve, 1500))
       }
-      throw error
     }
+    return false
   }, [])
 
   const signIn = useCallback(async (tokens: TokenPair) => {
