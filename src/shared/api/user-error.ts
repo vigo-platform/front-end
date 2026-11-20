@@ -3,7 +3,7 @@ import { ApiError } from './client'
 
 /**
  * Converts technical/network/API failures into localized, user-facing copy.
- * Keep ApiError.message for diagnostics only; never render it directly.
+ * Keep ApiError.serverMessage for diagnostics only; never render it directly.
  */
 export function getUserErrorMessage(
   error: unknown,
