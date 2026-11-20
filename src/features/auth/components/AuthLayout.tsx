@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 interface AuthLayoutProps {
@@ -12,13 +13,18 @@ function AuthLayout({ children }: AuthLayoutProps) {
     <main className="grid min-h-screen grid-cols-1 gap-4 bg-page p-3 sm:gap-5 sm:p-5 lg:grid-cols-[minmax(0,1fr)_440px]">
       <section className="relative flex min-h-[calc(100vh-24px)] flex-col rounded-2xl border border-border-default bg-surface px-5 py-6 shadow-sm sm:min-h-[calc(100vh-40px)] sm:px-8 sm:py-8 lg:px-11">
         <header className="flex items-center justify-between gap-4">
-          <a href="/" aria-label="Vigo" className="inline-flex items-center">
+          <Link to="/" aria-label="Vigo" className="inline-flex items-center">
             <img src="/vigo-logo.svg" alt="Vigo" className="vigo-logo h-9 w-auto max-w-[112px] object-contain" />
-          </a>
+          </Link>
         </header>
 
         <div className="my-auto flex w-full justify-center py-8 sm:py-12">
-          <div className="w-full max-w-[440px] rounded-2xl border border-border-default bg-page/60 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.04)] sm:p-8 lg:p-9">
+          <div className="relative w-full max-w-[460px] overflow-hidden rounded-[24px] border border-brand/15 bg-surface p-5 shadow-[0_20px_60px_rgba(0,0,0,0.07)] ring-1 ring-black/[0.02] sm:p-8 lg:p-9">
+            <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand/30 via-brand to-brand/30" />
+            <div className="mb-6 flex items-center gap-2 text-[10px] font-semibold tracking-[0.14em] text-fg-muted">
+              <span className="size-1.5 rounded-full bg-brand" />
+              VIGO ACCOUNT
+            </div>
             {children}
           </div>
         </div>
