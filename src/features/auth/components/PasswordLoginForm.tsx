@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ApiError } from '../../../shared/api/client'
+import { getUserErrorMessage } from '../../../shared/api/user-error'
 import { useAuth } from '../context/auth-context'
 import { authService } from '../services/auth.service'
 import { useTranslation } from 'react-i18next'
@@ -40,11 +40,7 @@ function PasswordLoginForm({
   const [errorMessage, setErrorMessage] = useState('')
 
   function handleError(error: unknown) {
-    setErrorMessage(
-      error instanceof ApiError
-        ? error.message
-        : t('ui.Unable to connect to the server. Please try again.'),
-    )
+    setErrorMessage(getUserErrorMessage(error, t, 'errors.login'))
   }
 
   async function handleCredentials(event: FormEvent<HTMLFormElement>) {
