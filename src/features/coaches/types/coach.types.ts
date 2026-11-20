@@ -22,6 +22,10 @@ export interface CoachProfile extends CoachProfileRequest {
   active_athletes_count?: number
   created_at?: string
   updated_at?: string
+  has_active_plan?: boolean
+  price?: number | null
+  compare_at_price?: number | null
+  currency?: string | null
 }
 
 export interface CoachDirectoryItem {
