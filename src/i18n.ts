@@ -115,7 +115,8 @@ const resources = {
         "clearPlans": "Clear plans. Stronger connections.",
         "onePlace": "One place to bring your training together.",
         "nextStep": "Built for your next step.",
-        "alreadyHaveAccount": "Already have an account?"
+        "alreadyHaveAccount": "Already have an account?",
+        "accountLabel": "VIGO ACCOUNT"
       },
       "errors": {
         "suspended": "Account suspended",
@@ -144,6 +145,7 @@ const resources = {
       },
       "ui": {
         "Product": "Product",
+        "Product introduction": "Product introduction",
         "For athletes": "For athletes",
         "For coaches": "For coaches",
         "How it works": "How it works",
@@ -848,7 +850,8 @@ const resources = {
         "clearPlans": "برنامه‌های روشن. ارتباط‌های قوی‌تر.",
         "onePlace": "تمام فرایند تمرین شما، در یک مکان.",
         "nextStep": "برای قدم بعدی شما ساخته شده است.",
-        "alreadyHaveAccount": "از قبل حساب کاربری دارید؟"
+        "alreadyHaveAccount": "از قبل حساب کاربری دارید؟",
+        "accountLabel": "حساب کاربری ویگو"
       },
       "errors": {
         "suspended": "حساب کاربری تعلیق شده است",
@@ -877,6 +880,7 @@ const resources = {
       },
       "ui": {
         "Product": "محصول",
+        "Product introduction": "معرفی محصول",
         "For athletes": "برای ورزشکاران",
         "For coaches": "برای مربیان",
         "How it works": "نحوه کار",
