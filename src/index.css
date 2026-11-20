@@ -264,3 +264,13 @@ img {
   direction: ltr;
   text-align: right;
 }
+
+
+/* Vigo's monochrome logo follows the app theme, not the operating-system theme. */
+.vigo-logo {
+  filter: none;
+}
+
+:root[data-theme="dark"] .vigo-logo {
+  filter: invert(1);
+}
