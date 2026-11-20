@@ -110,7 +110,8 @@ const resources = {
         "viewCoach": "View coach",
         "previous": "Previous",
         "next": "Next",
-        "page": "Page"
+        "page": "Page",
+        "of": "of"
       },
       "planMarketplace": {
         "title": "Coaching plans",
@@ -118,6 +119,8 @@ const resources = {
         "description": "Explore active coaching plans and compare what each plan includes before choosing a coach.",
         "browsePlans": "Browse plans",
         "availablePlans": "Available coaching plans",
+        "totalPlans": "{{count}} plans available",
+        "pagination": "Plan pages",
         "coachingPlan": "Coaching plan",
         "forDuration": "for {{count}} days",
         "includes": "What's included",
@@ -894,7 +897,8 @@ const resources = {
         "viewCoach": "مشاهده مربی",
         "previous": "قبلی",
         "next": "بعدی",
-        "page": "صفحه"
+        "page": "صفحه",
+        "of": "از"
       },
       "planMarketplace": {
         "title": "برنامه‌های مربیگری",
@@ -902,6 +906,8 @@ const resources = {
         "description": "برنامه‌های فعال مربیگری را بررسی کنید و پیش از انتخاب مربی، خدمات هر برنامه را مقایسه کنید.",
         "browsePlans": "مشاهده برنامه‌ها",
         "availablePlans": "برنامه‌های موجود",
+        "totalPlans": "{{count}} برنامه موجود",
+        "pagination": "صفحه‌بندی برنامه‌ها",
         "coachingPlan": "برنامه مربیگری",
         "forDuration": "برای {{count}} روز",
         "includes": "موارد شامل برنامه",
