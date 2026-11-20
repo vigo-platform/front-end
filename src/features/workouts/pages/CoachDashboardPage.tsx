@@ -1,8 +1,12 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AppShell from '../../../shared/components/layout/AppShell'
 import { useAuth } from '../../auth/context/auth-context'
 import { previewCoachPlans, previewCoachRelations } from '../../auth/data/dashboard-preview'
 import { loadWorkoutDraft } from '../services/workout-draft.service'
+import { planService } from '../../coaches/services/plan.service'
+import type { CoachOwnedPlanSummary } from '../../coaches/types/coach.types'
+import { getUserErrorMessage } from '../../../shared/api/user-error'
 import { useTranslation } from 'react-i18next'
 
 interface CoachDashboardPageProps {
@@ -22,13 +26,47 @@ function formatDate(value?: string | null, locale = 'en') {
 
 function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
   const { t, i18n } = useTranslation()
-  const { user, isPreview: previewContext } = useAuth()
+  const { user, accessToken, isPreview: previewContext } = useAuth()
   const preview = isPreview || previewContext
   const coachPath = preview ? '/_preview/coach' : '/coach'
   const firstName = user?.display_name?.trim().split(/\s+/)[0] || t('ui.Coach')
   const draft = loadWorkoutDraft()
   const activeAthletes = preview ? previewCoachRelations.filter((item) => item.status === 'ACTIVE') : []
-  const activePlans = preview ? previewCoachPlans.filter((item) => item.status === 'ACTIVE') : []
+  const [plans, setPlans] = useState<CoachOwnedPlanSummary[]>([])
+  const [isLoadingPlans, setIsLoadingPlans] = useState(!preview)
+  const [planError, setPlanError] = useState('')
+
+  useEffect(() => {
+    if (preview || !accessToken) {
+      setPlans([])
+      setIsLoadingPlans(false)
+      setPlanError('')
+      return
+    }
+
+    let active = true
+    setIsLoadingPlans(true)
+    setPlanError('')
+
+    planService.getMyPlans(accessToken)
+      .then((result) => {
+        if (active) setPlans(result)
+      })
+      .catch((error: unknown) => {
+        if (!active) return
+        setPlans([])
+        setPlanError(getUserErrorMessage(error, t, 'errors.loadData'))
+      })
+      .finally(() => {
+        if (active) setIsLoadingPlans(false)
+      })
+
+    return () => { active = false }
+  }, [accessToken, preview, t])
+
+  const activePlans = preview
+    ? previewCoachPlans.filter((item) => item.status === 'ACTIVE')
+    : plans.filter((item) => item.is_active && !item.is_archived)
 
   return (
     <AppShell title={t("ui.Overview")}>
@@ -59,7 +97,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
           </article>
           <article className="rounded-[18px] border border-border-default bg-surface p-5">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-fg-muted">{t("ui.Active plans")}</p>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-fg">{preview ? formatNumber(activePlans.length, i18n.language) : '—'}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-fg">{isLoadingPlans ? t('ui.Loading...') : planError ? '—' : formatNumber(activePlans.length, i18n.language)}</p>
             <p className="mt-1 text-[10px] text-fg-muted">{t("ui.Published coaching plans")}</p>
           </article>
           <article className="rounded-[18px] border border-border-default bg-surface p-5">
@@ -127,17 +165,26 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
                 <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-fg-muted">{t("ui.Published content")}</p>
                 <h2 className="mt-2 text-[21px] font-bold tracking-[-0.7px]">{t("ui.Your plans")}</h2>
               </div>
-              <span className="text-[9px] font-semibold text-fg-muted">{preview ? activePlans.length + ' ' + t('ui.active') : t('ui.Not connected')}</span>
+              <span className="text-[9px] font-semibold text-fg-muted">{isLoadingPlans ? t('ui.Loading...') : planError ? t('ui.Unavailable') : activePlans.length + ' ' + t('ui.active')}</span>
             </div>
-            {preview ? (
+            {planError ? (
+              <div role="alert" className="mt-5 rounded-xl border border-danger-border bg-danger-surface px-5 py-6 text-center">
+                <p className="text-[12px] font-semibold text-danger-fg">{t('errors.loadData')}</p>
+                <p className="mt-1 text-[10px] text-danger-fg">{planError}</p>
+              </div>
+            ) : isLoadingPlans ? (
+              <div className="mt-5 rounded-xl border border-border-default bg-surface-subtle px-5 py-7 text-center text-[11px] text-fg-muted">
+                {t('ui.Loading...')}
+              </div>
+            ) : activePlans.length > 0 ? (
               <div className="mt-5 space-y-3">
                 {activePlans.map((plan) => (
-                  <div key={plan.plan_id} className="rounded-xl bg-surface-subtle p-4">
+                  <div key={'plan_id' in plan ? plan.plan_id : plan.id} className="rounded-xl bg-surface-subtle p-4">
                     <div className="flex items-start justify-between gap-3">
                       <h3 className="text-[12px] font-bold text-fg">{plan.title}</h3>
-                      <span className="rounded-full bg-surface px-2 py-1 text-[8px] font-bold uppercase text-success-fg">{t('ui.' + plan.status)}</span>
+                      <span className="rounded-full bg-surface px-2 py-1 text-[8px] font-bold uppercase text-success-fg">{t('ui.ACTIVE')}</span>
                     </div>
-                    <p className="mt-1 text-[10px] leading-5 text-fg-muted">{plan.description}</p>
+                    <p className="mt-1 text-[10px] leading-5 text-fg-muted">{'description' in plan ? plan.description : plan.summary}</p>
                     <p className="mt-3 text-[10px] font-semibold text-success-fg">{formatNumber(plan.duration_days, i18n.language)} {t('ui.days')} · {new Intl.NumberFormat(i18n.language === 'fa' ? 'fa-IR' : 'en-US').format(plan.price)} {i18n.language === 'fa' ? 'تومان' : 'Toman'}</p>
                   </div>
                 ))}
@@ -145,7 +192,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
             ) : (
               <div className="mt-5 rounded-xl border border-dashed border-border-default bg-surface-subtle px-5 py-7 text-center">
                 <p className="text-[12px] font-semibold text-fg">{t("ui.Your published plans will appear here")}</p>
-                <p className="mt-1 text-[10px] text-fg-muted">{t("ui.The current backend does not expose coach plan endpoints.")}</p>
+                <p className="mt-1 text-[10px] text-fg-muted">{t("ui.No active coaching plans are available right now.")}</p>
               </div>
             )}
           </article>
