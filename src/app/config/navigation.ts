@@ -10,7 +10,6 @@ const athleteNavigationItems: NavigationItem[] = [
   { label: 'navigation.myWorkouts', href: '/athlete/workouts' },
   { label: 'navigation.files', href: '/athlete/files' },
   { label: 'navigation.discoverCoaches', href: '/coaches' },
-  { label: 'navigation.browsePlans', href: '/plans' },
   { label: 'navigation.myProfile', href: '/profile' },
 ]
 
@@ -37,7 +36,6 @@ const previewAthleteNavigationItems: NavigationItem[] = [
   { label: 'navigation.dashboard', href: '/_preview/athlete' },
   { label: 'navigation.myWorkouts', href: '/_preview/athlete/workouts' },
   { label: 'navigation.findCoach', href: '/_preview/athlete/coaches' },
-  { label: 'navigation.browsePlans', href: '/plans' },
   { label: 'navigation.myProfile', href: '/_preview/athlete/profile' },
 ]
 

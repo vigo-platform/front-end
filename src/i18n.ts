@@ -113,30 +113,6 @@ const resources = {
         "page": "Page",
         "of": "of"
       },
-      "planMarketplace": {
-        "title": "Coaching plans",
-        "eyebrow": "VIGO MARKETPLACE",
-        "description": "Explore active coaching plans and compare what each plan includes before choosing a coach.",
-        "browsePlans": "Browse plans",
-        "availablePlans": "Available coaching plans",
-        "totalPlans": "{{count}} plans available",
-        "pagination": "Plan pages",
-        "coachingPlan": "Coaching plan",
-        "forDuration": "for {{count}} days",
-        "includes": "What's included",
-        "viewCoach": "View coach",
-        "loading": "Loading available plans...",
-        "loadError": "We could not load the public plans.",
-        "tryAgain": "Try again",
-        "emptyTitle": "No public plans are available yet",
-        "emptyDescription": "Check back later or browse coach profiles to learn more.",
-        "include": {
-          "WORKOUT": "Workout",
-          "DIET": "Diet",
-          "SUPPLEMENT": "Supplement",
-          "CHAT_SUPPORT": "Chat support"
-        }
-      },
       "landing": {
         "product": "Product",
         "athletes": "For athletes",
@@ -899,30 +875,6 @@ const resources = {
         "next": "بعدی",
         "page": "صفحه",
         "of": "از"
-      },
-      "planMarketplace": {
-        "title": "برنامه‌های مربیگری",
-        "eyebrow": "بازار ویگو",
-        "description": "برنامه‌های فعال مربیگری را بررسی کنید و پیش از انتخاب مربی، خدمات هر برنامه را مقایسه کنید.",
-        "browsePlans": "مشاهده برنامه‌ها",
-        "availablePlans": "برنامه‌های موجود",
-        "totalPlans": "{{count}} برنامه موجود",
-        "pagination": "صفحه‌بندی برنامه‌ها",
-        "coachingPlan": "برنامه مربیگری",
-        "forDuration": "برای {{count}} روز",
-        "includes": "موارد شامل برنامه",
-        "viewCoach": "مشاهده مربی",
-        "loading": "در حال دریافت برنامه‌های موجود...",
-        "loadError": "دریافت برنامه‌های عمومی ممکن نشد.",
-        "tryAgain": "تلاش دوباره",
-        "emptyTitle": "هنوز برنامه عمومی‌ای ارائه نشده است",
-        "emptyDescription": "بعداً دوباره بررسی کنید یا برای آشنایی بیشتر، پروفایل مربیان را ببینید.",
-        "include": {
-          "WORKOUT": "تمرین",
-          "DIET": "رژیم غذایی",
-          "SUPPLEMENT": "مکمل",
-          "CHAT_SUPPORT": "پشتیبانی گفتگو"
-        }
       },
       "landing": {
         "product": "محصول",

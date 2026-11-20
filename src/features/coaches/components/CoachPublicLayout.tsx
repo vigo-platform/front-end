@@ -38,9 +38,6 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
                 <Link to={coachesPath} className="text-xs font-semibold text-fg-muted transition hover:text-fg">
                   {t("ui.Find a coach")}
                 </Link>
-                <Link to="/plans" className="text-xs font-semibold text-fg-muted transition hover:text-fg">
-                  {t("planMarketplace.browsePlans")}
-                </Link>
                 <Link to="/login" className="text-xs font-semibold text-fg-muted transition hover:text-fg">
                   {t("ui.Log in")}
                 </Link>
