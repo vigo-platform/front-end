@@ -34,6 +34,12 @@ function PublicOnly({ children }: { children: ReactNode }) {
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : children
 }
 
+function RootRoute() {
+  const { isAuthenticated, isInitializing } = useAuth()
+  if (isInitializing) return <main className="flex min-h-screen items-center justify-center bg-page"><Spinner size="lg" className="text-brand-hover" /></main>
+  return isAuthenticated ? <DashboardRedirect /> : <PublicLandingPage />
+}
+
 function AccountSuspendedPage() {
   const { t } = useTranslation()
   return (
@@ -58,7 +64,7 @@ function AppRouter() {
   return (
     <Suspense fallback={<RouteLoadingFallback />}>
       <Routes>
-        <Route path="/" element={<PublicOnly><PublicLandingPage /></PublicOnly>} />
+        <Route path="/" element={<RootRoute />} />
         {import.meta.env.DEV && (
           <>
             <Route path="/_preview/athlete" element={<PreviewWorkspaceRoute role="ATHLETE" />}>
