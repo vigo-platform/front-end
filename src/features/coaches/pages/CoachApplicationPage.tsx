@@ -28,9 +28,13 @@ function toE164Phone(value: string, dialCode: string): string | null {
   if (digits.startsWith('00')) digits = digits.slice(2)
 
   const countryCode = dialCode.slice(1)
-  if (hasInternationalPrefix && digits.startsWith(countryCode)) {
-    digits = digits.slice(countryCode.length)
-  } else if (!hasInternationalPrefix) {
+  if (hasInternationalPrefix) {
+    if (digits.startsWith(countryCode)) {
+      digits = digits.slice(countryCode.length)
+    } else {
+      return digits ? `+${digits}` : null
+    }
+  } else {
     digits = digits.replace(/^0+/, '')
   }
 
