@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import AuthLayout from '../components/AuthLayout'
 import PasswordResetIdentifierStep from '../components/PasswordResetIdentifierStep'
 import { authService } from '../services/auth.service'
-import { ApiError } from '../../../shared/api/client'
+import { getUserErrorMessage } from '../../../shared/api/user-error'
 import type { OtpChannel } from '../types/auth-config.types'
 import { useTranslation } from 'react-i18next'
 import { Button, Input } from '../../../shared/components/ui'
@@ -30,7 +30,7 @@ function ForgotPasswordPage() {
   const isEmail = channel === 'EMAIL'
 
   function handleError(error: unknown) {
-    setErrorMessage(error instanceof ApiError ? error.message : t('ui.Unable to connect to the server. Please try again.'))
+    setErrorMessage(getUserErrorMessage(error, t, 'errors.action'))
   }
 
   async function requestCode(event: FormEvent<HTMLFormElement>) {
