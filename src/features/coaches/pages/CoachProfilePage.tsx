@@ -13,6 +13,11 @@ function formatNumber(value: number, locale = 'en') {
   return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value)
 }
 
+function formatPrice(value: number, currency: string | null, locale = 'en') {
+  const formattedValue = formatNumber(value, locale)
+  return currency ? `${formattedValue} ${currency}` : formattedValue
+}
+
 function CoachProfilePage() {
   const { t, i18n } = useTranslation()
   const { coachId = '' } = useParams()
@@ -44,6 +49,7 @@ function CoachProfilePage() {
   }, [coachId, t])
 
   const avatarUrl = getAvatarUrl(coach?.avatar_url)
+  const startingPrice = coach?.min_plan_price ?? coach?.price
 
   return (
     <CoachPublicLayout title={t("ui.Coach profile")}>
@@ -96,7 +102,11 @@ function CoachProfilePage() {
                 </div>
                 <div>
                   <p className="text-xs text-fg-secondary">{t("ui.Starting plan price")}</p>
-                  <p className="mt-1 text-lg font-semibold">{t("ui.Not available yet")}</p>
+                  <p className="mt-1 text-lg font-semibold">
+                    {startingPrice == null
+                      ? t("ui.Not available yet")
+                      : formatPrice(startingPrice, coach.currency, i18n.language)}
+                  </p>
                 </div>
               </div>
             </section>
