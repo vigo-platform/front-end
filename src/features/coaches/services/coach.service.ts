@@ -102,6 +102,15 @@ export const coachService = {
     return normalizeCoachProfile(response.data, coachId)
   },
 
+  async applyForCoachProfile(accessToken: string, data: CoachProfileRequest): Promise<CoachProfile> {
+    const response = await apiRequest<unknown>('/api/v1/coaches/me/profile', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${accessToken}` },
+      body: toCoachProfilePayload(data),
+    })
+    return normalizeCoachProfile(response.data)
+  },
+
   async getMyProfile(accessToken: string): Promise<CoachProfile> {
     const response = await apiRequest<unknown>('/api/v1/coaches/me', {
       method: 'GET',
