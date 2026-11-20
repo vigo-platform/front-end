@@ -7,12 +7,7 @@ import LanguageSwitcher from '../../../shared/components/LanguageSwitcher'
 import ThemeSwitcher from '../../../shared/components/ThemeSwitcher'
 import { useTranslation } from 'react-i18next'
 
-const navigation = [
-  { label: 'Product', href: '#product' },
-  { label: 'For athletes', href: '#athletes' },
-  { label: 'For coaches', href: '#coaches' },
-  { label: 'How it works', href: '#how-it-works' },
-]
+const navigation = [{ label: 'Product introduction', href: '#product' }]
 
 const features = [
   {
