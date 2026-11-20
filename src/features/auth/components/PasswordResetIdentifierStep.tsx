@@ -77,7 +77,7 @@ function PasswordResetIdentifierStep({
       </form>
 
       <p className="mt-7 text-center text-[11px] text-fg">
-        Remember your password?{' '}
+        {t('ui.Remember your password?')}{' '}
         <Link to="/login" className="ms-1 font-medium text-fg hover:underline">
           {t("ui.Log in")}
         </Link>
