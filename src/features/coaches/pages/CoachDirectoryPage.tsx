@@ -138,7 +138,7 @@ function CoachDirectoryPage() {
                       </div>
 
                       <p className="mt-5 line-clamp-3 min-h-[4.5rem] text-sm leading-6 text-fg-secondary">
-                        {coach.bio || t('ui.No biography provided yet.')}
+                        {coach.bio || '—'}
                       </p>
 
                       <div className="mt-4 flex min-h-8 flex-wrap gap-2">
