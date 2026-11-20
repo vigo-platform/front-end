@@ -9,14 +9,8 @@ export class ApiError extends Error {
   data: unknown
   serverMessage: string | null
 
-  constructor(
-    serverMessage: string | null,
-    code: string,
-    status: number,
-    data: unknown,
-  ) {
+  constructor(serverMessage: string | null, code: string, status: number, data: unknown) {
     super(`API request failed (${status})`)
-
     this.name = 'ApiError'
     this.serverMessage = serverMessage
     this.code = code
@@ -29,43 +23,50 @@ interface RequestOptions extends Omit<RequestInit, 'body'> {
   body?: unknown
 }
 
-export async function apiRequest<T>(
-  path: string,
-  options: RequestOptions = {},
-): Promise<ApiResponse<T>> {
+function localizedError(payload: unknown, status: number): ApiError {
+  const error = payload as ApiErrorPayload | null
+  const isPersian = i18n.resolvedLanguage?.startsWith('fa') ?? false
+  const localizedMessage = isPersian
+    ? error?.messageFa ?? error?.message_fa ?? error?.message
+    : error?.message ?? error?.messageFa ?? error?.message_fa
+
+  return new ApiError(localizedMessage ?? null, error?.code ?? 'UNKNOWN_ERROR', status, error?.data ?? null)
+}
+
+function requestHeaders(options: RequestOptions, hasJsonBody: boolean) {
   const headers = new Headers(options.headers)
   headers.set('Accept-Language', i18n.resolvedLanguage ?? 'en')
+  if (hasJsonBody) headers.set('Content-Type', 'application/json')
+  return headers
+}
 
-  if (options.body !== undefined) {
-    headers.set('Content-Type', 'application/json')
-  }
-
+export async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<ApiResponse<T>> {
+  const isFormData = typeof FormData !== 'undefined' && options.body instanceof FormData
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
-    headers,
-    body:
-      options.body === undefined
-        ? undefined
+    headers: requestHeaders(options, options.body !== undefined && !isFormData),
+    body: options.body === undefined
+      ? undefined
+      : isFormData
+        ? options.body as FormData
         : JSON.stringify(options.body),
   })
 
   const payload = await response.json().catch(() => null)
+  if (!response.ok) throw localizedError(payload, response.status)
+  return payload as ApiResponse<T>
+}
+
+export async function apiDownload(path: string, options: Omit<RequestOptions, 'body'> = {}): Promise<Blob> {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    ...options,
+    headers: requestHeaders(options, false),
+  })
 
   if (!response.ok) {
-    const error = payload as ApiErrorPayload | null
-
-    const isPersian = i18n.resolvedLanguage?.startsWith('fa') ?? false
-    const localizedMessage = isPersian
-      ? error?.messageFa ?? error?.message_fa ?? error?.message
-      : error?.message ?? error?.messageFa ?? error?.message_fa
-
-    throw new ApiError(
-      localizedMessage ?? null,
-      error?.code ?? 'UNKNOWN_ERROR',
-      response.status,
-      error?.data ?? null,
-    )
+    const payload = await response.json().catch(() => null)
+    throw localizedError(payload, response.status)
   }
 
-  return payload as ApiResponse<T>
+  return response.blob()
 }
