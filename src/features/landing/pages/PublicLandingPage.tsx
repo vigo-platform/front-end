@@ -94,6 +94,9 @@ function PublicLandingPage() {
             <Link to="/coaches" className="text-[12px] font-semibold text-fg transition hover:text-success-fg">
               {t("ui.Find a coach")}
             </Link>
+            <Link to="/coaches/apply" className="text-[12px] font-semibold text-fg transition hover:text-success-fg">
+              {t("ui.Apply to become a coach")}
+            </Link>
             <Link to="/login" className="text-[12px] font-semibold text-fg transition hover:text-success-fg">
               {t("ui.Log in")}
             </Link>
@@ -138,6 +141,7 @@ function PublicLandingPage() {
               ))}
               <div className="flex flex-wrap gap-4 border-t border-border-default pt-4">
                 <Link to="/coaches" onClick={closeMenu} className="text-sm font-semibold text-success-fg">{t("ui.Find a coach")}</Link>
+                <Link to="/coaches/apply" onClick={closeMenu} className="text-sm font-semibold text-success-fg">{t("ui.Apply to become a coach")}</Link>
                 <Link to="/login" onClick={closeMenu} className="text-sm font-semibold">{t("ui.Log in")}</Link>
                 <Link to="/register" onClick={closeMenu} className="text-sm font-semibold text-success-fg">{t("ui.Get started")}</Link>
               </div>
@@ -248,8 +252,8 @@ function PublicLandingPage() {
                 <p className="mt-3 text-[12px] leading-[1.9] text-sidebar-muted">
                   {t('ui.Present your coaching profile, organize exercises into structured workouts, and review what your athletes complete.')}
                 </p>
-                <Link to="/register" className="mt-7 inline-flex items-center gap-2 text-[11px] font-semibold text-brand hover:gap-3">
-                  {t("ui.Join as a coach")} <ArrowIcon />
+                <Link to="/coaches/apply" className="mt-7 inline-flex items-center gap-2 text-[11px] font-semibold text-brand hover:gap-3">
+                  {t("ui.Apply to become a coach")} <ArrowIcon />
                 </Link>
               </article>
             </div>
