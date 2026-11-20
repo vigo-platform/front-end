@@ -72,7 +72,7 @@ function PasswordResetIdentifierStep({
           </p>
         )}
         <Button type="submit" loading={isLoading} className="h-11 w-full text-[13px]">
-          Send verification code
+          {t('ui.Send verification code')}
         </Button>
       </form>
 
