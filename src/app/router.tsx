@@ -19,6 +19,7 @@ const AthleteWorkoutsPage = lazy(() => import('../features/athlete-workouts/page
 const WorkoutExecutionPage = lazy(() => import('../features/athlete-workouts/pages/WorkoutExecutionPage'))
 const CoachDirectoryPage = lazy(() => import('../features/coaches/pages/CoachDirectoryPage'))
 const CoachProfilePage = lazy(() => import('../features/coaches/pages/CoachProfilePage'))
+const CoachApplicationPage = lazy(() => import('../features/coaches/pages/CoachApplicationPage'))
 const PublicLandingPage = lazy(() => import('../features/landing/pages/PublicLandingPage'))
 const LoginPage = lazy(() => import('../features/auth/pages/LoginPage'))
 const RegisterPage = lazy(() => import('../features/auth/pages/RegisterPage'))
@@ -94,6 +95,7 @@ function AppRouter() {
         <Route path="/workouts/:workoutId" element={<RequireAuth allowedRoles={['ATHLETE']}><WorkoutExecutionPage /></RequireAuth>} />
         <Route path="/coaches" element={<CoachDirectoryPage />} />
         <Route path="/coaches/:coachId" element={<CoachProfilePage />} />
+        <Route path="/coaches/apply" element={<CoachApplicationPage />} />
         <Route path="/admin" element={<RequireAuth allowedRoles={['ADMIN']}><AdminDashboardPage /></RequireAuth>} />
         <Route path="/coach" element={<RequireAuth allowedRoles={['COACH']}><CoachDashboardPage /></RequireAuth>} />
         <Route path="/coach/exercises" element={<RequireAuth allowedRoles={['COACH']}><ExerciseLibraryPage /></RequireAuth>} />
