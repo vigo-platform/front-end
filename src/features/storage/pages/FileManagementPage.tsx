@@ -81,7 +81,11 @@ function FileManagementPage() {
   }, [accessToken, category, page, t])
 
   useEffect(() => {
-    void loadFiles()
+    const task = window.setTimeout(() => {
+      void loadFiles()
+    }, 0)
+
+    return () => window.clearTimeout(task)
   }, [loadFiles])
 
   async function openDetails(file: StoredFile) {
