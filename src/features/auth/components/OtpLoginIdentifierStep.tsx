@@ -108,7 +108,7 @@ function OtpLoginIdentifierStep({
           )}
 
           <Button type="submit" loading={isLoading} size="md" className="h-11 w-full text-[13px]">
-            {'Continue'}
+            {t('ui.Continue')}
           </Button>
         </form>
       )}
@@ -129,7 +129,7 @@ function OtpLoginIdentifierStep({
       </div>
 
       <p className="mt-7 text-center text-[11px] text-fg">
-        New to Vigo?{' '}
+        {t('ui.New to Vigo?')}{' '}
         <Link
           to="/register"
           className="ms-1 font-medium text-fg no-underline hover:underline"
