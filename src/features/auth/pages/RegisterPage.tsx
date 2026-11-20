@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import AuthLayout from '../components/AuthLayout'
 import RegisterIdentifierStep from '../components/RegisterIdentifierStep'
 import { authService } from '../services/auth.service'
-import { ApiError } from '../../../shared/api/client'
+import { getUserErrorMessage } from '../../../shared/api/user-error'
 import { useAuthConfig } from '../hooks/useAuthConfig'
 import type { OtpChannel } from '../types/auth-config.types'
 import { useAuth } from '../context/auth-context'
@@ -48,11 +48,7 @@ function RegisterPage() {
   const isEmail = activeChannel === 'EMAIL'
 
   function handleError(error: unknown) {
-    if (error instanceof ApiError) {
-      setErrorMessage(error.message)
-    } else {
-      setErrorMessage(t("ui.Unable to connect to the server. Please try again."))
-    }
+    setErrorMessage(getUserErrorMessage(error, t, 'errors.action'))
   }
 
   async function handleIdentifierSubmit(
