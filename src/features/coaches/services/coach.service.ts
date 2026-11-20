@@ -45,6 +45,34 @@ function normalizeCoachProfile(data: unknown, fallbackCoachId = ''): CoachProfil
     price: nullableNumber('price', 'price'),
     compare_at_price: nullableNumber('compare_at_price', 'compareAtPrice'),
     currency: (raw.currency ?? null) as string | null,
+    plans: Array.isArray(raw.plans)
+      ? raw.plans.map((plan) => {
+          const item = (plan && typeof plan === 'object' ? plan : {}) as Record<string, unknown>
+          const features = Array.isArray(item.features) ? item.features : []
+
+          return {
+            id: Number(item.id ?? 0),
+            title: String(item.title ?? ''),
+            summary: item.summary == null ? null : String(item.summary),
+            price: Number(item.price ?? 0),
+            compare_at_price: item.compare_at_price == null && item.compareAtPrice == null
+              ? null
+              : Number(item.compare_at_price ?? item.compareAtPrice),
+            currency: String(item.currency ?? ''),
+            duration_days: Number(item.duration_days ?? item.durationDays ?? 0),
+            is_recommended: Boolean(item.is_recommended ?? item.isRecommended),
+            display_order: Number(item.display_order ?? item.displayOrder ?? 0),
+            features: features.map((feature) => {
+              const value = (feature && typeof feature === 'object' ? feature : {}) as Record<string, unknown>
+              return {
+                id: Number(value.id ?? 0),
+                code: String(value.code ?? ''),
+                label: String(value.label ?? ''),
+              }
+            }),
+          }
+        })
+      : [],
   }
 }
 
