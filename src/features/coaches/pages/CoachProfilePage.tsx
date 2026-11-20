@@ -7,6 +7,7 @@ import { coachService } from '../services/coach.service'
 import type { CoachProfile } from '../types/coach.types'
 import { useTranslation } from 'react-i18next'
 import { CoachProfileSkeleton } from '../../../shared/components/feedback/LoadingStates'
+import { getUserErrorMessage } from '../../../shared/api/user-error'
 
 function formatNumber(value: number, locale = 'en') {
   return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value)
@@ -30,7 +31,7 @@ function CoachProfilePage() {
       })
       .catch((requestError: unknown) => {
         if (isActive) {
-          setError(requestError instanceof Error ? requestError.message : t('ui.Could not load this coach profile.'))
+          setError(getUserErrorMessage(requestError, t, 'errors.loadCoachProfile'))
         }
       })
       .finally(() => {
