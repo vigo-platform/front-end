@@ -13,6 +13,23 @@ export interface CoachProfileRequest {
   result_image_urls?: string[]
 }
 
+export interface CoachPublicPlanSummary {
+  id: number
+  title: string
+  summary: string | null
+  price: number
+  compare_at_price: number | null
+  currency: string
+  duration_days: number
+  is_recommended: boolean
+  display_order: number
+  features: Array<{
+    id: number
+    code: string
+    label: string
+  }>
+}
+
 export interface CoachProfile extends CoachProfileRequest {
   coach_id: string
   avatar_url?: string | null
@@ -26,6 +43,7 @@ export interface CoachProfile extends CoachProfileRequest {
   price?: number | null
   compare_at_price?: number | null
   currency?: string | null
+  plans?: CoachPublicPlanSummary[]
 }
 
 export interface CoachDirectoryItem {
