@@ -37,20 +37,19 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
   const [planError, setPlanError] = useState('')
 
   useEffect(() => {
-    if (preview || !accessToken) {
-      setPlans([])
-      setIsLoadingPlans(false)
-      setPlanError('')
-      return
-    }
+    if (preview || !accessToken) return
 
     let active = true
-    setIsLoadingPlans(true)
-    setPlanError('')
 
-    planService.getMyPlans(accessToken)
+    Promise.resolve()
+      .then(() => {
+        if (!active) return undefined
+        setIsLoadingPlans(true)
+        setPlanError('')
+        return planService.getMyPlans(accessToken)
+      })
       .then((result) => {
-        if (active) setPlans(result)
+        if (active && result) setPlans(result)
       })
       .catch((error: unknown) => {
         if (!active) return
@@ -64,9 +63,11 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
     return () => { active = false }
   }, [accessToken, preview, t])
 
+  const visiblePlanError = preview || !accessToken ? '' : planError
+  const visibleIsLoadingPlans = !preview && Boolean(accessToken) && isLoadingPlans
   const activePlans = preview
     ? previewCoachPlans.filter((item) => item.status === 'ACTIVE')
-    : plans.filter((item) => item.is_active && !item.is_archived)
+    : accessToken ? plans.filter((item) => item.is_active && !item.is_archived) : []
 
   return (
     <AppShell title={t("ui.Overview")}>
@@ -97,7 +98,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
           </article>
           <article className="rounded-[18px] border border-border-default bg-surface p-5">
             <p className="text-[9px] font-bold uppercase tracking-[1.2px] text-fg-muted">{t("ui.Active plans")}</p>
-            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-fg">{isLoadingPlans ? t('ui.Loading...') : planError ? '—' : formatNumber(activePlans.length, i18n.language)}</p>
+            <p className="mt-4 text-[30px] font-bold tracking-[-1px] text-fg">{visibleIsLoadingPlans ? t('ui.Loading...') : visiblePlanError ? '—' : formatNumber(activePlans.length, i18n.language)}</p>
             <p className="mt-1 text-[10px] text-fg-muted">{t("ui.Published coaching plans")}</p>
           </article>
           <article className="rounded-[18px] border border-border-default bg-surface p-5">
@@ -165,14 +166,14 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
                 <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-fg-muted">{t("ui.Published content")}</p>
                 <h2 className="mt-2 text-[21px] font-bold tracking-[-0.7px]">{t("ui.Your plans")}</h2>
               </div>
-              <span className="text-[9px] font-semibold text-fg-muted">{isLoadingPlans ? t('ui.Loading...') : planError ? t('ui.Unavailable') : activePlans.length + ' ' + t('ui.active')}</span>
+              <span className="text-[9px] font-semibold text-fg-muted">{visibleIsLoadingPlans ? t('ui.Loading...') : visiblePlanError ? t('ui.Unavailable') : activePlans.length + ' ' + t('ui.active')}</span>
             </div>
-            {planError ? (
+            {visiblePlanError ? (
               <div role="alert" className="mt-5 rounded-xl border border-danger-border bg-danger-surface px-5 py-6 text-center">
                 <p className="text-[12px] font-semibold text-danger-fg">{t('errors.loadData')}</p>
-                <p className="mt-1 text-[10px] text-danger-fg">{planError}</p>
+                <p className="mt-1 text-[10px] text-danger-fg">{visiblePlanError}</p>
               </div>
-            ) : isLoadingPlans ? (
+            ) : visibleIsLoadingPlans ? (
               <div className="mt-5 rounded-xl border border-border-default bg-surface-subtle px-5 py-7 text-center text-[11px] text-fg-muted">
                 {t('ui.Loading...')}
               </div>
