@@ -4,7 +4,6 @@ import { useAuth } from '../../auth/context/auth-context'
 import { previewCoachPlans, previewCoachRelations } from '../../auth/data/dashboard-preview'
 import { loadWorkoutDraft } from '../services/workout-draft.service'
 import { useTranslation } from 'react-i18next'
-import LanguageSwitcher from '../../../shared/components/LanguageSwitcher'
 
 interface CoachDashboardPageProps {
   isPreview?: boolean
@@ -34,7 +33,6 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
   return (
     <AppShell title={t("ui.Overview")}>
       <div className="mx-auto w-full max-w-[1240px] space-y-8">
-        <div className="flex justify-end"><LanguageSwitcher /></div>
         <section className="flex flex-col justify-between gap-5 xl:flex-row xl:items-end">
           <div>
             <p className="text-[9px] font-bold uppercase tracking-[2px] text-fg-secondary">{t("ui.Coach workspace")}</p>
