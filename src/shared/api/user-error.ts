@@ -14,7 +14,9 @@ export function getUserErrorMessage(
     if (error.code === 'INVALID_CREDENTIALS' || error.code === 'INVALID_OTP') {
       return t('errors.invalidCredentials')
     }
-    if (error.status === 401) return t('errors.invalidCredentials')
+    if (error.status === 401) {
+      return t(fallbackKey === 'errors.login' ? 'errors.invalidCredentials' : 'errors.sessionExpired')
+    }
     if (error.status === 403) return t('errors.forbidden')
     if (error.status === 404) return t('errors.notFound')
     if (error.status === 400 || error.status === 422) return t('errors.invalidRequest')
