@@ -133,11 +133,53 @@ function CoachProfilePage() {
               </section>
             )}
 
-            <section className="rounded-2xl border border-dashed border-border-default bg-surface px-6 py-8">
-              <h2 className="text-base font-semibold">{t("ui.Coaching plans are not available yet")}</h2>
-              <p className="mt-2 text-sm leading-6 text-fg-secondary">
-                {t("ui.The current User service does not expose plan endpoints. This profile uses only the public coach profile API and does not request placeholder plan data.")}
-              </p>
+            <section className="rounded-3xl border border-border-default bg-surface p-6 sm:p-8">
+              <h2 className="text-lg font-semibold">{t('ui.Coaching plans')}</h2>
+              {coach.plans && coach.plans.length > 0 ? (
+                <div className="mt-5 grid gap-4 md:grid-cols-2">
+                  {coach.plans.map((plan) => (
+                    <article key={plan.id} className="rounded-2xl border border-border-default bg-surface-muted/40 p-5">
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <h3 className="text-base font-semibold">{plan.title}</h3>
+                        {plan.is_recommended && (
+                          <span className="rounded-full bg-success-surface px-2.5 py-1 text-xs font-semibold text-success-fg">
+                            {t('ui.Recommended')}
+                          </span>
+                        )}
+                      </div>
+                      {plan.summary && (
+                        <p className="mt-2 text-sm leading-6 text-fg-secondary">{plan.summary}</p>
+                      )}
+                      <div className="mt-4 flex flex-wrap items-baseline gap-2">
+                        <span className="text-xl font-bold">
+                          {formatPrice(plan.price, plan.currency, i18n.language)}
+                        </span>
+                        {plan.compare_at_price != null && plan.compare_at_price > plan.price && (
+                          <span className="text-sm text-fg-muted line-through">
+                            {formatPrice(plan.compare_at_price, plan.currency, i18n.language)}
+                          </span>
+                        )}
+                      </div>
+                      <p className="mt-1 text-xs text-fg-muted">
+                        {t('ui.{{count}} days', { count: formatNumber(plan.duration_days, i18n.language) })}
+                      </p>
+                      {plan.features.length > 0 && (
+                        <ul className="mt-4 flex flex-wrap gap-2">
+                          {plan.features.map((feature) => (
+                            <li key={feature.id} className="rounded-full border border-brand/15 bg-brand/5 px-3 py-1 text-xs text-fg-secondary">
+                              {feature.label}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </article>
+                  ))}
+                </div>
+              ) : (
+                <p className="mt-3 text-sm leading-6 text-fg-secondary">
+                  {t('ui.No active coaching plans are available right now.')}
+                </p>
+              )}
             </section>
           </>
         )}
