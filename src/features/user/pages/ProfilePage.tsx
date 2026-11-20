@@ -9,6 +9,7 @@ import type { Gender, UpdateProfileRequest } from '../types/user.types'
 import { useTranslation } from 'react-i18next'
 import { ProfileSectionSkeleton } from '../../../shared/components/feedback/LoadingStates'
 import { Button } from '../../../shared/components/ui'
+import { getUserErrorMessage } from '../../../shared/api/user-error'
 
 interface ProfilePageProps {
   isPreview?: boolean
@@ -53,7 +54,7 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
       })
       .catch((requestError: unknown) => {
         if (!active) return
-        setError(requestError instanceof Error ? requestError.message : t('ui.Could not load your coach profile.'))
+        setError(getUserErrorMessage(requestError, t, 'errors.loadProfile'))
       })
       .finally(() => {
         if (active) setIsLoadingCoach(false)
@@ -142,7 +143,7 @@ function ProfilePage({ isPreview = false, previewCoachProfile }: ProfilePageProp
       }
       setSuccess(t("ui.Your profile has been updated."))
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : t('ui.Could not save your profile. Please try again.'))
+      setError(getUserErrorMessage(requestError, t, 'errors.saveProfile'))
     } finally {
       setIsSaving(false)
     }
