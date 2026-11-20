@@ -6,7 +6,6 @@ import { makePreviewPage, previewAdminUsers, previewCoachApplications } from '..
 import type { AdminCoachApplication, AdminPage, AdminUser, CoachApplicationStatus } from '../types/admin.types'
 import type { UserRole, UserStatus } from '../../user/types/user.types'
 import { useTranslation } from 'react-i18next'
-import LanguageSwitcher from '../../../shared/components/LanguageSwitcher'
 import { AdminApplicationGridSkeleton, AdminDetailsSkeleton, TableRowsSkeleton } from '../../../shared/components/feedback/LoadingStates'
 import Spinner from '../../../shared/components/feedback/Spinner'
 
@@ -170,7 +169,6 @@ function AdminDashboardPage() {
   return (
     <AppShell title={t('ui.Admin overview')}>
       <div className="mx-auto w-full max-w-[1320px] space-y-7">
-        <div className="flex justify-end"><LanguageSwitcher /></div>
         <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div><p className="text-[9px] font-bold uppercase tracking-[2px] text-success-fg">{t("ui.Administration")}</p><h1 className="mt-3 text-[34px] font-bold leading-tight tracking-[-1.5px] text-fg sm:text-[42px]">{t('ui.Good to see you, {{name}}.', { name: (user?.display_name || 'Admin').split(/\s+/)[0] })}</h1><p className="mt-2 text-[12px] leading-6 text-fg-secondary">{t("ui.Manage platform accounts and review coach applications.")}</p></div>
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-success-border bg-success-surface px-3.5 py-2 text-[9px] font-bold uppercase tracking-[1px] text-success-fg"><span className="h-1.5 w-1.5 rounded-full bg-brand-hover" />{t("ui.Administrator")}</span>
