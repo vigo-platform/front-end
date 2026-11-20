@@ -1,14 +1,6 @@
 import type { TFunction } from 'i18next'
 import { ApiError } from './client'
 
-type ErrorTranslationKey =
-  | 'errors.connection'
-  | 'errors.server'
-  | 'errors.invalidCredentials'
-  | 'errors.forbidden'
-  | 'errors.notFound'
-  | 'errors.invalidRequest'
-
 /**
  * Converts technical/network/API failures into localized, user-facing copy.
  * Keep ApiError.message for diagnostics only; never render it directly.
