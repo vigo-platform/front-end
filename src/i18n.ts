@@ -1380,7 +1380,6 @@ const resources = {
         "Language selection": "انتخاب زبان",
         "Switch to dark mode": "فعال‌کردن حالت تیره",
         "Switch to light mode": "فعال‌کردن حالت روشن",
-        "Add to workout": "افزودن به برنامه تمرینی",
         "Preview data · Not connected to API": "داده‌های پیش‌نمایش · متصل به API نیست",
         "Progress": "پیشرفت",
       }
