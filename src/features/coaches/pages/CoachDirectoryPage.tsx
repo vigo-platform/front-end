@@ -8,6 +8,7 @@ import type { CoachPage, CoachSearchParams, CoachSort } from '../types/coach.typ
 import { useTranslation } from 'react-i18next'
 import { CoachDirectorySkeleton } from '../../../shared/components/feedback/LoadingStates'
 import { Button } from '../../../shared/components/ui'
+import { getUserErrorMessage } from '../../../shared/api/user-error'
 
 const pageSize = 12
 
@@ -42,7 +43,7 @@ function CoachDirectoryPage() {
       })
       .catch((requestError: unknown) => {
         if (isActive) {
-          setError(requestError instanceof Error ? requestError.message : t('ui.Could not load coaches.'))
+          setError(getUserErrorMessage(requestError, t, 'errors.loadCoaches'))
         }
       })
       .finally(() => {
@@ -62,7 +63,7 @@ function CoachDirectoryPage() {
       const result = await coachService.search(params)
       setPage(result)
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : 'Could not load coaches.')
+      setError(getUserErrorMessage(requestError, t, 'errors.loadCoaches'))
     } finally {
       setIsLoading(false)
     }
@@ -175,7 +176,7 @@ function CoachDirectoryPage() {
         {error && (
           <section role="alert" className="rounded-2xl border border-danger-border bg-danger-surface p-5">
             <p className="text-sm font-semibold text-danger-fg">{t("ui.Could not load coaches")}</p>
-            <p className="mt-1 text-sm text-danger-fg">{error}</p>
+            
             <button
               type="button"
               onClick={() => changePage(page?.page ?? 0)}
