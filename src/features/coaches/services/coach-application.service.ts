@@ -5,59 +5,59 @@ import type {
 } from '../types/coach.types'
 
 interface CoachApplicationSummaryResponse {
-  application_id: string
+  applicationId: string
   status: CoachApplicationSummary['status']
-  lookup_token?: string | null
-  submitted_at: string
-  reviewed_at?: string | null
+  lookupToken?: string | null
+  submittedAt: string
+  reviewedAt?: string | null
 }
 
 interface CoachApplicationStatusResponse {
-  application_id: string
+  applicationId: string
   status: CoachApplicationSummary['status']
-  submitted_at: string
-  reviewed_at?: string | null
+  submittedAt: string
+  reviewedAt?: string | null
 }
 
 function mapApplicationSummary(
   data: CoachApplicationSummaryResponse,
 ): CoachApplicationSummary {
   return {
-    applicationId: data.application_id,
+    applicationId: data.applicationId,
     status: data.status,
-    lookupToken: data.lookup_token ?? null,
-    submittedAt: data.submitted_at,
-    reviewedAt: data.reviewed_at ?? null,
+    lookupToken: data.lookupToken ?? null,
+    submittedAt: data.submittedAt,
+    reviewedAt: data.reviewedAt ?? null,
   }
 }
 
 export const coachApplicationService = {
   async submit(data: CoachApplicationRequest) {
     const requestBody = {
-      first_name: data.firstName,
-      last_name: data.lastName,
+      firstName: data.firstName,
+      lastName: data.lastName,
       email: data.email,
       phone: data.phone,
       headline: data.headline,
       bio: data.bio,
       specialties: data.specialties,
-      experience_years: data.experienceYears,
-      profile_image_file_id: data.profileImageFileId,
+      experienceYears: data.experienceYears,
+      profileImageFileId: data.profileImageFileId,
       certificates: data.certificates?.map((certificate) => ({
         category: certificate.category,
         title: certificate.title,
         issuer: certificate.issuer,
-        field_of_study: certificate.fieldOfStudy,
+        fieldOfStudy: certificate.fieldOfStudy,
         degree: certificate.degree,
-        file_id: certificate.fileId,
+        fileId: certificate.fileId,
       })),
       experiences: data.experiences?.map((experience) => ({
         title: experience.title,
         organization: experience.organization,
         description: experience.description,
-        duration_months: experience.durationMonths,
+        durationMonths: experience.durationMonths,
       })),
-      instagram_handle: data.instagramHandle,
+      instagramHandle: data.instagramHandle,
       locale: data.locale,
     }
 
@@ -78,10 +78,10 @@ export const coachApplicationService = {
     )
 
     return {
-      applicationId: response.data.application_id,
+      applicationId: response.data.applicationId,
       status: response.data.status,
-      submittedAt: response.data.submitted_at,
-      reviewedAt: response.data.reviewed_at ?? null,
+      submittedAt: response.data.submittedAt,
+      reviewedAt: response.data.reviewedAt ?? null,
     }
   },
 }
