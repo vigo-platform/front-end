@@ -175,7 +175,7 @@ function PublicLandingPage() {
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <Link
                 to="/register"
-                className="inline-flex h-[54px] items-center justify-center gap-3 rounded-full bg-brand px-7 text-[13px] font-bold text-fg shadow-[0_8px_24px_rgba(167,211,81,0.22)] transition hover:-translate-y-0.5 hover:bg-brand-hover"
+                className="inline-flex h-[54px] items-center justify-center gap-3 rounded-full bg-brand px-7 text-[13px] font-bold text-on-brand shadow-[0_8px_24px_rgba(167,211,81,0.22)] transition hover:-translate-y-0.5 hover:bg-brand-hover"
               >
                 {t("ui.Start your journey")} <ArrowIcon />
               </Link>
@@ -273,7 +273,7 @@ function PublicLandingPage() {
             <div className="absolute left-[16.5%] right-[16.5%] top-8 hidden border-t border-dashed border-border-strong md:block" />
             {steps.map((step) => (
               <article key={step.number} className="relative rounded-[24px] border border-border-default bg-surface p-7 sm:p-8">
-                <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl border-[6px] border-page bg-brand text-[14px] font-extrabold text-fg">
+                <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl border-[6px] border-page bg-brand text-[14px] font-extrabold text-on-brand">
                   {step.number}
                 </div>
                 <h3 className="mt-7 text-[20px] font-bold tracking-[-0.6px]">{t('ui.' + step.title)}</h3>
@@ -330,7 +330,7 @@ function PublicLandingPage() {
             <p className="mx-auto mt-5 max-w-[480px] text-[12px] leading-[1.9] text-sidebar-muted">
               {t('ui.Bring more structure to the way you coach and the way you train. Start building your Vigo experience.')}
             </p>
-            <Link to="/register" className="mt-8 inline-flex h-[52px] items-center gap-3 rounded-full bg-brand px-7 text-[12px] font-bold text-fg transition hover:-translate-y-0.5 hover:bg-brand-hover">
+            <Link to="/register" className="mt-8 inline-flex h-[52px] items-center gap-3 rounded-full bg-brand px-7 text-[12px] font-bold text-on-brand transition hover:-translate-y-0.5 hover:bg-brand-hover">
               {t("ui.Get started with Vigo")} <ArrowIcon />
             </Link>
           </div>
