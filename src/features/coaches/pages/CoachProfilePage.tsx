@@ -105,7 +105,7 @@ function CoachProfilePage() {
                   <p className="mt-1 text-lg font-semibold">
                     {startingPrice == null
                       ? t("ui.Not available yet")
-                      : formatPrice(startingPrice, coach.currency, i18n.language)}
+                      : formatPrice(startingPrice, coach.currency ?? null, i18n.language)}
                   </p>
                 </div>
               </div>
