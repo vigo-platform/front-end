@@ -1,7 +1,9 @@
 import { apiRequest } from '../../../shared/api/client'
 import type {
   CoachOwnedPlanSummary,
+  CoachPlanCreateRequest,
   CoachPlanFormOptions,
+  CoachPlanPatchRequest,
   CoachPublicPlanDetail,
   ManagedCoachPlan,
 } from '../types/coach.types'
@@ -50,7 +52,7 @@ export const planService = {
     )).data
   },
 
-  async createPlan(accessToken: string, data: Record<string, unknown>) {
+  async createPlan(accessToken: string, data: CoachPlanCreateRequest) {
     return (await apiRequest<ManagedCoachPlan>('/api/v1/coaches/me/plans', {
       ...auth(accessToken),
       method: 'POST',
@@ -58,7 +60,7 @@ export const planService = {
     })).data
   },
 
-  async updatePlan(accessToken: string, planId: string | number, data: Record<string, unknown>) {
+  async updatePlan(accessToken: string, planId: string | number, data: CoachPlanPatchRequest) {
     return (await apiRequest<ManagedCoachPlan>(
       `/api/v1/coaches/me/plans/${encodeURIComponent(String(planId))}`,
       { ...auth(accessToken), method: 'PATCH', body: data },
