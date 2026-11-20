@@ -5,7 +5,7 @@ import { useAuth } from '../../auth/context/auth-context'
 import { previewCoachPlans, previewCoachRelations } from '../../auth/data/dashboard-preview'
 import { loadWorkoutDraft } from '../services/workout-draft.service'
 import { planService } from '../../coaches/services/plan.service'
-import type { CoachOwnedPlanSummary } from '../../coaches/types/coach.types'
+import type { ManagedCoachPlan } from '../../coaches/types/coach.types'
 import { getUserErrorMessage } from '../../../shared/api/user-error'
 import { useTranslation } from 'react-i18next'
 
@@ -15,6 +15,33 @@ interface CoachDashboardPageProps {
 
 function formatNumber(value: number, locale = 'en') {
   return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value)
+}
+
+function formatCurrency(value: number, currency: string, locale = 'en') {
+  try {
+    return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US', {
+      style: 'currency',
+      currency,
+      maximumFractionDigits: 0,
+    }).format(value)
+  } catch {
+    return `${formatNumber(value, locale)} ${currency}`
+  }
+}
+
+interface DashboardPlan {
+  id: string | number
+  title: string
+  summary: string | null
+  description: string | null
+  price: number
+  currency: string
+  durationDays: number
+  isActive: boolean
+  isArchived: boolean
+  features: Array<{ id: number; label: string }>
+  includes: string[]
+  createdAt?: string
 }
 
 function formatDate(value?: string | null, locale = 'en') {
@@ -32,7 +59,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
   const firstName = user?.display_name?.trim().split(/\s+/)[0] || t('ui.Coach')
   const draft = loadWorkoutDraft()
   const activeAthletes = preview ? previewCoachRelations.filter((item) => item.status === 'ACTIVE') : []
-  const [plans, setPlans] = useState<CoachOwnedPlanSummary[]>([])
+  const [plans, setPlans] = useState<ManagedCoachPlan[]>([])
   const [isLoadingPlans, setIsLoadingPlans] = useState(!preview)
   const [planError, setPlanError] = useState('')
 
@@ -66,9 +93,36 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
 
   const visiblePlanError = preview || !accessToken ? '' : planError
   const visibleIsLoadingPlans = !preview && Boolean(accessToken) && isLoadingPlans
-  const activePlans = preview
-    ? previewCoachPlans.filter((item) => item.status === 'ACTIVE')
-    : accessToken ? plans.filter((item) => item.is_active && !item.is_archived) : []
+  const displayPlans: DashboardPlan[] = preview
+    ? previewCoachPlans.map((plan) => ({
+        id: plan.plan_id,
+        title: plan.title,
+        summary: null,
+        description: plan.description,
+        price: plan.price,
+        currency: 'IRR',
+        durationDays: plan.duration_days,
+        isActive: plan.status === 'ACTIVE',
+        isArchived: plan.status === 'ARCHIVED',
+        features: [],
+        includes: [...plan.includes],
+      }))
+    : plans.map((plan) => ({
+        id: plan.planId,
+        title: plan.title,
+        summary: plan.summary,
+        description: plan.description,
+        price: plan.price,
+        currency: plan.currency,
+        durationDays: plan.durationDays,
+        isActive: plan.isActive,
+        isArchived: plan.isArchived,
+        features: plan.features,
+        includes: plan.includes,
+        createdAt: plan.createdAt,
+      }))
+  const activePlans = displayPlans.filter((plan) => plan.isActive && !plan.isArchived)
+  const archivedPlansCount = displayPlans.filter((plan) => plan.isArchived).length
 
   return (
     <AppShell title={t("ui.Overview")}>
@@ -162,12 +216,22 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
           </article>
 
           <article className="rounded-[20px] border border-border-default bg-surface p-6 sm:p-7">
-            <div className="flex items-end justify-between gap-3">
+            <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-fg-muted">{t("ui.Published content")}</p>
+                <p className="text-[9px] font-bold uppercase tracking-[1.5px] text-fg-muted">{t("ui.Plan management")}</p>
                 <h2 className="mt-2 text-[21px] font-bold tracking-[-0.7px]">{t("ui.Your plans")}</h2>
               </div>
-              <span className="text-[9px] font-semibold text-fg-muted">{visibleIsLoadingPlans ? t('ui.Loading...') : visiblePlanError ? t('ui.Unavailable') : activePlans.length + ' ' + t('ui.active')}</span>
+              <div className="flex flex-wrap items-center gap-2 text-[9px] font-semibold text-fg-muted">
+                <span>{t("ui.{{count}} total plans", { count: displayPlans.length })}</span>
+                <span className="rounded-full bg-success-surface px-2.5 py-1 text-success-fg">
+                  {t("ui.{{count}} active", { count: activePlans.length })}
+                </span>
+                {archivedPlansCount > 0 && (
+                  <span className="rounded-full bg-surface-muted px-2.5 py-1">
+                    {t("ui.{{count}} archived", { count: archivedPlansCount })}
+                  </span>
+                )}
+              </div>
             </div>
             {visiblePlanError ? (
               <div role="alert" className="mt-5 rounded-xl border border-danger-border bg-danger-surface px-5 py-6 text-center">
@@ -178,26 +242,65 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
               <div className="mt-5 rounded-xl border border-border-default bg-surface-subtle px-5 py-7 text-center text-[11px] text-fg-muted">
                 {t('ui.Loading...')}
               </div>
-            ) : activePlans.length > 0 ? (
+            ) : displayPlans.length > 0 ? (
               <div className="mt-5 space-y-3">
-                {activePlans.map((plan) => (
-                  <div key={'plan_id' in plan ? plan.plan_id : plan.id} className="rounded-xl bg-surface-subtle p-4">
-                    <div className="flex items-start justify-between gap-3">
-                      <h3 className="text-[12px] font-bold text-fg">{plan.title}</h3>
-                      <span className="rounded-full bg-surface px-2 py-1 text-[8px] font-bold uppercase text-success-fg">{t('ui.ACTIVE')}</span>
+                {displayPlans.map((plan) => {
+                  const statusLabel = plan.isArchived ? 'ARCHIVED' : plan.isActive ? 'ACTIVE' : 'INACTIVE'
+                  const planFeatures = [
+                    ...plan.features.map((feature) => feature.label),
+                    ...plan.includes,
+                  ]
+                  return (
+                    <div key={plan.id} className="rounded-xl border border-border-default bg-surface-subtle p-4">
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <h3 className="text-[13px] font-bold text-fg">{plan.title}</h3>
+                          {(plan.summary || plan.description) && (
+                            <p className="mt-1 line-clamp-2 text-[10px] leading-5 text-fg-muted">
+                              {plan.summary || plan.description}
+                            </p>
+                          )}
+                        </div>
+                        <span className={`rounded-full px-2.5 py-1 text-[8px] font-bold uppercase tracking-wide ${
+                          plan.isArchived
+                            ? 'bg-surface-muted text-fg-muted'
+                            : plan.isActive
+                              ? 'bg-success-surface text-success-fg'
+                              : 'bg-warning-surface text-warning-fg'
+                        }`}>
+                          {t(`ui.${statusLabel}`)}
+                        </span>
+                      </div>
+                      <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] font-semibold text-fg-secondary">
+                        <span>{formatCurrency(plan.price, plan.currency, i18n.language)}</span>
+                        <span aria-hidden="true">·</span>
+                        <span>{t('ui.{{count}} days', { count: formatNumber(plan.durationDays, i18n.language) })}</span>
+                        {plan.createdAt && (
+                          <>
+                            <span aria-hidden="true">·</span>
+                            <span>{t('ui.Created')} {formatDate(plan.createdAt, i18n.language)}</span>
+                          </>
+                        )}
+                      </div>
+                      {planFeatures.length > 0 && (
+                        <ul className="mt-3 flex flex-wrap gap-1.5">
+                          {planFeatures.map((feature, index) => (
+                            <li key={feature + index} className="rounded-full border border-border-default bg-surface px-2.5 py-1 text-[9px] text-fg-secondary">
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
-                    <p className="mt-1 text-[10px] leading-5 text-fg-muted">{'description' in plan ? plan.description : plan.summary}</p>
-                    <p className="mt-3 text-[10px] font-semibold text-success-fg">{formatNumber(plan.duration_days, i18n.language)} {t('ui.days')} · {new Intl.NumberFormat(i18n.language === 'fa' ? 'fa-IR' : 'en-US').format(plan.price)} {i18n.language === 'fa' ? 'تومان' : 'Toman'}</p>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             ) : (
               <div className="mt-5 rounded-xl border border-dashed border-border-default bg-surface-subtle px-5 py-7 text-center">
-                <p className="text-[12px] font-semibold text-fg">{t("ui.Your published plans will appear here")}</p>
-                <p className="mt-1 text-[10px] text-fg-muted">{t("ui.No active coaching plans are available right now.")}</p>
+                <p className="text-[12px] font-semibold text-fg">{t("ui.No coaching plans yet")}</p>
+                <p className="mt-1 text-[10px] text-fg-muted">{t("ui.Create your first coaching plan to manage it here.")}</p>
               </div>
             )}
-          </article>
         </section>
 
         <section>

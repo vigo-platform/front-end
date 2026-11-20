@@ -197,7 +197,7 @@ export interface ManagedCoachPlan {
     code: string
     label: string
     value: unknown
-    selectedOptions: Array<{ code: string; label: string }>
+    selectedOptions?: Array<{ code: string; label: string }>
   }>
   status: string
   isActive: boolean

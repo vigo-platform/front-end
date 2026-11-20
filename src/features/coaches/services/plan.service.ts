@@ -1,6 +1,5 @@
 import { apiRequest } from '../../../shared/api/client'
 import type {
-  CoachOwnedPlanSummary,
   CoachPlanCreateRequest,
   CoachPlanFormOptions,
   CoachPlanPatchRequest,
@@ -31,7 +30,7 @@ export const planService = {
   },
 
   async getMyPlans(accessToken: string) {
-    return (await apiRequest<CoachOwnedPlanSummary[]>('/api/v1/coaches/me/plan', auth(accessToken))).data
+    return (await apiRequest<ManagedCoachPlan[]>('/api/v1/coaches/me/plans', auth(accessToken))).data
   },
 
   async getMyPlan(accessToken: string, planId: string | number) {
