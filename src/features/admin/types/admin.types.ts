@@ -13,3 +13,43 @@ export interface AdminCoachApplication {
   active_athletes_count?: number; created_at?: string; updated_at?: string
 }
 export type AdminUser = UserProfile
+
+export type PublicCoachApplicationStatus = 'PENDING' | 'APPROVED' | 'REJECTED'
+
+export interface AdminPublicCoachApplication {
+  applicationId: string
+  fullName: string
+  firstName?: string
+  lastName?: string
+  email: string
+  phone?: string | null
+  profileImageFileId?: string | null
+  certificates: Array<{
+    certificateId?: number
+    category: 'UNIVERSITY' | 'FEDERATION' | 'SKILL'
+    title: string
+    issuer?: string | null
+    fieldOfStudy?: string | null
+    degree?: string | null
+    fileId: string
+  }>
+  experiences: Array<{
+    experienceId?: number
+    title: string
+    organization?: string | null
+    description?: string | null
+    durationMonths?: number | null
+  }>
+  headline?: string | null
+  bio: string
+  specialties: string[]
+  experienceYears: number
+  instagramHandle?: string | null
+  locale?: 'fa' | 'en'
+  status: PublicCoachApplicationStatus
+  rejectionReason?: string | null
+  reviewedAt?: string | null
+  invitationExpiresAt?: string | null
+  createdAt: string
+  updatedAt: string
+}
