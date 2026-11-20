@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import AppShell from '../../../shared/components/layout/AppShell'
 import { useAuth } from '../../auth/context/auth-context'
 import { coachService } from '../../coaches/services/coach.service'
-import type { CoachProfile } from '../../coaches/types/coach.types'
+import type { CoachDirectoryItem } from '../../coaches/types/coach.types'
 import { useTranslation } from 'react-i18next'
 import { getUserErrorMessage } from '../../../shared/api/user-error'
 import Skeleton from '../../../shared/components/feedback/Skeleton'
@@ -27,7 +27,7 @@ function formatDate(value?: string | null, locale = 'en') {
 function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) {
   const { t, i18n } = useTranslation()
   const { user } = useAuth()
-  const [coaches, setCoaches] = useState<CoachProfile[]>([])
+  const [coaches, setCoaches] = useState<CoachDirectoryItem[]>([])
   const [totalCoaches, setTotalCoaches] = useState(0)
   const [isLoadingCoaches, setIsLoadingCoaches] = useState(true)
   const [coachError, setCoachError] = useState('')
@@ -37,11 +37,11 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
 
   useEffect(() => {
     let active = true
-    coachService.search({ page: 0, size: 3, sort: 'newest' })
+    coachService.search({ page: 0, size: 3 })
       .then((page) => {
         if (!active) return
         setCoaches(page.content ?? [])
-        setTotalCoaches(page.total_elements ?? 0)
+        setTotalCoaches(page.totalElements ?? 0)
       })
       .catch((requestError: unknown) => {
         if (!active) return
@@ -140,17 +140,17 @@ function AthleteDashboardPage({ isPreview = false }: AthleteDashboardPageProps) 
           ) : coaches.length > 0 ? (
             <div className="mt-4 grid gap-3 md:grid-cols-3">
               {coaches.map((coach) => (
-                <article key={coach.coach_id} className="rounded-[18px] border border-border-default bg-surface p-5 sm:p-6">
+                <article key={coach.coachId} className="rounded-[18px] border border-border-default bg-surface p-5 sm:p-6">
                   <p className="text-[9px] font-bold uppercase tracking-[1px] text-fg-secondary">{t("ui.Verified coach")}</p>
-                  <h3 className="mt-2 text-[16px] font-bold tracking-[-0.4px] text-fg">{coach.display_name}</h3>
+                  <h3 className="mt-2 text-[16px] font-bold tracking-[-0.4px] text-fg">{coach.displayName}</h3>
                   {coach.headline && <p className="mt-1 text-[11px] text-fg-secondary">{coach.headline}</p>}
-                  <p className="mt-3 text-[10px] text-fg-secondary">{formatNumber(coach.experience_years, i18n.language)} {t('ui.years of experience')}</p>
+                  <p className="mt-3 text-[10px] text-fg-secondary">{formatNumber(coach.experienceYears, i18n.language)} {t('ui.years of experience')}</p>
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {(coach.specialties ?? []).slice(0, 3).map((specialty) => (
                       <span key={specialty} className="rounded-full bg-surface-muted px-2.5 py-1 text-[9px] text-success-fg">{specialty}</span>
                     ))}
                   </div>
-                  <Link to={'/coaches/' + coach.coach_id} className="mt-5 inline-flex text-[10px] font-bold text-success-fg hover:underline">
+                  <Link to={'/coaches/' + coach.coachId} className="mt-5 inline-flex text-[10px] font-bold text-success-fg hover:underline">
                     {t('ui.View profile →')}
                   </Link>
                 </article>
