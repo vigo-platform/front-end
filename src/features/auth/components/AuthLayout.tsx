@@ -16,7 +16,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
         {/* Logo */}
         <header className="flex items-center justify-between gap-4">
           <a href="/login" aria-label="Vigo" className="inline-flex items-center">
-            <img src="/vigo-logo.svg" alt="Vigo" className="h-9 w-auto max-w-[112px] object-contain dark:invert" />
+            <img src="/vigo-logo.svg" alt="Vigo" className="h-9 w-auto max-w-[112px] object-contain vigo-logo" />
           </a>
         </header>
 
