@@ -114,7 +114,8 @@ const resources = {
         "purpose": "purpose.",
         "clearPlans": "Clear plans. Stronger connections.",
         "onePlace": "One place to bring your training together.",
-        "nextStep": "Built for your next step."
+        "nextStep": "Built for your next step.",
+        "alreadyHaveAccount": "Already have an account?"
       },
       "errors": {
         "suspended": "Account suspended",
@@ -846,7 +847,8 @@ const resources = {
         "purpose": "حرکت کنید.",
         "clearPlans": "برنامه‌های روشن. ارتباط‌های قوی‌تر.",
         "onePlace": "تمام فرایند تمرین شما، در یک مکان.",
-        "nextStep": "برای قدم بعدی شما ساخته شده است."
+        "nextStep": "برای قدم بعدی شما ساخته شده است.",
+        "alreadyHaveAccount": "از قبل حساب کاربری دارید؟"
       },
       "errors": {
         "suspended": "حساب کاربری تعلیق شده است",
