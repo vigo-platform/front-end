@@ -25,6 +25,7 @@ const LoginPage = lazy(() => import('../features/auth/pages/LoginPage'))
 const RegisterPage = lazy(() => import('../features/auth/pages/RegisterPage'))
 const ForgotPasswordPage = lazy(() => import('../features/auth/pages/ForgotPasswordPage'))
 const ProfilePage = lazy(() => import('../features/user/pages/ProfilePage'))
+const FileManagementPage = lazy(() => import('../features/storage/pages/FileManagementPage'))
 const AdminDashboardPage = lazy(() => import('../features/admin/pages/AdminDashboardPage'))
 
 function PublicOnly({ children }: { children: ReactNode }) {
@@ -91,6 +92,7 @@ function AppRouter() {
         <Route path="/athlete" element={<RequireAuth allowedRoles={['ATHLETE']}><AthleteDashboardPage /></RequireAuth>} />
         <Route path="/athlete/workouts" element={<RequireAuth allowedRoles={['ATHLETE']}><AthleteWorkoutsPage /></RequireAuth>} />
         <Route path="/athlete/workouts/:workoutId" element={<RequireAuth allowedRoles={['ATHLETE']}><WorkoutExecutionPage /></RequireAuth>} />
+        <Route path="/athlete/files" element={<RequireAuth allowedRoles={["ATHLETE"]}><FileManagementPage /></RequireAuth>} />
         <Route path="/workouts" element={<Navigate to="/athlete/workouts" replace />} />
         <Route path="/workouts/:workoutId" element={<RequireAuth allowedRoles={['ATHLETE']}><WorkoutExecutionPage /></RequireAuth>} />
         <Route path="/coaches" element={<CoachDirectoryPage />} />
@@ -101,6 +103,7 @@ function AppRouter() {
         <Route path="/coach/exercises" element={<RequireAuth allowedRoles={['COACH']}><ExerciseLibraryPage /></RequireAuth>} />
         <Route path="/coach/workouts" element={<RequireAuth allowedRoles={['COACH']}><CoachWorkoutsPage /></RequireAuth>} />
         <Route path="/coach/workouts/new" element={<RequireAuth allowedRoles={['COACH']}><WorkoutBuilderPage /></RequireAuth>} />
+        <Route path="/coach/files" element={<RequireAuth allowedRoles={["COACH"]}><FileManagementPage /></RequireAuth>} />
         <Route path="/account-suspended" element={<AccountSuspendedPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

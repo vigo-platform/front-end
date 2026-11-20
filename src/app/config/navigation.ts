@@ -8,6 +8,7 @@ export interface NavigationItem {
 const athleteNavigationItems: NavigationItem[] = [
   { label: 'navigation.dashboard', href: '/athlete' },
   { label: 'navigation.myWorkouts', href: '/athlete/workouts' },
+  { label: 'navigation.files', href: '/athlete/files' },
   { label: 'navigation.discoverCoaches', href: '/coaches' },
   { label: 'navigation.myProfile', href: '/profile' },
 ]
@@ -27,6 +28,7 @@ const coachNavigationItems: NavigationItem[] = [
   { label: 'navigation.exerciseLibrary', href: '/coach/exercises' },
   { label: 'navigation.myWorkouts', href: '/coach/workouts' },
   { label: 'navigation.workoutBuilder', href: '/coach/workouts/new' },
+  { label: 'navigation.files', href: '/coach/files' },
   { label: 'navigation.myProfile', href: '/profile' },
 ]
 
