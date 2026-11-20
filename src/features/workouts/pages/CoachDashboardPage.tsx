@@ -46,6 +46,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
         if (!active) return undefined
         setIsLoadingPlans(true)
         setPlanError('')
+        setPlans([])
         return planService.getMyPlans(accessToken)
       })
       .then((result) => {
