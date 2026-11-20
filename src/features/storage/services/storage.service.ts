@@ -1,14 +1,11 @@
 import { apiDownload, apiRequest } from '../../../shared/api/client'
 import type {
-  AssetAccessEntry,
-  AssetAccessGrant,
   FileCategory,
-  AssetDownloadUrl,
   FileListFilters,
-  StorageAsset,
   StoredFile,
   StoredFileDetail,
   StoredFilePage,
+  StoredFileVersion,
   UpdateStoredFileRequest,
 } from '../types/storage.types'
 
@@ -81,7 +78,7 @@ export const storageService = {
 
   async uploadFileVersion(accessToken: string, fileId: string, file: File, changeNote?: string) {
     const body = uploadForm(file, { change_note: changeNote })
-    return (await apiRequest<unknown>(
+    return (await apiRequest<StoredFileVersion>(
       `/api/v1/files/${encodeURIComponent(fileId)}/versions`,
       { ...auth(accessToken), method: 'POST', body },
     )).data
@@ -89,72 +86,9 @@ export const storageService = {
 
   async downloadFile(accessToken: string, fileId: string, version?: number) {
     const query = version === undefined ? '' : `?version=${encodeURIComponent(String(version))}`
-    return apiDownload(`/api/v1/files/${encodeURIComponent(fileId)}/download${query}`, auth(accessToken))
-  },
-
-  async uploadPublicAsset(accessToken: string, file: File) {
-    return (await apiRequest<StorageAsset>('/api/v1/assets/public', {
-      ...auth(accessToken), method: 'POST', body: uploadForm(file),
-    })).data
-  },
-
-  async uploadPrivateAsset(accessToken: string, file: File) {
-    return (await apiRequest<StorageAsset>('/api/v1/assets/private', {
-      ...auth(accessToken), method: 'POST', body: uploadForm(file),
-    })).data
-  },
-
-  async getAsset(accessToken: string, assetId: string) {
-    return (await apiRequest<StorageAsset>(
-      `/api/v1/assets/${encodeURIComponent(assetId)}`,
-      auth(accessToken),
-    )).data
-  },
-
-  async getAssetDownloadUrl(accessToken: string, assetId: string) {
-    return (await apiRequest<AssetDownloadUrl>(
-      `/api/v1/assets/${encodeURIComponent(assetId)}/download-url`,
-      auth(accessToken),
-    )).data
-  },
-
-  async downloadAsset(assetId: string, accessToken?: string) {
     return apiDownload(
-      `/api/v1/assets/${encodeURIComponent(assetId)}/content`,
-      accessToken ? auth(accessToken) : {},
-    )
-  },
-
-  async listAssetAccess(accessToken: string, assetId: string) {
-    return (await apiRequest<AssetAccessEntry[]>(
-      `/api/v1/assets/${encodeURIComponent(assetId)}/access`,
+      `/api/v1/files/${encodeURIComponent(fileId)}/download${query}`,
       auth(accessToken),
-    )).data
-  },
-
-  async grantAssetAccess(
-    accessToken: string,
-    assetId: string,
-    userId: string,
-    permission: 'READ' | 'READ_WRITE' = 'READ',
-  ) {
-    return (await apiRequest<AssetAccessGrant>(
-      `/api/v1/assets/${encodeURIComponent(assetId)}/access`,
-      { ...auth(accessToken), method: 'POST', body: { user_id: userId, permission } },
-    )).data
-  },
-
-  async revokeAssetAccess(accessToken: string, assetId: string, userId: string) {
-    return (await apiRequest<null>(
-      `/api/v1/assets/${encodeURIComponent(assetId)}/access/${encodeURIComponent(userId)}`,
-      { ...auth(accessToken), method: 'DELETE' },
-    )).data
-  },
-
-  async deleteAsset(accessToken: string, assetId: string) {
-    return (await apiRequest<null>(
-      `/api/v1/assets/${encodeURIComponent(assetId)}`,
-      { ...auth(accessToken), method: 'DELETE' },
-    )).data
+    )
   },
 }
