@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../auth/context/auth-context'
 import { useTranslation } from 'react-i18next'
-import ThemeSwitcher from '../../../shared/components/ThemeSwitcher'
+
 
 interface CoachPublicLayoutProps {
   children: ReactNode
@@ -26,11 +26,8 @@ function CoachPublicLayout({ children, title }: CoachPublicLayoutProps) {
     <div className="min-h-screen bg-page text-fg">
       <header className="border-b border-border-default bg-surface">
         <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
-          <Link to={homePath} className="text-xl font-extrabold tracking-tight">
-            Vigo<span className="text-brand-hover">.</span>
-          </Link>
+          <Link to={homePath} aria-label="Vigo home" className="inline-flex items-center"><img src="/vigo-logo.svg" alt="Vigo" className="h-8 w-auto max-w-[104px] object-contain dark:invert" /></Link>
           <div className="flex items-center gap-3">
-            <ThemeSwitcher />
             <nav aria-label={t('navigation.main')} className="flex items-center gap-4">
             {isAuthenticated ? (
               <Link to={homePath} className="inline-flex items-center gap-2 rounded-full border border-border-default bg-page px-4 py-2.5 text-xs font-semibold text-fg transition hover:bg-surface-muted">
