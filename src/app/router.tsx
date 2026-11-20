@@ -58,7 +58,7 @@ function AppRouter() {
   return (
     <Suspense fallback={<RouteLoadingFallback />}>
       <Routes>
-        <Route path="/" element={<PublicLandingPage />} />
+        <Route path="/" element={<PublicOnly><PublicLandingPage /></PublicOnly>} />
         {import.meta.env.DEV && (
           <>
             <Route path="/_preview/athlete" element={<PreviewWorkspaceRoute role="ATHLETE" />}>
