@@ -111,7 +111,7 @@ function RegisterIdentifierStep({
       )}
 
       <p className="mt-6 text-center text-[11px] leading-6 text-fg-secondary">
-        {t('ui.Already have an account?')}{' '}
+        {t('auth.alreadyHaveAccount')}{' '}
         <Link
           to="/login"
           className="ms-1 font-semibold text-fg underline-offset-4 hover:underline"
