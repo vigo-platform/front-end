@@ -2,6 +2,8 @@ import { apiRequest } from '../../../shared/api/client'
 import type {
   CoachPlanCreateRequest,
   CoachPlanFormOptions,
+  CoachPlanFormFeature,
+  CoachOwnedPlanSummary,
   CoachPlanPatchRequest,
   CoachPublicPlanDetail,
   ManagedCoachPlan,
@@ -33,6 +35,10 @@ export const planService = {
     return (await apiRequest<ManagedCoachPlan[]>('/api/v1/coaches/me/plans', auth(accessToken))).data
   },
 
+  async getOwnedSummaries(accessToken: string) {
+    return (await apiRequest<CoachOwnedPlanSummary[]>('/api/v1/coaches/me/plan', auth(accessToken))).data
+  },
+
   async getMyPlan(accessToken: string, planId: string | number) {
     return (await apiRequest<OwnedCoachPlanDetail>(
       `/api/v1/coaches/me/plan/${encodeURIComponent(String(planId))}`,
@@ -45,7 +51,7 @@ export const planService = {
   },
 
   async getFeatureFormDetails(accessToken: string, featureId: string | number) {
-    return (await apiRequest<unknown>(
+    return (await apiRequest<CoachPlanFormFeature>(
       `/api/v1/coaches/me/plan/form-options/features/${encodeURIComponent(String(featureId))}`,
       auth(accessToken),
     )).data

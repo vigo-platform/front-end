@@ -198,6 +198,7 @@ function CoachDashboardPage({ isPreview = false }: CoachDashboardPageProps) {
                 <h2 className="mt-2 text-[21px] font-bold tracking-[-0.7px]">{t("ui.Your plans")}</h2>
               </div>
               <div className="flex flex-wrap items-center gap-2 text-[9px] font-semibold text-fg-muted">
+                {!preview && <Link to="/coach/plans" className="rounded-full bg-brand px-4 py-2 text-xs font-bold text-on-brand hover:bg-brand-hover">{t('plans.manage')}</Link>}
                 <span>{t("ui.{{count}} total plans", { count: displayPlans.length })}</span>
                 <span className="rounded-full bg-success-surface px-2.5 py-1 text-success-fg">
                   {t("ui.{{count}} active", { count: activePlans.length })}

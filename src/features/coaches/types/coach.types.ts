@@ -128,9 +128,20 @@ export interface CoachPlanFormField {
   code: string
   label: string
   helpText?: string | null
-  valueType: string
-  required?: boolean
-  validationRules?: unknown
+  valueType: 'TEXT' | 'INTEGER' | 'SINGLE_SELECT' | 'MULTI_SELECT'
+  required: boolean
+  validationRules: {
+    options?: Array<{ code: string; label: string }>
+    min?: number
+    max?: number
+    minLength?: number
+    maxLength?: number
+  }
+}
+
+export interface CoachPlanFormFeature extends CoachPlanFeatureLabel {
+  description: string | null
+  fields: CoachPlanFormField[]
 }
 
 export interface CoachPlanFormOptions {

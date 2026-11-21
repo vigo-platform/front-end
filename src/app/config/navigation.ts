@@ -25,6 +25,7 @@ const previewAdminNavigationItems: NavigationItem[] = [
 
 const coachNavigationItems: NavigationItem[] = [
   { label: 'navigation.overview', href: '/coach' },
+  { label: 'plans.title', href: '/coach/plans' },
   { label: 'navigation.exerciseLibrary', href: '/coach/exercises' },
   { label: 'navigation.myWorkouts', href: '/coach/workouts' },
   { label: 'navigation.workoutBuilder', href: '/coach/workouts/new' },

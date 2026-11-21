@@ -2,9 +2,12 @@ import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 
+import { planCopy } from './features/coaches/plan-copy'
+
 const resources = {
   "en": {
     "translation": {
+      plans: planCopy.en,
       "language": {
         "english": "English",
         "persian": "فارسی",
@@ -767,6 +770,7 @@ const resources = {
   },
   "fa": {
     "translation": {
+      plans: planCopy.fa,
       "language": {
         "english": "English",
         "persian": "فارسی",
