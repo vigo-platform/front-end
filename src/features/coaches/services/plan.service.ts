@@ -25,9 +25,10 @@ export interface OwnedCoachPlanDetail extends Omit<CoachPublicPlanDetail, 'coach
 export const planService = {
   // Public summaries are included in GET /api/v1/coaches/{coach_id}. The backend
   // currently exposes individual public details through the singular /plan route.
-  async getPublicPlan(coachId: string | number, planId: string | number) {
+  async getPublicPlan(coachId: string | number, planId: string | number, signal?: AbortSignal) {
     return (await apiRequest<CoachPublicPlanDetail>(
       `/api/v1/coaches/${encodeURIComponent(String(coachId))}/plan/${encodeURIComponent(String(planId))}`,
+      { signal },
     )).data
   },
 
@@ -76,6 +77,13 @@ export const planService = {
     return (await apiRequest<null>(
       `/api/v1/coaches/me/plans/${encodeURIComponent(String(planId))}`,
       { ...auth(accessToken), method: 'DELETE' },
+    )).data
+  },
+
+  async recommendPlan(accessToken: string, planId: string | number) {
+    return (await apiRequest<null>(
+      `/api/v1/coaches/me/plans/${encodeURIComponent(String(planId))}/recommendation`,
+      { ...auth(accessToken), method: 'PUT' },
     )).data
   },
 

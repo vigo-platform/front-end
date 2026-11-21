@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import AppShell from '../../../shared/components/layout/AppShell'
 import Skeleton from '../../../shared/components/feedback/Skeleton'
 import Button from '../../../shared/components/ui/Button'
+import { ApiError } from '../../../shared/api/client'
 import { getUserErrorMessage } from '../../../shared/api/user-error'
 import { useAuth } from '../../auth/context/auth-context'
 import { planService } from '../services/plan.service'
@@ -65,6 +66,25 @@ export default function CoachPlansPage() {
       setError(getUserErrorMessage(e, t, 'plans.failure'))
     } finally { setBusy(false) }
   }
+  async function recommend(plan: CoachOwnedPlanSummary) {
+    if (!accessToken || busy) return
+    setBusy(true)
+    setError('')
+    setNotice('')
+    try {
+      await planService.recommendPlan(accessToken, plan.id)
+      saved(t('plans.recommendedDone', { title: plan.title }))
+    } catch (e) {
+      if (e instanceof ApiError && e.status === 409) {
+        setError(t('plans.stale'))
+        refresh()
+      } else {
+        setError(getUserErrorMessage(e, t, 'plans.failure'))
+      }
+    } finally {
+      setBusy(false)
+    }
+  }
   const current = plans.filter(p => !p.is_archived)
   const archive = plans.filter(p => p.is_archived)
   const published = current.filter(p => p.is_active)
@@ -96,7 +116,18 @@ export default function CoachPlansPage() {
       {error && !dialog && <p role="alert" className="text-sm text-danger-fg">{error}</p>}
       {loadError ? <section role="alert" className="plan-empty"><p>{loadError}</p><Button variant="outline" onClick={refresh}>{t('common.tryAgain')}</Button></section>
         : loading ? <div role="status" aria-label={t('common.loading')} className="plan-grid">{[0,1].map(i => <Skeleton key={i} className="h-52 rounded-2xl" />)}</div>
-        : visible.length ? <div className="plan-grid">{visible.map(plan => <CoachPlanCard key={plan.id} plan={plan} busy={busy} onEdit={() => open({ kind: 'edit', plan })} onArchive={() => open({ kind: 'archive', plan })} onRestore={() => void changeArchived(plan, true)} onLayout={() => open({ kind: 'layout' })} />)}</div>
+        : visible.length ? <div className="plan-grid">{visible.map(plan => (
+          <CoachPlanCard
+            key={plan.id}
+            plan={plan}
+            busy={busy}
+            onEdit={() => open({ kind: 'edit', plan })}
+            onArchive={() => open({ kind: 'archive', plan })}
+            onRestore={() => void changeArchived(plan, true)}
+            onLayout={() => open({ kind: 'layout' })}
+            onRecommend={() => void recommend(plan)}
+          />
+        ))}</div>
         : <section className="plan-empty"><span className="grid size-14 place-items-center rounded-2xl bg-surface-muted text-success-fg"><PlanIcon name={archived ? 'archive' : 'stack'} size={26} /></span>
           <h2 className="text-lg font-bold">{t(archived ? 'plans.emptyArchive' : 'plans.empty')}</h2><p className="text-sm text-fg-secondary">{t(archived ? 'plans.emptyArchiveText' : 'plans.emptyText')}</p>
           {!archived && <Button onClick={() => open({ kind: 'create' })}><PlanIcon name="plus" size={16} />{t('plans.new')}</Button>}

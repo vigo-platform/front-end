@@ -8,6 +8,22 @@ const resources = {
   "en": {
     "translation": {
       plans: planCopy.en,
+      publicPlan: {
+        title: 'Coaching plan details',
+        viewDetails: 'View details',
+        backToCoach: 'Back to coach profile',
+        unavailable: 'Plan unavailable',
+        notFound: 'This coaching plan could not be found.',
+        loadError: 'We couldn’t load this plan. Please try again.',
+        about: 'About this plan',
+        includes: 'Included services',
+        general: 'Training details',
+        features: 'Plan features',
+        price: 'Plan price',
+        originalPrice: 'Original price',
+        duration: 'Plan duration',
+        firstDelivery: 'First delivery',
+      },
       "language": {
         "english": "English",
         "persian": "فارسی",
@@ -771,6 +787,22 @@ const resources = {
   "fa": {
     "translation": {
       plans: planCopy.fa,
+      publicPlan: {
+        title: 'جزئیات پلن مربی‌گری',
+        viewDetails: 'مشاهده جزئیات',
+        backToCoach: 'بازگشت به پروفایل مربی',
+        unavailable: 'پلن در دسترس نیست',
+        notFound: 'این پلن مربی‌گری پیدا نشد.',
+        loadError: 'بارگذاری این پلن ممکن نشد. لطفاً دوباره تلاش کنید.',
+        about: 'درباره این پلن',
+        includes: 'خدمات پلن',
+        general: 'جزئیات تمرین',
+        features: 'امکانات پلن',
+        price: 'قیمت پلن',
+        originalPrice: 'قیمت پیش از تخفیف',
+        duration: 'مدت پلن',
+        firstDelivery: 'زمان اولین تحویل',
+      },
       "language": {
         "english": "English",
         "persian": "فارسی",

@@ -4,8 +4,14 @@ import type { CoachOwnedPlanSummary } from '../../types/coach.types'
 import Button from '../../../../shared/components/ui/Button'
 import PlanIcon from './PlanIcon'
 
-export default function CoachPlanCard({ plan, busy, onEdit, onArchive, onRestore, onLayout }: {
-  plan: CoachOwnedPlanSummary; busy: boolean; onEdit: () => void; onArchive: () => void; onRestore: () => void; onLayout: () => void
+export default function CoachPlanCard({ plan, busy, onEdit, onArchive, onRestore, onLayout, onRecommend }: {
+  plan: CoachOwnedPlanSummary
+  busy: boolean
+  onEdit: () => void
+  onArchive: () => void
+  onRestore: () => void
+  onLayout: () => void
+  onRecommend: () => void
 }) {
   const { t, i18n } = useTranslation()
   const [open, setOpen] = useState(false)
@@ -39,8 +45,9 @@ export default function CoachPlanCard({ plan, busy, onEdit, onArchive, onRestore
         onKeyDown={e => { if (e.key === 'Escape' && open) { setOpen(false); trigger.current?.focus() } }}>
         <button type="button" ref={trigger} className="plan-icon-button" disabled={busy} aria-label={t('plans.more', { title: plan.title })} aria-expanded={open} aria-controls={open ? id : undefined} onClick={() => setOpen(!open)}><PlanIcon name="more" /></button>
         {open && <div id={id} className="plan-card-menu">
-          {published && <button onClick={() => select(onLayout)}><PlanIcon name="layout" size={16} />{t('plans.layout')}</button>}
-          <button className="text-danger-fg" onClick={() => select(onArchive)}><PlanIcon name="archive" size={16} />{t('plans.archive')}</button>
+          {published && !plan.is_recommended && <button type="button" disabled={busy} onClick={() => select(onRecommend)}><PlanIcon name="star" size={16} />{t('plans.recommend')}</button>}
+          {published && <button type="button" disabled={busy} onClick={() => select(onLayout)}><PlanIcon name="layout" size={16} />{t('plans.layout')}</button>}
+          <button type="button" disabled={busy} className="text-danger-fg" onClick={() => select(onArchive)}><PlanIcon name="archive" size={16} />{t('plans.archive')}</button>
         </div>}
       </div>}
     </div>

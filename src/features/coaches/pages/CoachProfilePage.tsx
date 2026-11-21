@@ -1,19 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import CoachPublicLayout from '../components/CoachPublicLayout'
+import PublicPlanCard from '../components/plans/PublicPlanCard'
 import { useAuth } from '../../auth/context/auth-context'
 import { getAvatarUrl } from '../utils/avatar'
+import { formatNumber } from '../utils/public-plan-format'
 import { coachService } from '../services/coach.service'
 import type { CoachProfile } from '../types/coach.types'
 import { useTranslation } from 'react-i18next'
 import { CoachProfileSkeleton } from '../../../shared/components/feedback/LoadingStates'
 import { getUserErrorMessage } from '../../../shared/api/user-error'
 
-function formatNumber(value: number, locale = 'en') {
-  return new Intl.NumberFormat(locale === 'fa' ? 'fa-IR' : 'en-US').format(value)
-}
-
-function formatPrice(value: number, currency: string | null, locale = 'en') {
+function formatPrice(value: number, currency: string | null, locale: string) {
   const formattedValue = formatNumber(value, locale)
   return currency ? `${formattedValue} ${currency}` : formattedValue
 }
@@ -50,6 +48,7 @@ function CoachProfilePage() {
 
   const avatarUrl = getAvatarUrl(coach?.avatar_url)
   const startingPrice = coach?.min_plan_price ?? coach?.price
+  const sortedPlans = [...(coach?.plans ?? [])].sort((a, b) => a.display_order - b.display_order || a.id - b.id)
 
   return (
     <CoachPublicLayout title={t("ui.Coach profile")}>
@@ -134,47 +133,15 @@ function CoachProfilePage() {
             )}
 
             <section className="rounded-3xl border border-border-default bg-surface p-6 sm:p-8">
-              <h2 className="text-lg font-semibold">{t('ui.Coaching plans')}</h2>
-              {coach.plans && coach.plans.length > 0 ? (
-                <div className="mt-5 grid gap-4 md:grid-cols-2">
-                  {coach.plans.map((plan) => (
-                    <article key={plan.id} className="rounded-2xl border border-border-default bg-surface-muted/40 p-5">
-                      <div className="flex flex-wrap items-start justify-between gap-3">
-                        <h3 className="text-base font-semibold">{plan.title}</h3>
-                        {plan.is_recommended && (
-                          <span className="rounded-full bg-success-surface px-2.5 py-1 text-xs font-semibold text-success-fg">
-                            {t('ui.Recommended')}
-                          </span>
-                        )}
-                      </div>
-                      {plan.summary && (
-                        <p className="mt-2 text-sm leading-6 text-fg-secondary">{plan.summary}</p>
-                      )}
-                      <div className="mt-4 flex flex-wrap items-baseline gap-2">
-                        <span className="text-xl font-bold">
-                          {formatPrice(plan.price, plan.currency, i18n.language)}
-                        </span>
-                        {plan.compare_at_price != null && plan.compare_at_price > plan.price && (
-                          <span className="text-sm text-fg-muted line-through">
-                            {formatPrice(plan.compare_at_price, plan.currency, i18n.language)}
-                          </span>
-                        )}
-                      </div>
-                      <p className="mt-1 text-xs text-fg-muted">
-                        {t('ui.{{count}} days', { count: formatNumber(plan.duration_days, i18n.language) })}
-                      </p>
-                      {plan.features.length > 0 && (
-                        <ul className="mt-4 flex flex-wrap gap-2">
-                          {plan.features.map((feature) => (
-                            <li key={feature.id} className="rounded-full border border-brand/15 bg-brand/5 px-3 py-1 text-xs text-fg-secondary">
-                              {feature.label}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </article>
+              <h2 className="text-xl font-bold">{t('ui.Coaching plans')}</h2>
+              {sortedPlans.length > 0 ? (
+                <ul className="mt-5 grid gap-4 md:grid-cols-2">
+                  {sortedPlans.map((plan) => (
+                    <li key={plan.id} className="min-w-0">
+                      <PublicPlanCard plan={plan} to={`${coachesPath}/${encodeURIComponent(coachId)}/plans/${plan.id}`} />
+                    </li>
                   ))}
-                </div>
+                </ul>
               ) : (
                 <p className="mt-3 text-sm leading-6 text-fg-secondary">
                   {t('ui.No active coaching plans are available right now.')}
